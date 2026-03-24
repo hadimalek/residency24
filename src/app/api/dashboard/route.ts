@@ -46,13 +46,28 @@ export async function GET() {
     });
 
     return NextResponse.json({
-      totalSessions,
-      activeSessions,
-      totalLeads,
-      newLeads,
-      totalMessages,
-      recentSessions,
-      recentLeads,
+      stats: {
+        totalSessions,
+        activeSessions,
+        totalLeads,
+        newLeads,
+        totalMessages,
+      },
+      recentSessions: recentSessions.map((s) => ({
+        id: s.sessionKey,
+        language: s.language,
+        status: s.status,
+        messageCount: s._count.messages,
+        createdAt: s.startedAt.toISOString(),
+      })),
+      recentLeads: recentLeads.map((l) => ({
+        id: l.id,
+        name: l.name,
+        email: l.email,
+        nationality: l.nationality,
+        status: l.status,
+        createdAt: l.createdAt.toISOString(),
+      })),
     });
   } catch (error) {
     console.error("Dashboard error:", error);
