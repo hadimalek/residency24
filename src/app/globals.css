@@ -1,4 +1,3 @@
-@import url('https://cdn.jsdelivr.net/gh/rastikerdar/yekanbakh-font/dist/font-face.css');
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Vazirmatn:wght@300;400;500;600;700;800&display=swap');
 
 @tailwind base;
@@ -54,7 +53,7 @@
   }
   [dir="rtl"] body,
   [dir="rtl"] {
-    font-family: 'YekanBakh', 'Vazirmatn', sans-serif;
+    font-family: 'Vazirmatn', sans-serif;
   }
 }
 
