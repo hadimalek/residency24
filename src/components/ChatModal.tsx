@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { X, Send, Check, CheckCheck, Phone, MoreVertical } from 'lucide-react';
+import { X, Send, Phone, MoreVertical } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 const faviconImg = '/favicon.png';
 const brandLogo = '/residency24-logo-white.svg';
@@ -16,7 +16,27 @@ interface ChatMessage {
   read: boolean;
 }
 
-/* ── Avatar — always uses favicon.png ── */
+/* ── Session key helper ── */
+const SESSION_KEY = 'r24_chat_session';
+
+function getSessionId(): string | null {
+  if (typeof window === 'undefined') return null;
+  return localStorage.getItem(SESSION_KEY);
+}
+
+function setSessionId(id: string) {
+  if (typeof window !== 'undefined') {
+    localStorage.setItem(SESSION_KEY, id);
+  }
+}
+
+function clearSessionId() {
+  if (typeof window !== 'undefined') {
+    localStorage.removeItem(SESSION_KEY);
+  }
+}
+
+/* ── Avatar ── */
 const R24Avatar = ({ size = 40 }: { size?: number }) => (
   <div className="relative flex-shrink-0" style={{ width: size, height: size }}>
     <img
@@ -66,54 +86,6 @@ const DoubleTick = ({ read }: { read: boolean }) => (
   </svg>
 );
 
-/* ── Mock response ── */
-const MOCK_RESPONSES: Record<string, string> = {
-  fa: `سوال خوبی بود! ✨
-
-**گلدن ویزای امارات** یک اقامت ۱۰ ساله تمدیدپذیر است. محبوب‌ترین مسیرها:
-
-۱. **خرید ملک** — ملک بالای ۲ میلیون درهم (آف‌پلن از ژانویه ۲۰۲۴ قبول می‌شود)
-۲. **ثبت شرکت** — با سرمایه یا درآمد مشخص
-۳. **مسیر حقوقی** — حقوق ماهانه ۳۰,۰۰۰ درهم+
-
-هزینه دولتی از **۹,۶۴۸ درهم** شروع می‌شود.
-
-می‌خواهید بدانید کدام مسیر برای شما بهتره؟`,
-  en: `Great question! ✨
-
-**UAE Golden Visa** is a 10-year renewable residency. The most popular routes:
-
-1. **Property** — Buy AED 2M+ (off-plan OK since Jan 2024)
-2. **Company Setup** — Meet revenue/capital requirements
-3. **Salary** — Earn AED 30,000+/month
-
-Government fees start from **AED 9,648**.
-
-Which route interests you?`,
-  ar: `سؤال رائع! ✨
-
-**الإقامة الذهبية** هي إقامة ١٠ سنوات قابلة للتجديد.
-
-١. **عقار** — شراء عقار بقيمة ٢ مليون درهم+
-٢. **شركة** — تأسيس شركة بمتطلبات رأس المال
-٣. **الراتب** — ٣٠,٠٠٠ درهم/شهر+
-
-الرسوم الحكومية تبدأ من **٩,٦٤٨ درهم**.
-
-ما جنسيتك؟`,
-  ru: `Отличный вопрос! ✨
-
-**Золотая виза ОАЭ** — ВНЖ на 10 лет с продлением.
-
-1. **Недвижимость** — от 2M AED (строящаяся ОК с янв 2024)
-2. **Компания** — регистрация с капиталом
-3. **Зарплата** — от 30,000 AED/мес
-
-Госпошлины от **9,648 AED**.
-
-Какой маршрут вас интересует?`,
-};
-
 const getNow = () => {
   const d = new Date();
   return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -122,10 +94,12 @@ const getNow = () => {
 /* ── Lead Capture ── */
 const LeadCapture = ({
   t,
+  sessionId,
   onDone,
   onDismiss,
 }: {
   t: any;
+  sessionId: string | null;
   onDone: () => void;
   onDismiss: () => void;
 }) => {
@@ -135,8 +109,9 @@ const LeadCapture = ({
   const [nationality, setNationality] = useState('');
   const [error, setError] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!name || !email || !phone || !nationality) {
       setError(t.chat_modal.lead.error_required);
       return;
@@ -146,8 +121,22 @@ const LeadCapture = ({
       return;
     }
     setError('');
-    setSubmitted(true);
-    onDone();
+    setSubmitting(true);
+
+    try {
+      const res = await fetch('/api/chat/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sessionId, name, email, phone, nationality }),
+      });
+      if (!res.ok) throw new Error('Failed');
+      setSubmitted(true);
+      onDone();
+    } catch {
+      setError('خطا در ذخیره اطلاعات. لطفا دوباره تلاش کنید.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (submitted) {
@@ -168,7 +157,6 @@ const LeadCapture = ({
       className="mx-2 my-2 bg-white rounded-xl overflow-hidden shadow-sm"
       style={{ border: '1.5px solid #E2DDD8', animation: 'leadIn .3s ease-out' }}
     >
-      {/* Header */}
       <div className="flex items-center gap-2 px-3 py-2.5" style={{ background: 'rgba(0,30,110,0.03)', borderBottom: '1px solid #E2DDD8', direction: 'ltr' }}>
         <R24Avatar size={30} />
         <div>
@@ -176,7 +164,6 @@ const LeadCapture = ({
           <p className="text-[11px]" style={{ color: '#6E7B8B' }}>{t.chat_modal.lead.sub}</p>
         </div>
       </div>
-      {/* Form */}
       <div className="p-3">
         <input value={name} onChange={e => setName(e.target.value)} placeholder={t.chat_modal.lead.name} className={inputClass} style={{ borderColor: '#E2DDD8', fontFamily: 'inherit' }} />
         <input value={email} onChange={e => setEmail(e.target.value)} placeholder={t.chat_modal.lead.email} type="email" className={inputClass} style={{ borderColor: !error || email.includes('@') ? '#E2DDD8' : '#ef4444', fontFamily: 'inherit' }} />
@@ -188,8 +175,8 @@ const LeadCapture = ({
           ))}
         </select>
         {error && <p className="text-[11px] text-red-500 mb-2">{error}</p>}
-        <button onClick={handleSubmit} className="w-full py-2.5 rounded-[9px] text-[13px] font-semibold text-white transition-colors" style={{ background: '#001E6E' }}>
-          {t.chat_modal.lead.cta}
+        <button onClick={handleSubmit} disabled={submitting} className="w-full py-2.5 rounded-[9px] text-[13px] font-semibold text-white transition-colors disabled:opacity-60" style={{ background: '#001E6E' }}>
+          {submitting ? '...' : t.chat_modal.lead.cta}
         </button>
         <button onClick={onDismiss} className="w-full py-1.5 text-[12px] mt-1 transition-colors" style={{ color: '#6E7B8B' }}>
           {t.chat_modal.lead.later}
@@ -200,17 +187,15 @@ const LeadCapture = ({
 };
 
 /* ════════════════════════════════════════════
-   TRIGGER BUTTON (legacy — kept for backward compat)
+   TRIGGER BUTTON (legacy)
    ════════════════════════════════════════════ */
-
 export const ChatTrigger = ({ onClick }: { onClick: () => void }) => {
-  return null; // No longer used — hero has ChatGPT-style input instead
+  return null;
 };
 
 /* ════════════════════════════════════════════
    MODAL
    ════════════════════════════════════════════ */
-
 const ChatModal = ({ isOpen, onClose, initialMessage = '' }: { isOpen: boolean; onClose: () => void; initialMessage?: string }) => {
   const { t, lang, isRTL } = useLanguage();
   const ct = t.chat_modal;
@@ -229,6 +214,7 @@ const ChatModal = ({ isOpen, onClose, initialMessage = '' }: { isOpen: boolean; 
   const [aiCount, setAiCount] = useState(0);
   const [showLead, setShowLead] = useState(false);
   const [leadDone, setLeadDone] = useState(false);
+  const [sessionId, setSessionIdState] = useState<string | null>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const nextId = useRef(1);
@@ -245,6 +231,9 @@ const ChatModal = ({ isOpen, onClose, initialMessage = '' }: { isOpen: boolean; 
       setLeadDone(false);
       nextId.current = 1;
       initialSent.current = false;
+      // Start a new session each time modal opens
+      clearSessionId();
+      setSessionIdState(null);
       setTimeout(() => inputRef.current?.focus(), 300);
     }
   }, [isOpen]);
@@ -270,7 +259,7 @@ const ChatModal = ({ isOpen, onClose, initialMessage = '' }: { isOpen: boolean; 
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isLoading, showLead]);
 
-  const send = (text?: string) => {
+  const send = useCallback(async (text?: string) => {
     const msg = (text || input).trim();
     if (!msg || isLoading) return;
 
@@ -279,19 +268,48 @@ const ChatModal = ({ isOpen, onClose, initialMessage = '' }: { isOpen: boolean; 
     setInput('');
     setIsLoading(true);
 
-    setTimeout(() => {
-      const response = MOCK_RESPONSES[lang] || MOCK_RESPONSES.en;
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: msg,
+          sessionId: sessionId || getSessionId(),
+          language: lang,
+        }),
+      });
+
+      if (!res.ok) throw new Error('API error');
+
+      const data = await res.json();
+
+      // Save session ID for future messages
+      if (data.sessionId) {
+        setSessionId(data.sessionId);
+        setSessionIdState(data.sessionId);
+      }
+
       setMessages(prev => {
         const updated = prev.map(m => m.role === 'user' ? { ...m, read: true } : m);
         return [
           ...updated,
-          { id: nextId.current++, role: 'assistant', text: response, time: getNow(), read: true },
+          { id: nextId.current++, role: 'assistant', text: data.response, time: getNow(), read: true },
         ];
       });
-      setIsLoading(false);
       setAiCount(c => c + 1);
-    }, 1200 + Math.random() * 800);
-  };
+    } catch {
+      // Show error message in chat
+      setMessages(prev => {
+        const updated = prev.map(m => m.role === 'user' ? { ...m, read: true } : m);
+        return [
+          ...updated,
+          { id: nextId.current++, role: 'assistant', text: '⚠️ خطا در اتصال به سرور. لطفا دوباره تلاش کنید.', time: getNow(), read: true },
+        ];
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  }, [input, isLoading, sessionId, lang]);
 
   const handleLeadDone = () => {
     setLeadDone(true);
@@ -331,22 +349,17 @@ const ChatModal = ({ isOpen, onClose, initialMessage = '' }: { isOpen: boolean; 
               className="flex items-center gap-2.5 px-3.5 py-3 flex-shrink-0"
               style={{ background: 'linear-gradient(135deg, #001E6E 0%, #002B9A 100%)', direction: 'ltr' }}
             >
-              {/* Main site logo — always left */}
               <img
                 src={brandLogo}
                 alt="Residency24"
                 className="h-9 w-auto max-w-[150px] flex-shrink-0 object-contain"
               />
-
-              {/* Name & status — flex-1 */}
               <div className="flex-1 min-w-0">
                 <p className="text-[15px] font-bold text-white">{ct.header.name}</p>
                 <p className="text-[12px]" style={{ color: isLoading ? '#DCC896' : 'rgba(255,255,255,0.6)' }}>
                   {isLoading ? ct.header.typing : ct.header.subtitle}
                 </p>
               </div>
-
-              {/* Action icons */}
               <div className="flex items-center gap-1">
                 <button className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.08)' }}>
                   <Phone size={14} color="rgba(255,255,255,0.6)" />
@@ -355,8 +368,6 @@ const ChatModal = ({ isOpen, onClose, initialMessage = '' }: { isOpen: boolean; 
                   <MoreVertical size={14} color="rgba(255,255,255,0.6)" />
                 </button>
               </div>
-
-              {/* Close button — always right */}
               <button
                 onClick={onClose}
                 className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-colors"
@@ -366,7 +377,6 @@ const ChatModal = ({ isOpen, onClose, initialMessage = '' }: { isOpen: boolean; 
               </button>
             </div>
 
-            {/* Gold divider */}
             <div className="mx-4" style={{ height: 1, background: 'linear-gradient(90deg, transparent, rgba(220,200,150,0.3), transparent)' }} />
 
             {/* ── CHAT AREA ── */}
@@ -379,7 +389,6 @@ const ChatModal = ({ isOpen, onClose, initialMessage = '' }: { isOpen: boolean; 
                 direction: isRTL ? 'rtl' : 'ltr',
               }}
             >
-              {/* Date badge */}
               <div className="flex justify-center mb-2">
                 <span className="text-[10px] px-3 py-1 rounded-full" style={{ background: 'rgba(0,30,110,0.06)', color: '#6E7B8B' }}>
                   {ct.today}
@@ -392,9 +401,7 @@ const ChatModal = ({ isOpen, onClose, initialMessage = '' }: { isOpen: boolean; 
                   style={{ direction: 'ltr', animation: 'msgIn .2s ease-out' }}
                   className={`flex gap-1.5 mb-1.5 ${msg.role === 'assistant' ? 'justify-start items-end' : 'justify-end'}`}
                 >
-                  {/* AI avatar — always left of bubble */}
                   {msg.role === 'assistant' && <R24Avatar size={24} />}
-
                   <div
                     className="max-w-[80%] px-3 py-2.5 text-[13px] leading-relaxed shadow-sm"
                     style={
@@ -418,7 +425,7 @@ const ChatModal = ({ isOpen, onClose, initialMessage = '' }: { isOpen: boolean; 
               {isLoading && <TypingDots />}
 
               {showLead && !leadDone && (
-                <LeadCapture t={t} onDone={handleLeadDone} onDismiss={() => { setShowLead(false); setLeadDone(true); }} />
+                <LeadCapture t={t} sessionId={sessionId} onDone={handleLeadDone} onDismiss={() => { setShowLead(false); setLeadDone(true); }} />
               )}
 
               <div ref={bottomRef} />

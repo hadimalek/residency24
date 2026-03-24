@@ -4,7 +4,7 @@ import { getAIResponse } from "@/lib/ai";
 
 export async function POST(request: NextRequest) {
   try {
-    const { message, sessionId } = await request.json();
+    const { message, sessionId, language } = await request.json();
 
     if (!message?.trim()) {
       return NextResponse.json(
@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
       session = await prisma.session.create({
         data: {
           sessionKey,
-          language: "fa",
+          language: language || "fa",
           ipAddress: request.headers.get("x-forwarded-for") || null,
           userAgent: request.headers.get("user-agent") || null,
         },
