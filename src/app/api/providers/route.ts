@@ -39,6 +39,7 @@ export async function POST(request: NextRequest) {
         name: data.name,
         apiKey: data.apiKey,
         model: data.model,
+        baseUrl: data.baseUrl || null,
         temperature: data.temperature ?? 0.7,
         maxTokens: data.maxTokens ?? 1000,
         isActive: data.isActive ?? false,

@@ -8,6 +8,7 @@ export async function POST(request: NextRequest) {
 
     let apiKey: string;
     let model: string;
+    let baseUrl: string | undefined;
     let temperature = 0.7;
     let maxTokens = 50;
 
@@ -24,11 +25,12 @@ export async function POST(request: NextRequest) {
       }
       apiKey = provider.apiKey;
       model = provider.model;
+      baseUrl = provider.baseUrl || undefined;
       temperature = provider.temperature;
     } else if (body.apiKey && body.model) {
-      // Test with raw apiKey and model
       apiKey = body.apiKey;
       model = body.model;
+      baseUrl = body.baseUrl || undefined;
     } else {
       return NextResponse.json(
         { success: false, error: "id یا apiKey و model الزامی است" },
@@ -38,7 +40,7 @@ export async function POST(request: NextRequest) {
 
     await getAIResponse(
       [{ role: "user", content: "Hello" }],
-      { apiKey, model, temperature, maxTokens }
+      { apiKey, model, baseUrl, temperature, maxTokens }
     );
 
     return NextResponse.json({ success: true });

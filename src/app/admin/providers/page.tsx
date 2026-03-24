@@ -166,7 +166,10 @@ export default function AdminProvidersPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: provider.id }),
       });
-      if (!res.ok) throw new Error("اتصال ناموفق بود");
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || "اتصال ناموفق بود");
+      }
       toast.success("اتصال با موفقیت برقرار شد");
     } catch (err: any) {
       toast.error(err.message);

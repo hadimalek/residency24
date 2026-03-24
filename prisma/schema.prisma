@@ -67,6 +67,7 @@ model Provider {
   name        String
   apiKey      String
   model       String
+  baseUrl     String?
   temperature Float    @default(0.7)
   maxTokens   Int      @default(1000)
   isActive    Boolean  @default(false)

@@ -4,7 +4,7 @@ import { SYSTEM_PROMPT } from "./knowledge";
 
 export async function getAIResponse(
   messages: { role: "user" | "assistant" | "system"; content: string }[],
-  providerOverride?: { apiKey: string; model: string; temperature: number; maxTokens: number }
+  providerOverride?: { apiKey: string; model: string; baseUrl?: string; temperature: number; maxTokens: number }
 ) {
   // Get active provider from DB or use override
   const provider = providerOverride || await prisma.provider.findFirst({ where: { isActive: true } });
@@ -24,7 +24,11 @@ export async function getAIResponse(
     ...messages.slice(-20), // Keep last 20 messages
   ];
 
-  const openai = new OpenAI({ apiKey: provider.apiKey });
+  const openaiConfig: { apiKey: string; baseURL?: string } = { apiKey: provider.apiKey };
+  if ("baseUrl" in provider && provider.baseUrl) {
+    openaiConfig.baseURL = provider.baseUrl as string;
+  }
+  const openai = new OpenAI(openaiConfig);
 
   const completion = await openai.chat.completions.create({
     model: provider.model,
