@@ -52,14 +52,32 @@ model Lead {
 }
 
 model Prompt {
-  id        Int      @id @default(autoincrement())
-  name      String
-  type      String   // SYSTEM | KNOWLEDGE
-  content   String
-  isActive  Boolean  @default(true)
-  version   Int      @default(1)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           Int      @id @default(autoincrement())
+  name         String
+  type         String   // SYSTEM | KNOWLEDGE
+  content      String
+  language     String   @default("fa") // fa | en | ar | ru
+  personaName  String?
+  isActive     Boolean  @default(true)
+  version      Int      @default(1)
+  sortOrder    Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model PagePrompt {
+  id            Int      @id @default(autoincrement())
+  language      String   // fa | en | ar | ru
+  pageSlug      String   // e.g. uae/golden-visa
+  pageName      String
+  contextPrompt String
+  focusKeywords String?
+  ctaText       String?
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@unique([language, pageSlug])
 }
 
 model Provider {

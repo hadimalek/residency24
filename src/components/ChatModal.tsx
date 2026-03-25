@@ -276,6 +276,7 @@ const ChatModal = ({ isOpen, onClose, initialMessage = '' }: { isOpen: boolean; 
           message: msg,
           sessionId: sessionId || getSessionId(),
           language: lang,
+          pageSlug: typeof window !== 'undefined' ? window.location.pathname.replace(/^\/(fa|en|ar|ru)\//, '').replace(/\/$/, '') || undefined : undefined,
         }),
       });
 

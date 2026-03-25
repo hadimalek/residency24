@@ -4,7 +4,7 @@ import { getAIResponse } from "@/lib/ai";
 
 export async function POST(request: NextRequest) {
   try {
-    const { message, sessionId, language } = await request.json();
+    const { message, sessionId, language, pageSlug } = await request.json();
 
     if (!message?.trim()) {
       return NextResponse.json(
@@ -50,8 +50,8 @@ export async function POST(request: NextRequest) {
       content: m.content,
     }));
 
-    // Call AI with the user's language
-    const { response, tokensUsed } = await getAIResponse(messages, undefined, language);
+    // Call AI with the user's language and page context
+    const { response, tokensUsed } = await getAIResponse(messages, undefined, language, pageSlug);
 
     // Save assistant message
     await prisma.message.create({
