@@ -91,49 +91,65 @@ const getNow = () => {
   return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 };
 
-/* ── Lead Capture ── */
+/* ── Lead Form Translations ── */
+const LEAD_FORM_T: Record<string, { title: string; subtitle: string; name_label: string; name_ph: string; phone_label: string; phone_ph: string; email_label: string; service_label: string; submit: string; success_title: string; success_msg: string; privacy: string; later: string; error_req: string }> = {
+  fa: { title: "مشاوره رایگان — رزیدنسی۲۴", subtitle: "کارشناسان ما در کمتر از ۲۴ ساعت با شما تماس می‌گیرند", name_label: "نام و نام خانوادگی", name_ph: "مثال: علی رضایی", phone_label: "شماره واتساپ یا تلفن", phone_ph: "+98 یا +971", email_label: "ایمیل (اختیاری)", service_label: "خدمت مورد نظر", submit: "ارسال و دریافت مشاوره رایگان", success_title: "درخواست شما ثبت شد ✓", success_msg: "کارشناسان رزیدنسی۲۴ به زودی با شما تماس خواهند گرفت.", privacy: "اطلاعات شما محرمانه است", later: "بعداً", error_req: "لطفاً نام و شماره تلفن را وارد کنید" },
+  en: { title: "Free Consultation — Residency24", subtitle: "Our experts will contact you within 24 hours", name_label: "Full Name", name_ph: "e.g. John Smith", phone_label: "WhatsApp or Phone", phone_ph: "+971 or your country code", email_label: "Email (optional)", service_label: "Service of Interest", submit: "Get My Free Consultation", success_title: "Request Received ✓", success_msg: "A Residency24 specialist will contact you shortly.", privacy: "Your information is confidential", later: "Later", error_req: "Please enter your name and phone number" },
+  ar: { title: "استشارة مجانية — ريزيدنسي٢٤", subtitle: "سيتواصل معك خبراؤنا خلال ٢٤ ساعة", name_label: "الاسم الكامل", name_ph: "مثال: محمد العلي", phone_label: "رقم واتساب أو الهاتف", phone_ph: "+971 أو رمز بلدك", email_label: "البريد الإلكتروني (اختياري)", service_label: "الخدمة المطلوبة", submit: "احصل على استشارتي المجانية", success_title: "تم استلام طلبك ✓", success_msg: "سيتواصل معك أحد متخصصي ريزيدنسي٢٤ قريباً.", privacy: "معلوماتك سرية", later: "لاحقاً", error_req: "يرجى إدخال الاسم ورقم الهاتف" },
+  ru: { title: "Бесплатная консультация — Residency24", subtitle: "Наши эксперты свяжутся с вами в течение 24 часов", name_label: "Полное имя", name_ph: "Например: Иван Петров", phone_label: "WhatsApp или телефон", phone_ph: "+7 или ваш код страны", email_label: "Email (необязательно)", service_label: "Интересующая услуга", submit: "Получить бесплатную консультацию", success_title: "Заявка принята ✓", success_msg: "Специалист Residency24 свяжется с вами в ближайшее время.", privacy: "Ваши данные конфиденциальны", later: "Позже", error_req: "Пожалуйста, введите имя и номер телефона" },
+};
+
+const SERVICE_OPTIONS: Record<string, string[]> = {
+  fa: ["ثبت شرکت در امارات", "گلدن ویزا امارات", "خرید ملک در دبی", "اقامت عمان", "شهروندی ترکیه", "ویزای فریلنسر", "سایر"],
+  en: ["UAE Company Formation", "UAE Golden Visa", "Dubai Property Investment", "Oman Residency", "Turkey Citizenship", "Freelance Visa", "Other"],
+  ar: ["تأسيس شركة في الإمارات", "الإقامة الذهبية", "الاستثمار العقاري في دبي", "إقامة عُمان", "الجنسية التركية", "تأشيرة المستقل", "أخرى"],
+  ru: ["Регистрация компании в ОАЭ", "Золотая виза ОАЭ", "Недвижимость в Дубае", "Резидентство Омана", "Гражданство Турции", "Виза фрилансера", "Другое"],
+};
+
+/* ── Lead Capture (inline chat bubble) ── */
 const LeadCapture = ({
   t,
   sessionId,
   onDone,
   onDismiss,
+  lang,
 }: {
   t: any;
   sessionId: string | null;
   onDone: () => void;
   onDismiss: () => void;
+  lang: string;
 }) => {
+  const lt = LEAD_FORM_T[lang] || LEAD_FORM_T.en;
+  const services = SERVICE_OPTIONS[lang] || SERVICE_OPTIONS.en;
+  const isRTL = lang === 'fa' || lang === 'ar';
+
   const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [nationality, setNationality] = useState('');
+  const [email, setEmail] = useState('');
+  const [service, setService] = useState(services[0]);
   const [error, setError] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = async () => {
-    if (!name || !email || !phone || !nationality) {
-      setError(t.chat_modal.lead.error_required);
-      return;
-    }
-    if (!email.includes('@')) {
-      setError(t.chat_modal.lead.error_email);
+    if (!name.trim() || !phone.trim()) {
+      setError(lt.error_req);
       return;
     }
     setError('');
     setSubmitting(true);
-
     try {
       const res = await fetch('/api/chat/lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sessionId, name, email, phone, nationality }),
+        body: JSON.stringify({ sessionId, name, phone, email, nationality: service }),
       });
       if (!res.ok) throw new Error('Failed');
       setSubmitted(true);
       onDone();
     } catch {
-      setError('خطا در ذخیره اطلاعات. لطفا دوباره تلاش کنید.');
+      setError('Error');
     } finally {
       setSubmitting(false);
     }
@@ -141,45 +157,50 @@ const LeadCapture = ({
 
   if (submitted) {
     return (
-      <div className="mx-2 my-2 p-4 bg-white rounded-xl text-center" style={{ animation: 'leadIn .3s ease-out' }}>
-        <div className="text-3xl mb-2">✅</div>
-        <p className="text-sm font-semibold" style={{ color: '#001E6E' }}>{t.chat_modal.lead.success_title}</p>
-        <p className="text-xs mt-1" style={{ color: '#6E7B8B' }}>{t.chat_modal.lead.success_sub}</p>
+      <div className="mx-1 my-1.5 p-4 bg-white rounded-xl text-center shadow-sm" style={{ border: '1px solid rgba(201,165,90,0.3)', animation: 'leadIn .3s ease-out' }}>
+        <div className="text-2xl mb-2">✓</div>
+        <p className="text-sm font-semibold" style={{ color: '#001E6E' }}>{lt.success_title}</p>
+        <p className="text-xs mt-1" style={{ color: '#6E7B8B' }}>{lt.success_msg}</p>
       </div>
     );
   }
 
-  const inputClass =
-    'w-full px-3 py-2.5 text-[13px] rounded-[9px] border-[1.5px] outline-none mb-2 bg-[#FAFAFA] transition-colors focus:border-[#001E6E] focus:shadow-[0_0_0_3px_rgba(0,30,110,0.07)]';
+  const inputClass = 'w-full px-3 py-2 text-[13px] rounded-lg border outline-none mb-2 bg-[#FAFAFA] transition-colors focus:border-[#001E6E]';
 
   return (
     <div
-      className="mx-2 my-2 bg-white rounded-xl overflow-hidden shadow-sm"
-      style={{ border: '1.5px solid #E2DDD8', animation: 'leadIn .3s ease-out' }}
+      className="mx-1 my-1.5 bg-white rounded-xl overflow-hidden shadow-sm"
+      style={{ border: '1px solid rgba(201,165,90,0.3)', animation: 'leadIn .3s ease-out', direction: isRTL ? 'rtl' : 'ltr' }}
     >
-      <div className="flex items-center gap-2 px-3 py-2.5" style={{ background: 'rgba(0,30,110,0.03)', borderBottom: '1px solid #E2DDD8', direction: 'ltr' }}>
-        <R24Avatar size={30} />
+      <div className="flex items-center gap-2 px-3 py-2.5" style={{ background: 'rgba(0,30,110,0.03)', borderBottom: '1px solid #E2DDD8' }}>
+        <span className="text-lg">📋</span>
         <div>
-          <p className="text-[13px] font-semibold" style={{ color: '#001E6E' }}>{t.chat_modal.lead.title}</p>
-          <p className="text-[11px]" style={{ color: '#6E7B8B' }}>{t.chat_modal.lead.sub}</p>
+          <p className="text-[13px] font-semibold" style={{ color: '#001E6E' }}>{lt.title}</p>
+          <p className="text-[11px]" style={{ color: '#6E7B8B' }}>{lt.subtitle}</p>
         </div>
       </div>
       <div className="p-3">
-        <input value={name} onChange={e => setName(e.target.value)} placeholder={t.chat_modal.lead.name} className={inputClass} style={{ borderColor: '#E2DDD8', fontFamily: 'inherit' }} />
-        <input value={email} onChange={e => setEmail(e.target.value)} placeholder={t.chat_modal.lead.email} type="email" className={inputClass} style={{ borderColor: !error || email.includes('@') ? '#E2DDD8' : '#ef4444', fontFamily: 'inherit' }} />
-        <input value={phone} onChange={e => setPhone(e.target.value)} placeholder={t.chat_modal.lead.phone} className={inputClass} style={{ borderColor: '#E2DDD8', fontFamily: 'inherit' }} />
-        <select value={nationality} onChange={e => setNationality(e.target.value)} className={inputClass} style={{ borderColor: '#E2DDD8', fontFamily: 'inherit', color: nationality ? '#1A1A2E' : '#6E7B8B' }}>
-          <option value="">{t.chat_modal.lead.nationality_placeholder}</option>
-          {(t.chat_modal.lead.nationalities as string[]).map((n: string) => (
-            <option key={n} value={n}>{n}</option>
-          ))}
+        <label className="text-[11px] font-medium mb-0.5 block" style={{ color: '#001E6E' }}>{lt.name_label} *</label>
+        <input value={name} onChange={e => setName(e.target.value)} placeholder={lt.name_ph} className={inputClass} style={{ borderColor: '#E2DDD8', fontFamily: 'inherit' }} />
+
+        <label className="text-[11px] font-medium mb-0.5 block" style={{ color: '#001E6E' }}>{lt.phone_label} *</label>
+        <input value={phone} onChange={e => setPhone(e.target.value)} placeholder={lt.phone_ph} type="tel" className={inputClass} style={{ borderColor: '#E2DDD8', fontFamily: 'inherit', direction: 'ltr', textAlign: isRTL ? 'right' : 'left' }} />
+
+        <label className="text-[11px] font-medium mb-0.5 block" style={{ color: '#001E6E' }}>{lt.email_label}</label>
+        <input value={email} onChange={e => setEmail(e.target.value)} placeholder="email@example.com" type="email" className={inputClass} style={{ borderColor: '#E2DDD8', fontFamily: 'inherit', direction: 'ltr', textAlign: isRTL ? 'right' : 'left' }} />
+
+        <label className="text-[11px] font-medium mb-0.5 block" style={{ color: '#001E6E' }}>{lt.service_label}</label>
+        <select value={service} onChange={e => setService(e.target.value)} className={inputClass} style={{ borderColor: '#E2DDD8', fontFamily: 'inherit' }}>
+          {services.map((s: string) => <option key={s} value={s}>{s}</option>)}
         </select>
+
         {error && <p className="text-[11px] text-red-500 mb-2">{error}</p>}
-        <button onClick={handleSubmit} disabled={submitting} className="w-full py-2.5 rounded-[9px] text-[13px] font-semibold text-white transition-colors disabled:opacity-60" style={{ background: '#001E6E' }}>
-          {submitting ? '...' : t.chat_modal.lead.cta}
+        <button onClick={handleSubmit} disabled={submitting} className="w-full py-2.5 rounded-lg text-[13px] font-semibold text-white transition-colors disabled:opacity-60" style={{ background: '#C9A55A' }}>
+          {submitting ? '...' : lt.submit}
         </button>
-        <button onClick={onDismiss} className="w-full py-1.5 text-[12px] mt-1 transition-colors" style={{ color: '#6E7B8B' }}>
-          {t.chat_modal.lead.later}
+        <p className="text-[10px] text-center mt-2" style={{ color: '#6E7B8B' }}>🔒 {lt.privacy}</p>
+        <button onClick={onDismiss} className="w-full py-1 text-[11px] mt-1 transition-colors" style={{ color: '#6E7B8B' }}>
+          {lt.later}
         </button>
       </div>
     </div>
@@ -440,7 +461,7 @@ const ChatModal = ({ isOpen, onClose, initialMessage = '' }: { isOpen: boolean; 
               {isLoading && <TypingDots />}
 
               {showLead && !leadDone && (
-                <LeadCapture t={t} sessionId={sessionId} onDone={handleLeadDone} onDismiss={() => { setShowLead(false); setLeadDone(true); }} />
+                <LeadCapture t={t} sessionId={sessionId} lang={lang} onDone={handleLeadDone} onDismiss={() => { setShowLead(false); setLeadDone(true); }} />
               )}
 
               <div ref={bottomRef} />
