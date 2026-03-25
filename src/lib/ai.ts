@@ -4,7 +4,8 @@ import { SYSTEM_PROMPT } from "./knowledge";
 
 export async function getAIResponse(
   messages: { role: "user" | "assistant" | "system"; content: string }[],
-  providerOverride?: { apiKey: string; model: string; baseUrl?: string; temperature: number; maxTokens: number }
+  providerOverride?: { apiKey: string; model: string; baseUrl?: string; temperature: number; maxTokens: number },
+  language?: string
 ) {
   // Get active provider from DB or use override
   const provider = providerOverride || await prisma.provider.findFirst({ where: { isActive: true } });
@@ -17,6 +18,17 @@ export async function getAIResponse(
   let systemContent = activePrompt?.content || SYSTEM_PROMPT;
   if (knowledgePrompts.length > 0) {
     systemContent += "\n\n" + knowledgePrompts.map(k => k.content).join("\n\n");
+  }
+
+  // Add language instruction based on the user's selected language
+  const langMap: Record<string, string> = {
+    fa: "فارسی (Persian)",
+    en: "English",
+    ar: "العربية (Arabic)",
+    ru: "Русский (Russian)",
+  };
+  if (language && langMap[language]) {
+    systemContent += `\n\n**CRITICAL: The user's interface language is ${langMap[language]}. You MUST respond in ${langMap[language]} only.**`;
   }
 
   const fullMessages = [

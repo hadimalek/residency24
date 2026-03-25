@@ -50,8 +50,8 @@ export async function POST(request: NextRequest) {
       content: m.content,
     }));
 
-    // Call AI
-    const { response, tokensUsed } = await getAIResponse(messages);
+    // Call AI with the user's language
+    const { response, tokensUsed } = await getAIResponse(messages, undefined, language);
 
     // Save assistant message
     await prisma.message.create({
