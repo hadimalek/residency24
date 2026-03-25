@@ -20,10 +20,11 @@ import ContactBar from "@/components/ContactBar";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 
-export default function HomePage() {
+export default function HomePageClient({ h1 }: { h1: string }) {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
+      <h1 className="sr-only">{h1}</h1>
       <HeroChat />
       <TrustBar />
       <CountriesHub />

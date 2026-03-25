@@ -1,3 +1,5 @@
+"use client";
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import translations, { type Lang } from '@/translations';
 
@@ -10,8 +12,8 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [lang, setLang] = useState<Lang>('fa');
+export const LanguageProvider: React.FC<{ children: React.ReactNode; initialLang?: Lang }> = ({ children, initialLang }) => {
+  const [lang, setLang] = useState<Lang>(initialLang || 'fa');
   const t = translations[lang];
   const isRTL = t.dir === 'rtl';
 
@@ -20,8 +22,24 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     document.documentElement.lang = lang;
   }, [lang, t.dir]);
 
+  // When language changes, navigate to the new URL
+  const handleSetLang = (newLang: Lang) => {
+    setLang(newLang);
+    if (typeof window !== 'undefined') {
+      const currentPath = window.location.pathname;
+      // Replace /xx/ prefix or navigate to /newLang/
+      const langPattern = /^\/(fa|en|ar|ru)(\/|$)/;
+      if (langPattern.test(currentPath)) {
+        const newPath = currentPath.replace(langPattern, `/${newLang}$2`);
+        window.location.href = newPath;
+      } else {
+        window.location.href = `/${newLang}/`;
+      }
+    }
+  };
+
   return (
-    <LanguageContext.Provider value={{ lang, setLang, t, isRTL }}>
+    <LanguageContext.Provider value={{ lang, setLang: handleSetLang, t, isRTL }}>
       {children}
     </LanguageContext.Provider>
   );

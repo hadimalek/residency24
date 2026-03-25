@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+Disallow: /admin/
+Disallow: /api/
+Disallow: /*?s=*
+Disallow: /*?replytocom*
+
+Sitemap: https://residency24.com/sitemap.xml
+Sitemap: https://residency24.com/sitemap-fa.xml
+Sitemap: https://residency24.com/sitemap-en.xml
+Sitemap: https://residency24.com/sitemap-ar.xml
+Sitemap: https://residency24.com/sitemap-ru.xml

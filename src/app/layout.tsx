@@ -3,8 +3,8 @@ import { QueryProvider } from "@/components/providers/QueryProvider";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Residency24 - مشاوره اقامت و ثبت شرکت",
-  description: "مشاوره هوشمند اقامت، ویزا و ثبت شرکت در امارات، عمان و ترکیه",
+  title: "Residency24",
+  description: "Residency, Company Registration & Property Investment in UAE, Oman & Turkey",
   icons: {
     icon: "/favicon.svg",
   },
@@ -16,7 +16,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fa" dir="rtl" suppressHydrationWarning>
+    <html lang="en" dir="ltr" suppressHydrationWarning>
       <body>
         <QueryProvider>{children}</QueryProvider>
       </body>
