@@ -76,8 +76,19 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown error";
     console.error("Chat error:", message);
+
+    // Show user-friendly error, don't leak API keys or internal details
+    let userError = "خطا در پردازش پیام. لطفا دوباره تلاش کنید.";
+    if (message.includes("No active AI provider")) {
+      userError = "هیچ تامین‌کننده AI فعالی تنظیم نشده است.";
+    } else if (message.includes("Incorrect API key") || message.includes("401")) {
+      userError = "کلید API نامعتبر است. لطفا با مدیر سایت تماس بگیرید.";
+    } else if (message.includes("model")) {
+      userError = "مدل AI در دسترس نیست. لطفا با مدیر سایت تماس بگیرید.";
+    }
+
     return NextResponse.json(
-      { error: message },
+      { error: userError },
       { status: 500 }
     );
   }
