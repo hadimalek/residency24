@@ -53,20 +53,52 @@ async function buildSystemPrompt(language: string, pageSlug?: string): Promise<s
     }
   }
 
-  // 4. Add persona and instructions
-  systemContent += `\n\n---\n## Important Instructions`;
-  systemContent += `\n- Your name is: ${personaName}`;
-  systemContent += `\n- If unsure about something, say so honestly and suggest consulting a specialist`;
-  systemContent += `\n- Always be helpful but never make guarantees about legal/immigration outcomes`;
-  systemContent += `\n- Recommend free consultation with Residency24 experts for specific cases`;
-
-  // 5. Language enforcement
+  // Language map (used in multiple sections below)
   const langMap: Record<string, string> = {
     fa: "فارسی (Persian)",
     en: "English",
     ar: "العربية (Arabic)",
     ru: "Русский (Russian)",
   };
+
+  // 4. Lead generation instructions
+  const leadTriggerText: Record<string, string> = {
+    fa: "برای بررسی رایگان شرایط شما توسط متخصصین ما، فرم زیر را تکمیل کنید",
+    en: "To get a free eligibility assessment from our experts, please fill in the form below",
+    ar: "للحصول على تقييم مجاني من خبرائنا، يرجى ملء النموذج أدناه",
+    ru: "Для бесплатной оценки вашей ситуации нашими экспертами, заполните форму ниже",
+  };
+
+  systemContent += `\n\n---\n## Lead Generation Instructions (CRITICAL)`;
+  systemContent += `\nYour PRIMARY goal is to provide value AND guide users toward a free consultation.`;
+  systemContent += `\n\n### When to trigger the lead form:`;
+  systemContent += `\nAfter 2-3 exchanges where the user shows genuine interest (asks about cost, process, eligibility, timeline, documents), respond with your helpful answer AND end with a special signal.`;
+  systemContent += `\n\n### How to trigger the lead form:`;
+  systemContent += `\nAt the end of your response, when the user is ready, include this EXACT JSON on a NEW line:`;
+  systemContent += `\n{"action":"open_lead_form","service":"<detected service interest>"}`;
+  systemContent += `\n\n### Trigger conditions - trigger when user:`;
+  systemContent += `\n- Asks "how much does it cost?" or similar cost questions`;
+  systemContent += `\n- Asks "am I eligible?" or "do I qualify?"`;
+  systemContent += `\n- Asks about timeline or required documents`;
+  systemContent += `\n- Says they want to start or get started`;
+  systemContent += `\n- Asks for consultation or meeting`;
+  systemContent += `\n- Shows readiness: "I'm interested", "I want to apply"`;
+  systemContent += `\n\n### Lead trigger phrase in ${langMap[language] || "this language"}:`;
+  systemContent += `\n${leadTriggerText[language] || leadTriggerText.en}`;
+  systemContent += `\n\n### IMPORTANT:`;
+  systemContent += `\n- NEVER trigger the form on the very first message`;
+  systemContent += `\n- Always give a useful answer BEFORE the trigger JSON`;
+  systemContent += `\n- The "service" field should be the most relevant service from conversation`;
+  systemContent += `\n- Valid services: Company Formation, Golden Visa, Property Investment, Oman Residency, Turkey Citizenship, Freelance Visa`;
+
+  // 5. Add persona and instructions
+  systemContent += `\n\n---\n## Important Instructions`;
+  systemContent += `\n- Your name is: ${personaName}`;
+  systemContent += `\n- If unsure about something, say so honestly and suggest consulting a specialist`;
+  systemContent += `\n- Never make guarantees about legal/immigration outcomes`;
+  systemContent += `\n- Every response should naturally build trust and move toward a consultation`;
+
+  // 6. Language enforcement
   if (langMap[language]) {
     systemContent += `\n\n**CRITICAL: You MUST respond in ${langMap[language]} only.**`;
   }

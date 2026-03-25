@@ -246,9 +246,9 @@ const ChatModal = ({ isOpen, onClose, initialMessage = '' }: { isOpen: boolean; 
     }
   }, [isOpen, initialMessage]);
 
-  // Show lead after 2 AI responses
+  // Fallback: show lead after 4 AI responses if AI hasn't triggered it
   useEffect(() => {
-    if (aiCount >= 2 && !leadDone && !showLead) {
+    if (aiCount >= 4 && !leadDone && !showLead) {
       const timer = setTimeout(() => setShowLead(true), 700);
       return () => clearTimeout(timer);
     }
@@ -289,14 +289,28 @@ const ChatModal = ({ isOpen, onClose, initialMessage = '' }: { isOpen: boolean; 
         setSessionIdState(data.sessionId);
       }
 
+      // Parse response for lead form trigger
+      let responseText = data.response;
+      let shouldShowLeadForm = false;
+      const triggerRegex = /\{"action"\s*:\s*"open_lead_form"[^}]*\}/;
+      const triggerMatch = responseText.match(triggerRegex);
+      if (triggerMatch && !leadDone) {
+        responseText = responseText.replace(triggerRegex, '').trim();
+        shouldShowLeadForm = true;
+      }
+
       setMessages(prev => {
         const updated = prev.map(m => m.role === 'user' ? { ...m, read: true } : m);
         return [
           ...updated,
-          { id: nextId.current++, role: 'assistant', text: data.response, time: getNow(), read: true },
+          { id: nextId.current++, role: 'assistant', text: responseText, time: getNow(), read: true },
         ];
       });
       setAiCount(c => c + 1);
+
+      if (shouldShowLeadForm) {
+        setTimeout(() => setShowLead(true), 700);
+      }
     } catch (err: any) {
       // Show error message in chat
       const errorText = err?.message || 'خطا در اتصال به سرور';
