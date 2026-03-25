@@ -279,9 +279,8 @@ const ChatModal = ({ isOpen, onClose, initialMessage = '' }: { isOpen: boolean; 
         }),
       });
 
-      if (!res.ok) throw new Error('API error');
-
       const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'API error');
 
       // Save session ID for future messages
       if (data.sessionId) {
@@ -297,13 +296,14 @@ const ChatModal = ({ isOpen, onClose, initialMessage = '' }: { isOpen: boolean; 
         ];
       });
       setAiCount(c => c + 1);
-    } catch {
+    } catch (err: any) {
       // Show error message in chat
+      const errorText = err?.message || 'خطا در اتصال به سرور';
       setMessages(prev => {
         const updated = prev.map(m => m.role === 'user' ? { ...m, read: true } : m);
         return [
           ...updated,
-          { id: nextId.current++, role: 'assistant', text: '⚠️ خطا در اتصال به سرور. لطفا دوباره تلاش کنید.', time: getNow(), read: true },
+          { id: nextId.current++, role: 'assistant', text: `⚠️ ${errorText}`, time: getNow(), read: true },
         ];
       });
     } finally {

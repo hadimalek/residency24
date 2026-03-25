@@ -74,9 +74,10 @@ export async function POST(request: NextRequest) {
       sessionId: sessionKey,
     });
   } catch (error) {
-    console.error("Chat error:", error);
+    const message = error instanceof Error ? error.message : "Unknown error";
+    console.error("Chat error:", message);
     return NextResponse.json(
-      { error: "Failed to process message" },
+      { error: message },
       { status: 500 }
     );
   }
