@@ -4,7 +4,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { X, Send, Phone, MoreVertical } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
-const faviconImg = '/favicon.png';
+const faviconImg = '/favicon.svg';
 const brandLogo = '/residency24-logo-white.svg';
 
 /* ── Types ── */

@@ -5,6 +5,9 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Residency24 - مشاوره اقامت و ثبت شرکت",
   description: "مشاوره هوشمند اقامت، ویزا و ثبت شرکت در امارات، عمان و ترکیه",
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({

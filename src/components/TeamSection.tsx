@@ -45,14 +45,19 @@ const TeamSection = () => {
                     alt={m.name}
                     className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
                     loading="lazy"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      target.style.display = 'none';
+                      const fallback = target.nextElementSibling as HTMLElement;
+                      if (fallback) fallback.style.display = 'flex';
+                    }}
                   />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <span className="text-gold font-bold text-4xl">
-                      {m.name.split(' ').map((w: string) => w[0]).join('').slice(0, 2)}
-                    </span>
-                  </div>
-                )}
+                ) : null}
+                <div className="w-full h-full items-center justify-center" style={{ display: m.photo ? 'none' : 'flex' }}>
+                  <span className="text-gold font-bold text-4xl">
+                    {m.name.split(' ').map((w: string) => w[0]).join('').slice(0, 2)}
+                  </span>
+                </div>
                 {/* Gradient overlay at bottom */}
                 <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-navy/80 to-transparent" />
               </div>

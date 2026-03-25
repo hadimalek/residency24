@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { MessageCircle, Send, Menu, X, ChevronDown } from 'lucide-react';
 import { motion } from 'framer-motion';
-const logo = '/residency24-logo-280.png';
+const logo = '/residency24-logo-white.svg';
 
 const Navbar = () => {
   const { t, isRTL } = useLanguage();
@@ -20,7 +20,7 @@ const Navbar = () => {
       style={{ direction: 'ltr' }}
     >
       <a href="/" className="flex-shrink-0">
-        <img src={logo} alt="Residency24" className="h-9 brightness-0 invert" />
+        <img src={logo} alt="Residency24" className="h-9" />
       </a>
 
       {/* Desktop nav */}
