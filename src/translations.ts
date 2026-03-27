@@ -367,6 +367,61 @@ const translations: Record<Lang, any> = {
         thank_msg: "ممنون! 🙏\nاطلاعات شما ثبت شد. یکی از متخصصان ما ظرف ۲ ساعت واتساپ می‌زنه.\n\nتا اون موقع، هر سوال دیگه‌ای دارید بپرسید 😊",
       },
     },
+    about: {
+      breadcrumb_home: "خانه",
+      hero: {
+        h1: "رزیدنسی۲۴ — همراه مطمئن شما در مهاجرت سرمایه‌گذاری",
+        p: "از سال ۲۰۱۸، رزیدنسی۲۴ با دفاتر فعال در دبی و مشهد، بیش از ۵,۰۰۰ پرونده موفق اقامت، ثبت شرکت و خرید ملک را در کارنامه خود دارد. ما بر این باوریم که مهاجرت سرمایه‌گذاری نباید پیچیده، مبهم یا پرریسک باشد — تمام تلاش ما ارائه مسیر قانونی، شفاف و مطمئن برای هر مشتری است.",
+      },
+      story: {
+        h2: "داستان رزیدنسی۲۴",
+        p1: "رزیدنسی۲۴ در سال ۲۰۱۸ با یک هدف مشخص تأسیس شد: کمک به ایرانیان و اهالی منطقه برای استفاده از فرصت‌های واقعی سرمایه‌گذاری در امارات، عمان و ترکیه — بدون پیچیدگی، بدون ابهام، بدون هزینه‌های پنهان.",
+        p2: "امروز تیم ما متشکل از متخصصان حقوق تجاری، مشاوران ملکی و کارشناسان مهاجرتی است که هر روز با مشتریان در چهار زبان فارسی، انگلیسی، عربی و روسی ارتباط برقرار می‌کنند. دفاتر ما در دبی و مشهد حضور فیزیکی واقعی داریم؛ چون اعتقاد داریم مهمترین مذاکرات مالی زندگی مشتری باید رو در رو انجام شود.",
+        link_text: "ثبت شرکت بین‌الملل",
+      },
+      stats: {
+        h2: "دستاوردهای ما در اعداد",
+        items: [
+          { num: "۵,۰۰۰+", label: "پرونده موفق" },
+          { num: "۲", label: "دفتر در دبی و مشهد" },
+          { num: "۳", label: "کشور مقصد: امارات، عمان، ترکیه" },
+          { num: "۴", label: "زبان کاری: فارسی، انگلیسی، عربی، روسی" },
+          { num: "از ۲۰۱۸", label: "سابقه فعالیت" },
+          { num: "۱۵+", label: "متخصص در تیم" },
+        ],
+      },
+      team: {
+        h2: "تیم متخصص رزیدنسی۲۴",
+        members: [
+          { name: "حسن مصطفوی", title: "متخصص ارشد ملک بین‌الملل", bio: "بیش از ۱۲ سال تجربه در بازارهای ملکی دبی، مسقط و استانبول. متخصص در تشخیص بهترین فرصت‌های سرمایه‌گذاری برای اخذ اقامت از طریق خرید ملک.", photo: "/team/team-hassan.webp" },
+          { name: "زهره نظری", title: "مدیر دفتر دبی", bio: "از سال ۲۰۱۹ مدیریت عملیات دفتر دبی را بر عهده دارد. تخصص اصلی: هماهنگی پروسه ثبت شرکت در Mainland و Free Zone و پیگیری پرونده‌های گلدن ویزا.", photo: "/team/team-zohreh.webp" },
+          { name: "مصطفی بخشیان", title: "متخصص استارتاپ ویزا", bio: "متخصص در ویزاهای کارآفرینی و Startup Visa امارات. راهنمایی بیش از ۳۰۰ استارتاپ در فرآیند ثبت شرکت و اخذ ویزا در دبی.", photo: "/team/team-mostafa.webp" },
+          { name: "الهام یوسفی", title: "توسعه کسب‌وکار و ثبت شرکت بین‌الملل", bio: "مسئول ارتباط با مشتریان عراقی، روسی و کشورهای CIS. تجربه گسترده در ثبت شرکت‌های بین‌الملل و ساختاردهی گروه‌های تجاری چندملیتی.", photo: "/team/team-elham.webp" },
+        ],
+      },
+      offices: {
+        h2: "دفاتر رزیدنسی۲۴",
+        items: [
+          { city: "دبی — امارات", address: "Al Khail Heights Apartment Building, RB 03A, No. 218, دبی", phone: "+971-56-200-9131", email: "info@residency24.com", services_label: "خدمات امارات", services_link_suffix: "uae/" },
+          { city: "مشهد — ایران", address: "نبش فرهاد ۱۴، مشهد", phone: "", email: "mash@residency24.com", services_label: "", services_link_suffix: "" },
+        ],
+        oman_services_label: "خدمات عمان",
+      },
+      why: {
+        h2: "چرا رزیدنسی۲۴؟",
+        items: [
+          { icon: "check", title: "قانونی و شفاف", desc: "تمام خدمات ما در چارچوب کامل قوانین محلی ارائه می‌شود. هیچ روش مبهم یا هزینه پنهانی در کار نیست." },
+          { icon: "globe", title: "تیم چندزبانه", desc: "مشاوران ما به فارسی، انگلیسی، عربی و روسی مسلطند — بدون واسطه، مستقیم با متخصص صحبت کنید." },
+          { icon: "building", title: "حضور فیزیکی واقعی", desc: "۲ دفتر واقعی در دبی و مشهد — نه صرفاً یک وبسایت." },
+          { icon: "handshake", title: "پشتیبانی کامل", desc: "از اولین مشاوره تا دریافت اقامت، در تمام مراحل همراه شما هستیم." },
+        ],
+      },
+      cta: {
+        h2: "آماده شروع هستید؟",
+        p: "برای دریافت مشاوره رایگان و بررسی بهترین مسیر اقامتی برای شما، همین امروز با ما تماس بگیرید.",
+        btn: "مشاوره رایگان بگیرید",
+      },
+    },
   },
 
   en: {
@@ -733,6 +788,61 @@ const translations: Record<Lang, any> = {
         success_title: "Request received!",
         success_sub: "We'll contact you within 2 hours via WhatsApp.",
         thank_msg: "Thank you! 🙏\nYour info has been submitted. One of our specialists will WhatsApp you within 2 hours.\n\nFeel free to ask any other questions 😊",
+      },
+    },
+    about: {
+      breadcrumb_home: "Home",
+      hero: {
+        h1: "About Residency24 — Your Trusted Partner for Investment Immigration",
+        p: "Since 2018, Residency24 has helped over 5,000 investors, entrepreneurs, and families build their global future through legal, transparent pathways in the UAE, Oman, and Turkey. With offices in Dubai and Mashhad, we are not just an online service — we are a real team with real presence in the markets that matter most to you.",
+      },
+      story: {
+        h2: "Our Story",
+        p1: "Residency24 was founded with a single conviction: investment immigration should be accessible, honest, and stress-free. We saw too many people fall victim to vague promises, hidden fees, and intermediaries who disappeared the moment things got complicated.",
+        p2: "So we built something different — a firm where every client has a dedicated advisor, every fee is disclosed upfront, and every process is handled inside the legal frameworks of the countries we serve. Today our team of legal experts, real estate specialists, and immigration advisors works across four languages to serve Persian, English, Arabic, and Russian-speaking clients.",
+        link_text: "International Company Registration",
+      },
+      stats: {
+        h2: "Our Numbers",
+        items: [
+          { num: "5,000+", label: "Successful Cases" },
+          { num: "2", label: "Offices: Dubai & Mashhad" },
+          { num: "3", label: "Destinations: UAE · Oman · Turkey" },
+          { num: "4", label: "Working Languages" },
+          { num: "Since 2018", label: "Years of Experience" },
+          { num: "15+", label: "Team Specialists" },
+        ],
+      },
+      team: {
+        h2: "Meet the Team",
+        members: [
+          { name: "Hassan Mostafavi", title: "International Real Estate Specialist", bio: "12+ years in Dubai, Muscat & Istanbul property markets. Expert in residency-by-investment property selection and ROI analysis.", photo: "/team/team-hassan.webp" },
+          { name: "Zohreh Nazari", title: "Dubai Office Director", bio: "Managing Dubai operations since 2019. Specializes in Mainland & Free Zone company setup and Golden Visa processing.", photo: "/team/team-zohreh.webp" },
+          { name: "Mostafa Bakhshian", title: "Startup Visa Specialist", bio: "Guided 300+ startups through UAE company registration and entrepreneur visa programs.", photo: "/team/team-mostafa.webp" },
+          { name: "Elham Yousefi", title: "Business Development & International Company Registration", bio: "Expert in multi-national holding structures for Iraqi, Russian, and CIS-region clients.", photo: "/team/team-elham.webp" },
+        ],
+      },
+      offices: {
+        h2: "Our Offices",
+        items: [
+          { city: "Dubai, UAE", address: "Al Khail Heights Apartment Building, RB 03A, No. 218, Dubai", phone: "+971-56-200-9131", email: "info@residency24.com", services_label: "UAE Services", services_link_suffix: "uae/" },
+          { city: "Mashhad, Iran", address: "Nabsh Farhad 14, Mashhad", phone: "", email: "mash@residency24.com", services_label: "", services_link_suffix: "" },
+        ],
+        oman_services_label: "Oman Services",
+      },
+      why: {
+        h2: "Why Residency24?",
+        items: [
+          { icon: "check", title: "Legal & Transparent", desc: "Every service is delivered within the full legal framework of the destination country. No grey areas, no hidden costs." },
+          { icon: "globe", title: "Multilingual Team", desc: "Our advisors speak Persian, English, Arabic, and Russian — you talk directly to a specialist, not a call center." },
+          { icon: "building", title: "Real Physical Presence", desc: "2 actual offices in Dubai and Mashhad — not just a website." },
+          { icon: "handshake", title: "End-to-End Support", desc: "We accompany you from the first consultation to residency card in hand." },
+        ],
+      },
+      cta: {
+        h2: "Ready to Begin?",
+        p: "Get a free consultation and discover the best residency pathway for your goals.",
+        btn: "Get Free Consultation",
       },
     },
   },
@@ -1103,6 +1213,61 @@ const translations: Record<Lang, any> = {
         thank_msg: "شكراً! 🙏\nتم تسجيل معلوماتك. أحد متخصصينا سيتواصل معك خلال ساعتين عبر واتساب.\n\nلا تتردد في طرح أي أسئلة أخرى 😊",
       },
     },
+    about: {
+      breadcrumb_home: "الرئيسية",
+      hero: {
+        h1: "Residency24 — شريكك الموثوق في الهجرة الاستثمارية",
+        p: "منذ عام 2018، ساعدت Residency24 أكثر من 5,000 مستثمر وعائلة في بناء مستقبلهم العالمي عبر مسارات قانونية وشفافة في الإمارات وعُمان وتركيا. مع مكتبين في دبي ومشهد، نحن لسنا مجرد خدمة إلكترونية — بل فريق حقيقي بحضور ميداني في الأسواق الأكثر أهمية لعملائنا.",
+      },
+      story: {
+        h2: "قصتنا",
+        p1: "تأسست Residency24 بقناعة راسخة: يجب أن تكون الهجرة الاستثمارية في متناول الجميع، بشفافية تامة وبدون تعقيدات. شهدنا كثيرين يقعون ضحية وعود مبهمة ورسوم خفية ووسطاء يختفون عند أول عقبة.",
+        p2: "لذلك بنينا شيئاً مختلفاً — شركة يحظى فيها كل عميل بمستشار مخصص، وتُكشف كل الرسوم مسبقاً، وتُعالج كل إجراء ضمن الأطر القانونية للدول التي نخدمها. يعمل فريقنا اليوم بأربع لغات لخدمة عملائنا الناطقين بالفارسية والإنجليزية والعربية والروسية.",
+        link_text: "تسجيل الشركات الدولية",
+      },
+      stats: {
+        h2: "أرقامنا",
+        items: [
+          { num: "+5,000", label: "حالة ناجحة" },
+          { num: "2", label: "مكتبان: دبي ومشهد" },
+          { num: "3", label: "وجهات: الإمارات · عُمان · تركيا" },
+          { num: "4", label: "لغات العمل" },
+          { num: "منذ 2018", label: "سنوات الخبرة" },
+          { num: "+15", label: "متخصص في الفريق" },
+        ],
+      },
+      team: {
+        h2: "فريقنا",
+        members: [
+          { name: "حسن مصطفوي", title: "متخصص العقارات الدولية", bio: "أكثر من 12 عاماً في أسواق العقارات في دبي ومسقط وإسطنبول. خبير في اختيار العقارات للحصول على الإقامة الاستثمارية.", photo: "/team/team-hassan.webp" },
+          { name: "زهرة نظري", title: "مديرة مكتب دبي", bio: "تدير عمليات مكتب دبي منذ 2019. متخصصة في تأسيس الشركات وتأشيرة الإقامة الذهبية.", photo: "/team/team-zohreh.webp" },
+          { name: "مصطفى بخشيان", title: "متخصص تأشيرة الشركات الناشئة", bio: "أرشد أكثر من 300 شركة ناشئة عبر برامج تسجيل الشركات وتأشيرات رجال الأعمال.", photo: "/team/team-mostafa.webp" },
+          { name: "إلهام يوسفي", title: "تطوير الأعمال وتسجيل الشركات الدولية", bio: "خبيرة في الهياكل متعددة الجنسيات لعملاء العراق وروسيا ودول رابطة الدول المستقلة.", photo: "/team/team-elham.webp" },
+        ],
+      },
+      offices: {
+        h2: "مكاتبنا",
+        items: [
+          { city: "دبي، الإمارات", address: "Al Khail Heights Apartment Building, RB 03A, No. 218", phone: "+971-56-200-9131", email: "info@residency24.com", services_label: "خدمات الإمارات", services_link_suffix: "uae/" },
+          { city: "مشهد، إيران", address: "Nabsh Farhad 14, Mashhad", phone: "", email: "mash@residency24.com", services_label: "", services_link_suffix: "" },
+        ],
+        oman_services_label: "خدمات عُمان",
+      },
+      why: {
+        h2: "لماذا Residency24؟",
+        items: [
+          { icon: "check", title: "قانوني وشفاف", desc: "جميع خدماتنا ضمن الإطار القانوني الكامل. لا مناطق رمادية ولا تكاليف خفية." },
+          { icon: "globe", title: "فريق متعدد اللغات", desc: "مستشارونا يتحدثون الفارسية والإنجليزية والعربية والروسية." },
+          { icon: "building", title: "حضور ميداني حقيقي", desc: "مكتبان فعليان في دبي ومشهد." },
+          { icon: "handshake", title: "دعم متكامل", desc: "نرافقك من الاستشارة الأولى حتى الحصول على الإقامة." },
+        ],
+      },
+      cta: {
+        h2: "هل أنت مستعد للبدء؟",
+        p: "احصل على استشارة مجانية واكتشف أفضل مسار إقامة يناسب أهدافك.",
+        btn: "احصل على استشارة مجانية",
+      },
+    },
   },
 
   ru: {
@@ -1469,6 +1634,61 @@ const translations: Record<Lang, any> = {
         success_title: "Запрос получен!",
         success_sub: "Свяжемся с вами в течение 2 часов через WhatsApp.",
         thank_msg: "Спасибо! 🙏\nВаши данные отправлены. Наш специалист свяжется с вами через WhatsApp в течение 2 часов.\n\nА пока задавайте любые другие вопросы 😊",
+      },
+    },
+    about: {
+      breadcrumb_home: "Главная",
+      hero: {
+        h1: "О компании Residency24 — Ваш надёжный партнёр по инвестиционной иммиграции",
+        p: "С 2018 года Residency24 помогла более 5 000 инвесторов и семей построить своё глобальное будущее через законные и прозрачные пути в ОАЭ, Омане и Турции. С офисами в Дубае и Мешхеде мы — не просто онлайн-сервис, а реальная команда с реальным присутствием на ключевых рынках.",
+      },
+      story: {
+        h2: "Наша история",
+        p1: "Residency24 была основана с одним убеждением: инвестиционная иммиграция должна быть доступной, честной и без лишнего стресса. Мы видели слишком много людей, ставших жертвами размытых обещаний, скрытых комиссий и посредников, исчезавших при первых трудностях.",
+        p2: "Поэтому мы создали нечто иное — компанию, где у каждого клиента есть выделенный консультант, все расходы раскрываются заранее, а каждый процесс ведётся строго в правовых рамках обслуживаемых стран. Сегодня наша команда работает на четырёх языках: русском, английском, фарси и арабском.",
+        link_text: "Международная регистрация компаний",
+      },
+      stats: {
+        h2: "Наши цифры",
+        items: [
+          { num: "5 000+", label: "успешных дел" },
+          { num: "2", label: "офиса: Дубай и Мешхед" },
+          { num: "3", label: "направления: ОАЭ · Оман · Турция" },
+          { num: "4", label: "рабочих языка" },
+          { num: "с 2018", label: "года работы" },
+          { num: "15+", label: "специалистов в команде" },
+        ],
+      },
+      team: {
+        h2: "Наша команда",
+        members: [
+          { name: "Хасан Мостафави", title: "Специалист по международной недвижимости", bio: "12+ лет опыта на рынках недвижимости Дубая, Маската и Стамбула. Эксперт по выбору объектов для получения резидентства.", photo: "/team/team-hassan.webp" },
+          { name: "Зохре Назари", title: "Директор офиса в Дубае", bio: "Управляет дубайским офисом с 2019 года. Специализируется на регистрации компаний и оформлении Golden Visa.", photo: "/team/team-zohreh.webp" },
+          { name: "Мостафа Бахшиан", title: "Специалист по стартап-визам", bio: "Сопроводил более 300 стартапов через программы регистрации компаний и предпринимательских виз в ОАЭ.", photo: "/team/team-mostafa.webp" },
+          { name: "Эльхам Юсефи", title: "Развитие бизнеса и международная регистрация компаний", bio: "Эксперт по многонациональным холдинговым структурам для клиентов из Ирака, России и стран СНГ.", photo: "/team/team-elham.webp" },
+        ],
+      },
+      offices: {
+        h2: "Наши офисы",
+        items: [
+          { city: "Дубай, ОАЭ", address: "Al Khail Heights Apartment Building, RB 03A, No. 218", phone: "+971-56-200-9131", email: "info@residency24.com", services_label: "Услуги ОАЭ", services_link_suffix: "uae/" },
+          { city: "Мешхед, Иран", address: "Nabsh Farhad 14, Mashhad", phone: "", email: "mash@residency24.com", services_label: "", services_link_suffix: "" },
+        ],
+        oman_services_label: "Услуги Омана",
+      },
+      why: {
+        h2: "Почему Residency24?",
+        items: [
+          { icon: "check", title: "Законно и прозрачно", desc: "Все услуги оказываются строго в рамках законодательства страны назначения. Никаких серых схем и скрытых платежей." },
+          { icon: "globe", title: "Многоязычная команда", desc: "Наши консультанты говорят на русском, английском, фарси и арабском." },
+          { icon: "building", title: "Реальное физическое присутствие", desc: "2 фактических офиса в Дубае и Мешхеде." },
+          { icon: "handshake", title: "Комплексное сопровождение", desc: "От первой консультации до получения вида на жительство." },
+        ],
+      },
+      cta: {
+        h2: "Готовы начать?",
+        p: "Получите бесплатную консультацию и узнайте оптимальный путь получения резидентства.",
+        btn: "Получить бесплатную консультацию",
       },
     },
   },
