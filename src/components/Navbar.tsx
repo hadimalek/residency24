@@ -1,16 +1,24 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { MessageCircle, Send, Menu, X, ChevronDown } from 'lucide-react';
 import { motion } from 'framer-motion';
 const logo = '/residency24-logo-white.svg';
 
+const useHoverIntent = (delay = 150) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const onEnter = useCallback(() => { clearTimeout(timeoutRef.current); setIsOpen(true); }, []);
+  const onLeave = useCallback(() => { timeoutRef.current = setTimeout(() => setIsOpen(false), delay); }, [delay]);
+  return { isOpen, onEnter, onLeave };
+};
+
 const Navbar = () => {
   const { t, isRTL } = useLanguage();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [servicesOpen, setServicesOpen] = useState(false);
-  const [countriesOpen, setCountriesOpen] = useState(false);
+  const services = useHoverIntent();
+  const countries = useHoverIntent();
 
   return (
     <motion.nav
@@ -26,11 +34,11 @@ const Navbar = () => {
       {/* Desktop nav */}
       <div className="hidden md:flex items-center gap-6 text-sm font-medium text-white/80" style={{ direction: isRTL ? 'rtl' : 'ltr' }}>
         {/* Services mega dropdown */}
-        <div className="relative" onMouseEnter={() => setServicesOpen(true)} onMouseLeave={() => setServicesOpen(false)}>
-          <button className="flex items-center gap-1 hover:text-gold transition-colors">
+        <div className="relative" onMouseEnter={services.onEnter} onMouseLeave={services.onLeave}>
+          <button className="flex items-center gap-1 hover:text-gold transition-colors py-4">
             {t.nav.services} <ChevronDown size={14} />
           </button>
-          {servicesOpen && (
+          {services.isOpen && (
             <div className="absolute top-full mt-1 bg-white rounded-xl shadow-2xl border border-border p-5 min-w-[560px] z-50" style={{ [isRTL ? 'right' : 'left']: '-100px' }}>
               <div className="grid grid-cols-3 gap-6">
                 <div>
@@ -63,11 +71,11 @@ const Navbar = () => {
           )}
         </div>
 
-        <div className="relative" onMouseEnter={() => setCountriesOpen(true)} onMouseLeave={() => setCountriesOpen(false)}>
-          <button className="flex items-center gap-1 hover:text-gold transition-colors">
+        <div className="relative" onMouseEnter={countries.onEnter} onMouseLeave={countries.onLeave}>
+          <button className="flex items-center gap-1 hover:text-gold transition-colors py-4">
             {t.nav.countries} <ChevronDown size={14} />
           </button>
-          {countriesOpen && (
+          {countries.isOpen && (
             <div className="absolute top-full mt-1 bg-white rounded-lg shadow-xl border border-border py-2 min-w-[160px] z-50" style={{ [isRTL ? 'right' : 'left']: 0 }}>
               <a href={`/${isRTL ? 'fa' : 'en'}/uae/`} className="block px-4 py-2 text-sm text-ink hover:bg-surface">🇦🇪 {t.nav.menu.uae}</a>
               <a href={`/${isRTL ? 'fa' : 'en'}/oman/`} className="block px-4 py-2 text-sm text-ink hover:bg-surface">🇴🇲 {t.nav.menu.oman}</a>

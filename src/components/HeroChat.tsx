@@ -78,7 +78,21 @@ const HeroChat = () => {
               className="bg-white rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.25)] transition-shadow focus-within:shadow-[0_8px_48px_rgba(0,0,0,0.35)]"
               style={{ border: '1.5px solid rgba(255,255,255,0.15)' }}
             >
-              <div className={`flex items-end p-3 gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
+              <div className="flex items-end p-3 gap-2.5">
+                {isRTL && (
+                  <button
+                    onClick={handleSubmit}
+                    disabled={!inputValue.trim()}
+                    className="flex-shrink-0 w-12 h-12 rounded-[14px] flex items-center justify-center transition-all"
+                    style={{
+                      background: inputValue.trim() ? '#001E6E' : 'rgba(0,30,110,0.15)',
+                      cursor: inputValue.trim() ? 'pointer' : 'default',
+                    }}
+                    aria-label="ارسال"
+                  >
+                    <Send size={17} strokeWidth={2} color={inputValue.trim() ? 'white' : 'rgba(0,30,110,0.4)'} style={{ transform: 'scaleX(-1)' }} />
+                  </button>
+                )}
                 <textarea
                   ref={inputRef}
                   value={inputValue}
@@ -86,20 +100,24 @@ const HeroChat = () => {
                   onKeyDown={handleKeyDown}
                   placeholder={t.hero.placeholder}
                   rows={1}
-                  className={`flex-1 bg-transparent border-none outline-none text-[15px] text-ink resize-none py-2 px-2 placeholder:text-muted leading-relaxed overflow-hidden ${isRTL ? 'text-right' : 'text-left'}`}
-                  style={{ fontFamily: 'inherit', direction: isRTL ? 'rtl' : 'ltr', minHeight: '44px', maxHeight: '44px' }}
+                  dir={isRTL ? 'rtl' : 'ltr'}
+                  className="flex-1 bg-transparent border-none outline-none text-[16px] text-ink resize-none py-3 px-3 placeholder:text-muted leading-relaxed overflow-hidden"
+                  style={{ fontFamily: 'inherit', textAlign: isRTL ? 'right' : 'left', minHeight: '48px', maxHeight: '48px' }}
                 />
-                <button
-                  onClick={handleSubmit}
-                  disabled={!inputValue.trim()}
-                  className="flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center transition-all"
-                  style={{
-                    background: inputValue.trim() ? '#001E6E' : 'rgba(0,30,110,0.15)',
-                    cursor: inputValue.trim() ? 'pointer' : 'default',
-                  }}
-                >
-                  <Send size={16} color={inputValue.trim() ? 'white' : 'rgba(0,30,110,0.4)'} style={isRTL ? { transform: 'scaleX(-1) rotate(-45deg)' } : undefined} />
-                </button>
+                {!isRTL && (
+                  <button
+                    onClick={handleSubmit}
+                    disabled={!inputValue.trim()}
+                    className="flex-shrink-0 w-12 h-12 rounded-[14px] flex items-center justify-center transition-all"
+                    style={{
+                      background: inputValue.trim() ? '#001E6E' : 'rgba(0,30,110,0.15)',
+                      cursor: inputValue.trim() ? 'pointer' : 'default',
+                    }}
+                    aria-label="Send"
+                  >
+                    <Send size={17} strokeWidth={2} color={inputValue.trim() ? 'white' : 'rgba(0,30,110,0.4)'} />
+                  </button>
+                )}
               </div>
             </div>
           </motion.div>
