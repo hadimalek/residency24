@@ -16,21 +16,22 @@ set -euo pipefail
 # ============================================
 
 BRANCH="${1:-main}"
-APP_DIR="$(cd "$(dirname "$0")" && pwd)"
+APP_DIR="/opt/residency24"
 
-cd "$APP_DIR"
+cd "$APP_DIR" || { echo "ERROR: $APP_DIR not found"; exit 1; }
+echo "==> Working in $APP_DIR"
 
 echo "==> Pulling latest from $BRANCH..."
 git pull origin "$BRANCH" --rebase
 
 echo "==> Installing dependencies..."
-npm ci --production=false
+npm ci
 
 echo "==> Generating Prisma client..."
-npx prisma generate
+npx prisma generate --schema=./prisma/schema.prisma
 
 echo "==> Running database migrations..."
-npx prisma db push
+npx prisma db push --schema=./prisma/schema.prisma
 
 echo "==> Building Next.js..."
 npm run build
