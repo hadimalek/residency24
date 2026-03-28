@@ -145,22 +145,6 @@ const LeadCaptureFullPage = ({
   const [error, setError] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [viewportHeight, setViewportHeight] = useState<number | null>(null);
-
-  useEffect(() => {
-    const vv = window.visualViewport;
-    if (!vv) return;
-    const update = () => {
-      setViewportHeight(vv.height);
-    };
-    update();
-    vv.addEventListener('resize', update);
-    vv.addEventListener('scroll', update);
-    return () => {
-      vv.removeEventListener('resize', update);
-      vv.removeEventListener('scroll', update);
-    };
-  }, []);
 
   const handleSubmit = async () => {
     if (!name.trim() || !phone.trim()) {
@@ -196,8 +180,7 @@ const LeadCaptureFullPage = ({
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.2 }}
-      className="absolute inset-0 z-[1001] flex flex-col bg-white"
-      style={{ height: viewportHeight ? `${viewportHeight}px` : '100%' }}
+      className="absolute inset-0 z-[1001] flex flex-col bg-white overflow-hidden"
     >
       {/* Header — same style as chat header */}
       <div
@@ -269,60 +252,17 @@ const ChatModal = ({ isOpen, onClose, initialMessage = '' }: { isOpen: boolean; 
   const { t, lang, isRTL } = useLanguage();
   const ct = t.chat_modal;
 
-  // Lock body scroll when open
+  // Lock body scroll when open (simple approach — no position:fixed to avoid mobile input bugs)
   useEffect(() => {
     if (isOpen) {
-      const scrollY = window.scrollY;
-      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
       document.body.style.overflow = 'hidden';
-      document.body.style.position = 'fixed';
-      document.body.style.width = '100%';
-      document.body.style.top = `-${scrollY}px`;
-      document.body.style.paddingRight = `${scrollbarWidth}px`;
     } else {
-      const scrollY = document.body.style.top;
       document.body.style.overflow = '';
-      document.body.style.position = '';
-      document.body.style.width = '';
-      document.body.style.top = '';
-      document.body.style.paddingRight = '';
-      window.scrollTo(0, parseInt(scrollY || '0') * -1);
     }
-    return () => {
-      document.body.style.overflow = '';
-      document.body.style.position = '';
-      document.body.style.width = '';
-      document.body.style.top = '';
-      document.body.style.paddingRight = '';
-    };
+    return () => { document.body.style.overflow = ''; };
   }, [isOpen]);
 
-  // Keyboard height tracking
-  const [keyboardOffset, setKeyboardOffset] = useState(0);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!isOpen) return;
-    const vv = window.visualViewport;
-    if (!vv) return;
-
-    const update = () => {
-      const offset = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
-      setKeyboardOffset(offset);
-      if (offset > 0) {
-        requestAnimationFrame(() => {
-          messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-        });
-      }
-    };
-
-    vv.addEventListener('resize', update);
-    vv.addEventListener('scroll', update);
-    return () => {
-      vv.removeEventListener('resize', update);
-      vv.removeEventListener('scroll', update);
-    };
-  }, [isOpen]);
 
   const welcomeMsg: ChatMessage = {
     id: 0,
@@ -480,7 +420,6 @@ const ChatModal = ({ isOpen, onClose, initialMessage = '' }: { isOpen: boolean; 
             exit={{ opacity: 0, y: 24, scale: 0.95 }}
             transition={{ duration: 0.28, type: 'spring', damping: 20, stiffness: 300 }}
             className="relative flex flex-col overflow-hidden w-[420px] max-w-[calc(100vw-32px)] h-[620px] max-h-[calc(100vh-48px)] rounded-[20px] bg-white shadow-[0_32px_80px_rgba(0,0,0,0.25),0_8px_24px_rgba(0,30,110,0.2)] max-[480px]:fixed max-[480px]:inset-0 max-[480px]:w-full max-[480px]:h-[100dvh] max-[480px]:max-w-full max-[480px]:max-h-[100dvh] max-[480px]:rounded-none max-[480px]:shadow-none"
-            style={{ paddingBottom: keyboardOffset > 0 ? `${keyboardOffset}px` : undefined }}
           >
             {/* ── HEADER — Logo + online dot + close only ── */}
             <div
