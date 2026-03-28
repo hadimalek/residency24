@@ -4,7 +4,7 @@ module.exports = {
       name: "residency24",
       script: "node_modules/.bin/next",
       args: "start -p 3000",
-      cwd: "/opt/residency24",
+      cwd: "/var/www/residency24",
       env: {
         NODE_ENV: "production",
         PORT: 3000,

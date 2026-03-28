@@ -16,7 +16,7 @@ set -euo pipefail
 # ============================================
 
 BRANCH="${1:-main}"
-APP_DIR="/opt/residency24"
+APP_DIR="/var/www/residency24"
 
 cd "$APP_DIR" || { echo "ERROR: $APP_DIR not found"; exit 1; }
 echo "==> Working in $APP_DIR"
