@@ -367,6 +367,15 @@ const translations: Record<Lang, any> = {
         thank_msg: "ممنون! 🙏\nاطلاعات شما ثبت شد. یکی از متخصصان ما ظرف ۲ ساعت واتساپ می‌زنه.\n\nتا اون موقع، هر سوال دیگه‌ای دارید بپرسید 😊",
       },
     },
+
+    // ── UAE Hub — SEO & Hero ──────────────────────────────────────────
+    uae_hub_title: "مهاجرت به امارات ۲۰۲۶ | اقامت، ثبت شرکت و خرید ملک دبی",
+    uae_hub_meta_desc: "راهنمای کامل مهاجرت به امارات — گلدن ویزا از ۲ میلیون درهم، ثبت شرکت بدون کفیل، خرید ملک با اقامت. ۵۰۰۰+ پرونده موفق. مشاوره رایگان رزیدنسی۲۴.",
+    uae_hub_h1: "مهاجرت به امارات — گلدن ویزا، ثبت شرکت و سرمایه‌گذاری در دبی ۲۰۲۶",
+    uae_hero_subtitle: "۵۰۰۰+ پرونده موفق از ۲۰۱۸ · مشاوره رایگان · تیم متخصص چندزبانه",
+    uae_hero_cta_primary: "مشاوره رایگان بگیرید",
+    uae_hero_cta_secondary: "راهنمای کامل گلدن ویزا",
+    uae_hero_chat_placeholder: "سوالتان درباره اقامت امارات را بپرسید...",
   },
 
   en: {
@@ -735,6 +744,15 @@ const translations: Record<Lang, any> = {
         thank_msg: "Thank you! 🙏\nYour info has been submitted. One of our specialists will WhatsApp you within 2 hours.\n\nFeel free to ask any other questions 😊",
       },
     },
+
+    // ── UAE Hub — SEO & Hero ──────────────────────────────────────────
+    uae_hub_title: "UAE Residency & Investment 2026 | Residency24 Dubai",
+    uae_hub_meta_desc: "Golden Visa, company registration & property investment in Dubai. 5,000+ successful cases since 2018. Expert multilingual team. 100% foreign ownership. Free consultation.",
+    uae_hub_h1: "Live, Invest & Build in Dubai — Your 10-Year Tax-Free Future",
+    uae_hero_subtitle: "5,000+ successful cases since 2018 · Free consultation · Multilingual expert team",
+    uae_hero_cta_primary: "Get Free Consultation",
+    uae_hero_cta_secondary: "Golden Visa Complete Guide",
+    uae_hero_chat_placeholder: "Ask anything about UAE residency...",
   },
 
   ar: {
@@ -1103,6 +1121,15 @@ const translations: Record<Lang, any> = {
         thank_msg: "شكراً! 🙏\nتم تسجيل معلوماتك. أحد متخصصينا سيتواصل معك خلال ساعتين عبر واتساب.\n\nلا تتردد في طرح أي أسئلة أخرى 😊",
       },
     },
+
+    // ── UAE Hub — SEO & Hero ──────────────────────────────────────────
+    uae_hub_title: "الإقامة في الإمارات 2026 | إقامة ذهبية وتأسيس شركة ودبي",
+    uae_hub_meta_desc: "دليلك الشامل للإقامة في الإمارات — إقامة ذهبية من 2 مليون درهم، تأسيس شركة بملكية كاملة، شراء عقار بإقامة. رزيدنسي24، أكثر من 5000 حالة ناجحة.",
+    uae_hub_h1: "الهجرة إلى الإمارات — الإقامة الذهبية وتأسيس شركة والاستثمار في دبي 2026",
+    uae_hero_subtitle: "أكثر من 5000 حالة ناجحة منذ 2018 · استشارة مجانية · فريق متخصص متعدد اللغات",
+    uae_hero_cta_primary: "احصل على استشارة مجانية",
+    uae_hero_cta_secondary: "الدليل الشامل للإقامة الذهبية",
+    uae_hero_chat_placeholder: "اسأل عن الإقامة في الإمارات...",
   },
 
   ru: {
@@ -1471,6 +1498,15 @@ const translations: Record<Lang, any> = {
         thank_msg: "Спасибо! 🙏\nВаши данные отправлены. Наш специалист свяжется с вами через WhatsApp в течение 2 часов.\n\nА пока задавайте любые другие вопросы 😊",
       },
     },
+
+    // ── UAE Hub — SEO & Hero ──────────────────────────────────────────
+    uae_hub_title: "ВНЖ в ОАЭ 2026 | Золотая виза, регистрация компании, недвижимость",
+    uae_hub_meta_desc: "Полное руководство по ВНЖ в ОАЭ — золотая виза от 2 млн дирхам, регистрация компании без спонсора, покупка недвижимости с ВНЖ. 5000+ успешных кейсов.",
+    uae_hub_h1: "ВНЖ в ОАЭ — Золотая виза, регистрация компании и инвестиции в Дубае 2026",
+    uae_hero_subtitle: "5000+ успешных кейсов с 2018 года · Бесплатная консультация · Многоязычная команда",
+    uae_hero_cta_primary: "Получить бесплатную консультацию",
+    uae_hero_cta_secondary: "Полный гид по золотой визе",
+    uae_hero_chat_placeholder: "Задайте вопрос о ВНЖ в ОАЭ...",
   },
 };
 
