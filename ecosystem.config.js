@@ -2,12 +2,12 @@ module.exports = {
   apps: [
     {
       name: "residency24",
-      script: "node_modules/.bin/next",
-      args: "start -p 3000",
+      script: ".next/standalone/server.js",
       cwd: "/var/www/residency24",
       env: {
         NODE_ENV: "production",
         PORT: 3000,
+        HOSTNAME: "0.0.0.0",
       },
       instances: 1,
       autorestart: true,
