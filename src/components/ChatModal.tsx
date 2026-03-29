@@ -2,8 +2,9 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { X, Send, Phone, MoreVertical } from 'lucide-react';
+import { X, Send, ArrowLeft, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import ReactMarkdown from 'react-markdown';
 const faviconImg = '/favicon.svg';
 const brandLogo = '/residency24-logo-white.svg';
 
@@ -36,34 +37,23 @@ function clearSessionId() {
   }
 }
 
-/* ── Avatar ── */
-const R24Avatar = ({ size = 40 }: { size?: number }) => (
-  <div className="relative flex-shrink-0" style={{ width: size, height: size }}>
+/* ── Avatar — always uses favicon ── */
+const R24Avatar = ({ size = 32 }: { size?: number }) => (
+  <div className="relative flex-shrink-0 rounded-full bg-[#F0F0F0] flex items-center justify-center" style={{ width: size, height: size }}>
     <img
       src={faviconImg}
       alt="Residency24"
-      className="rounded-full object-cover"
-      style={{ width: size, height: size }}
-    />
-    <span
-      className="absolute rounded-full"
-      style={{
-        width: size * 0.25,
-        height: size * 0.25,
-        background: '#4ADE80',
-        border: '2px solid #001E6E',
-        bottom: 0,
-        right: 0,
-      }}
+      className="object-contain"
+      style={{ width: size * 0.65, height: size * 0.65 }}
     />
   </div>
 );
 
 /* ── Typing dots ── */
 const TypingDots = () => (
-  <div className="flex items-end gap-1.5 mb-1.5" style={{ direction: 'ltr', justifyContent: 'flex-start', animation: 'msgIn .2s ease-out' }}>
-    <R24Avatar size={24} />
-    <div className="bg-white rounded-[14px] rounded-bl-[3px] px-3 py-2.5 flex gap-1.5 shadow-sm">
+  <div className="flex items-end gap-2 mb-1" style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
+    <R24Avatar size={28} />
+    <div className="bg-white rounded-[18px] rounded-bl-[4px] px-4 py-3 flex gap-1.5 shadow-sm border border-[#E8E8E8]">
       {[0, 1, 2].map(i => (
         <span
           key={i}
@@ -78,12 +68,35 @@ const TypingDots = () => (
   </div>
 );
 
-/* ── Double Tick ── */
-const DoubleTick = ({ read }: { read: boolean }) => (
-  <svg width="16" height="11" viewBox="0 0 16 11" fill="none">
-    <path d="M1 5.5L4.5 9L11 2" stroke={read ? '#4ADE80' : 'rgba(255,255,255,0.4)'} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    <path d="M5 5.5L8.5 9L15 2" stroke={read ? '#4ADE80' : 'rgba(255,255,255,0.4)'} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
+/* ── Markdown renderer ── */
+const MarkdownMessage = ({ content, isUser, isRTL }: { content: string; isUser: boolean; isRTL: boolean }) => (
+  <ReactMarkdown
+    components={{
+      strong: ({ children }) => (
+        <strong style={{ fontWeight: 700, color: isUser ? '#FFFFFF' : '#001E6E' }}>{children}</strong>
+      ),
+      ol: ({ children }) => (
+        <ol style={{
+          margin: '8px 0',
+          paddingRight: isRTL ? '20px' : '0',
+          paddingLeft: isRTL ? '0' : '20px',
+          listStyle: 'decimal',
+        }}>{children}</ol>
+      ),
+      ul: ({ children }) => (
+        <ul style={{
+          margin: '8px 0',
+          paddingRight: isRTL ? '20px' : '0',
+          paddingLeft: isRTL ? '0' : '20px',
+          listStyle: 'disc',
+        }}>{children}</ul>
+      ),
+      li: ({ children }) => <li style={{ marginBottom: '4px' }}>{children}</li>,
+      p: ({ children }) => <p style={{ marginBottom: '4px' }}>{children}</p>,
+    }}
+  >
+    {content}
+  </ReactMarkdown>
 );
 
 const getNow = () => {
@@ -106,23 +119,24 @@ const SERVICE_OPTIONS: Record<string, string[]> = {
   ru: ["Регистрация компании в ОАЭ", "Золотая виза ОАЭ", "Недвижимость в Дубае", "Резидентство Омана", "Гражданство Турции", "Виза фрилансера", "Другое"],
 };
 
-/* ── Lead Capture (inline chat bubble) ── */
-const LeadCapture = ({
+/* ── Lead Capture — Full-page overlay replacing chat ── */
+const LeadCaptureFullPage = ({
   t,
   sessionId,
-  onDone,
-  onDismiss,
+  isRTL,
   lang,
+  onDone,
+  onBack,
 }: {
   t: any;
   sessionId: string | null;
-  onDone: () => void;
-  onDismiss: () => void;
+  isRTL: boolean;
   lang: string;
+  onDone: () => void;
+  onBack: () => void;
 }) => {
   const lt = LEAD_FORM_T[lang] || LEAD_FORM_T.en;
   const services = SERVICE_OPTIONS[lang] || SERVICE_OPTIONS.en;
-  const isRTL = lang === 'fa' || lang === 'ar';
 
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
@@ -147,7 +161,7 @@ const LeadCapture = ({
       });
       if (!res.ok) throw new Error('Failed');
       setSubmitted(true);
-      onDone();
+      setTimeout(() => onDone(), 600);
     } catch {
       setError('Error');
     } finally {
@@ -155,61 +169,77 @@ const LeadCapture = ({
     }
   };
 
-  if (submitted) {
-    return (
-      <div className="mx-1 my-1.5 p-4 bg-white rounded-xl text-center shadow-sm" style={{ border: '1px solid rgba(201,165,90,0.3)', animation: 'leadIn .3s ease-out' }}>
-        <div className="text-2xl mb-2">✓</div>
-        <p className="text-sm font-semibold" style={{ color: '#001E6E' }}>{lt.success_title}</p>
-        <p className="text-xs mt-1" style={{ color: '#6E7B8B' }}>{lt.success_msg}</p>
-      </div>
-    );
-  }
+  const inputClass =
+    'w-full px-4 py-3 text-[15px] rounded-xl border-[1.5px] outline-none mb-3 bg-[#FAFAFA] transition-colors focus:border-[#001E6E] focus:bg-white focus:shadow-[0_0_0_3px_rgba(0,30,110,0.07)]';
 
-  const inputClass = 'w-full px-3 py-2 text-[13px] rounded-lg border outline-none mb-2 bg-[#FAFAFA] transition-colors focus:border-[#001E6E]';
+  const BackArrow = isRTL ? ArrowRight : ArrowLeft;
 
   return (
-    <div
-      className="mx-1 my-1.5 bg-white rounded-xl overflow-hidden shadow-sm"
-      style={{ border: '1px solid rgba(201,165,90,0.3)', animation: 'leadIn .3s ease-out', direction: isRTL ? 'rtl' : 'ltr' }}
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      className="absolute inset-0 z-[1001] flex flex-col bg-white overflow-hidden"
     >
-      <div className="flex items-center gap-2 px-3 py-2.5" style={{ background: 'rgba(0,30,110,0.03)', borderBottom: '1px solid #E2DDD8' }}>
-        <span className="text-lg">📋</span>
-        <div>
-          <p className="text-[13px] font-semibold" style={{ color: '#001E6E' }}>{lt.title}</p>
-          <p className="text-[11px]" style={{ color: '#6E7B8B' }}>{lt.subtitle}</p>
-        </div>
-      </div>
-      <div className="p-3">
-        <label className="text-[11px] font-medium mb-0.5 block" style={{ color: '#001E6E' }}>{lt.name_label} *</label>
-        <input value={name} onChange={e => setName(e.target.value)} placeholder={lt.name_ph} className={inputClass} style={{ borderColor: '#E2DDD8', fontFamily: 'inherit' }} />
-
-        <label className="text-[11px] font-medium mb-0.5 block" style={{ color: '#001E6E' }}>{lt.phone_label} *</label>
-        <input value={phone} onChange={e => setPhone(e.target.value)} placeholder={lt.phone_ph} type="tel" className={inputClass} style={{ borderColor: '#E2DDD8', fontFamily: 'inherit', direction: 'ltr', textAlign: isRTL ? 'right' : 'left' }} />
-
-        <label className="text-[11px] font-medium mb-0.5 block" style={{ color: '#001E6E' }}>{lt.email_label}</label>
-        <input value={email} onChange={e => setEmail(e.target.value)} placeholder="email@example.com" type="email" className={inputClass} style={{ borderColor: '#E2DDD8', fontFamily: 'inherit', direction: 'ltr', textAlign: isRTL ? 'right' : 'left' }} />
-
-        <label className="text-[11px] font-medium mb-0.5 block" style={{ color: '#001E6E' }}>{lt.service_label}</label>
-        <select value={service} onChange={e => setService(e.target.value)} className={inputClass} style={{ borderColor: '#E2DDD8', fontFamily: 'inherit' }}>
-          {services.map((s: string) => <option key={s} value={s}>{s}</option>)}
-        </select>
-
-        {error && <p className="text-[11px] text-red-500 mb-2">{error}</p>}
-        <button onClick={handleSubmit} disabled={submitting} className="w-full py-2.5 rounded-lg text-[13px] font-semibold text-white transition-colors disabled:opacity-60" style={{ background: '#C9A55A' }}>
-          {submitting ? '...' : lt.submit}
+      {/* Header — same style as chat header */}
+      <div
+        className="flex items-center gap-3 px-4 flex-shrink-0"
+        style={{ background: 'linear-gradient(135deg, #001E6E 0%, #002B9A 100%)', direction: 'ltr', height: '60px' }}
+      >
+        <button
+          onClick={onBack}
+          className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 transition-colors"
+          style={{ background: 'rgba(255,255,255,0.12)' }}
+        >
+          <BackArrow size={16} color="white" />
         </button>
-        <p className="text-[10px] text-center mt-2" style={{ color: '#6E7B8B' }}>🔒 {lt.privacy}</p>
-        <button onClick={onDismiss} className="w-full py-1 text-[11px] mt-1 transition-colors" style={{ color: '#6E7B8B' }}>
-          {lt.later}
-        </button>
+        <img src={brandLogo} alt="Residency24" className="h-8 w-auto max-w-[140px] flex-shrink-0 object-contain" />
+        <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: '#1D9E75' }} />
       </div>
-    </div>
+
+      {/* Form body */}
+      <div className="flex-1 overflow-y-auto px-5 py-6" style={{ background: '#F0EDE8' }}>
+        {submitted ? (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="flex flex-col items-center justify-center h-full text-center"
+          >
+            <div className="text-5xl mb-4">✅</div>
+            <p className="text-lg font-semibold" style={{ color: '#001E6E' }}>{lt.success_title}</p>
+            <p className="text-sm mt-2" style={{ color: '#6E7B8B' }}>{lt.success_msg}</p>
+          </motion.div>
+        ) : (
+          <div className="max-w-sm mx-auto">
+            <div className="flex items-center gap-3 mb-5">
+              <R24Avatar size={40} />
+              <div>
+                <p className="text-[15px] font-semibold" style={{ color: '#001E6E' }}>{lt.title}</p>
+                <p className="text-[13px]" style={{ color: '#6E7B8B' }}>{lt.subtitle}</p>
+              </div>
+            </div>
+            <input value={name} onChange={e => setName(e.target.value)} placeholder={lt.name_ph} className={inputClass} style={{ borderColor: '#E2DDD8', fontFamily: 'inherit', direction: isRTL ? 'rtl' : 'ltr', fontSize: '16px' }} />
+            <input value={phone} onChange={e => setPhone(e.target.value)} placeholder={lt.phone_ph} type="tel" className={inputClass} style={{ borderColor: '#E2DDD8', fontFamily: 'inherit', direction: 'ltr', fontSize: '16px' }} />
+            <input value={email} onChange={e => setEmail(e.target.value)} placeholder="email@example.com" type="email" className={inputClass} style={{ borderColor: '#E2DDD8', fontFamily: 'inherit', direction: 'ltr', fontSize: '16px' }} />
+            <select value={service} onChange={e => setService(e.target.value)} className={inputClass} style={{ borderColor: '#E2DDD8', fontFamily: 'inherit', color: service ? '#1A1A2E' : '#6E7B8B', direction: isRTL ? 'rtl' : 'ltr' }}>
+              {services.map((s: string) => <option key={s} value={s}>{s}</option>)}
+            </select>
+            {error && <p className="text-[12px] text-red-500 mb-3">{error}</p>}
+            <button onClick={handleSubmit} disabled={submitting} className="w-full py-3 rounded-xl text-[15px] font-semibold text-white transition-colors disabled:opacity-60" style={{ background: '#001E6E' }}>
+              {submitting ? '...' : lt.submit}
+            </button>
+            <button onClick={onBack} className="w-full py-2 text-[13px] mt-2 transition-colors" style={{ color: '#6E7B8B' }}>
+              {lt.later}
+            </button>
+          </div>
+        )}
+      </div>
+    </motion.div>
   );
 };
 
-/* ════════════════════════════════════════════
-   TRIGGER BUTTON (legacy)
-   ════════════════════════════════════════════ */
+/* ── TRIGGER (legacy) ── */
 export const ChatTrigger = ({ onClick }: { onClick: () => void }) => {
   return null;
 };
@@ -217,9 +247,22 @@ export const ChatTrigger = ({ onClick }: { onClick: () => void }) => {
 /* ════════════════════════════════════════════
    MODAL
    ════════════════════════════════════════════ */
+
 const ChatModal = ({ isOpen, onClose, initialMessage = '' }: { isOpen: boolean; onClose: () => void; initialMessage?: string }) => {
   const { t, lang, isRTL } = useLanguage();
   const ct = t.chat_modal;
+
+  // Lock body scroll when open (simple approach — no position:fixed to avoid mobile input bugs)
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [isOpen]);
+
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const welcomeMsg: ChatMessage = {
     id: 0,
@@ -252,7 +295,6 @@ const ChatModal = ({ isOpen, onClose, initialMessage = '' }: { isOpen: boolean; 
       setLeadDone(false);
       nextId.current = 1;
       initialSent.current = false;
-      // Start a new session each time modal opens
       clearSessionId();
       setSessionIdState(null);
       setTimeout(() => inputRef.current?.focus(), 300);
@@ -333,7 +375,6 @@ const ChatModal = ({ isOpen, onClose, initialMessage = '' }: { isOpen: boolean; 
         setTimeout(() => setShowLead(true), 700);
       }
     } catch (err: any) {
-      // Show error message in chat
       const errorText = err?.message || 'خطا در اتصال به سرور';
       setMessages(prev => {
         const updated = prev.map(m => m.role === 'user' ? { ...m, read: true } : m);
@@ -378,93 +419,93 @@ const ChatModal = ({ isOpen, onClose, initialMessage = '' }: { isOpen: boolean; 
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 24, scale: 0.95 }}
             transition={{ duration: 0.28, type: 'spring', damping: 20, stiffness: 300 }}
-            className="flex flex-col overflow-hidden w-[420px] max-w-[calc(100vw-32px)] h-[620px] max-h-[calc(100vh-48px)] rounded-[20px] bg-white shadow-[0_32px_80px_rgba(0,0,0,0.25),0_8px_24px_rgba(0,30,110,0.2)] max-[480px]:rounded-b-none max-[480px]:fixed max-[480px]:bottom-0 max-[480px]:left-0 max-[480px]:right-0 max-[480px]:w-full max-[480px]:h-[90vh] max-[480px]:max-h-[90vh] max-[480px]:rounded-t-[20px]"
+            className="relative flex flex-col overflow-hidden w-[420px] max-w-[calc(100vw-32px)] h-[620px] max-h-[calc(100vh-48px)] rounded-[20px] bg-white shadow-[0_32px_80px_rgba(0,0,0,0.25),0_8px_24px_rgba(0,30,110,0.2)] max-[480px]:fixed max-[480px]:inset-0 max-[480px]:w-full max-[480px]:h-[100dvh] max-[480px]:max-w-full max-[480px]:max-h-[100dvh] max-[480px]:rounded-none max-[480px]:shadow-none"
           >
-            {/* ── HEADER ── */}
+            {/* ── HEADER — Logo + online dot + close only ── */}
             <div
-              className="flex items-center gap-2.5 px-3.5 py-3 flex-shrink-0"
-              style={{ background: 'linear-gradient(135deg, #001E6E 0%, #002B9A 100%)', direction: 'ltr' }}
+              className="flex items-center gap-3 px-4 flex-shrink-0"
+              style={{ background: 'linear-gradient(135deg, #001E6E 0%, #002B9A 100%)', direction: 'ltr', height: '60px' }}
             >
-              <img
-                src={brandLogo}
-                alt="Residency24"
-                className="h-9 w-auto max-w-[150px] flex-shrink-0 object-contain"
-              />
-              <div className="flex-1 min-w-0">
-                <p className="text-[15px] font-bold text-white">{ct.header.name}</p>
-                <p className="text-[12px]" style={{ color: isLoading ? '#DCC896' : 'rgba(255,255,255,0.6)' }}>
-                  {isLoading ? ct.header.typing : ct.header.subtitle}
-                </p>
+              {/* Logo — always left */}
+              <div className="flex items-center gap-2">
+                <img
+                  src={brandLogo}
+                  alt="Residency24"
+                  className="h-8 w-auto max-w-[140px] flex-shrink-0 object-contain"
+                />
+                {/* Online dot */}
+                <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: '#1D9E75' }} />
               </div>
-              <div className="flex items-center gap-1">
-                <button className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.08)' }}>
-                  <Phone size={14} color="rgba(255,255,255,0.6)" />
-                </button>
-                <button className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.08)' }}>
-                  <MoreVertical size={14} color="rgba(255,255,255,0.6)" />
-                </button>
-              </div>
+
+              {/* Spacer */}
+              <div className="flex-1" />
+
+              {/* Close button — always right */}
               <button
                 onClick={onClose}
-                className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-colors"
-                style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)' }}
+                className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 transition-colors"
+                style={{ background: 'rgba(255,255,255,0.12)' }}
               >
-                <X size={14} color="rgba(255,255,255,0.8)" />
+                <X size={16} color="white" />
               </button>
             </div>
 
-            <div className="mx-4" style={{ height: 1, background: 'linear-gradient(90deg, transparent, rgba(220,200,150,0.3), transparent)' }} />
-
             {/* ── CHAT AREA ── */}
             <div
-              className="flex-1 overflow-y-auto px-3 py-3.5 space-y-1.5"
+              className="flex-1 overflow-y-scroll px-4 py-4"
               style={{
                 background: '#F0EDE8',
                 backgroundImage: 'radial-gradient(circle, rgba(0,30,110,0.04) 1px, transparent 1px)',
                 backgroundSize: '20px 20px',
-                direction: isRTL ? 'rtl' : 'ltr',
+                WebkitOverflowScrolling: 'touch',
+                overscrollBehavior: 'contain',
               }}
             >
-              <div className="flex justify-center mb-2">
+              {/* Date badge */}
+              <div className="flex justify-center mb-3">
                 <span className="text-[10px] px-3 py-1 rounded-full" style={{ background: 'rgba(0,30,110,0.06)', color: '#6E7B8B' }}>
                   {ct.today}
                 </span>
               </div>
 
-              {messages.map(msg => (
-                <div
-                  key={msg.id}
-                  style={{ direction: 'ltr', animation: 'msgIn .2s ease-out' }}
-                  className={`flex gap-1.5 mb-1.5 ${msg.role === 'assistant' ? 'justify-start items-end' : 'justify-end'}`}
-                >
-                  {msg.role === 'assistant' && <R24Avatar size={24} />}
-                  <div
-                    className="max-w-[80%] px-3 py-2.5 text-[13px] leading-relaxed shadow-sm"
-                    style={
-                      msg.role === 'assistant'
-                        ? { background: '#fff', borderRadius: '14px 14px 14px 3px', color: '#1A1A2E', direction: isRTL ? 'rtl' : 'ltr' }
-                        : { background: 'linear-gradient(135deg,#001E6E,#002B9A)', borderRadius: '14px 14px 3px 14px', color: '#fff', direction: isRTL ? 'rtl' : 'ltr' }
-                    }
-                  >
-                    {msg.role === 'assistant' && (
-                      <p className="text-[10px] font-semibold mb-1" style={{ color: '#DCC896' }}>{ct.header.name}</p>
-                    )}
-                    <p className="whitespace-pre-wrap">{msg.text}</p>
-                    <div className="flex items-center gap-1 mt-1" style={{ justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start' }}>
-                      <span className="text-[9px]" style={{ color: msg.role === 'user' ? 'rgba(255,255,255,0.5)' : '#6E7B8B' }}>{msg.time}</span>
-                      {msg.role === 'user' && <DoubleTick read={msg.read} />}
+              <div className="space-y-2">
+                {messages.map(msg => {
+                  const isUser = msg.role === 'user';
+                  const isBot = msg.role === 'assistant';
+
+                  return (
+                    <div
+                      key={msg.id}
+                      style={{ animation: 'msgIn .2s ease-out' }}
+                      className={`flex items-end gap-2 mb-1 ${isUser ? 'flex-row-reverse justify-start' : 'flex-row justify-start'}`}
+                    >
+                      {isBot && <R24Avatar size={28} />}
+
+                      <div
+                        className="max-w-[78%] px-4 py-3 text-[15px] leading-[1.7] shadow-sm"
+                        style={{
+                          background: isBot ? '#FFFFFF' : '#001E6E',
+                          border: isBot ? '1px solid #E8E8E8' : 'none',
+                          borderRadius: isBot ? '18px 18px 18px 4px' : '18px 18px 4px 18px',
+                          color: isBot ? '#323232' : '#FFFFFF',
+                          direction: isRTL ? 'rtl' : 'ltr',
+                          textAlign: isRTL ? 'right' : 'left',
+                        }}
+                      >
+                        <MarkdownMessage content={msg.text} isUser={isUser} isRTL={isRTL} />
+                        <div className="flex items-center gap-1 mt-1" style={{ justifyContent: isUser ? 'flex-end' : 'flex-start' }}>
+                          <span className="text-[9px]" style={{ color: isUser ? 'rgba(255,255,255,0.5)' : '#6E7B8B' }}>{msg.time}</span>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              ))}
+                  );
+                })}
 
-              {isLoading && <TypingDots />}
+                {isLoading && <TypingDots />}
 
-              {showLead && !leadDone && (
-                <LeadCapture t={t} sessionId={sessionId} lang={lang} onDone={handleLeadDone} onDismiss={() => { setShowLead(false); setLeadDone(true); }} />
-              )}
-
-              <div ref={bottomRef} />
+                <div ref={bottomRef} />
+                <div ref={messagesEndRef} />
+              </div>
             </div>
 
             {/* ── PILLS ── */}
@@ -486,44 +527,89 @@ const ChatModal = ({ isOpen, onClose, initialMessage = '' }: { isOpen: boolean; 
               </div>
             )}
 
-            {/* ── INPUT BAR ── */}
+            {/* ── INPUT BAR — Unified ChatInput ── */}
             <div
-              className={`flex items-center gap-2 px-2.5 py-2 flex-shrink-0 ${isRTL ? 'flex-row-reverse' : ''}`}
-              style={{ background: '#F5F4F2', borderTop: '1px solid #E2DDD8' }}
+              className="flex items-end gap-2.5 flex-shrink-0"
+              style={{
+                flexDirection: 'row',
+                padding: '14px 16px',
+                paddingBottom: 'max(14px, env(safe-area-inset-bottom))',
+                background: '#FFFFFF',
+                borderTop: '1px solid #ebebeb',
+              }}
             >
-              <div
-                className={`flex-1 flex items-center rounded-full bg-white px-3 ${isRTL ? 'flex-row-reverse' : ''}`}
-                style={{ border: '1px solid rgba(0,30,110,0.1)', boxShadow: '0 1px 4px rgba(0,30,110,0.06)' }}
-              >
-                <input
-                  ref={inputRef}
-                  value={input}
-                  onChange={e => setInput(e.target.value)}
-                  onKeyDown={e => e.key === 'Enter' && !e.shiftKey && (e.preventDefault(), send())}
-                  placeholder={ct.input_placeholder}
-                  className="flex-1 bg-transparent border-none outline-none text-sm py-2.5"
-                  style={{ color: '#1A1A2E', fontFamily: 'inherit', direction: isRTL ? 'rtl' : 'ltr', textAlign: isRTL ? 'right' : 'left' }}
-                />
-                <span className="text-sm cursor-pointer opacity-50 hover:opacity-100 transition-opacity">😊</span>
-              </div>
-              <button
-                onClick={() => send()}
-                disabled={!input.trim() || isLoading}
-                className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition-all"
-                style={{ background: input.trim() ? '#001E6E' : 'rgba(0,30,110,0.2)' }}
-              >
-                <Send size={16} color="white" style={{ transform: isRTL ? 'scaleX(-1) rotate(-45deg)' : '' }} />
-              </button>
+              {isRTL && (
+                <button
+                  onClick={() => send()}
+                  disabled={!input.trim() || isLoading}
+                  className="w-12 h-12 rounded-[14px] flex items-center justify-center flex-shrink-0 transition-all"
+                  style={{
+                    background: input.trim() ? '#001E6E' : 'rgba(0,30,110,0.2)',
+                    cursor: input.trim() ? 'pointer' : 'default',
+                  }}
+                  aria-label="ارسال"
+                >
+                  <Send size={17} strokeWidth={2} color="white" style={{ transform: 'scaleX(-1)' }} />
+                </button>
+              )}
+
+              <textarea
+                ref={inputRef as any}
+                value={input}
+                onChange={e => setInput(e.target.value)}
+                onKeyDown={e => e.key === 'Enter' && !e.shiftKey && (e.preventDefault(), send())}
+                placeholder={ct.input_placeholder}
+                rows={1}
+                dir={isRTL ? 'rtl' : 'ltr'}
+                className="flex-1 rounded-3xl outline-none transition-all"
+                style={{
+                  color: '#323232',
+                  fontFamily: 'inherit',
+                  textAlign: isRTL ? 'right' : 'left',
+                  fontSize: '16px',
+                  padding: '12px 16px',
+                  minHeight: '48px',
+                  maxHeight: '140px',
+                  resize: 'none',
+                  lineHeight: '1.5',
+                  WebkitAppearance: 'none',
+                  overflowY: 'auto',
+                  background: '#f4f4f4',
+                  border: '1.5px solid transparent',
+                }}
+                onFocus={e => { e.target.style.background = '#ffffff'; e.target.style.borderColor = '#001E6E'; }}
+                onBlur={e => { e.target.style.background = '#f4f4f4'; e.target.style.borderColor = 'transparent'; }}
+              />
+
+              {!isRTL && (
+                <button
+                  onClick={() => send()}
+                  disabled={!input.trim() || isLoading}
+                  className="w-12 h-12 rounded-[14px] flex items-center justify-center flex-shrink-0 transition-all"
+                  style={{
+                    background: input.trim() ? '#001E6E' : 'rgba(0,30,110,0.2)',
+                    cursor: input.trim() ? 'pointer' : 'default',
+                  }}
+                  aria-label="Send"
+                >
+                  <Send size={17} strokeWidth={2} color="white" />
+                </button>
+              )}
             </div>
 
-            {/* ── BRAND FOOTER ── */}
-            <div
-              className="flex items-center justify-between px-3.5 py-1.5 flex-shrink-0 text-[10px]"
-              style={{ background: '#001E6E', color: 'rgba(255,255,255,0.5)' }}
-            >
-              <span>{ct.brand_footer}</span>
-              <span className="flex items-center gap-1">🔒 {ct.privacy}</span>
-            </div>
+            {/* Lead form overlay — replaces chat in place */}
+            <AnimatePresence>
+              {showLead && !leadDone && (
+                <LeadCaptureFullPage
+                  t={t}
+                  sessionId={sessionId}
+                  isRTL={isRTL}
+                  lang={lang}
+                  onDone={handleLeadDone}
+                  onBack={() => { setShowLead(false); setLeadDone(true); }}
+                />
+              )}
+            </AnimatePresence>
           </motion.div>
         </motion.div>
       )}
