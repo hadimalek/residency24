@@ -10,5 +10,5 @@ export default async function CompanyRegistrationPage({ params }: { params: Prom
   const { lang: rawLang } = await params;
   const lang = (LANGS.includes(rawLang as Lang) ? rawLang : "en") as Lang;
   void lang;
-  return <UAEServicePageClient serviceKey="company_registration" />;
+  return <UAEServicePageClient service="company_registration" />;
 }

@@ -10,5 +10,5 @@ export default async function BuyPropertyPage({ params }: { params: Promise<{ la
   const { lang: rawLang } = await params;
   const lang = (LANGS.includes(rawLang as Lang) ? rawLang : "en") as Lang;
   void lang;
-  return <UAEServicePageClient serviceKey="buy_property" />;
+  return <UAEServicePageClient service="buy_property" />;
 }

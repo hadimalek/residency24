@@ -10,5 +10,5 @@ export default async function GoldenVisaPage({ params }: { params: Promise<{ lan
   const { lang: rawLang } = await params;
   const lang = (LANGS.includes(rawLang as Lang) ? rawLang : "en") as Lang;
   void lang;
-  return <UAEServicePageClient serviceKey="golden_visa" />;
+  return <UAEServicePageClient service="golden_visa" />;
 }

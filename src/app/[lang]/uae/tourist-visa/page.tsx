@@ -10,5 +10,5 @@ export default async function TouristVisaPage({ params }: { params: Promise<{ la
   const { lang: rawLang } = await params;
   const lang = (LANGS.includes(rawLang as Lang) ? rawLang : "en") as Lang;
   void lang;
-  return <UAEServicePageClient serviceKey="tourist_visa" />;
+  return <UAEServicePageClient service="tourist_visa" />;
 }
