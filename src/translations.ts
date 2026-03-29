@@ -529,6 +529,21 @@ const translations: Record<Lang, any> = {
     // ── S12: Testimonials ────────────────────────────────────────────────
     testi_section_title: "مشتریان ما چه می‌گویند",
     testi_verified: "مشتری تأییدشده",
+
+    // ── S14: Cross-sell CTA ──────────────────────────────────────────────
+    cs_section_title: "گزینه‌های دیگر سرمایه‌گذاری",
+    cs_section_sub: "امارات انتخاب خوبی است — اما شاید گزینه بهتری برای شما وجود داشته باشد",
+    cs_oman_title: "عمان — جایگزین کم‌رقابت",
+    cs_oman_desc: "هزینه اقامت کمتر از دبی. محیط آرام‌تر برای خانواده.",
+    cs_oman_tag: "از ۱۵,۰۰۰ دلار",
+    cs_turkey_title: "ترکیه — پاسپورت دومی",
+    cs_turkey_desc: "شهروندی ترکیه از طریق خرید ملک ۴۰۰ هزار دلاری.",
+    cs_turkey_tag: "پاسپورت ۱۱۰+ کشور",
+    cs_explore_btn: "بیشتر بدانید",
+    cs_compare_btn: "مقایسه کشورها",
+
+    // ── S13: FAQ ─────────────────────────────────────────────────────────
+    uae_faq_title: "سوالات متداول",
   },
 
   en: {
@@ -1059,6 +1074,21 @@ const translations: Record<Lang, any> = {
     // ── S12: Testimonials ────────────────────────────────────────────────
     testi_section_title: "What Our Clients Say",
     testi_verified: "Verified Client",
+
+    // ── S14: Cross-sell CTA ──────────────────────────────────────────────
+    cs_section_title: "Explore More Destinations",
+    cs_section_sub: "The UAE is great — but there might be a better option for you",
+    cs_oman_title: "Oman — The Hidden Gem",
+    cs_oman_desc: "Lower cost than Dubai. Quieter lifestyle for families.",
+    cs_oman_tag: "From USD 15,000",
+    cs_turkey_title: "Turkey — Your Second Passport",
+    cs_turkey_desc: "Turkish citizenship via $400K property purchase.",
+    cs_turkey_tag: "Passport: 110+ countries",
+    cs_explore_btn: "Explore",
+    cs_compare_btn: "Compare Countries",
+
+    // ── S13: FAQ ─────────────────────────────────────────────────────────
+    uae_faq_title: "Frequently Asked Questions",
   },
 
   ar: {
@@ -1589,6 +1619,21 @@ const translations: Record<Lang, any> = {
     // ── S12: Testimonials ────────────────────────────────────────────────
     testi_section_title: "ماذا يقول عملاؤنا",
     testi_verified: "عميل موثق",
+
+    // ── S14: Cross-sell CTA ──────────────────────────────────────────────
+    cs_section_title: "وجهات استثمارية أخرى",
+    cs_section_sub: "الإمارات خيار رائع — لكن قد يكون هناك خيار أفضل لك",
+    cs_oman_title: "عُمان — البديل الهادئ",
+    cs_oman_desc: "تكاليف أقل من دبي. بيئة هادئة للعائلات.",
+    cs_oman_tag: "من 15,000 دولار",
+    cs_turkey_title: "تركيا — جواز السفر الثاني",
+    cs_turkey_desc: "الجنسية التركية عبر شراء عقار بـ 400,000 دولار.",
+    cs_turkey_tag: "جواز: 110+ دولة",
+    cs_explore_btn: "استكشف",
+    cs_compare_btn: "مقارنة الدول",
+
+    // ── S13: FAQ ─────────────────────────────────────────────────────────
+    uae_faq_title: "الأسئلة الشائعة",
   },
 
   ru: {
@@ -2119,6 +2164,21 @@ const translations: Record<Lang, any> = {
     // ── S12: Testimonials ────────────────────────────────────────────────
     testi_section_title: "Отзывы наших клиентов",
     testi_verified: "Подтверждённый клиент",
+
+    // ── S14: Cross-sell CTA ──────────────────────────────────────────────
+    cs_section_title: "Другие направления",
+    cs_section_sub: "ОАЭ — отличный выбор, но возможно есть вариант лучше",
+    cs_oman_title: "Оман — Тихая альтернатива",
+    cs_oman_desc: "Дешевле Дубая. Спокойная семейная атмосфера.",
+    cs_oman_tag: "От $15,000",
+    cs_turkey_title: "Турция — Второй паспорт",
+    cs_turkey_desc: "Гражданство Турции через покупку недвижимости за $400 000.",
+    cs_turkey_tag: "Паспорт: 110+ стран",
+    cs_explore_btn: "Подробнее",
+    cs_compare_btn: "Сравнить страны",
+
+    // ── S13: FAQ ─────────────────────────────────────────────────────────
+    uae_faq_title: "Часто задаваемые вопросы",
   },
 };
 

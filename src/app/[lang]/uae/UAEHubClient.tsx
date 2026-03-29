@@ -12,7 +12,7 @@ import CostBreakdown from "@/components/uae/CostBreakdown";
 import DubaiAreas from "@/components/uae/DubaiAreas";
 import Testimonials from "@/components/uae/Testimonials";
 import CrossSellCTA from "@/components/uae/CrossSellCTA";
-import FAQ from "@/components/FAQ";
+import UAEFAQAccordion from "@/components/uae/UAEFAQAccordion";
 import NationalityHooks from "@/components/NationalityHooks";
 import HowItWorks from "@/components/HowItWorks";
 import Footer from "@/components/Footer";
@@ -61,7 +61,7 @@ export default function UAEHubClient({ h1 }: { h1: string }) {
         <Testimonials />
 
         {/* S13 */}
-        <FAQ />
+        <UAEFAQAccordion />
 
         {/* S14 */}
         <CrossSellCTA />
