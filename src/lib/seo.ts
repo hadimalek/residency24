@@ -72,8 +72,91 @@ export const BREADCRUMB_HOME: Record<Lang, string> = {
   ru: "Главная",
 };
 
-export function getPageUrl(lang: Lang) {
-  return `${BASE_URL}/${lang}/`;
+export const ABOUT_SEO: Record<Lang, { title: string; description: string; h1: string }> = {
+  fa: {
+    title: "درباره رزیدنسی۲۴ | ۲ دفتر، ۵۰۰۰+ پرونده موفق",
+    description: "رزیدنسی۲۴ از ۲۰۱۸ به ایرانیان در اخذ اقامت، ثبت شرکت و خرید ملک در امارات، عمان و ترکیه کمک می‌کند. دفاتر در دبی و مشهد. مشاوره رایگان.",
+    h1: "رزیدنسی۲۴ — همراه مطمئن شما در مهاجرت سرمایه‌گذاری",
+  },
+  en: {
+    title: "About Residency24 | 2 Offices, 5,000+ Success Cases",
+    description: "Residency24 is a legal, transparent investment immigration firm with offices in Dubai & Mashhad. Helping investors with UAE, Oman & Turkey residency since 2018.",
+    h1: "About Residency24 — Your Trusted Partner for Investment Immigration",
+  },
+  ar: {
+    title: "عن Residency24 | مكتبان، +5000 حالة ناجحة",
+    description: "Residency24 شركة متخصصة في الإقامة الاستثمارية بمكتبين في دبي ومشهد. خدمات قانونية وشفافة في الإمارات وعُمان وتركيا منذ 2018.",
+    h1: "Residency24 — شريكك الموثوق في الهجرة الاستثمارية",
+  },
+  ru: {
+    title: "О компании Residency24 | 2 офиса, 5000+ успешных дел",
+    description: "Residency24 — легальная иммиграционная компания с офисами в Дубае и Мешхеде. Помогаем инвесторам с резидентством в ОАЭ, Омане и Турции с 2018 года.",
+    h1: "О компании Residency24 — Ваш надёжный партнёр по инвестиционной иммиграции",
+  },
+};
+
+export function getPageUrl(lang: Lang, path: string = "") {
+  return `${BASE_URL}/${lang}/${path}`;
+}
+
+export function getAboutPageUrl(lang: Lang) {
+  return `${BASE_URL}/${lang}/about/`;
+}
+
+export function getAboutOrganizationSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": "https://residency24.com/#organization",
+    "name": "Residency24",
+    "url": "https://residency24.com",
+    "logo": "https://residency24.com/logo512.png",
+    "foundingDate": "2018",
+    "numberOfEmployees": {
+      "@type": "QuantitativeValue",
+      "value": 15,
+    },
+    "areaServed": ["AE", "OM", "TR", "IR"],
+    "location": [
+      {
+        "@type": "Place",
+        "name": "Residency24 Dubai",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Al Khail Heights Apartment Building, RB 03A, No. 218",
+          "addressLocality": "Dubai",
+          "addressCountry": "AE",
+        },
+        "telephone": "+971562009131",
+      },
+      {
+        "@type": "Place",
+        "name": "رزیدنسی۲۴ مشهد",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "نبش فرهاد ۱۴",
+          "addressLocality": "مشهد",
+          "addressCountry": "IR",
+        },
+      },
+    ],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "customer service",
+      "availableLanguage": ["Persian", "English", "Arabic", "Russian"],
+    },
+  };
+}
+
+export function getAboutBreadcrumbSchema(lang: Lang) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: BREADCRUMB_HOME[lang], item: getPageUrl(lang) },
+      { "@type": "ListItem", position: 2, name: ABOUT_SEO[lang].title.split("|")[0].trim(), item: getAboutPageUrl(lang) },
+    ],
+  };
 }
 
 export function getOrganizationSchema() {
