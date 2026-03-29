@@ -1,0 +1,93 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         String   @default("ADMIN") // ADMIN | EDITOR
+  createdAt    DateTime @default(now())
+}
+
+model Session {
+  id           Int       @id @default(autoincrement())
+  sessionKey   String    @unique
+  language     String    @default("fa")
+  ipAddress    String?
+  userAgent    String?
+  startedAt    DateTime  @default(now())
+  lastActivity DateTime  @default(now())
+  status       String    @default("ACTIVE") // ACTIVE | CLOSED
+  messages     Message[]
+  lead         Lead?
+}
+
+model Message {
+  id         Int      @id @default(autoincrement())
+  sessionId  Int
+  role       String   // USER | ASSISTANT | SYSTEM
+  content    String
+  tokensUsed Int      @default(0)
+  createdAt  DateTime @default(now())
+  session    Session  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+}
+
+model Lead {
+  id          Int      @id @default(autoincrement())
+  sessionId   Int?     @unique
+  name        String?
+  email       String?
+  phone       String?
+  nationality String?
+  status      String   @default("NEW") // NEW | FOLLOWING | CONVERTED | ARCHIVED
+  createdAt   DateTime @default(now())
+  session     Session? @relation(fields: [sessionId], references: [id])
+}
+
+model Prompt {
+  id           Int      @id @default(autoincrement())
+  name         String
+  type         String   // SYSTEM | KNOWLEDGE
+  content      String
+  language     String   @default("fa") // fa | en | ar | ru
+  personaName  String?
+  isActive     Boolean  @default(true)
+  version      Int      @default(1)
+  sortOrder    Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model PagePrompt {
+  id            Int      @id @default(autoincrement())
+  language      String   // fa | en | ar | ru
+  pageSlug      String   // e.g. uae/golden-visa
+  pageName      String
+  contextPrompt String
+  focusKeywords String?
+  ctaText       String?
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@unique([language, pageSlug])
+}
+
+model Provider {
+  id          Int      @id @default(autoincrement())
+  name        String
+  apiKey      String
+  model       String
+  baseUrl     String?
+  temperature Float    @default(0.7)
+  maxTokens   Int      @default(1000)
+  isActive    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
