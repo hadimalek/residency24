@@ -1,45 +1,56 @@
 "use client";
 
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage } from '@/contexts/LanguageContext';
+import { motion } from 'framer-motion';
+import { BadgeDollarSign, Globe, ShieldCheck, Zap, Users, TrendingUp } from 'lucide-react';
 
-const ADVANTAGES = [
-  { icon: "\u{1F6AB}\u{1F4B0}", titleKey: "adv_zero_tax_title",  descKey: "adv_zero_tax_desc" },
-  { icon: "\u{1F30D}",          titleKey: "adv_ownership_title", descKey: "adv_ownership_desc" },
-  { icon: "\u{1F6C2}",          titleKey: "adv_visa_free_title", descKey: "adv_visa_free_desc" },
-  { icon: "\u{1F3E6}",          titleKey: "adv_banking_title",   descKey: "adv_banking_desc" },
-  { icon: "\u{26A1}",           titleKey: "adv_speed_title",     descKey: "adv_speed_desc" },
-  { icon: "\u{1F468}\u200D\u{1F469}\u200D\u{1F467}\u200D\u{1F466}", titleKey: "adv_family_title", descKey: "adv_family_desc" },
-  { icon: "\u{1F310}",          titleKey: "adv_location_title",  descKey: "adv_location_desc" },
-  { icon: "\u{1F4C8}",          titleKey: "adv_market_title",    descKey: "adv_market_desc" },
-] as const;
+const iconMap: Record<string, React.ReactNode> = {
+  'badge-dollar-sign': <BadgeDollarSign size={20} className="text-gold" />,
+  'globe': <Globe size={20} className="text-gold" />,
+  'shield-check': <ShieldCheck size={20} className="text-gold" />,
+  'zap': <Zap size={20} className="text-gold" />,
+  'users': <Users size={20} className="text-gold" />,
+  'trending-up': <TrendingUp size={20} className="text-gold" />,
+};
 
-export default function WhyUAE() {
-  const { t, isRTL } = useLanguage();
+const WhyUAE = () => {
+  const { t } = useLanguage();
+  const data = t.uae_page.why_uae;
 
   return (
-    <section dir={isRTL ? "rtl" : "ltr"} className="py-16 px-4 bg-white">
-      <div className="max-w-[1200px] mx-auto">
-        <h2 className="text-center text-2xl font-bold text-navy mb-10">
-          {t.why_uae_section_title}
-        </h2>
+    <motion.section
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.12 }}
+      className="py-20 bg-surface"
+    >
+      <div className="max-w-6xl mx-auto px-4">
+        <div className="text-center mb-12">
+          <span className="inline-block text-xs font-semibold text-gold tracking-[0.12em] uppercase mb-3">{data.badge}</span>
+          <h2 className="text-[32px] font-bold text-navy">{data.h2}</h2>
+        </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {ADVANTAGES.map((adv) => (
-            <div
-              key={adv.titleKey}
-              className={`bg-muted/40 rounded-xl p-6 ${isRTL ? "border-r-4" : "border-l-4"} border-gold`}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {data.items.map((item: any, i: number) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.08 }}
+              className="bg-white rounded-xl border border-border p-7 hover:-translate-y-1 hover:shadow-lg transition-all duration-200"
             >
-              <div className="text-3xl mb-2">{adv.icon}</div>
-              <h3 className="text-base font-bold text-navy mb-1">
-                {t[adv.titleKey]}
-              </h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                {t[adv.descKey]}
-              </p>
-            </div>
+              <div className="w-10 h-10 rounded-full bg-navy flex items-center justify-center mb-4">
+                {iconMap[item.icon]}
+              </div>
+              <h3 className="text-lg font-bold text-navy mb-2">{item.title}</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
+            </motion.div>
           ))}
         </div>
       </div>
-    </section>
+    </motion.section>
   );
-}
+};
+
+export default WhyUAE;

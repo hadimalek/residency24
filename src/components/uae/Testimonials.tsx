@@ -1,134 +1,45 @@
 "use client";
 
-import { useState } from "react";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage } from '@/contexts/LanguageContext';
+import { motion } from 'framer-motion';
+import { Star } from 'lucide-react';
 
-// PLACEHOLDER DATA — replace with real client testimonials before publishing
-const TESTIMONIALS = [
-  {
-    lang: "fa",
-    name: "محمد رضا ک.",
-    country: "\u{1F1EE}\u{1F1F7} تهران",
-    service: "ثبت شرکت دبی",
-    rating: 5,
-    text: "فرآیند ثبت شرکت در دبی با راهنمایی رزیدنسی۲۴ خیلی راحت‌تر از آنچه فکر می‌کردم بود. در ۹ روز شرکت ثبت شد.",
-  },
-  {
-    lang: "fa",
-    name: "سارا م.",
-    country: "\u{1F1EE}\u{1F1F7} مشهد",
-    service: "گلدن ویزا",
-    rating: 5,
-    text: "گلدن ویزای امارات را در کمتر از ۶ هفته دریافت کردیم. تیم رزیدنسی۲۴ در هر مرحله همراه ما بود.",
-  },
-  {
-    lang: "en",
-    name: "James T.",
-    country: "\u{1F1EC}\u{1F1E7} London",
-    service: "UAE Golden Visa",
-    rating: 5,
-    text: "Residency24 made the Golden Visa process completely painless. Professional, responsive, and delivered exactly what they promised.",
-  },
-  {
-    lang: "ar",
-    name: "أحمد م. العراقي",
-    country: "\u{1F1EE}\u{1F1F6} بغداد",
-    service: "الإقامة الذهبية",
-    rating: 5,
-    text: "حصلت على إقامتي الذهبية في الإمارات خلال 5 أسابيع بمساعدة فريق رزيدنسي24. خدمة احترافية ومتابعة ممتازة.",
-  },
-  {
-    lang: "ar",
-    name: "ليلى ح.",
-    country: "\u{1F1F1}\u{1F1E7} بيروت",
-    service: "تأسيس شركة دبي",
-    rating: 5,
-    text: "أسست شركتي في دبي بسهولة تامة مع رزيدنسي24. الفريق متعدد اللغات وفهم احتياجاتي تماماً.",
-  },
-  {
-    lang: "ru",
-    name: "Наталья К.",
-    country: "\u{1F1F7}\u{1F1FA} Москва",
-    service: "Регистрация компании",
-    rating: 5,
-    text: "Зарегистрировали компанию в Дубае за 10 дней. Команда Residency24 ответила на все вопросы и провела через весь процесс.",
-  },
-];
-
-function StarRating({ rating }: { rating: number }) {
-  return (
-    <div className="text-gold text-base">
-      {"\u2605".repeat(rating)}{"\u2606".repeat(5 - rating)}
-    </div>
-  );
-}
-
-export default function Testimonials() {
-  const { lang, t, isRTL } = useLanguage();
-
-  const filtered = TESTIMONIALS.filter((tm) => tm.lang === lang || tm.lang === "en");
-  const [current, setCurrent] = useState(0);
-
-  const prev = () => setCurrent((c) => (c - 1 + filtered.length) % filtered.length);
-  const next = () => setCurrent((c) => (c + 1) % filtered.length);
-
-  const tm = filtered[current] || filtered[0];
-  if (!tm) return null;
+const UAETestimonials = () => {
+  const { t } = useLanguage();
+  const data = t.uae_page.testimonials;
 
   return (
-    <section dir={isRTL ? "rtl" : "ltr"} className="py-16 px-4 bg-navy">
-      <div className="max-w-[720px] mx-auto text-center">
-        <h2 className="text-2xl font-bold text-gold mb-8">
-          {t.testi_section_title}
-        </h2>
-
-        {/* Card */}
-        <div className="bg-white rounded-2xl p-8 sm:p-10 relative">
-          <StarRating rating={tm.rating} />
-          <p className="text-base text-foreground leading-relaxed my-4 italic">
-            &ldquo;{tm.text}&rdquo;
-          </p>
-          <div className={`flex items-center justify-center gap-3 ${isRTL ? "flex-row-reverse" : ""}`}>
-            <div className="w-11 h-11 rounded-full bg-navy flex items-center justify-center text-gold font-bold text-lg">
-              {tm.name.charAt(0)}
+    <motion.section
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.15 }}
+      className="py-20 bg-navy"
+    >
+      <div className="max-w-5xl mx-auto px-4">
+        <div className="text-center mb-10">
+          <span className="inline-block text-xs font-semibold text-gold tracking-[0.12em] uppercase mb-3">{data.badge}</span>
+          <h2 className="text-[32px] font-bold text-white mb-4">{data.h2}</h2>
+          <div className="flex items-center justify-center gap-2 mb-8">
+            <div className="flex gap-0.5">
+              {[1,2,3,4,5].map(i => <Star key={i} size={16} className="text-gold" fill="currentColor" />)}
             </div>
-            <div className={isRTL ? "text-right" : "text-left"}>
-              <div className="font-bold text-navy text-sm">{tm.name}</div>
-              <div className="text-xs text-muted-foreground">{tm.country} · {tm.service}</div>
-            </div>
-            <span className="ms-auto text-[0.7rem] bg-emerald-50 text-emerald-700 px-2.5 py-0.5 rounded-full">
-              &#10003; {t.testi_verified}
-            </span>
           </div>
         </div>
 
-        {/* Navigation */}
-        {filtered.length > 1 && (
-          <div className="flex items-center justify-center gap-4 mt-6">
-            <button
-              onClick={isRTL ? next : prev}
-              className="w-9 h-9 rounded-full bg-white/10 text-gold text-lg hover:bg-white/20 transition-colors"
-            >
-              &#8249;
-            </button>
-            <div className="flex gap-1.5">
-              {filtered.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setCurrent(i)}
-                  className={`w-2 h-2 rounded-full transition-colors ${i === current ? "bg-gold" : "bg-white/30"}`}
-                />
-              ))}
+        <div className="grid md:grid-cols-3 gap-6">
+          {data.items.map((item: any, i: number) => (
+            <div key={i} className="bg-white/[0.07] border border-white/[0.12] rounded-xl p-7 relative">
+              <span className="text-5xl text-gold/50 absolute -top-1 left-5 leading-none select-none font-bold">&ldquo;</span>
+              <p className="text-[15px] text-white/[0.88] leading-[1.7] italic pt-6">{item.text}</p>
+              <p className="text-sm text-white font-semibold mt-5">{item.name}</p>
+              <p className="text-xs text-white/50">{item.route}</p>
+              <span className="inline-block mt-2 text-[11px] bg-gold/20 text-gold px-2 py-0.5 rounded">{item.tag}</span>
             </div>
-            <button
-              onClick={isRTL ? prev : next}
-              className="w-9 h-9 rounded-full bg-white/10 text-gold text-lg hover:bg-white/20 transition-colors"
-            >
-              &#8250;
-            </button>
-          </div>
-        )}
+          ))}
+        </div>
       </div>
-    </section>
+    </motion.section>
   );
-}
+};
+
+export default UAETestimonials;

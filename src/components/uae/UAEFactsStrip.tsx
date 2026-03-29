@@ -1,57 +1,31 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage } from '@/contexts/LanguageContext';
+import { motion } from 'framer-motion';
 
-const FACTS = [
-  { number: "0%",     labelKey: "uae_fact_income_tax" },
-  { number: "100%",   labelKey: "uae_fact_ownership" },
-  { number: "10",     labelKey: "uae_fact_golden_visa" },
-  { number: "7-10",   labelKey: "uae_fact_setup_time" },
-  { number: "192+",   labelKey: "uae_fact_nationalities" },
-  { number: "5,000+", labelKey: "uae_fact_cases" },
-] as const;
-
-export default function UAEFactsStrip() {
-  const { t, isRTL } = useLanguage();
-  const [visible, setVisible] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setVisible(true); },
-      { threshold: 0.3 },
-    );
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
+const UAEFactsStrip = () => {
+  const { t } = useLanguage();
 
   return (
-    <section
-      ref={ref}
-      dir={isRTL ? "rtl" : "ltr"}
-      className="bg-navy overflow-x-auto py-8 px-4"
+    <motion.section
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.15 }}
+      className="py-10 border-b border-border bg-white"
     >
-      <div className="flex gap-8 justify-center flex-wrap min-w-max mx-auto max-w-[1200px]">
-        {FACTS.map((fact, i) => (
-          <div
-            key={fact.labelKey}
-            className="text-center min-w-[120px]"
-            style={{
-              opacity: visible ? 1 : 0,
-              transform: visible ? "translateY(0)" : "translateY(16px)",
-              transition: `opacity 0.5s ease ${i * 0.1}s, transform 0.5s ease ${i * 0.1}s`,
-            }}
-          >
-            <div className="text-[2rem] font-bold text-gold leading-tight">
-              {fact.number}
-            </div>
-            <div className="text-xs text-white/75 mt-1">
-              {t[fact.labelKey]}
-            </div>
+      <div className="max-w-5xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+        {t.uae_page.facts_strip.items.map((s: { num: string; label: string }, i: number) => (
+          <div key={i} className="relative">
+            <p className="text-[30px] font-bold text-navy">{s.num}</p>
+            <p className="text-[13px] text-muted-foreground mt-1">{s.label}</p>
+            {i < t.uae_page.facts_strip.items.length - 1 && (
+              <div className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 w-px h-10 bg-border" />
+            )}
           </div>
         ))}
       </div>
-    </section>
+    </motion.section>
   );
-}
+};
+
+export default UAEFactsStrip;

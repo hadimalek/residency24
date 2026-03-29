@@ -1,79 +1,54 @@
 "use client";
 
-import Link from "next/link";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useLanguage } from '@/contexts/LanguageContext';
+import { motion } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
 
-const DESTINATIONS = [
-  {
-    id: "oman",
-    flag: "\u{1F1F4}\u{1F1F2}",
-    badgeBg: "bg-green-800",
-    titleKey: "cs_oman_title",
-    descKey: "cs_oman_desc",
-    tagKey: "cs_oman_tag",
-  },
-  {
-    id: "turkey",
-    flag: "\u{1F1F9}\u{1F1F7}",
-    badgeBg: "bg-red-800",
-    titleKey: "cs_turkey_title",
-    descKey: "cs_turkey_desc",
-    tagKey: "cs_turkey_tag",
-  },
-] as const;
-
-export default function CrossSellCTA() {
-  const { lang, t, isRTL } = useLanguage();
+const CrossSellCTA = () => {
+  const { t, isRTL } = useLanguage();
+  const data = t.uae_page.cross_sell;
 
   return (
-    <section dir={isRTL ? "rtl" : "ltr"} className="py-16 px-4 bg-muted/30">
-      <div className="max-w-[900px] mx-auto">
-        <h2 className="text-center text-2xl font-bold text-navy mb-2">
-          {t.cs_section_title}
-        </h2>
-        <p className="text-center text-muted-foreground text-sm mb-8">
-          {t.cs_section_sub}
-        </p>
+    <motion.section
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.15 }}
+      className="py-20 bg-white"
+    >
+      <div className="max-w-5xl mx-auto px-4">
+        <div className="text-center mb-10">
+          <span className="inline-block text-xs font-semibold text-gold tracking-[0.12em] uppercase mb-3">{data.badge}</span>
+          <h2 className="text-[32px] font-bold text-navy mb-2">{data.h2}</h2>
+          <p className="text-[15px] text-muted-foreground">{data.sub}</p>
+        </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-          {DESTINATIONS.map((dest) => (
-            <div
-              key={dest.id}
-              className="bg-white rounded-2xl p-7 border border-border shadow-sm"
+        <div className="grid md:grid-cols-2 gap-6 mb-8">
+          {data.items.map((item: any, i: number) => (
+            <a
+              key={i}
+              href={item.href}
+              className="bg-white rounded-xl border border-border p-7 hover:border-navy hover:-translate-y-1 transition-all duration-200 group flex items-center gap-5"
             >
-              <div className={`flex items-center gap-3 mb-3 ${isRTL ? "flex-row-reverse" : ""}`}>
-                <span className="text-3xl">{dest.flag}</span>
-                <div>
-                  <h3 className="text-base font-bold text-navy">
-                    {t[dest.titleKey]}
-                  </h3>
-                  <span className={`text-[0.7rem] font-bold ${dest.badgeBg} text-white px-2 py-0.5 rounded-full`}>
-                    {t[dest.tagKey]}
-                  </span>
-                </div>
+              <span className="text-4xl">{item.flag}</span>
+              <div className="flex-1">
+                <h3 className="text-lg font-bold text-navy mb-1">{item.country}</h3>
+                <p className="text-sm text-muted-foreground">{item.desc}</p>
               </div>
-              <p className="text-sm text-muted-foreground leading-relaxed mb-5">
-                {t[dest.descKey]}
-              </p>
-              <Link
-                href={`/${lang}/${dest.id}/`}
-                className="block w-full text-center bg-navy text-gold rounded-xl py-2.5 font-bold text-sm hover:bg-navy/90 transition-colors"
-              >
-                {t.cs_explore_btn} →
-              </Link>
-            </div>
+              <span className="flex items-center gap-1 text-sm text-navy font-medium group-hover:text-gold transition-colors flex-shrink-0">
+                {item.cta} <ArrowRight size={14} className={isRTL ? 'rotate-180' : ''} />
+              </span>
+            </a>
           ))}
         </div>
 
-        <div className="text-center mt-6">
-          <Link
-            href={`/${lang}/compare/uae-vs-oman-vs-turkey/`}
-            className="inline-block border-2 border-navy text-navy rounded-xl px-7 py-2.5 font-bold text-sm hover:bg-navy hover:text-gold transition-colors"
-          >
-            {t.cs_compare_btn}
-          </Link>
+        <div className="text-center">
+          <a href={data.compare_href} className="inline-block bg-navy text-white rounded-lg px-8 py-3 text-sm font-semibold hover:bg-navy-lt transition-colors">
+            {data.compare_cta}
+          </a>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
-}
+};
+
+export default CrossSellCTA;
