@@ -176,6 +176,23 @@ async function main() {
   }
   console.log(`Seeded ${PAGES.length} page prompts`);
 
+  // Seed default AI provider (user must update API key via admin panel)
+  const existingProvider = await prisma.provider.count();
+  if (existingProvider === 0) {
+    await prisma.provider.create({
+      data: {
+        name: "OpenAI",
+        apiKey: process.env.OPENAI_API_KEY || "sk-CHANGE-ME",
+        model: "gpt-4o-mini",
+        baseUrl: "https://api.openai.com/v1",
+        temperature: 0.7,
+        maxTokens: 1000,
+        isActive: true,
+      },
+    });
+    console.log("Seeded default AI provider (update API key in admin panel)");
+  }
+
   console.log("Seed completed!");
   console.log("Admin: admin@residency24.com / admin123");
 }
