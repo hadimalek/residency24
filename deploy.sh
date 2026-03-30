@@ -36,6 +36,13 @@ npx prisma db push --schema=./prisma/schema.prisma
 echo "==> Building Next.js..."
 npm run build
 
+echo "==> Setting up standalone..."
+# Copy static assets + prisma + env to standalone
+cp -r public .next/standalone/public 2>/dev/null || true
+cp -r .next/static .next/standalone/.next/static 2>/dev/null || true
+cp -r prisma .next/standalone/prisma 2>/dev/null || true
+cp .env .next/standalone/.env 2>/dev/null || true
+
 echo "==> Restarting PM2..."
 pm2 restart residency24 || pm2 start ecosystem.config.js
 
