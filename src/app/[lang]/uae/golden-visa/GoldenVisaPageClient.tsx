@@ -4,6 +4,9 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import Navbar from "@/components/Navbar";
 import HeroChat from "@/components/HeroChat";
 import TrustBar from "@/components/TrustBar";
+import GoldenVisaBreadcrumb from "@/components/p004/GoldenVisaBreadcrumb";
+import GoldenVisaStatsStrip from "@/components/p004/GoldenVisaStatsStrip";
+import EligibilityChecker from "@/components/p004/EligibilityChecker";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 
@@ -16,7 +19,10 @@ export default function GoldenVisaPageClient() {
       <h1 className="sr-only">{t.p004.h1}</h1>
       <HeroChat />
       <TrustBar />
-      {/* Phase 2-5 components will be added here */}
+      <GoldenVisaBreadcrumb />
+      <GoldenVisaStatsStrip />
+      <EligibilityChecker />
+      {/* Phase 3-5 components will be added here */}
       <Footer />
       <WhatsAppFloat />
     </div>
