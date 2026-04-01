@@ -47,8 +47,8 @@ export default function PricingTable() {
           {cr.price_note}
         </p>
 
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[600px] text-sm">
+        <div className="overflow-x-auto rounded-xl">
+          <table className="w-full min-w-[600px] text-sm" dir="ltr">
             <thead>
               <tr>
                 <th className="bg-navy text-white text-start p-3 rounded-tl-xl" />
@@ -75,7 +75,7 @@ export default function PricingTable() {
                       : "bg-surface"
                   }
                 >
-                  <td className="p-3 text-foreground">{row.label}</td>
+                  <td className="p-3 text-foreground text-start">{row.label}</td>
                   <td className="p-3 text-center">{renderCell(row.fz)}</td>
                   <td className="p-3 text-center">{renderCell(row.ml)}</td>
                   <td className="p-3 text-center">{renderCell(row.full)}</td>

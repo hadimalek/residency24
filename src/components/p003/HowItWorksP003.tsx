@@ -21,7 +21,7 @@ const STEPS = [
 ] as const;
 
 export default function HowItWorksP003() {
-  const { t, isRTL } = useLanguage();
+  const { t } = useLanguage();
   const cr = t.cr;
 
   return (
@@ -38,26 +38,18 @@ export default function HowItWorksP003() {
         </h2>
 
         <div className="relative">
-          {/* Connector line */}
-          <div
-            className={[
-              "absolute top-0 bottom-0 w-0.5 bg-gold/30",
-              isRTL ? "right-5" : "left-5",
-            ].join(" ")}
-          />
+          {/* Connector line — uses logical inset-inline-start */}
+          <div className="absolute top-0 bottom-0 w-0.5 bg-gold/30 start-5" />
 
-          <div className="space-y-8">
+          <div className="space-y-6">
             {STEPS.map(({ icon: Icon, titleKey, descKey, dayKey }, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, x: isRTL ? 20 : -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className={[
-                  "flex gap-4 items-start",
-                  isRTL ? "flex-row-reverse text-right" : "",
-                ].join(" ")}
+                className="flex gap-4 items-start"
               >
                 <div className="w-10 h-10 rounded-full bg-navy text-gold text-sm font-bold flex items-center justify-center shrink-0 relative z-10">
                   {i + 1}
