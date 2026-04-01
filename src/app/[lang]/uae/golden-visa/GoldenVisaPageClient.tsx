@@ -10,6 +10,9 @@ import EligibilityChecker from "@/components/p004/EligibilityChecker";
 import GoldenVisaComparison from "@/components/p004/GoldenVisaComparison";
 import GoldenVisaCategories from "@/components/p004/GoldenVisaCategories";
 import GoldenVisaCostBreakdown from "@/components/p004/GoldenVisaCostBreakdown";
+import GoldenVisaProcess from "@/components/p004/GoldenVisaProcess";
+import GoldenVisaUpdates from "@/components/p004/GoldenVisaUpdates";
+import GoldenVisaNationalityNotes from "@/components/p004/GoldenVisaNationalityNotes";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 
@@ -28,7 +31,10 @@ export default function GoldenVisaPageClient() {
       <GoldenVisaComparison />
       <GoldenVisaCategories />
       <GoldenVisaCostBreakdown />
-      {/* Phase 4-5 components will be added here */}
+      <GoldenVisaProcess />
+      <GoldenVisaUpdates />
+      <GoldenVisaNationalityNotes />
+      {/* Phase 5 components will be added here */}
       <Footer />
       <WhatsAppFloat />
     </div>
