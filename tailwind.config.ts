@@ -58,6 +58,7 @@ export default {
         gold: {
           DEFAULT: "hsl(var(--gold))",
           dk: "hsl(var(--gold-dk))",
+          lt: "hsl(var(--gold-lt))",
         },
         ink: "hsl(var(--ink))",
         surface: "hsl(var(--surface))",
