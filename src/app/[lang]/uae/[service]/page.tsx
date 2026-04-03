@@ -2,7 +2,8 @@ import type { Lang } from "@/translations";
 import { LANGS } from "@/lib/seo";
 import UAEServiceClient from "./UAEServiceClient";
 
-const UAE_SERVICES = ["golden-visa", "company-registration", "buy-property", "tourist-visa"];
+// golden-visa, company-registration, buy-property have dedicated pages — only tourist-visa uses the generic route
+const UAE_SERVICES = ["tourist-visa"];
 
 export async function generateStaticParams() {
   const params: { lang: string; service: string }[] = [];
