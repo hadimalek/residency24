@@ -326,6 +326,39 @@ const translations: Record<Lang, any> = {
         ],
       },
     },
+    sharedTestimonials: {
+      sectionTitle: "داستان‌های موفق",
+      sectionSubtitle: "مشتریانی که با رزیدنسی۲۴ به هدفشان رسیدند",
+      ratingLabel: "امتیاز",
+      verifiedClient: "مشتری تأییدشده",
+      clients: [
+        { name: "رضا م.", nationality: "ایرانی", outcome: "گلدن ویزا دریافت شد", quote: "گلدن ویزام رو در ۳ هفته از طریق خرید ملک آف‌پلن گرفتم. رزیدنسی۲۴ همه مراحل رو مدیریت کرد و حتی یک بار لازم نشد نگران چیزی باشم.", service: "گلدن ویزا · ملک" },
+        { name: "الکسی ک.", nationality: "روسی", outcome: "شرکت ثبت شد", quote: "شرکتم در ۵ روز توی IFZA ثبت شد. باور نمی‌کردم اینقدر سریع بشه. بانکداری سخت‌ترین بخش بود اما تیمشون راه حل پیدا کردند.", service: "ثبت شرکت · IFZA" },
+        { name: "سارا ت.", nationality: "ایرانی", outcome: "حساب بانکی باز شد", quote: "به عنوان ایرانی فکر می‌کردم افتتاح حساب بانکی در امارات غیرممکنه. رزیدنسی۲۴ در ۲ هفته راه حل پیدا کرد — ابتدا شرکت، بعد حساب.", service: "ثبت شرکت · بانک" },
+      ],
+    },
+    sharedPricing: {
+      sectionTitle: "هزینه‌های شفاف",
+      consultationCTA: "دریافت قیمت دقیق — مشاوره رایگان",
+      priceNote: "قیمت‌ها تخمینی هستند · مشاوره رایگان برای قیمت دقیق",
+      totalLabel: "جمع کل (تخمینی)",
+      itemLabel: "شرح",
+      amountLabel: "مبلغ",
+    },
+    sharedStats: {
+      clientsLabel: "مشتری موفق",
+      yearsLabel: "سال تجربه",
+      countriesLabel: "کشور پشتیبانی",
+      officesLabel: "دفتر فعال",
+    },
+    sharedHowItWorks: {
+      sectionTitle: "مراحل کار با ما",
+      sectionSubtitle: "۴ مرحله ساده تا رسیدن به نتیجه",
+    },
+    sharedCrossSell: {
+      sectionTitle: "خدمات مرتبط",
+      popular: "پرطرفدار",
+    },
     chat_modal: {
       trigger: {
         name: "رزیدنسی۲۴",
@@ -1356,6 +1389,39 @@ const translations: Record<Lang, any> = {
           { label: "Contact Us", href: "/en/contact/" },
         ],
       },
+    },
+    sharedTestimonials: {
+      sectionTitle: "Success Stories",
+      sectionSubtitle: "Clients who achieved their goals with Residency24",
+      ratingLabel: "Rating",
+      verifiedClient: "Verified Client",
+      clients: [
+        { name: "Reza M.", nationality: "Iranian", outcome: "Golden Visa Received", quote: "Got my Golden Visa in 3 weeks through off-plan property. Residency24 managed every step perfectly — I never had to worry about a thing.", service: "Golden Visa · Property" },
+        { name: "Alexei K.", nationality: "Russian", outcome: "Company Registered", quote: "Company registered in 5 days at IFZA. Couldn't believe how fast it was. Banking was the hardest part but the team found a solution.", service: "Company · IFZA" },
+        { name: "Sara T.", nationality: "Iranian", outcome: "Bank Account Opened", quote: "As an Iranian, I thought opening a bank account in UAE was impossible. Residency24 found a solution in 2 weeks — company first, then account.", service: "Company · Banking" },
+      ],
+    },
+    sharedPricing: {
+      sectionTitle: "Transparent Pricing",
+      consultationCTA: "Get Exact Quote — Free Consultation",
+      priceNote: "Prices are estimates · Free consultation for exact pricing",
+      totalLabel: "Total (Estimated)",
+      itemLabel: "Item",
+      amountLabel: "Amount",
+    },
+    sharedStats: {
+      clientsLabel: "Successful Clients",
+      yearsLabel: "Years Experience",
+      countriesLabel: "Countries Served",
+      officesLabel: "Active Offices",
+    },
+    sharedHowItWorks: {
+      sectionTitle: "How It Works",
+      sectionSubtitle: "4 simple steps to your result",
+    },
+    sharedCrossSell: {
+      sectionTitle: "Related Services",
+      popular: "Popular",
     },
     chat_modal: {
       trigger: {
@@ -2388,6 +2454,39 @@ const translations: Record<Lang, any> = {
         ],
       },
     },
+    sharedTestimonials: {
+      sectionTitle: "قصص النجاح",
+      sectionSubtitle: "عملاء حققوا أهدافهم مع Residency24",
+      ratingLabel: "التقييم",
+      verifiedClient: "عميل موثق",
+      clients: [
+        { name: "رضا م.", nationality: "إيراني", outcome: "تم الحصول على الإقامة الذهبية", quote: "حصلت على إقامتي الذهبية في ٣ أسابيع عبر شراء عقار. Residency24 أدار كل خطوة بكل احترافية.", service: "ذهبية · عقار" },
+        { name: "أليكسي ك.", nationality: "روسي", outcome: "تم تسجيل الشركة", quote: "سُجِّلت شركتي في ٥ أيام في IFZA. البنوك كانت الأصعب لكنهم وجدوا الحل.", service: "شركة · IFZA" },
+        { name: "سارة ت.", nationality: "إيرانية", outcome: "تم فتح الحساب البنكي", quote: "كإيرانية، ظننت فتح حساب مستحيل. Residency24 وجد حلاً في أسبوعين.", service: "شركة · بنك" },
+      ],
+    },
+    sharedPricing: {
+      sectionTitle: "الأسعار الشفافة",
+      consultationCTA: "احصل على سعر دقيق — استشارة مجانية",
+      priceNote: "الأسعار تقديرية · استشارة مجانية للسعر الدقيق",
+      totalLabel: "المجموع (تقديري)",
+      itemLabel: "البند",
+      amountLabel: "المبلغ",
+    },
+    sharedStats: {
+      clientsLabel: "عميل ناجح",
+      yearsLabel: "سنة خبرة",
+      countriesLabel: "دولة نخدمها",
+      officesLabel: "مكتب نشط",
+    },
+    sharedHowItWorks: {
+      sectionTitle: "خطوات العمل معنا",
+      sectionSubtitle: "٤ خطوات بسيطة للوصول إلى النتيجة",
+    },
+    sharedCrossSell: {
+      sectionTitle: "خدمات ذات صلة",
+      popular: "الأكثر طلباً",
+    },
     chat_modal: {
       trigger: {
         name: "Residency24",
@@ -3418,6 +3517,39 @@ const translations: Record<Lang, any> = {
           { label: "Контакты", href: "/ru/contact/" },
         ],
       },
+    },
+    sharedTestimonials: {
+      sectionTitle: "Истории успеха",
+      sectionSubtitle: "Клиенты, достигшие своих целей с Residency24",
+      ratingLabel: "Рейтинг",
+      verifiedClient: "Подтверждённый клиент",
+      clients: [
+        { name: "Реза М.", nationality: "Иранец", outcome: "Золотая виза получена", quote: "Получил золотую визу за 3 недели через покупку недвижимости off-plan. Residency24 управлял каждым шагом — ни разу не пришлось волноваться.", service: "Золотая виза · Недвижимость" },
+        { name: "Алексей К.", nationality: "Россиянин", outcome: "Компания зарегистрирована", quote: "Компания зарегистрирована за 5 дней в IFZA. Не верил, что так быстро. Банки — самое сложное, но команда нашла решение.", service: "Компания · IFZA" },
+        { name: "Сара Т.", nationality: "Иранка", outcome: "Банковский счёт открыт", quote: "Как иранка, думала банк в ОАЭ невозможен. Residency24 нашёл решение за 2 недели — сначала компания, потом счёт.", service: "Компания · Банк" },
+      ],
+    },
+    sharedPricing: {
+      sectionTitle: "Прозрачные цены",
+      consultationCTA: "Получить точную цену — бесплатная консультация",
+      priceNote: "Цены ориентировочные · Бесплатная консультация для точной цены",
+      totalLabel: "Итого (ориентировочно)",
+      itemLabel: "Услуга",
+      amountLabel: "Стоимость",
+    },
+    sharedStats: {
+      clientsLabel: "Успешных клиентов",
+      yearsLabel: "лет опыта",
+      countriesLabel: "Стран обслуживания",
+      officesLabel: "Активных офисов",
+    },
+    sharedHowItWorks: {
+      sectionTitle: "Как это работает",
+      sectionSubtitle: "4 простых шага до результата",
+    },
+    sharedCrossSell: {
+      sectionTitle: "Связанные услуги",
+      popular: "Популярное",
     },
     chat_modal: {
       trigger: {
