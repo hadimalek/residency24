@@ -5,20 +5,28 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import Navbar from "@/components/Navbar";
 import HeroChat from "@/components/HeroChat";
 import TrustBar from "@/components/TrustBar";
-import PropertyStats from "@/components/p005/PropertyStats";
+import SharedBreadcrumb from "@/components/shared/SharedBreadcrumb";
+import SharedStatsStrip from "@/components/shared/SharedStatsStrip";
 import ValueProps from "@/components/p005/ValueProps";
 import PropertyVisaTable from "@/components/p005/PropertyVisaTable";
 import NationalityHooks from "@/components/NationalityHooks";
 import DubaiAreasGrid from "@/components/p005/DubaiAreasGrid";
-import HowToBuy from "@/components/p005/HowToBuy";
-import CostTable from "@/components/p005/CostTable";
-import PropertyLeadForm from "@/components/p005/PropertyLeadForm";
-import PropertyTestimonials from "@/components/p005/PropertyTestimonials";
-import RelatedServices from "@/components/p005/RelatedServices";
-import PropertyFAQ from "@/components/p005/PropertyFAQ";
+import SharedHowItWorks from "@/components/shared/SharedHowItWorks";
+import SharedPricingTable from "@/components/shared/SharedPricingTable";
+import SharedLeadForm from "@/components/shared/SharedLeadForm";
+import SharedTestimonials from "@/components/shared/SharedTestimonials";
+import SharedCrossSell from "@/components/shared/SharedCrossSell";
+import SharedFAQ from "@/components/shared/SharedFAQ";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import type { Lang } from "@/translations";
+import { Target, Users, CreditCard, Search, FileSignature, CheckCircle, Landmark, Building, Key, Star, Shield, Building2 } from "lucide-react";
+import type { Testimonial } from "@/components/shared/SharedTestimonials";
+import type { Step } from "@/components/shared/SharedHowItWorks";
+import type { FAQItem } from "@/components/shared/SharedFAQ";
+import type { CrossSellItem } from "@/components/shared/SharedCrossSell";
+import type { Stat } from "@/components/shared/SharedStatsStrip";
+import type { PricingRow } from "@/components/shared/SharedPricingTable";
 
 const BASE_URL = "https://residency24.com";
 
@@ -31,11 +39,7 @@ function buildSchemas(lang: Lang, bp: any) {
     "@type": "Service",
     name: bp.hero_headline,
     description: bp.hero_sub,
-    provider: {
-      "@type": "Organization",
-      name: "Residency24",
-      url: `${BASE_URL}/${lang}/`,
-    },
+    provider: { "@type": "Organization", name: "Residency24", url: `${BASE_URL}/${lang}/` },
     areaServed: { "@type": "City", name: "Dubai" },
     url: pageUrl,
   };
@@ -64,11 +68,7 @@ function buildSchemas(lang: Lang, bp: any) {
     "@context": "https://schema.org",
     "@type": "ItemList",
     name: bp.areas_title,
-    itemListElement: areas.map((a, i) => ({
-      "@type": "ListItem",
-      position: i + 1,
-      name: a.name[lang],
-    })),
+    itemListElement: areas.map((a, i) => ({ "@type": "ListItem", position: i + 1, name: a.name[lang] })),
   };
 
   const howTo = {
@@ -76,10 +76,7 @@ function buildSchemas(lang: Lang, bp: any) {
     "@type": "HowTo",
     name: bp.how_title,
     step: (bp.how_steps as { title: string; desc: string }[]).map((s, i) => ({
-      "@type": "HowToStep",
-      position: i + 1,
-      name: s.title,
-      text: s.desc,
+      "@type": "HowToStep", position: i + 1, name: s.title, text: s.desc,
     })),
   };
 
@@ -99,22 +96,63 @@ function buildSchemas(lang: Lang, bp: any) {
 export default function BuyPropertyClient({ h1 }: { h1: string }) {
   const { t, lang } = useLanguage();
   const bp = t.bp;
+  const s = t.shared;
 
   useEffect(() => {
     const schemas = buildSchemas(lang, bp);
     const scripts: HTMLScriptElement[] = schemas.map((schema) => {
-      const s = document.createElement("script");
-      s.type = "application/ld+json";
-      s.text = JSON.stringify(schema);
-      document.head.appendChild(s);
-      return s;
+      const el = document.createElement("script");
+      el.type = "application/ld+json";
+      el.text = JSON.stringify(schema);
+      document.head.appendChild(el);
+      return el;
     });
-    return () => {
-      scripts.forEach((s) => {
-        if (s.parentNode) s.parentNode.removeChild(s);
-      });
-    };
+    return () => { scripts.forEach((el) => { if (el.parentNode) el.parentNode.removeChild(el); }); };
   }, [lang, bp]);
+
+  const STEP_ICONS = [Target, Users, CreditCard, Search, FileSignature, CheckCircle, Landmark, Building, Key, Star];
+  const steps: Step[] = (bp.how_steps as { title: string; desc: string; time: string }[]).map((step, i) => ({
+    number: i + 1,
+    title: step.title,
+    description: step.desc,
+    icon: STEP_ICONS[i],
+    duration: step.time,
+  }));
+
+  const costRows: PricingRow[] = (bp.cost_rows as { item: string; value: string }[]).map((r) => ({
+    label: r.item,
+    amount: r.value,
+  }));
+  costRows.push({ label: bp.cost_total, amount: bp.cost_total_value, isTotal: true });
+
+  const stats: Stat[] = [
+    { value: "6", label: bp.stats_yield_label, display: bp.stats_yield_num },
+    { value: "0", label: bp.stats_tax_label, display: bp.stats_tax_num },
+    { value: "750", label: bp.stats_entry_label, display: bp.stats_entry_num },
+    { value: "10", label: bp.stats_visa_label, display: bp.stats_visa_num },
+  ];
+
+  const testimonials: Testimonial[] = [
+    { id: "p005-1", name: "Alireza M.", flag: "\u{1F1EE}\u{1F1F7}", nationality: "Tehran", outcome: "Golden Visa — 60 days", quote: bp.faq_items?.[0]?.a?.slice(0, 80) || "With Residency24 I bought the apartment and got my Golden Visa in 60 days.", service: "JVC Apartment", rating: 5, initials: "A.M" },
+    { id: "p005-2", name: "Mikhail K.", flag: "\u{1F1F7}\u{1F1FA}", nationality: "Moscow", outcome: "Title Deed in 30 days", quote: "The team handled everything remotely. Professional, fast, transparent.", service: "Dubai Marina", rating: 5, initials: "M.K" },
+    { id: "p005-3", name: "Ahmed A.", flag: "\u{1F1F0}\u{1F1FC}", nationality: "Kuwait", outcome: "Family Golden Visa", quote: "Professional Arabic-speaking team. Everything was seamless from start to finish.", service: "Dubai Hills Villa", rating: 5, initials: "A.A" },
+  ];
+
+  const faqItems: FAQItem[] = (bp.faq_items as { q: string; a: string }[]).map((item) => ({
+    question: item.q,
+    answer: item.a,
+  }));
+
+  const crossSellItems: CrossSellItem[] = [
+    { title: bp.related_visa_title, description: bp.related_visa_desc, icon: Shield, href: `/${lang}/uae/golden-visa/`, isHighlighted: true },
+    { title: bp.related_company_title, description: bp.related_company_desc, icon: Building2, href: `/${lang}/uae/company-registration/` },
+  ];
+
+  const breadcrumbItems = [
+    { label: "Residency24", href: `/${lang}/` },
+    { label: bp.breadcrumb_uae, href: `/${lang}/uae/` },
+    { label: bp.breadcrumb_property },
+  ];
 
   return (
     <div className="min-h-screen bg-background">
@@ -122,17 +160,18 @@ export default function BuyPropertyClient({ h1 }: { h1: string }) {
       <h1 className="sr-only">{h1}</h1>
       <HeroChat />
       <TrustBar />
-      <PropertyStats />
+      <SharedBreadcrumb items={breadcrumbItems} />
+      <SharedStatsStrip stats={stats} variant="dark" />
       <ValueProps />
       <PropertyVisaTable />
       <NationalityHooks />
       <DubaiAreasGrid />
-      <HowToBuy />
-      <CostTable />
-      <PropertyLeadForm />
-      <PropertyTestimonials />
-      <RelatedServices />
-      <PropertyFAQ />
+      <SharedHowItWorks steps={steps} title={bp.how_title} variant="numbered" />
+      <SharedPricingTable title={bp.cost_title} rows={costRows} showCTA />
+      <SharedLeadForm serviceContext="property" title={bp.form_title} />
+      <SharedTestimonials testimonials={testimonials} title={bp.testimonials_title} />
+      <SharedCrossSell items={crossSellItems} title={bp.related_title} />
+      <SharedFAQ items={faqItems} title={bp.faq_h2} />
       <Footer />
       <WhatsAppFloat />
     </div>

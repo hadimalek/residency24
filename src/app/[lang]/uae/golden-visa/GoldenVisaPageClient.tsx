@@ -4,7 +4,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import Navbar from "@/components/Navbar";
 import HeroChat from "@/components/HeroChat";
 import TrustBar from "@/components/TrustBar";
-import GoldenVisaBreadcrumb from "@/components/p004/GoldenVisaBreadcrumb";
+import SharedBreadcrumb from "@/components/shared/SharedBreadcrumb";
 import GoldenVisaStatsStrip from "@/components/p004/GoldenVisaStatsStrip";
 import EligibilityChecker from "@/components/p004/EligibilityChecker";
 import GoldenVisaComparison from "@/components/p004/GoldenVisaComparison";
@@ -13,23 +13,53 @@ import GoldenVisaCostBreakdown from "@/components/p004/GoldenVisaCostBreakdown";
 import GoldenVisaProcess from "@/components/p004/GoldenVisaProcess";
 import GoldenVisaUpdates from "@/components/p004/GoldenVisaUpdates";
 import GoldenVisaNationalityNotes from "@/components/p004/GoldenVisaNationalityNotes";
-import GoldenVisaTestimonials from "@/components/p004/GoldenVisaTestimonials";
-import GoldenVisaFAQ from "@/components/p004/GoldenVisaFAQ";
-import GoldenVisaCrossSell from "@/components/p004/GoldenVisaCrossSell";
-import GoldenVisaCTA from "@/components/p004/GoldenVisaCTA";
+import SharedTestimonials from "@/components/shared/SharedTestimonials";
+import SharedFAQ from "@/components/shared/SharedFAQ";
+import SharedCrossSell from "@/components/shared/SharedCrossSell";
+import SharedLeadForm from "@/components/shared/SharedLeadForm";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
+import { Home, Building2, MapPin, BarChart3 } from "lucide-react";
+import type { Testimonial } from "@/components/shared/SharedTestimonials";
+import type { FAQItem } from "@/components/shared/SharedFAQ";
+import type { CrossSellItem } from "@/components/shared/SharedCrossSell";
 
 export default function GoldenVisaPageClient() {
-  const { t, isRTL } = useLanguage();
+  const { t, lang, isRTL } = useLanguage();
+  const p = t.p004;
+
+  const homeLabels: Record<string, string> = { fa: "خانه", en: "Home", ar: "الرئيسية", ru: "Главная" };
+  const breadcrumbItems = [
+    { label: "Residency24", href: `/${lang}/` },
+    { label: p.breadcrumb_uae, href: `/${lang}/uae/` },
+    { label: p.breadcrumb_gv },
+  ];
+
+  const testimonials: Testimonial[] = [
+    { id: "p004-1", name: p.testimonial1_name, flag: "\u{1F1EE}\u{1F1F7}", nationality: "Iran", outcome: "Golden Visa", quote: p.testimonial1_quote, service: p.testimonial1_type, rating: 5, initials: p.testimonial1_name?.slice(0, 2) || "AM" },
+    { id: "p004-2", name: p.testimonial2_name, flag: "\u{1F1F7}\u{1F1FA}", nationality: "Russia", outcome: "Golden Visa", quote: p.testimonial2_quote, service: p.testimonial2_type, rating: 5, initials: p.testimonial2_name?.slice(0, 2) || "MK" },
+    { id: "p004-3", name: p.testimonial3_name, flag: "\u{1F1F0}\u{1F1FC}", nationality: "Kuwait", outcome: "Golden Visa", quote: p.testimonial3_quote, service: p.testimonial3_type, rating: 5, initials: p.testimonial3_name?.slice(0, 2) || "AA" },
+  ];
+
+  const faqItems: FAQItem[] = (p.faq_items as { q: string; a: string }[] || []).map((item: { q: string; a: string }) => ({
+    question: item.q,
+    answer: item.a,
+  }));
+
+  const crossSellItems: CrossSellItem[] = [
+    { title: p.cross_property_title, description: p.cross_property_desc, icon: Home, href: `/${lang}/uae/buy-property/`, isHighlighted: true },
+    { title: p.cross_company_title, description: p.cross_company_desc, icon: Building2, href: `/${lang}/uae/company-registration/` },
+    { title: p.cross_oman_title, description: p.cross_oman_desc, icon: MapPin, href: `/${lang}/oman/` },
+    { title: p.cross_compare_title, description: p.cross_compare_desc, icon: BarChart3, href: `/${lang}/compare/uae-vs-oman-vs-turkey/` },
+  ];
 
   return (
-    <div className={`min-h-screen bg-background ${isRTL ? "font-fa" : "font-en"}`} dir={isRTL ? "rtl" : "ltr"} style={{ scrollBehavior: "smooth" }}>
+    <div className="min-h-screen bg-background" style={{ scrollBehavior: "smooth" }}>
       <Navbar />
-      <h1 className="sr-only">{t.p004.h1}</h1>
+      <h1 className="sr-only">{p.h1}</h1>
       <HeroChat />
       <TrustBar />
-      <GoldenVisaBreadcrumb />
+      <SharedBreadcrumb items={breadcrumbItems} />
       <GoldenVisaStatsStrip />
       <EligibilityChecker />
       <GoldenVisaComparison />
@@ -38,10 +68,10 @@ export default function GoldenVisaPageClient() {
       <GoldenVisaProcess />
       <GoldenVisaUpdates />
       <GoldenVisaNationalityNotes />
-      <GoldenVisaTestimonials />
-      <GoldenVisaFAQ />
-      <GoldenVisaCrossSell />
-      <GoldenVisaCTA />
+      <SharedTestimonials testimonials={testimonials} title={p.testimonials_title} />
+      <SharedFAQ items={faqItems} title={p.faq_title} />
+      <SharedCrossSell items={crossSellItems} title={p.cross_sell_title} />
+      <SharedLeadForm serviceContext="golden_visa" title={p.cta_final_title} subtitle={p.cta_final_sub} />
       <Footer />
       <WhatsAppFloat />
     </div>
