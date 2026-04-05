@@ -19,7 +19,9 @@ import SharedCrossSell from "@/components/shared/SharedCrossSell";
 import SharedTestimonials from "@/components/shared/SharedTestimonials";
 import SharedFAQ from "@/components/shared/SharedFAQ";
 import SharedLeadForm from "@/components/shared/SharedLeadForm";
-import { Star, Home } from "lucide-react";
+import SharedStatsStrip from "@/components/shared/SharedStatsStrip";
+import { Star, Home, Trophy, Building, Plane, Globe } from "lucide-react";
+import type { Stat } from "@/components/shared/SharedStatsStrip";
 import type { Testimonial } from "@/components/shared/SharedTestimonials";
 import type { FAQItem } from "@/components/shared/SharedFAQ";
 import type { CrossSellItem } from "@/components/shared/SharedCrossSell";
@@ -45,17 +47,37 @@ export default function CompanyRegistrationClient({ lang }: { lang: Lang }) {
     { id: "p003-3", name: cr.t3_name, flag: "\u{1F1F0}\u{1F1FC}", nationality: "Kuwait", outcome: cr.t3_type, quote: cr.t3_quote, service: cr.t3_type, rating: 5, initials: cr.t3_name?.slice(0, 2) || "AA" },
   ];
 
+  const s = t.shared;
+
+  const stats: Stat[] = [
+    { value: "0", label: cr.stat_tax, display: "0%" },
+    { value: "100", label: cr.stat_own, display: "100%" },
+    { value: "50", label: cr.stat_zones, display: "50+" },
+    { value: "7", label: cr.stat_days, display: "7–10" },
+  ];
+
   const crossSellItems: CrossSellItem[] = [
-    { title: cr.cross_gv_title, description: cr.cross_gv_desc, icon: Star, href: `/${lang}/uae/golden-visa/`, isHighlighted: true },
-    { title: cr.cross_prop_title, description: cr.cross_prop_desc, icon: Home, href: `/${lang}/uae/buy-property/` },
+    { title: s.cs_golden_visa, description: s.cs_golden_visa_comp_desc, icon: Trophy, href: `/${lang}/uae/golden-visa/`, isHighlighted: true },
+    { title: s.cs_property, description: s.cs_property_comp_desc, icon: Building, href: `/${lang}/uae/buy-property/` },
+    { title: s.cs_visa, description: s.cs_visa_desc, icon: Plane, href: `/${lang}/visa/uae/` },
+    { title: s.cs_oman_comp, description: s.cs_oman_comp_desc, icon: Globe, href: `/${lang}/oman/company-registration/` },
   ];
 
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <HeroChat />
-      <TrustBar />
+
+      {/* S01 — Breadcrumb */}
       <SharedBreadcrumb items={breadcrumbItems} />
+
+      {/* S02 — Hero + HeroChat (LOCKED) */}
+      <HeroChat />
+
+      {/* S03 — TrustBar (LOCKED) */}
+      <TrustBar />
+
+      {/* S04 — StatsStrip */}
+      <SharedStatsStrip stats={stats} variant="dark" />
 
       {/* Anchor Nav */}
       <nav className="sticky top-16 z-40 bg-white shadow-sm overflow-x-auto">
@@ -72,16 +94,27 @@ export default function CompanyRegistrationClient({ lang }: { lang: Lang }) {
         </div>
       </nav>
 
+      {/* S05–S07 — Unique content */}
       <WhyDubai />
       <CompanyTypeSelector />
       <FreeZones />
       <HowItWorksP003 />
       <PricingTable />
       <DocumentsChecklist />
+
+      {/* S08 — NationalityHooks */}
       <NationalityHooksP003 />
-      <SharedCrossSell items={crossSellItems} title={cr.cross_title} />
+
+      {/* S10 — Testimonials */}
       <SharedTestimonials testimonials={testimonials} title={cr.testi_title} />
+
+      {/* S11 — FAQ */}
       <SharedFAQ items={faqItems} title={cr.faq_title} />
+
+      {/* S12 — CrossSell */}
+      <SharedCrossSell items={crossSellItems} title={s.cs_section_title} />
+
+      {/* S13 — LeadForm (always last) */}
       <SharedLeadForm serviceContext="company_reg" title={cr.cta_title} subtitle={cr.cta_sub} />
 
       {/* JSON-LD Schemas */}

@@ -19,7 +19,7 @@ import SharedCrossSell from "@/components/shared/SharedCrossSell";
 import SharedLeadForm from "@/components/shared/SharedLeadForm";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
-import { Home, Building2, MapPin, BarChart3 } from "lucide-react";
+import { Building, Building2, Globe, Plane } from "lucide-react";
 import type { Testimonial } from "@/components/shared/SharedTestimonials";
 import type { FAQItem } from "@/components/shared/SharedFAQ";
 import type { CrossSellItem } from "@/components/shared/SharedCrossSell";
@@ -46,31 +46,53 @@ export default function GoldenVisaPageClient() {
     answer: item.a,
   }));
 
+  const s = t.shared;
+
   const crossSellItems: CrossSellItem[] = [
-    { title: p.cross_property_title, description: p.cross_property_desc, icon: Home, href: `/${lang}/uae/buy-property/`, isHighlighted: true },
-    { title: p.cross_company_title, description: p.cross_company_desc, icon: Building2, href: `/${lang}/uae/company-registration/` },
-    { title: p.cross_oman_title, description: p.cross_oman_desc, icon: MapPin, href: `/${lang}/oman/` },
-    { title: p.cross_compare_title, description: p.cross_compare_desc, icon: BarChart3, href: `/${lang}/compare/uae-vs-oman-vs-turkey/` },
+    { title: s.cs_property, description: s.cs_property_gold_desc, icon: Building, href: `/${lang}/uae/buy-property/`, isHighlighted: true, badge: s.cs_badge_fastest },
+    { title: s.cs_company_reg, description: s.cs_company_gold_desc, icon: Building2, href: `/${lang}/uae/company-registration/` },
+    { title: s.cs_oman, description: s.cs_oman_desc, icon: Globe, href: `/${lang}/oman/` },
+    { title: s.cs_visa, description: s.cs_visa_desc, icon: Plane, href: `/${lang}/visa/uae/` },
   ];
 
   return (
     <div className="min-h-screen bg-background" style={{ scrollBehavior: "smooth" }}>
       <Navbar />
       <h1 className="sr-only">{p.h1}</h1>
-      <HeroChat />
-      <TrustBar />
+
+      {/* S01 — Breadcrumb */}
       <SharedBreadcrumb items={breadcrumbItems} />
+
+      {/* S02 — Hero + HeroChat (LOCKED) */}
+      <HeroChat />
+
+      {/* S03 — TrustBar (LOCKED) */}
+      <TrustBar />
+
+      {/* S04 — StatsStrip */}
       <GoldenVisaStatsStrip />
+
+      {/* S05–S07 — Unique content */}
       <EligibilityChecker />
       <GoldenVisaComparison />
       <GoldenVisaCategories />
       <GoldenVisaCostBreakdown />
       <GoldenVisaProcess />
       <GoldenVisaUpdates />
+
+      {/* S08 — NationalityHooks */}
       <GoldenVisaNationalityNotes />
+
+      {/* S10 — Testimonials */}
       <SharedTestimonials testimonials={testimonials} title={p.testimonials_title} />
+
+      {/* S11 — FAQ */}
       <SharedFAQ items={faqItems} title={p.faq_title} />
-      <SharedCrossSell items={crossSellItems} title={p.cross_sell_title} />
+
+      {/* S12 — CrossSell */}
+      <SharedCrossSell items={crossSellItems} title={s.cs_section_title} />
+
+      {/* S13 — LeadForm (always last) */}
       <SharedLeadForm serviceContext="golden_visa" title={p.cta_final_title} subtitle={p.cta_final_sub} />
       <Footer />
       <WhatsAppFloat />
