@@ -8,9 +8,7 @@ import AllServicesGrid from "@/components/AllServicesGrid";
 import VideoSection from "@/components/VideoSection";
 import HowItWorks from "@/components/HowItWorks";
 import CompareSection from "@/components/CompareSection";
-import PricingCards from "@/components/PricingCards";
 import AIAdvisorFeature from "@/components/AIAdvisorFeature";
-import NationalityHooks from "@/components/NationalityHooks";
 import TeamSection from "@/components/TeamSection";
 import Testimonials from "@/components/Testimonials";
 import TrustCompliance from "@/components/TrustCompliance";
@@ -32,9 +30,7 @@ export default function HomePageClient({ h1 }: { h1: string }) {
       <VideoSection />
       <HowItWorks />
       <CompareSection />
-      <PricingCards />
       <AIAdvisorFeature />
-      <NationalityHooks />
       <TeamSection />
       <Testimonials />
       <TrustCompliance />
