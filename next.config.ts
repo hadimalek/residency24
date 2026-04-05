@@ -1,10 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "standalone",
-  outputFileTracingIncludes: {
-    "/**": ["./prisma/**", "./node_modules/.prisma/**", "./node_modules/@prisma/client/**"],
-  },
+  // output: "standalone", // فقط برای Docker — برای dev/npm start کامنت بشه
   async redirects() {
     return [
       {
