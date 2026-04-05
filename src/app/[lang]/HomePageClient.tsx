@@ -75,9 +75,6 @@ export default function HomePageClient({ h1 }: { h1: string }) {
       <TrustCompliance />
       <BlogPreview />
 
-      {/* S08 — NationalityHooks (LOCKED position) */}
-      <NationalityHooks />
-
       {/* S10 — Testimonials */}
       <Testimonials />
 
