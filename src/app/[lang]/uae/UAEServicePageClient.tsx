@@ -4,15 +4,23 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
-import { CheckCircle, Clock, DollarSign, Calendar } from "lucide-react";
+import SharedCrossSell from "@/components/shared/SharedCrossSell";
+import { CheckCircle, Clock, DollarSign, Calendar, Shield, Building2, Home } from "lucide-react";
+import type { CrossSellItem } from "@/components/shared/SharedCrossSell";
 
 type ServicePageType = "golden_visa" | "company_registration" | "buy_property" | "tourist_visa";
 
 export default function UAEServicePageClient({ service }: { service: ServicePageType }) {
-  const { t, isRTL } = useLanguage();
+  const { t, lang, isRTL } = useLanguage();
   const p = t.uae_pages?.[service];
 
   if (!p) return null;
+
+  const crossSellItems: CrossSellItem[] = [
+    { title: p.cross_gv_title, description: p.cross_gv_desc, icon: Shield, href: `/${lang}/uae/golden-visa/`, isHighlighted: true },
+    { title: p.cross_company_title, description: p.cross_company_desc, icon: Building2, href: `/${lang}/uae/company-registration/` },
+    { title: p.cross_property_title, description: p.cross_property_desc, icon: Home, href: `/${lang}/uae/buy-property/` },
+  ];
 
   return (
     <div className="min-h-screen bg-background" dir={isRTL ? "rtl" : "ltr"}>
@@ -100,12 +108,15 @@ export default function UAEServicePageClient({ service }: { service: ServicePage
             href="https://wa.me/971562009131"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-full bg-primary px-8 py-3 text-lg font-semibold text-primary-foreground shadow-lg transition hover:opacity-90"
+            className="inline-flex items-center gap-2 rounded-full bg-navy text-gold px-8 py-3 text-lg font-semibold shadow-lg transition hover:bg-navy-lt"
           >
             {p.cta}
           </a>
         </section>
       </main>
+      {p.cross_sell_title && (
+        <SharedCrossSell items={crossSellItems} title={p.cross_sell_title} />
+      )}
       <Footer />
       <WhatsAppFloat />
     </div>

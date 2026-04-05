@@ -4,13 +4,22 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import ContactBar from "@/components/ContactBar";
+import SharedCrossSell from "@/components/shared/SharedCrossSell";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { motion } from "framer-motion";
-import { Briefcase, MapPin, Phone, Mail, CheckCircle, Globe, Building2, Handshake, ChevronRight } from "lucide-react";
+import { Briefcase, MapPin, Phone, Mail, CheckCircle, Globe, Building2, Handshake, ChevronRight, Shield, Home, Plane } from "lucide-react";
+import type { CrossSellItem } from "@/components/shared/SharedCrossSell";
 
 export default function AboutPageClient() {
   const { t, isRTL, lang } = useLanguage();
   const a = t.about;
+
+  const crossSellItems: CrossSellItem[] = [
+    { title: a.cross_gv_title, description: a.cross_gv_desc, icon: Shield, href: `/${lang}/uae/golden-visa/`, isHighlighted: true },
+    { title: a.cross_company_title, description: a.cross_company_desc, icon: Building2, href: `/${lang}/uae/company-registration/` },
+    { title: a.cross_property_title, description: a.cross_property_desc, icon: Home, href: `/${lang}/uae/buy-property/` },
+    { title: a.cross_tourist_title, description: a.cross_tourist_desc, icon: Plane, href: `/${lang}/uae/tourist-visa/` },
+  ];
 
   return (
     <div className="min-h-screen bg-background">
@@ -258,7 +267,12 @@ export default function AboutPageClient() {
         </div>
       </motion.section>
 
-      {/* 7. CTA Final */}
+      {/* 7. Related Services */}
+      {a.cross_sell_title && (
+        <SharedCrossSell items={crossSellItems} title={a.cross_sell_title} />
+      )}
+
+      {/* 8. CTA Final */}
       <motion.section
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
