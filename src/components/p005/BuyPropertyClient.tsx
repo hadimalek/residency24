@@ -20,7 +20,7 @@ import SharedFAQ from "@/components/shared/SharedFAQ";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import type { Lang } from "@/translations";
-import { Target, Users, CreditCard, Search, FileSignature, CheckCircle, Landmark, Building, Key, Star, Shield, Building2 } from "lucide-react";
+import { Target, Users, CreditCard, Search, FileSignature, CheckCircle, Landmark, Building, Key, Star, Trophy, Globe, Plane, Building2 } from "lucide-react";
 import type { Testimonial } from "@/components/shared/SharedTestimonials";
 import type { Step } from "@/components/shared/SharedHowItWorks";
 import type { FAQItem } from "@/components/shared/SharedFAQ";
@@ -144,8 +144,10 @@ export default function BuyPropertyClient({ h1 }: { h1: string }) {
   }));
 
   const crossSellItems: CrossSellItem[] = [
-    { title: bp.related_visa_title, description: bp.related_visa_desc, icon: Shield, href: `/${lang}/uae/golden-visa/`, isHighlighted: true },
-    { title: bp.related_company_title, description: bp.related_company_desc, icon: Building2, href: `/${lang}/uae/company-registration/` },
+    { title: s.cs_golden_visa, description: s.cs_golden_via_prop_desc, icon: Trophy, href: `/${lang}/uae/golden-visa/`, isHighlighted: true, badge: s.cs_badge_unlock },
+    { title: s.cs_company_reg, description: s.cs_company_reg_desc, icon: Building2, href: `/${lang}/uae/company-registration/` },
+    { title: s.cs_oman_prop, description: s.cs_oman_prop_desc, icon: Globe, href: `/${lang}/oman/buy-property/` },
+    { title: s.cs_visa, description: s.cs_visa_desc, icon: Plane, href: `/${lang}/visa/uae/` },
   ];
 
   const breadcrumbItems = [
@@ -158,20 +160,41 @@ export default function BuyPropertyClient({ h1 }: { h1: string }) {
     <div className="min-h-screen bg-background">
       <Navbar />
       <h1 className="sr-only">{h1}</h1>
-      <HeroChat />
-      <TrustBar />
+
+      {/* S01 — Breadcrumb */}
       <SharedBreadcrumb items={breadcrumbItems} />
+
+      {/* S02 — Hero + HeroChat (LOCKED) */}
+      <HeroChat />
+
+      {/* S03 — TrustBar (LOCKED) */}
+      <TrustBar />
+
+      {/* S04 — StatsStrip */}
       <SharedStatsStrip stats={stats} variant="dark" />
+
+      {/* S05–S07 — Unique content */}
       <ValueProps />
       <PropertyVisaTable />
-      <NationalityHooks />
       <DubaiAreasGrid />
       <SharedHowItWorks steps={steps} title={bp.how_title} variant="numbered" />
       <SharedPricingTable title={bp.cost_title} rows={costRows} showCTA />
-      <SharedLeadForm serviceContext="property" title={bp.form_title} />
+
+      {/* S08 — NationalityHooks */}
+      <NationalityHooks />
+
+      {/* S10 — Testimonials */}
       <SharedTestimonials testimonials={testimonials} title={bp.testimonials_title} />
-      <SharedCrossSell items={crossSellItems} title={bp.related_title} />
+
+      {/* S11 — FAQ */}
       <SharedFAQ items={faqItems} title={bp.faq_h2} />
+
+      {/* S12 — CrossSell */}
+      <SharedCrossSell items={crossSellItems} title={s.cs_section_title} />
+
+      {/* S13 — LeadForm (always last) */}
+      <SharedLeadForm serviceContext="property" title={bp.form_title} />
+
       <Footer />
       <WhatsAppFloat />
     </div>
