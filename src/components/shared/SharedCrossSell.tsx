@@ -18,18 +18,20 @@ export interface CrossSellItem {
 interface SharedCrossSellProps {
   items: CrossSellItem[];
   title?: string;
+  variant?: "light" | "dark";
 }
 
-const SharedCrossSell = ({ items, title }: SharedCrossSellProps) => {
+const SharedCrossSell = ({ items, title, variant = "light" }: SharedCrossSellProps) => {
   const { t, isRTL } = useLanguage();
   const s = t.shared;
   const Arrow = isRTL ? ChevronLeft : ChevronRight;
+  const isDark = variant === "dark";
 
   return (
-    <section className="py-12 bg-surface">
+    <section className={`py-12 ${isDark ? "bg-navy" : "bg-surface"}`}>
       <div className="max-w-5xl mx-auto px-4">
         {title && (
-          <h2 className="text-xl font-bold text-navy mb-6">{title}</h2>
+          <h2 className={`text-xl font-bold mb-6 ${isDark ? "text-gold text-center" : "text-navy"}`}>{title}</h2>
         )}
 
         <div className={`grid gap-4 ${items.length <= 2 ? "grid-cols-1 md:grid-cols-2" : "grid-cols-2 md:grid-cols-4"}`}>
@@ -45,8 +47,14 @@ const SharedCrossSell = ({ items, title }: SharedCrossSellProps) => {
               >
                 <Link
                   href={item.href}
-                  className={`block bg-white border rounded-xl p-4 flex flex-col hover:shadow-md hover:-translate-y-0.5 transition-all h-full ${
-                    item.isHighlighted ? "border-2 border-gold" : "border-border"
+                  className={`block border rounded-xl p-4 flex flex-col hover:-translate-y-0.5 transition-all h-full ${
+                    isDark
+                      ? item.isHighlighted
+                        ? "bg-white/10 border-2 border-gold/40 hover:bg-white/15"
+                        : "bg-white/5 border-white/10 hover:bg-white/10"
+                      : item.isHighlighted
+                        ? "bg-white border-2 border-gold hover:shadow-md"
+                        : "bg-white border-border hover:shadow-md"
                   }`}
                 >
                   {item.badge && (
@@ -54,11 +62,11 @@ const SharedCrossSell = ({ items, title }: SharedCrossSellProps) => {
                       {item.badge}
                     </span>
                   )}
-                  <div className="w-9 h-9 rounded-lg bg-navy/5 flex items-center justify-center mb-3">
-                    <Icon className="w-5 h-5 text-navy" />
+                  <div className={`w-9 h-9 rounded-lg flex items-center justify-center mb-3 ${isDark ? "bg-white/10" : "bg-navy/5"}`}>
+                    <Icon className={`w-5 h-5 ${isDark ? "text-gold" : "text-navy"}`} />
                   </div>
-                  <h3 className="text-sm font-semibold text-navy mb-1">{item.title}</h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed mb-3 flex-1">
+                  <h3 className={`text-sm font-semibold mb-1 ${isDark ? "text-white" : "text-navy"}`}>{item.title}</h3>
+                  <p className={`text-xs leading-relaxed mb-3 flex-1 ${isDark ? "text-white/60" : "text-muted-foreground"}`}>
                     {item.description}
                   </p>
                   <span className="flex items-center gap-1 text-xs font-semibold text-gold">

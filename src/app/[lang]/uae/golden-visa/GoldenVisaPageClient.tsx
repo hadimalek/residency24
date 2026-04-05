@@ -70,7 +70,7 @@ export default function GoldenVisaPageClient() {
       <GoldenVisaNationalityNotes />
       <SharedTestimonials testimonials={testimonials} title={p.testimonials_title} />
       <SharedFAQ items={faqItems} title={p.faq_title} />
-      <SharedCrossSell items={crossSellItems} title={p.cross_sell_title} />
+      <SharedCrossSell items={crossSellItems} title={p.cross_sell_title} variant="dark" />
       <SharedLeadForm serviceContext="golden_visa" title={p.cta_final_title} subtitle={p.cta_final_sub} />
       <Footer />
       <WhatsAppFloat />

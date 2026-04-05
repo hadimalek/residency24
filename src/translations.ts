@@ -588,6 +588,10 @@ const translations: Record<Lang, any> = {
         steps_title: "مراحل دریافت",
         steps: ["ارسال مدارک آنلاین", "بررسی و تأیید (۱-۳ روز)", "دریافت ویزای الکترونیکی", "ورود به امارات"],
         cta: "درخواست ویزای توریستی",
+        cross_sell_title: "خدمات مرتبط",
+        cross_gv_title: "گلدن ویزا امارات", cross_gv_desc: "اقامت ۱۰ ساله بدون کفیل — از ۹,۶۴۸ درهم",
+        cross_company_title: "ثبت شرکت دبی", cross_company_desc: "مالکیت ۱۰۰٪ · فری‌زون و مین‌لند · از ۲۱,۰۰۰ درهم",
+        cross_property_title: "خرید ملک دبی", cross_property_desc: "بازدهی ۶-۸٪ · بدون مالیات · مسیر گلدن ویزا",
       },
     },
     about: {
@@ -644,6 +648,11 @@ const translations: Record<Lang, any> = {
         p: "برای دریافت مشاوره رایگان و بررسی بهترین مسیر اقامتی برای شما، همین امروز با ما تماس بگیرید.",
         btn: "مشاوره رایگان بگیرید",
       },
+      cross_sell_title: "خدمات ما",
+      cross_gv_title: "گلدن ویزا امارات", cross_gv_desc: "اقامت ۱۰ ساله بدون کفیل — از ۹,۶۴۸ درهم",
+      cross_company_title: "ثبت شرکت دبی", cross_company_desc: "مالکیت ۱۰۰٪ · فری‌زون و مین‌لند · از ۲۱,۰۰۰ درهم",
+      cross_property_title: "خرید ملک دبی", cross_property_desc: "بازدهی ۶-۸٪ · بدون مالیات · مسیر گلدن ویزا",
+      cross_tourist_title: "ویزای توریستی", cross_tourist_desc: "ویزای ۳۰ تا ۹۰ روزه — از ۵۰۰ درهم",
     },
     // === p003 — Company Registration UAE ===
     cr: {
@@ -1678,6 +1687,10 @@ const translations: Record<Lang, any> = {
         steps_title: "Process Steps",
         steps: ["Submit documents online", "Review and approval (1-3 days)", "Receive e-visa", "Enter the UAE"],
         cta: "Apply for Tourist Visa",
+        cross_sell_title: "Related Services",
+        cross_gv_title: "UAE Golden Visa", cross_gv_desc: "10-year residency, no sponsor — from AED 9,648",
+        cross_company_title: "Company Registration Dubai", cross_company_desc: "100% ownership · Free Zone & Mainland · from AED 21,000",
+        cross_property_title: "Buy Property Dubai", cross_property_desc: "6-8% yield · Zero tax · Golden Visa path",
       },
     },
     about: {
@@ -1734,6 +1747,11 @@ const translations: Record<Lang, any> = {
         p: "Get a free consultation and discover the best residency pathway for your goals.",
         btn: "Get Free Consultation",
       },
+      cross_sell_title: "Our Services",
+      cross_gv_title: "UAE Golden Visa", cross_gv_desc: "10-year residency, no sponsor — from AED 9,648",
+      cross_company_title: "Company Registration Dubai", cross_company_desc: "100% ownership · Free Zone & Mainland · from AED 21,000",
+      cross_property_title: "Buy Property Dubai", cross_property_desc: "6-8% yield · Zero tax · Golden Visa path",
+      cross_tourist_title: "Tourist Visa", cross_tourist_desc: "30 to 90-day visa — from AED 500",
     },
     // === p003 — Company Registration UAE ===
     cr: {
@@ -2768,6 +2786,10 @@ const translations: Record<Lang, any> = {
         steps_title: "خطوات الحصول",
         steps: ["تقديم المستندات عبر الإنترنت", "المراجعة والموافقة (١-٣ أيام)", "استلام التأشيرة الإلكترونية", "الدخول إلى الإمارات"],
         cta: "التقدم للتأشيرة السياحية",
+        cross_sell_title: "خدمات ذات صلة",
+        cross_gv_title: "الإقامة الذهبية", cross_gv_desc: "إقامة ١٠ سنوات بدون كفيل — من ٩,٦٤٨ درهم",
+        cross_company_title: "تأسيس شركة في دبي", cross_company_desc: "ملكية ١٠٠٪ · منطقة حرة وبر رئيسي · من ٢١,٠٠٠ درهم",
+        cross_property_title: "شراء عقار في دبي", cross_property_desc: "عائد ٦-٨٪ · صفر ضريبة · مسار التأشيرة الذهبية",
       },
     },
     about: {
@@ -2824,6 +2846,11 @@ const translations: Record<Lang, any> = {
         p: "احصل على استشارة مجانية واكتشف أفضل مسار إقامة يناسب أهدافك.",
         btn: "احصل على استشارة مجانية",
       },
+      cross_sell_title: "خدماتنا",
+      cross_gv_title: "الإقامة الذهبية", cross_gv_desc: "إقامة ١٠ سنوات بدون كفيل — من ٩,٦٤٨ درهم",
+      cross_company_title: "تأسيس شركة في دبي", cross_company_desc: "ملكية ١٠٠٪ · منطقة حرة وبر رئيسي · من ٢١,٠٠٠ درهم",
+      cross_property_title: "شراء عقار في دبي", cross_property_desc: "عائد ٦-٨٪ · صفر ضريبة · مسار التأشيرة الذهبية",
+      cross_tourist_title: "تأشيرة سياحية", cross_tourist_desc: "تأشيرة ٣٠ إلى ٩٠ يوماً — من ٥٠٠ درهم",
     },
     // === p003 — Company Registration UAE ===
     cr: {
@@ -3858,6 +3885,10 @@ const translations: Record<Lang, any> = {
         steps_title: "Этапы получения",
         steps: ["Подача документов онлайн", "Проверка и одобрение (1-3 дня)", "Получение электронной визы", "Въезд в ОАЭ"],
         cta: "Оформить туристическую визу",
+        cross_sell_title: "Связанные услуги",
+        cross_gv_title: "Золотая виза ОАЭ", cross_gv_desc: "ВНЖ на 10 лет без спонсора — от 9 648 AED",
+        cross_company_title: "Регистрация компании Дубай", cross_company_desc: "100% владение · Фризона и материк · от 21 000 AED",
+        cross_property_title: "Купить недвижимость Дубай", cross_property_desc: "Доходность 6-8% · 0% налог · путь к Золотой визе",
       },
     },
     about: {
@@ -3914,6 +3945,11 @@ const translations: Record<Lang, any> = {
         p: "Получите бесплатную консультацию и узнайте оптимальный путь получения резидентства.",
         btn: "Получить бесплатную консультацию",
       },
+      cross_sell_title: "Наши услуги",
+      cross_gv_title: "Золотая виза ОАЭ", cross_gv_desc: "ВНЖ на 10 лет без спонсора — от 9 648 AED",
+      cross_company_title: "Регистрация компании Дубай", cross_company_desc: "100% владение · Фризона и материк · от 21 000 AED",
+      cross_property_title: "Купить недвижимость Дубай", cross_property_desc: "Доходность 6-8% · 0% налог · путь к Золотой визе",
+      cross_tourist_title: "Туристическая виза", cross_tourist_desc: "Виза на 30-90 дней — от 500 AED",
     },
     // === p003 — Company Registration UAE ===
     cr: {
