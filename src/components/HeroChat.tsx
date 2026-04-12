@@ -6,8 +6,18 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { Send, Sparkles } from 'lucide-react';
 import ChatModal from '@/components/ChatModal';
 
-const HeroChat = () => {
+type HeroChatPage = 'p001' | 'p002' | 'p003' | 'p004' | 'p005' | 'p006'
+
+interface HeroChatProps {
+  pageKey?: HeroChatPage
+}
+
+const HeroChat = ({ pageKey }: HeroChatProps = {}) => {
   const { t, isRTL } = useLanguage();
+
+  // resolve hero content: page-specific → fallback to shared hero
+  const heroKey = pageKey ? `hero_${pageKey}` : 'hero'
+  const hero = (t[heroKey] ?? t.hero) as typeof t.hero
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [initialMessage, setInitialMessage] = useState('');
   const [inputValue, setInputValue] = useState('');
@@ -44,7 +54,7 @@ const HeroChat = () => {
             className="inline-flex items-center gap-2 bg-gold/15 border border-gold/40 rounded-full px-4 py-1.5 mb-6"
           >
             <Sparkles size={14} className="text-gold" />
-            <span className="text-xs text-gold tracking-wide">{t.hero.badge}</span>
+            <span className="text-xs text-gold tracking-wide">{hero.badge}</span>
           </motion.div>
 
           {/* H1 */}
@@ -54,7 +64,7 @@ const HeroChat = () => {
             transition={{ delay: 0.2 }}
             className="text-[clamp(28px,5.5vw,56px)] font-bold text-white leading-[1.08] max-w-[700px] mb-4 text-center"
           >
-            {t.hero.h1}
+            {hero.h1}
           </motion.h1>
 
           {/* Sub */}
@@ -64,7 +74,7 @@ const HeroChat = () => {
             transition={{ delay: 0.3 }}
             className="text-lg text-white/70 text-center mb-8"
           >
-            {t.hero.sub}
+            {hero.sub}
           </motion.p>
 
           {/* ChatGPT-style input box */}
@@ -98,7 +108,7 @@ const HeroChat = () => {
                   value={inputValue}
                   onChange={e => setInputValue(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  placeholder={t.hero.placeholder}
+                  placeholder={hero.placeholder}
                   rows={1}
                   dir={isRTL ? 'rtl' : 'ltr'}
                   className="flex-1 bg-transparent border-none outline-none text-[16px] text-ink resize-none py-3 px-3 placeholder:text-muted leading-relaxed overflow-hidden"
@@ -129,9 +139,9 @@ const HeroChat = () => {
             transition={{ delay: 0.6 }}
             className="mt-5 w-full max-w-[680px]"
           >
-            <p className="text-[12px] text-white/40 mb-2.5 text-center">{t.hero.pill_label}</p>
+            <p className="text-[12px] text-white/40 mb-2.5 text-center">{hero.pill_label}</p>
             <div className="flex flex-wrap justify-center gap-2">
-              {(t.hero.pills as string[]).map((pill: string, i: number) => (
+              {(hero.pills as string[]).map((pill: string, i: number) => (
                 <motion.button
                   key={i}
                   initial={{ opacity: 0, y: 8 }}

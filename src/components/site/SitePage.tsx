@@ -26,7 +26,7 @@ export function SitePage() {
     <LanguageProvider>
       <div className="min-h-screen bg-background">
         <Navbar />
-        <HeroChat />
+        <HeroChat pageKey="p001" />
         <TrustBar />
         <CountriesHub />
         <AllServicesGrid />

@@ -71,7 +71,7 @@ export default function CompanyRegistrationClient({ lang }: { lang: Lang }) {
       <SharedBreadcrumb items={breadcrumbItems} />
 
       {/* S02 — Hero + HeroChat (LOCKED) */}
-      <HeroChat />
+      <HeroChat pageKey="p003" />
 
       {/* S03 — TrustBar (LOCKED) */}
       <TrustBar />

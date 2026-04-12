@@ -259,7 +259,7 @@ export default function TouristVisaClient() {
       <SharedBreadcrumb items={breadcrumbItems} />
 
       {/* S02 — Hero + HeroChat (LOCKED) */}
-      <HeroChat />
+      <HeroChat pageKey="p006" />
 
       {/* S03 — TrustBar (LOCKED) */}
       <TrustBar />
