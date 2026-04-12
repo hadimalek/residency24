@@ -165,7 +165,7 @@ export default function BuyPropertyClient({ h1 }: { h1: string }) {
       <SharedBreadcrumb items={breadcrumbItems} />
 
       {/* S02 — Hero + HeroChat (LOCKED) */}
-      <HeroChat />
+      <HeroChat pageKey="p005" />
 
       {/* S03 — TrustBar (LOCKED) */}
       <TrustBar />

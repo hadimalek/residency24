@@ -49,7 +49,7 @@ export default function UAEHubClient({ h1 }: { h1: string }) {
         <SharedBreadcrumb items={breadcrumbItems} />
 
         {/* S02 — Hero + HeroChat (LOCKED) */}
-        <HeroChat />
+        <HeroChat pageKey="p002" />
 
         {/* S03 — TrustBar (LOCKED) */}
         <TrustBar />

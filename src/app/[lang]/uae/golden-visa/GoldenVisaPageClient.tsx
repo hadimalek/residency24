@@ -64,7 +64,7 @@ export default function GoldenVisaPageClient() {
       <SharedBreadcrumb items={breadcrumbItems} />
 
       {/* S02 — Hero + HeroChat (LOCKED) */}
-      <HeroChat />
+      <HeroChat pageKey="p004" />
 
       {/* S03 — TrustBar (LOCKED) */}
       <TrustBar />

@@ -56,7 +56,7 @@ export default function HomePageClient({ h1 }: { h1: string }) {
       <SharedBreadcrumb items={breadcrumbItems} />
 
       {/* S02 — Hero + HeroChat (LOCKED) */}
-      <HeroChat />
+      <HeroChat pageKey="p001" />
 
       {/* S03 — TrustBar (LOCKED) */}
       <TrustBar />
