@@ -1,4 +1,22 @@
 services:
+  mysql:
+    image: mysql:8.4
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-residency24}
+      MYSQL_USER: ${MYSQL_USER:-residency24}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
   web:
     build: .
     ports:
@@ -6,11 +24,13 @@ services:
     env_file:
       - .env
     environment:
-      - DATABASE_URL=file:/app/data/prod.db
+      - DATABASE_URL=mysql://${MYSQL_USER:-residency24}:${MYSQL_PASSWORD}@mysql:3306/${MYSQL_DATABASE:-residency24}
       - NODE_ENV=production
-    volumes:
-      - db-data:/app/data
+    depends_on:
+      mysql:
+        condition: service_healthy
     restart: unless-stopped
 
 volumes:
-  db-data:
+  mysql-data:
+  db-data:  # legacy SQLite volume — safe to remove (`docker volume rm residency24_db-data`) after MySQL migration is verified
