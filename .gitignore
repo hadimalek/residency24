@@ -38,6 +38,12 @@ yarn-error.log*
 prisma/dev.db
 prisma/dev.db-journal
 
+# database backups (local copies of SQLite dumps from before MySQL migration)
+backups/
+
+# legacy SQLite migrations folder (preserved if discovered; never push to remote)
+prisma/_old_sqlite_migrations/
+
 # vercel
 .vercel
 

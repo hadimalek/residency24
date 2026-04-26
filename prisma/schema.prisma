@@ -3,91 +3,747 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
+// ============================================================
+// EXISTING MODELS (preserved + extended for CMS / auth)
+// ============================================================
+
 model User {
   id           Int      @id @default(autoincrement())
-  email        String   @unique
-  passwordHash String
-  name         String
-  role         String   @default("ADMIN") // ADMIN | EDITOR
+  email        String   @unique @db.VarChar(191)
+  passwordHash String   @db.VarChar(255)
+  name         String   @db.VarChar(255)
+  role         String   @default("ADMIN") @db.VarChar(32) // ADMIN | EDITOR
   createdAt    DateTime @default(now())
 }
 
 model Session {
   id           Int       @id @default(autoincrement())
-  sessionKey   String    @unique
-  language     String    @default("fa")
-  ipAddress    String?
-  userAgent    String?
+  sessionKey   String    @unique @db.VarChar(191)
+  language     String    @default("fa") @db.VarChar(8)
+  ipAddress    String?   @db.VarChar(64)
+  userAgent    String?   @db.VarChar(512)
   startedAt    DateTime  @default(now())
   lastActivity DateTime  @default(now())
-  status       String    @default("ACTIVE") // ACTIVE | CLOSED
+  status       String    @default("ACTIVE") @db.VarChar(20) // ACTIVE | CLOSED
   messages     Message[]
   lead         Lead?
+
+  @@index([lastActivity])
+  @@index([status])
 }
 
 model Message {
   id         Int      @id @default(autoincrement())
   sessionId  Int
-  role       String   // USER | ASSISTANT | SYSTEM
-  content    String
+  role       String   @db.VarChar(20) // USER | ASSISTANT | SYSTEM
+  content    String   @db.Text
   tokensUsed Int      @default(0)
   createdAt  DateTime @default(now())
   session    Session  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId, createdAt])
 }
 
 model Lead {
-  id          Int      @id @default(autoincrement())
-  sessionId   Int?     @unique
-  name        String?
-  email       String?
-  phone       String?
-  nationality String?
-  status      String   @default("NEW") // NEW | FOLLOWING | CONVERTED | ARCHIVED
-  createdAt   DateTime @default(now())
-  session     Session? @relation(fields: [sessionId], references: [id])
+  id           Int      @id @default(autoincrement())
+  sessionId    Int?     @unique
+  name         String?  @db.VarChar(255)
+  email        String?  @db.VarChar(255)
+  phone        String?  @db.VarChar(32)
+  nationality  String?  @db.VarChar(64)
+  status       String   @default("NEW") @db.VarChar(32) // NEW | CONTACTED | QUALIFIED | CONVERTED | LOST | FOLLOWING | ARCHIVED
+  source       String?  @db.VarChar(64) // "chat" | "form" | "manual" | "import"
+  sourcePage   String?  @db.VarChar(512)
+  assignedToId String?  @db.VarChar(30) // soft reference to admin User; type mismatch with User.id (Int) is intentional and reconciled in a later phase
+  createdAt    DateTime @default(now())
+  session      Session? @relation(fields: [sessionId], references: [id])
+
+  @@index([status, createdAt])
+  @@index([source])
+  @@index([nationality])
 }
 
 model Prompt {
-  id           Int      @id @default(autoincrement())
-  name         String
-  type         String   // SYSTEM | KNOWLEDGE
-  content      String
-  language     String   @default("fa") // fa | en | ar | ru
-  personaName  String?
-  isActive     Boolean  @default(true)
-  version      Int      @default(1)
-  sortOrder    Int      @default(0)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(255)
+  type        String   @db.VarChar(20) // SYSTEM | KNOWLEDGE
+  content     String   @db.Text
+  language    String   @default("fa") @db.VarChar(8) // fa | en | ar | ru
+  personaName String?  @db.VarChar(120)
+  isActive    Boolean  @default(true)
+  version     Int      @default(1)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([type, language, isActive, sortOrder])
 }
 
 model PagePrompt {
   id            Int      @id @default(autoincrement())
-  language      String   // fa | en | ar | ru
-  pageSlug      String   // e.g. uae/golden-visa
-  pageName      String
-  contextPrompt String
-  focusKeywords String?
-  ctaText       String?
+  language      String   @db.VarChar(8) // fa | en | ar | ru
+  pageSlug      String   @db.VarChar(191) // e.g. uae/golden-visa
+  pageName      String   @db.VarChar(255)
+  contextPrompt String   @db.Text
+  focusKeywords String?  @db.VarChar(500)
+  ctaText       String?  @db.VarChar(500)
   isActive      Boolean  @default(true)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
   @@unique([language, pageSlug])
+  @@index([language, isActive])
 }
 
 model Provider {
   id          Int      @id @default(autoincrement())
-  name        String
-  apiKey      String
-  model       String
-  baseUrl     String?
+  name        String   @db.VarChar(120)
+  apiKey      String   @db.VarChar(512)
+  model       String   @db.VarChar(100)
+  baseUrl     String?  @db.VarChar(500)
   temperature Float    @default(0.7)
   maxTokens   Int      @default(1000)
   isActive    Boolean  @default(false)
   createdAt   DateTime @default(now())
+
+  @@index([isActive])
+}
+
+// ============================================================
+// LANGUAGES (master list of supported locales)
+// ============================================================
+
+model Language {
+  code       String  @id @db.VarChar(8) // "en" | "fa" | "ru" | "ar"
+  name       String  @db.VarChar(64)
+  nativeName String  @db.VarChar(64)
+  direction  String  @db.VarChar(3) // "ltr" | "rtl"
+  isActive   Boolean @default(true)
+  sortOrder  Int     @default(0)
+
+  @@index([isActive, sortOrder])
+}
+
+// ============================================================
+// COUNTRIES
+// ============================================================
+
+model Country {
+  id          String  @id @default(cuid())
+  slug        String  @unique @db.VarChar(64)
+  iso2        String  @unique @db.VarChar(2)
+  iso3        String  @unique @db.VarChar(3)
+  region      String? @db.VarChar(64)
+  isActive    Boolean @default(true)
+  isFeatured  Boolean @default(false)
+  sortOrder   Int     @default(0)
+  heroImageId String? @db.VarChar(30)
+  heroImage   Media?  @relation("CountryHeroImage", fields: [heroImageId], references: [id], onDelete: SetNull)
+
+  translations  CountryTranslation[]
+  visaTypeLinks CountryVisaType[]
+  serviceLinks  CountryService[]
+  pages         Page[]
+  articles      Article[]
+  costTables    CostTable[]
+  faqs          Faq[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([isActive, isFeatured, sortOrder])
+}
+
+model CountryTranslation {
+  id        String  @id @default(cuid())
+  countryId String
+  country   Country @relation(fields: [countryId], references: [id], onDelete: Cascade)
+  locale    String  @db.VarChar(8)
+
+  name             String  @db.VarChar(128)
+  shortDescription String? @db.VarChar(512)
+  description      String? @db.Text
+
+  metaTitle       String? @db.VarChar(255)
+  metaDescription String? @db.VarChar(512)
+
+  @@unique([countryId, locale])
+  @@index([locale])
+}
+
+// ============================================================
+// VISA TYPES
+// ============================================================
+
+model VisaType {
+  id          String  @id @default(cuid())
+  slug        String  @unique @db.VarChar(64)
+  category    String  @db.VarChar(64) // "study" | "work" | "investor" | "golden" | "startup" | "tourist" | "freelancer" | "family"
+  isActive    Boolean @default(true)
+  isFeatured  Boolean @default(false)
+  sortOrder   Int     @default(0)
+  heroImageId String? @db.VarChar(30)
+  heroImage   Media?  @relation("VisaTypeHeroImage", fields: [heroImageId], references: [id], onDelete: SetNull)
+
+  translations VisaTypeTranslation[]
+  countryLinks CountryVisaType[]
+  requirements Requirement[]
+  costTables   CostTable[]
+  pages        Page[]
+  faqs         Faq[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([isActive, isFeatured, category, sortOrder])
+}
+
+model VisaTypeTranslation {
+  id         String   @id @default(cuid())
+  visaTypeId String
+  visaType   VisaType @relation(fields: [visaTypeId], references: [id], onDelete: Cascade)
+  locale     String   @db.VarChar(8)
+
+  name             String  @db.VarChar(128)
+  shortDescription String? @db.VarChar(512)
+  description      String? @db.Text
+
+  metaTitle       String? @db.VarChar(255)
+  metaDescription String? @db.VarChar(512)
+
+  @@unique([visaTypeId, locale])
+  @@index([locale])
+}
+
+// ============================================================
+// SERVICES
+// ============================================================
+
+model Service {
+  id          String  @id @default(cuid())
+  slug        String  @unique @db.VarChar(64)
+  category    String  @db.VarChar(64) // "company-formation" | "property-investment" | "residency" | "citizenship" | "advisory"
+  isActive    Boolean @default(true)
+  isFeatured  Boolean @default(false)
+  sortOrder   Int     @default(0)
+  heroImageId String? @db.VarChar(30)
+  heroImage   Media?  @relation("ServiceHeroImage", fields: [heroImageId], references: [id], onDelete: SetNull)
+
+  translations ServiceTranslation[]
+  countryLinks CountryService[]
+  costTables   CostTable[]
+  pages        Page[]
+  faqs         Faq[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([isActive, isFeatured, category, sortOrder])
+}
+
+model ServiceTranslation {
+  id        String  @id @default(cuid())
+  serviceId String
+  service   Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  locale    String  @db.VarChar(8)
+
+  name             String  @db.VarChar(128)
+  shortDescription String? @db.VarChar(512)
+  description      String? @db.Text
+
+  metaTitle       String? @db.VarChar(255)
+  metaDescription String? @db.VarChar(512)
+
+  @@unique([serviceId, locale])
+  @@index([locale])
+}
+
+// ============================================================
+// JUNCTION TABLES (many-to-many)
+// ============================================================
+
+model CountryVisaType {
+  countryId  String
+  country    Country  @relation(fields: [countryId], references: [id], onDelete: Cascade)
+  visaTypeId String
+  visaType   VisaType @relation(fields: [visaTypeId], references: [id], onDelete: Cascade)
+  isPrimary  Boolean  @default(false)
+
+  @@id([countryId, visaTypeId])
+  @@index([visaTypeId])
+}
+
+model CountryService {
+  countryId String
+  country   Country @relation(fields: [countryId], references: [id], onDelete: Cascade)
+  serviceId String
+  service   Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@id([countryId, serviceId])
+  @@index([serviceId])
+}
+
+// ============================================================
+// PAGES (CMS-driven content)
+// ============================================================
+
+enum PageType {
+  HOME
+  COUNTRY_HUB
+  COUNTRY_SERVICE
+  VISA_TYPE
+  COUNTRY_VISA
+  COMPARISON
+  TOOL
+  LANDING
+  GENERIC
+}
+
+enum PageStatus {
+  DRAFT
+  REVIEW
+  PUBLISHED
+  ARCHIVED
+}
+
+model Page {
+  id          String     @id @default(cuid())
+  slug        String     @db.VarChar(255)
+  pageType    PageType
+  status      PageStatus @default(DRAFT)
+  publishedAt DateTime?
+  isHomepage  Boolean    @default(false)
+
+  countryId  String?
+  country    Country?  @relation(fields: [countryId], references: [id], onDelete: SetNull)
+  visaTypeId String?
+  visaType   VisaType? @relation(fields: [visaTypeId], references: [id], onDelete: SetNull)
+  serviceId  String?
+  service    Service?  @relation(fields: [serviceId], references: [id], onDelete: SetNull)
+
+  translations PageTranslation[]
+  blocks       PageBlock[]
+  seoMeta      SeoMeta[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([slug, pageType])
+  @@index([status, pageType])
+  @@index([countryId, status])
+  @@index([visaTypeId, status])
+  @@index([serviceId, status])
+}
+
+model PageTranslation {
+  id     String @id @default(cuid())
+  pageId String
+  page   Page   @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  locale String @db.VarChar(8)
+
+  title        String  @db.VarChar(255)
+  h1           String? @db.VarChar(255)
+  intro        String? @db.Text
+  ctaPrimary   String? @db.VarChar(128)
+  ctaSecondary String? @db.VarChar(128)
+
+  metaTitle       String? @db.VarChar(255)
+  metaDescription String? @db.VarChar(512)
+
+  @@unique([pageId, locale])
+  @@index([locale])
+}
+
+// ============================================================
+// PAGE BLOCKS (composable content)
+// ============================================================
+
+enum BlockType {
+  HERO
+  TRUST_BAR
+  FEATURE_GRID
+  PROCESS_STEPS
+  COST_TABLE
+  REQUIREMENTS
+  DOCUMENTS_CHECKLIST
+  FAQ
+  COMPARISON
+  TESTIMONIAL
+  CTA
+  LEAD_FORM
+  DISCLAIMER
+  TIMELINE
+  ELIGIBILITY_SUMMARY
+  RICH_TEXT
+  IMAGE
+  RELATED_SERVICES
+  RELATED_ARTICLES
+}
+
+model PageBlock {
+  id        String    @id @default(cuid())
+  pageId    String
+  page      Page      @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  blockType BlockType
+  sortOrder Int       @default(0)
+  isActive  Boolean   @default(true)
+
+  // Locale-independent payload (layout config, references, ids).
+  // Validated in application code with zod (one schema per blockType).
+  payload String @db.Text
+
+  translations PageBlockTranslation[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([pageId, sortOrder])
+  @@index([blockType])
+}
+
+model PageBlockTranslation {
+  id      String    @id @default(cuid())
+  blockId String
+  block   PageBlock @relation(fields: [blockId], references: [id], onDelete: Cascade)
+  locale  String    @db.VarChar(8)
+
+  // Translatable strings inside the block (titles, button labels, descriptions).
+  // Schema is determined by parent block.blockType.
+  payload String @db.Text
+
+  @@unique([blockId, locale])
+  @@index([locale])
+}
+
+// ============================================================
+// ARTICLES (blog)
+// ============================================================
+
+enum ArticleStatus {
+  DRAFT
+  REVIEW
+  PUBLISHED
+  ARCHIVED
+}
+
+model Article {
+  id              String        @id @default(cuid())
+  slug            String        @unique @db.VarChar(255)
+  status          ArticleStatus @default(DRAFT)
+  publishedAt     DateTime?
+  isFeatured      Boolean       @default(false)
+  featuredImageId String?       @db.VarChar(30)
+  featuredImage   Media?        @relation("ArticleFeaturedImage", fields: [featuredImageId], references: [id], onDelete: SetNull)
+
+  countryId String?
+  country   Country? @relation(fields: [countryId], references: [id], onDelete: SetNull)
+  category  String?  @db.VarChar(64)
+
+  translations ArticleTranslation[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status, publishedAt])
+  @@index([countryId, status])
+}
+
+model ArticleTranslation {
+  id        String  @id @default(cuid())
+  articleId String
+  article   Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  locale    String  @db.VarChar(8)
+
+  title   String  @db.VarChar(255)
+  excerpt String? @db.VarChar(512)
+  content String  @db.Text
+
+  metaTitle       String? @db.VarChar(255)
+  metaDescription String? @db.VarChar(512)
+
+  @@unique([articleId, locale])
+  @@index([locale])
+}
+
+// ============================================================
+// FAQ
+// ============================================================
+
+model Faq {
+  id        String  @id @default(cuid())
+  category  String? @db.VarChar(64)
+  sortOrder Int     @default(0)
+  isActive  Boolean @default(true)
+
+  countryId  String?
+  country    Country?  @relation(fields: [countryId], references: [id], onDelete: SetNull)
+  visaTypeId String?
+  visaType   VisaType? @relation(fields: [visaTypeId], references: [id], onDelete: SetNull)
+  serviceId  String?
+  service    Service?  @relation(fields: [serviceId], references: [id], onDelete: SetNull)
+
+  translations FaqTranslation[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([category, sortOrder, isActive])
+  @@index([countryId])
+  @@index([visaTypeId])
+  @@index([serviceId])
+}
+
+model FaqTranslation {
+  id     String @id @default(cuid())
+  faqId  String
+  faq    Faq    @relation(fields: [faqId], references: [id], onDelete: Cascade)
+  locale String @db.VarChar(8)
+
+  question String @db.VarChar(512)
+  answer   String @db.Text
+
+  @@unique([faqId, locale])
+  @@index([locale])
+}
+
+// ============================================================
+// COST TABLES
+// ============================================================
+
+model CostTable {
+  id         String  @id @default(cuid())
+  slug       String  @unique @db.VarChar(128)
+  currency   String  @db.VarChar(3) // ISO 4217 ("AED" | "USD" | "OMR" | ...)
+  countryId  String?
+  visaTypeId String?
+  serviceId  String?
+
+  country  Country?  @relation(fields: [countryId], references: [id], onDelete: SetNull)
+  visaType VisaType? @relation(fields: [visaTypeId], references: [id], onDelete: SetNull)
+  service  Service?  @relation(fields: [serviceId], references: [id], onDelete: SetNull)
+
+  lastVerifiedAt DateTime?
+  isActive       Boolean   @default(true)
+
+  items        CostItem[]
+  translations CostTableTranslation[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([countryId])
+  @@index([visaTypeId])
+  @@index([serviceId])
+}
+
+model CostTableTranslation {
+  id          String    @id @default(cuid())
+  costTableId String
+  costTable   CostTable @relation(fields: [costTableId], references: [id], onDelete: Cascade)
+  locale      String    @db.VarChar(8)
+
+  title      String  @db.VarChar(255)
+  disclaimer String? @db.Text
+
+  @@unique([costTableId, locale])
+  @@index([locale])
+}
+
+model CostItem {
+  id          String    @id @default(cuid())
+  costTableId String
+  costTable   CostTable @relation(fields: [costTableId], references: [id], onDelete: Cascade)
+  sortOrder   Int       @default(0)
+
+  amountMin Decimal? @db.Decimal(12, 2)
+  amountMax Decimal? @db.Decimal(12, 2)
+
+  translations CostItemTranslation[]
+
+  @@index([costTableId, sortOrder])
+}
+
+model CostItemTranslation {
+  id         String   @id @default(cuid())
+  costItemId String
+  costItem   CostItem @relation(fields: [costItemId], references: [id], onDelete: Cascade)
+  locale     String   @db.VarChar(8)
+
+  label       String  @db.VarChar(255)
+  description String? @db.Text
+  notes       String? @db.Text
+
+  @@unique([costItemId, locale])
+  @@index([locale])
+}
+
+// ============================================================
+// REQUIREMENTS
+// ============================================================
+
+model Requirement {
+  id            String    @id @default(cuid())
+  visaTypeId    String?
+  visaType      VisaType? @relation(fields: [visaTypeId], references: [id], onDelete: SetNull)
+  applicantType String?   @db.VarChar(64) // "primary" | "spouse" | "child" | "investor"
+  isRequired    Boolean   @default(true)
+  sortOrder     Int       @default(0)
+  isActive      Boolean   @default(true)
+
+  translations RequirementTranslation[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([visaTypeId, applicantType, sortOrder])
+}
+
+model RequirementTranslation {
+  id            String      @id @default(cuid())
+  requirementId String
+  requirement   Requirement @relation(fields: [requirementId], references: [id], onDelete: Cascade)
+  locale        String      @db.VarChar(8)
+
+  name        String  @db.VarChar(255)
+  description String? @db.Text
+  notes       String? @db.Text
+
+  @@unique([requirementId, locale])
+  @@index([locale])
+}
+
+// ============================================================
+// REDIRECTS (SEO migration from WordPress)
+// ============================================================
+
+model Redirect {
+  id         String    @id @default(cuid())
+  fromPath   String    @db.VarChar(512)
+  toPath     String    @db.VarChar(512)
+  statusCode Int       @default(301) // 301 | 302 | 410
+  locale     String?   @db.VarChar(8) // null = applies to all locales
+  isActive   Boolean   @default(true)
+  hitCount   Int       @default(0)
+  lastHitAt  DateTime?
+  reason     String?   @db.VarChar(255)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([fromPath, locale])
+  @@index([isActive, fromPath])
+}
+
+// ============================================================
+// SEO META (per page, per locale)
+// ============================================================
+
+model SeoMeta {
+  id     String @id @default(cuid())
+  pageId String
+  page   Page   @relation(fields: [pageId], references: [id], onDelete: Cascade)
+  locale String @db.VarChar(8)
+
+  metaTitle       String? @db.VarChar(255)
+  metaDescription String? @db.VarChar(512)
+  canonicalUrl    String? @db.VarChar(512)
+  ogTitle         String? @db.VarChar(255)
+  ogDescription   String? @db.VarChar(512)
+  ogImageUrl      String? @db.VarChar(512)
+  twitterCard     String? @db.VarChar(64)
+  robots          String? @db.VarChar(128)
+  schemaType      String? @db.VarChar(64)
+  schemaJson      String? @db.Text
+
+  @@unique([pageId, locale])
+  @@index([locale])
+}
+
+// ============================================================
+// MEDIA
+// ============================================================
+
+model Media {
+  id           String  @id @default(cuid()) @db.VarChar(30)
+  filePath     String  @db.VarChar(512)
+  fileName     String  @db.VarChar(255)
+  mimeType     String  @db.VarChar(64)
+  width        Int?
+  height       Int?
+  fileSize     Int?
+  uploadedById String? @db.VarChar(30)
+
+  translations MediaTranslation[]
+
+  countryHeroFor     Country[]  @relation("CountryHeroImage")
+  visaHeroFor        VisaType[] @relation("VisaTypeHeroImage")
+  serviceHeroFor     Service[]  @relation("ServiceHeroImage")
+  articleFeaturedFor Article[]  @relation("ArticleFeaturedImage")
+
+  createdAt DateTime @default(now())
+
+  @@index([mimeType])
+}
+
+model MediaTranslation {
+  id      String @id @default(cuid())
+  mediaId String @db.VarChar(30)
+  media   Media  @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+  locale  String @db.VarChar(8)
+
+  altText String? @db.VarChar(512)
+  title   String? @db.VarChar(255)
+  caption String? @db.Text
+
+  @@unique([mediaId, locale])
+  @@index([locale])
+}
+
+// ============================================================
+// MENUS
+// ============================================================
+
+model Menu {
+  id       String  @id @default(cuid())
+  key      String  @unique @db.VarChar(64) // "header_main" | "footer_legal" | ...
+  isActive Boolean @default(true)
+
+  items MenuItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model MenuItem {
+  id        String     @id @default(cuid())
+  menuId    String
+  menu      Menu       @relation(fields: [menuId], references: [id], onDelete: Cascade)
+  parentId  String?
+  parent    MenuItem?  @relation("MenuItemChildren", fields: [parentId], references: [id], onDelete: Cascade)
+  children  MenuItem[] @relation("MenuItemChildren")
+  url       String     @db.VarChar(512)
+  target    String?    @db.VarChar(16) // "_self" | "_blank"
+  sortOrder Int        @default(0)
+  isActive  Boolean    @default(true)
+
+  translations MenuItemTranslation[]
+
+  @@index([menuId, sortOrder])
+  @@index([parentId])
+}
+
+model MenuItemTranslation {
+  id         String   @id @default(cuid())
+  menuItemId String
+  menuItem   MenuItem @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
+  locale     String   @db.VarChar(8)
+
+  label String @db.VarChar(255)
+
+  @@unique([menuItemId, locale])
+  @@index([locale])
 }
