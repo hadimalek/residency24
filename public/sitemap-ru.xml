@@ -4,10 +4,10 @@
   <url>
     <loc>https://residency24.com/ru/</loc>
     <xhtml:link rel="alternate" hreflang="fa" href="https://residency24.com/fa/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://residency24.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://residency24.com/"/>
     <xhtml:link rel="alternate" hreflang="ar" href="https://residency24.com/ar/"/>
     <xhtml:link rel="alternate" hreflang="ru" href="https://residency24.com/ru/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://residency24.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://residency24.com/"/>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <lastmod>2026-03-25</lastmod>

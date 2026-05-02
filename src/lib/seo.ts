@@ -100,12 +100,20 @@ export const ABOUT_SEO: Record<Lang, { title: string; description: string; h1: s
   },
 };
 
+// English is served at root (no /en prefix). Other locales keep the prefix.
+export function localizedPath(lang: Lang, path: string = "") {
+  // path should NOT have a leading slash; pass "" for the locale homepage.
+  const normalized = path.replace(/^\/+/, "");
+  if (lang === "en") return `/${normalized}`;
+  return `/${lang}/${normalized}`;
+}
+
 export function getPageUrl(lang: Lang, path: string = "") {
-  return `${BASE_URL}/${lang}/${path}`;
+  return `${BASE_URL}${localizedPath(lang, path)}`;
 }
 
 export function getAboutPageUrl(lang: Lang) {
-  return `${BASE_URL}/${lang}/about/`;
+  return getPageUrl(lang, "about/");
 }
 
 export function getAboutOrganizationSchema() {
@@ -169,7 +177,7 @@ export function getOrganizationSchema() {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: "Residency24",
-    url: `${BASE_URL}/en/`,
+    url: `${BASE_URL}/`,
     logo: { "@type": "ImageObject", url: `${BASE_URL}/assets/residency24logo512.png`, width: 512, height: 512 },
     telephone: "+971562009131",
     email: "info@residency24.com",
@@ -189,7 +197,7 @@ export function getLocalBusinessSchema() {
     name: "Residency24",
     telephone: "+971562009131",
     email: "info@residency24.com",
-    url: `${BASE_URL}/en/`,
+    url: `${BASE_URL}/`,
     address: { "@type": "PostalAddress", streetAddress: "Sheikh Zayed Road", addressLocality: "Dubai", addressRegion: "Dubai", addressCountry: "AE" },
     geo: { "@type": "GeoCoordinates", latitude: "25.2048", longitude: "55.2708" },
     openingHoursSpecification: [

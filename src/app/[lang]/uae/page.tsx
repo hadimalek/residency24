@@ -72,7 +72,7 @@ const UAE_BREADCRUMB: Record<Lang, string> = {
 };
 
 function getUaePageUrl(lang: Lang) {
-  return `${BASE_URL}/${lang}/uae/`;
+  return lang === "en" ? `${BASE_URL}/uae/` : `${BASE_URL}/${lang}/uae/`;
 }
 
 function getFaqSchema(lang: Lang) {
@@ -92,7 +92,7 @@ function getBreadcrumbSchema(lang: Lang) {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: BREADCRUMB_HOME[lang], item: `${BASE_URL}/${lang}/` },
+      { "@type": "ListItem", position: 1, name: BREADCRUMB_HOME[lang], item: lang === "en" ? `${BASE_URL}/` : `${BASE_URL}/${lang}/` },
       { "@type": "ListItem", position: 2, name: UAE_BREADCRUMB[lang], item: getUaePageUrl(lang) },
     ],
   };
@@ -123,12 +123,12 @@ function getItemListSchema(lang: Lang) {
     "@type": "ItemList",
     name: "Dubai Investment Districts",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Downtown Dubai", url: `${BASE_URL}/${lang}/uae/buy-property/#downtown` },
-      { "@type": "ListItem", position: 2, name: "Dubai Marina", url: `${BASE_URL}/${lang}/uae/buy-property/#marina` },
-      { "@type": "ListItem", position: 3, name: "Palm Jumeirah", url: `${BASE_URL}/${lang}/uae/buy-property/#palm` },
-      { "@type": "ListItem", position: 4, name: "JVC", url: `${BASE_URL}/${lang}/uae/buy-property/#jvc` },
-      { "@type": "ListItem", position: 5, name: "Business Bay", url: `${BASE_URL}/${lang}/uae/buy-property/#business-bay` },
-      { "@type": "ListItem", position: 6, name: "Creek Harbour", url: `${BASE_URL}/${lang}/uae/buy-property/#creek` },
+      { "@type": "ListItem", position: 1, name: "Downtown Dubai", url: `${getUaePageUrl(lang).replace(/\/$/, "")}/buy-property/#downtown` },
+      { "@type": "ListItem", position: 2, name: "Dubai Marina", url: `${getUaePageUrl(lang).replace(/\/$/, "")}/buy-property/#marina` },
+      { "@type": "ListItem", position: 3, name: "Palm Jumeirah", url: `${getUaePageUrl(lang).replace(/\/$/, "")}/buy-property/#palm` },
+      { "@type": "ListItem", position: 4, name: "JVC", url: `${getUaePageUrl(lang).replace(/\/$/, "")}/buy-property/#jvc` },
+      { "@type": "ListItem", position: 5, name: "Business Bay", url: `${getUaePageUrl(lang).replace(/\/$/, "")}/buy-property/#business-bay` },
+      { "@type": "ListItem", position: 6, name: "Creek Harbour", url: `${getUaePageUrl(lang).replace(/\/$/, "")}/buy-property/#creek` },
     ],
   };
 }

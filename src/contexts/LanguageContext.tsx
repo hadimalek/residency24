@@ -22,19 +22,19 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode; initialLang
     document.documentElement.lang = lang;
   }, [lang, t.dir]);
 
-  // When language changes, navigate to the new URL
+  // When language changes, navigate to the new URL.
+  // English lives on root paths (no /en prefix); fa/ar/ru keep their prefix.
   const handleSetLang = (newLang: Lang) => {
     setLang(newLang);
     if (typeof window !== 'undefined') {
       const currentPath = window.location.pathname;
-      // Replace /xx/ prefix or navigate to /newLang/
+      // Strip any existing locale prefix to get the bare path (e.g. "/uae/")
       const langPattern = /^\/(fa|en|ar|ru)(\/|$)/;
-      if (langPattern.test(currentPath)) {
-        const newPath = currentPath.replace(langPattern, `/${newLang}$2`);
-        window.location.href = newPath;
-      } else {
-        window.location.href = `/${newLang}/`;
-      }
+      const bare = currentPath.replace(langPattern, '/');
+      const target = newLang === 'en'
+        ? (bare === '/' ? '/' : bare)
+        : (bare === '/' ? `/${newLang}/` : `/${newLang}${bare}`);
+      window.location.href = target;
     }
   };
 
