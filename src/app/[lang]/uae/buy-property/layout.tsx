@@ -6,7 +6,7 @@ import { LANGS, LANG_CONFIG } from "@/lib/seo";
 const BASE_URL = "https://residency24.com";
 
 function getPageUrl(lang: Lang) {
-  return `${BASE_URL}/${lang}/uae/buy-property/`;
+  return lang === "en" ? `${BASE_URL}/uae/buy-property/` : `${BASE_URL}/${lang}/uae/buy-property/`;
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {

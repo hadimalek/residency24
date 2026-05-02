@@ -28,12 +28,13 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
     ru: 'Откройте компанию в ОАЭ с поддержкой на русском языке: free zone или mainland, лицензия, резидентская виза, Emirates ID, банковское сопровождение и подготовка документов.',
   };
 
-  const pageUrl = `${BASE_URL}/${lang}/uae/register-company/`;
+  const localized = (l: Lang) => l === "en" ? `${BASE_URL}/uae/register-company/` : `${BASE_URL}/${l}/uae/register-company/`;
+  const pageUrl = localized(lang);
   const alternates: Record<string, string> = {};
   for (const l of LANGS) {
-    alternates[LANG_CONFIG[l].hreflang] = `${BASE_URL}/${l}/uae/register-company/`;
+    alternates[LANG_CONFIG[l].hreflang] = localized(l);
   }
-  alternates["x-default"] = `${BASE_URL}/en/uae/register-company/`;
+  alternates["x-default"] = localized("en");
 
   return {
     title: titles[lang],

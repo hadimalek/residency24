@@ -24,7 +24,11 @@ const PAGE_SEO: Record<Lang, { title: string; description: string }> = {
 };
 
 function getPageUrl(lang: Lang) {
-  return `${BASE_URL}/${lang}/uae/tourist-visa/`;
+  return lang === "en" ? `${BASE_URL}/uae/tourist-visa/` : `${BASE_URL}/${lang}/uae/tourist-visa/`;
+}
+
+function langPathPrefix(lang: Lang) {
+  return lang === "en" ? `${BASE_URL}` : `${BASE_URL}/${lang}`;
 }
 
 export async function generateStaticParams() {
@@ -81,8 +85,8 @@ function getBreadcrumbSchema(lang: Lang) {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: n.home, item: `${BASE_URL}/${lang}/` },
-      { "@type": "ListItem", position: 2, name: n.uae, item: `${BASE_URL}/${lang}/uae/` },
+      { "@type": "ListItem", position: 1, name: n.home, item: `${langPathPrefix(lang)}/` },
+      { "@type": "ListItem", position: 2, name: n.uae, item: `${langPathPrefix(lang)}/uae/` },
       { "@type": "ListItem", position: 3, name: n.tv, item: getPageUrl(lang) },
     ],
   };

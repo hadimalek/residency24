@@ -31,7 +31,8 @@ import type { PricingRow } from "@/components/shared/SharedPricingTable";
 const BASE_URL = "https://residency24.com";
 
 function buildSchemas(lang: Lang, bp: any) {
-  const pageUrl = `${BASE_URL}/${lang}/uae/buy-property/`;
+  const langPrefix = lang === "en" ? `${BASE_URL}` : `${BASE_URL}/${lang}`;
+  const pageUrl = `${langPrefix}/uae/buy-property/`;
   const homeLabel: Record<Lang, string> = { fa: "خانه", en: "Home", ar: "الرئيسية", ru: "Главная" };
 
   const service = {
@@ -39,7 +40,7 @@ function buildSchemas(lang: Lang, bp: any) {
     "@type": "Service",
     name: bp.hero_headline,
     description: bp.hero_sub,
-    provider: { "@type": "Organization", name: "Residency24", url: `${BASE_URL}/${lang}/` },
+    provider: { "@type": "Organization", name: "Residency24", url: `${langPrefix}/` },
     areaServed: { "@type": "City", name: "Dubai" },
     url: pageUrl,
   };
@@ -84,8 +85,8 @@ function buildSchemas(lang: Lang, bp: any) {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: homeLabel[lang], item: `${BASE_URL}/${lang}/` },
-      { "@type": "ListItem", position: 2, name: bp.breadcrumb_uae, item: `${BASE_URL}/${lang}/uae/` },
+      { "@type": "ListItem", position: 1, name: homeLabel[lang], item: `${langPrefix}/` },
+      { "@type": "ListItem", position: 2, name: bp.breadcrumb_uae, item: `${langPrefix}/uae/` },
       { "@type": "ListItem", position: 3, name: bp.breadcrumb_property, item: pageUrl },
     ],
   };

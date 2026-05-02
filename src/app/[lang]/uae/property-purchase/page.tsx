@@ -29,12 +29,13 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
     ru: 'Помогаем русскоязычным клиентам купить недвижимость в Дубае и ОАЭ с учётом инвестиций, резидентской визы, Golden Visa, семьи, расходов и проверки документов.',
   };
 
-  const pageUrl = `${BASE_URL}/${lang}/uae/property-purchase/`;
+  const localized = (l: Lang) => l === "en" ? `${BASE_URL}/uae/property-purchase/` : `${BASE_URL}/${l}/uae/property-purchase/`;
+  const pageUrl = localized(lang);
   const alternates: Record<string, string> = {};
   for (const l of LANGS) {
-    alternates[LANG_CONFIG[l].hreflang] = `${BASE_URL}/${l}/uae/property-purchase/`;
+    alternates[LANG_CONFIG[l].hreflang] = localized(l);
   }
-  alternates["x-default"] = `${BASE_URL}/en/uae/property-purchase/`;
+  alternates["x-default"] = localized("en");
 
   return {
     title: titles[lang],
