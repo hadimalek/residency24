@@ -35,7 +35,6 @@ import {
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
-import SharedBreadcrumb from "@/components/shared/SharedBreadcrumb";
 
 const WA = "https://wa.me/971562009131?text=Здравствуйте,+нужна+консультация";
 
@@ -263,8 +262,6 @@ export default function RuHomePageClient({ h1 }: { h1: string }) {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-
-      <SharedBreadcrumb items={[{ label: "Residency24" }]} />
 
       {/* HERO */}
       <section className="relative overflow-hidden bg-navy text-white">
