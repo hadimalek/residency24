@@ -160,13 +160,18 @@ export default function BuyPropertyClient({ h1 }: { h1: string }) {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <h1 className="sr-only">{h1}</h1>
 
       {/* S01 — Breadcrumb */}
       <SharedBreadcrumb items={breadcrumbItems} />
 
       {/* S02 — Hero + HeroChat (LOCKED) */}
-      <HeroChat pageKey="p005" />
+      <HeroChat
+        pageKey="p005"
+        h1={bp?.hero_headline ?? bp?.seo_h1}
+        sub={bp?.hero_sub}
+        badge={bp?.hero_badge}
+        placeholder={bp?.chat_placeholder}
+      />
 
       {/* S03 — TrustBar (LOCKED) */}
       <TrustBar />

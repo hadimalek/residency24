@@ -58,13 +58,18 @@ export default function GoldenVisaPageClient() {
   return (
     <div className="min-h-screen bg-background" style={{ scrollBehavior: "smooth" }}>
       <Navbar />
-      <h1 className="sr-only">{p.h1}</h1>
 
       {/* S01 — Breadcrumb */}
       <SharedBreadcrumb items={breadcrumbItems} />
 
       {/* S02 — Hero + HeroChat (LOCKED) */}
-      <HeroChat pageKey="p004" />
+      <HeroChat
+        pageKey="p004"
+        h1={p?.h1}
+        sub={p?.hero_sub}
+        badge={p?.hero_badge}
+        placeholder={p?.chat_placeholder}
+      />
 
       {/* S03 — TrustBar (LOCKED) */}
       <TrustBar />

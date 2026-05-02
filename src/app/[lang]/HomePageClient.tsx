@@ -4,7 +4,6 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import Navbar from "@/components/Navbar";
 import HeroChat from "@/components/HeroChat";
 import TrustBar from "@/components/TrustBar";
-import SharedBreadcrumb from "@/components/shared/SharedBreadcrumb";
 import SharedStatsStrip from "@/components/shared/SharedStatsStrip";
 import CountriesHub from "@/components/CountriesHub";
 import AllServicesGrid from "@/components/AllServicesGrid";
@@ -29,10 +28,6 @@ export default function HomePageClient({ h1 }: { h1: string }) {
   const { t, lang } = useLanguage();
   const s = t.shared;
 
-  const breadcrumbItems = [
-    { label: "Residency24" },
-  ];
-
   const stats: Stat[] = [
     { value: "500", label: s.stats_clients, display: "500+" },
     { value: "10", label: s.stats_years, display: "10+" },
@@ -50,10 +45,6 @@ export default function HomePageClient({ h1 }: { h1: string }) {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <h1 className="sr-only">{h1}</h1>
-
-      {/* S01 — Breadcrumb */}
-      <SharedBreadcrumb items={breadcrumbItems} />
 
       {/* S02 — Hero + HeroChat (LOCKED) */}
       <HeroChat pageKey="p001" />

@@ -43,13 +43,18 @@ export default function UAEHubClient({ h1 }: { h1: string }) {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <h1 className="sr-only">{h1}</h1>
       <main>
         {/* S01 — Breadcrumb */}
         <SharedBreadcrumb items={breadcrumbItems} />
 
-        {/* S02 — Hero + HeroChat (LOCKED) */}
-        <HeroChat pageKey="p002" />
+        {/* S02 — Hero + HeroChat */}
+        <HeroChat
+          pageKey="p002"
+          h1={h1}
+          sub={t.uae_page?.hero_sub ?? t.uae_page?.meta_desc}
+          badge={t.uae_page?.hero_badge}
+          placeholder={t.uae_page?.chat_placeholder}
+        />
 
         {/* S03 — TrustBar (LOCKED) */}
         <TrustBar />

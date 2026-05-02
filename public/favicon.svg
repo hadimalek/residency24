@@ -1,5 +1,30 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#001E6E"/>
-  <text x="8" y="44" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="bold" fill="white">R</text>
-  <text x="30" y="44" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="bold" fill="#DCC896">24</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Pages stacked behind (lighter gold tints) -->
+  <path d="M 220 80 L 220 432 L 350 432 L 380 416 L 380 64 L 250 64 Z"
+        fill="#E8D8B0" />
+  <path d="M 220 80 L 220 432 L 360 432 L 400 408 L 400 56 L 260 56 Z"
+        fill="#D2BC88" opacity="0.85" />
+
+  <!-- Front cover (open at angle) -->
+  <path d="M 110 96 L 220 80 L 220 432 L 110 448 Z"
+        fill="#C9AE76" />
+
+  <!-- Spine highlight -->
+  <path d="M 218 80 L 222 80 L 222 432 L 218 432 Z"
+        fill="#A88E5C" opacity="0.6" />
+
+  <!-- 7-pointed star (navy) -->
+  <g transform="translate(165 256)">
+    <path d="M 0,-95
+             L 18,-32
+             L 84,-30
+             L 30,8
+             L 56,72
+             L 0,30
+             L -56,72
+             L -30,8
+             L -84,-30
+             L -18,-32 Z"
+          fill="#001E6E" />
+  </g>
 </svg>
