@@ -10,14 +10,29 @@ type HeroChatPage = 'p001' | 'p002' | 'p003' | 'p004' | 'p005' | 'p006'
 
 interface HeroChatProps {
   pageKey?: HeroChatPage
+  h1?: string
+  sub?: string
+  badge?: string
+  placeholder?: string
+  pills?: string[]
+  pillLabel?: string
 }
 
-const HeroChat = ({ pageKey }: HeroChatProps = {}) => {
+const HeroChat = ({ pageKey, h1: h1Override, sub: subOverride, badge: badgeOverride, placeholder: placeholderOverride, pills: pillsOverride, pillLabel: pillLabelOverride }: HeroChatProps = {}) => {
   const { t, isRTL } = useLanguage();
 
-  // resolve hero content: page-specific → fallback to shared hero
+  // resolve hero content: explicit overrides > page-specific translation key > shared homepage hero
   const heroKey = pageKey ? `hero_${pageKey}` : 'hero'
-  const hero = (t[heroKey] ?? t.hero) as typeof t.hero
+  const baseHero = (t[heroKey] ?? t.hero) as typeof t.hero
+  const hero = {
+    ...baseHero,
+    h1: h1Override ?? baseHero.h1,
+    sub: subOverride ?? baseHero.sub,
+    badge: badgeOverride ?? baseHero.badge,
+    placeholder: placeholderOverride ?? baseHero.placeholder,
+    pills: pillsOverride ?? baseHero.pills,
+    pill_label: pillLabelOverride ?? baseHero.pill_label,
+  }
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [initialMessage, setInitialMessage] = useState('');
   const [inputValue, setInputValue] = useState('');

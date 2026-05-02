@@ -253,13 +253,18 @@ export default function TouristVisaClient() {
   return (
     <div className="min-h-screen bg-background" style={{ scrollBehavior: "smooth" }}>
       <Navbar />
-      <h1 className="sr-only">{p.hero_h1 || p.h1}</h1>
 
       {/* S01 — Breadcrumb */}
       <SharedBreadcrumb items={breadcrumbItems} />
 
       {/* S02 — Hero + HeroChat (LOCKED) */}
-      <HeroChat pageKey="p006" />
+      <HeroChat
+        pageKey="p006"
+        h1={p?.hero_h1 ?? p?.h1}
+        sub={p?.hero_sub}
+        badge={p?.hero_badge}
+        placeholder={p?.chat_placeholder}
+      />
 
       {/* S03 — TrustBar (LOCKED) */}
       <TrustBar />
