@@ -275,13 +275,27 @@ class Post extends Model
     }
 
     /**
-     * Build the derived URL using language prefix + type path + slug.
+     * Build the derived URL using frontend host + language prefix + blog segment + slug.
+     * The frontend URL (Next.js) is configured separately from the Laravel app URL.
      */
     public function derivedUrl(): string
     {
-        $prefix = $this->language?->urlPrefix() ?? '';
-        $base   = config('app.url');
+        $base    = config('frontend.url');
+        $prefix  = $this->language?->urlPrefix() ?? '';
+        $segment = config('frontend.blog_segment', 'blog');
 
-        return rtrim($base, '/') . $prefix . '/blog/' . $this->slug;
+        return $base . $prefix . '/' . trim($segment, '/') . '/' . $this->slug;
+    }
+
+    /**
+     * Path-only version of the derived URL (no host).
+     * Useful for sitemaps and Next.js Link hrefs.
+     */
+    public function derivedPath(): string
+    {
+        $prefix  = $this->language?->urlPrefix() ?? '';
+        $segment = config('frontend.blog_segment', 'blog');
+
+        return $prefix . '/' . trim($segment, '/') . '/' . $this->slug;
     }
 }
