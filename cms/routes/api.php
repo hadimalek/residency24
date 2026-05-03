@@ -20,7 +20,7 @@ Route::prefix('cms')->group(function () {
     Route::get('posts/params',         [PostController::class, 'params'])->name('cms.posts.params');
     Route::get('posts/{lang}/{slug}',  [PostController::class, 'show'])
         ->where('lang', '[a-z]{2}')
-        ->where('slug', '[A-Za-z0-9\-_%]+')
+        ->where('slug', '[^/]+')  // allow Unicode slugs (fa/ar/ru RTL languages use non-ASCII)
         ->name('cms.posts.show');
 
     // Taxonomies

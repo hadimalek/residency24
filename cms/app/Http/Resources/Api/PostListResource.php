@@ -27,8 +27,9 @@ class PostListResource extends JsonResource
             'published_at'         => optional($this->published_at)->toIso8601String(),
             'updated_at'           => optional($this->updated_at)->toIso8601String(),
             'author'               => $this->whenLoaded('author', fn () => $this->author
-                ? new AuthorResource($this->author)
+                ? ['name' => $this->author->name, 'slug' => $this->author->slug]
                 : null),
+            'tags'                 => $this->whenLoaded('tags', fn () => TagResource::collection($this->tags)),
             'category'             => $this->whenLoaded('category', fn () => $this->category
                 ? new CategoryResource($this->category)
                 : null),

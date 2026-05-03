@@ -31,6 +31,7 @@ class PostController extends Controller
             ->with([
                 'author',
                 'category',
+                'tags',
                 'featuredImage',
                 'translationGroup:id',
                 'translationGroup.posts:id,translation_group_id,lang',

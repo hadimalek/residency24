@@ -68,6 +68,9 @@ class PostApiTest extends TestCase
         $this->assertContains('EN1', $titles);
         $this->assertNotContains('FA1', $titles);
         $this->assertCount(1, $titles); // draft excluded
+
+        // Listing must include tags array (may be empty)
+        $this->assertArrayHasKey('tags', $res->json('data.0'));
     }
 
     public function test_listing_paginates(): void

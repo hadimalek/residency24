@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class PostRelatedEntity extends Model
 {
-    public $timestamps = true;
+    public $timestamps = false;
 
     protected $fillable = [
         'post_id',
