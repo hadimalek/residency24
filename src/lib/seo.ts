@@ -116,6 +116,77 @@ export function getAboutPageUrl(lang: Lang) {
   return getPageUrl(lang, "about/");
 }
 
+export function getBlogPageUrl(lang: Lang) {
+  return getPageUrl(lang, "blog/");
+}
+
+export const BLOG_SEO: Record<Lang, {
+  title: string;
+  description: string;
+  h1: string;
+  eyebrow: string;
+  sub: string;
+  searchPlaceholder: string;
+  allLabel: string;
+  readMore: string;
+  readingTimeUnit: string;
+  noResults: string;
+  noResultsSub: string;
+}> = {
+  fa: {
+    title: "بلاگ | راهنماها و آموزش‌های تخصصی — Residency24",
+    description: "راهنماها و آموزش‌های تخصصی درباره اقامت، سرمایه‌گذاری و کسب‌وکار در امارات، عمان و ترکیه.",
+    h1: "راهنماها و آموزش‌های تخصصی",
+    eyebrow: "آخرین مقالات",
+    sub: "محتوای تخصصی درباره اقامت، سرمایه‌گذاری و کسب‌وکار در منطقه",
+    searchPlaceholder: "جستجو در مقالات...",
+    allLabel: "همه",
+    readMore: "ادامه مطلب",
+    readingTimeUnit: "دقیقه",
+    noResults: "مقاله‌ای یافت نشد",
+    noResultsSub: "فیلترها را تغییر دهید یا عبارت جستجو را بررسی کنید.",
+  },
+  en: {
+    title: "Blog | Expert Guides & Resources — Residency24",
+    description: "Expert guides and resources on residency, investment and company formation in UAE, Oman and Turkey.",
+    h1: "Expert Guides & Tutorials",
+    eyebrow: "Latest Articles",
+    sub: "Specialist content on residency, investment and business in the region",
+    searchPlaceholder: "Search articles...",
+    allLabel: "All",
+    readMore: "Read more",
+    readingTimeUnit: "min",
+    noResults: "No articles found",
+    noResultsSub: "Try adjusting your filters or search term.",
+  },
+  ar: {
+    title: "المدونة | أدلة ومحتوى متخصص — Residency24",
+    description: "أدلة ومحتوى متخصص حول الإقامة والاستثمار وتأسيس الشركات في الإمارات وعُمان وتركيا.",
+    h1: "الأدلة والدروس المتخصصة",
+    eyebrow: "أحدث المقالات",
+    sub: "محتوى متخصص حول الإقامة والاستثمار والأعمال في المنطقة",
+    searchPlaceholder: "البحث في المقالات...",
+    allLabel: "الكل",
+    readMore: "اقرأ المزيد",
+    readingTimeUnit: "دقيقة",
+    noResults: "لم يتم العثور على مقالات",
+    noResultsSub: "حاول تعديل الفلاتر أو مصطلح البحث.",
+  },
+  ru: {
+    title: "Блог | Экспертные руководства — Residency24",
+    description: "Экспертные руководства о резидентстве, инвестициях и ведении бизнеса в ОАЭ, Омане и Турции.",
+    h1: "Экспертные руководства",
+    eyebrow: "Последние статьи",
+    sub: "Специализированный контент о резидентстве, инвестициях и бизнесе в регионе",
+    searchPlaceholder: "Поиск статей...",
+    allLabel: "Все",
+    readMore: "Читать далее",
+    readingTimeUnit: "мин",
+    noResults: "Статьи не найдены",
+    noResultsSub: "Попробуйте изменить фильтры или поисковый запрос.",
+  },
+};
+
 export function getAboutOrganizationSchema() {
   return {
     "@context": "https://schema.org",
