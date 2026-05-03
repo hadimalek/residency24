@@ -112,6 +112,11 @@ class Post extends Model
         return $this->hasMany(PostImportLog::class);
     }
 
+    public function comments(): HasMany
+    {
+        return $this->hasMany(PostComment::class);
+    }
+
     // ── Scopes ────────────────────────────────────────────────────────
 
     public function scopePublished($query)

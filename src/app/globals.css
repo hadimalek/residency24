@@ -58,7 +58,31 @@
   }
 }
 
+/* ── Blog article prose overrides ── */
 @layer components {
+  .blog-prose {
+    @apply prose prose-lg max-w-none
+      prose-headings:font-bold prose-headings:text-navy
+      prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4 prose-h2:border-b prose-h2:border-border prose-h2:pb-2
+      prose-h3:text-xl prose-h3:mt-7 prose-h3:mb-3
+      prose-p:text-ink prose-p:leading-8
+      prose-a:text-gold prose-a:no-underline hover:prose-a:underline
+      prose-strong:text-navy
+      prose-li:text-ink prose-li:leading-8
+      prose-ul:my-4 prose-ol:my-4
+      prose-blockquote:border-gold prose-blockquote:bg-gold-lt prose-blockquote:rounded-lg prose-blockquote:not-italic
+      prose-img:rounded-xl prose-img:shadow-md;
+  }
+  [dir="rtl"] .blog-prose {
+    font-family: 'Vazirmatn', sans-serif;
+  }
+  [dir="rtl"] .blog-prose h2,
+  [dir="rtl"] .blog-prose h3,
+  [dir="rtl"] .blog-prose p,
+  [dir="rtl"] .blog-prose li {
+    text-align: right;
+  }
+
   .pill-question {
     @apply bg-background border border-border rounded-full px-4 py-1.5 text-[13px] text-foreground cursor-pointer transition-all duration-150;
   }
