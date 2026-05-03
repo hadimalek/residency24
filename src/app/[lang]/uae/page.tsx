@@ -173,7 +173,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
       description: seo.description,
       images: [`${BASE_URL}/assets/og-image-${lang}.jpg`],
     },
-    icons: { icon: "/favicon.svg" },
+    icons: { icon: "/favicon.png" },
   };
 }
 

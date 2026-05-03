@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
       title: seo.title,
       description: seo.description,
     },
-    icons: { icon: "/favicon.svg" },
+    icons: { icon: "/favicon.png" },
   };
 }
 

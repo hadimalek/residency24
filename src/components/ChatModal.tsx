@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { X, Send, ArrowLeft, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import ReactMarkdown from 'react-markdown';
-const faviconImg = '/favicon.svg';
+const faviconImg = '/favicon.png';
 const brandLogo = '/residency24-logo-white.svg';
 
 /* ── Types ── */

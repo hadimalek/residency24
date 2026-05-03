@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: "Residency24",
   description: "Residency, Company Registration & Property Investment in UAE, Oman & Turkey",
   icons: {
-    icon: "/favicon.svg",
+    icon: "/favicon.png",
   },
 };
 
