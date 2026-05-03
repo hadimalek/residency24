@@ -206,6 +206,7 @@ export async function fetchBlogPosts(
     page?: number;
     per_page?: number;
     type?: string;
+    slugs?: string[];
   } = {}
 ): Promise<CmsPostListResponse> {
   const qs = new URLSearchParams({ lang });
@@ -213,6 +214,7 @@ export async function fetchBlogPosts(
   if (opts.category) qs.set("category", opts.category);
   if (opts.tag)      qs.set("tag", opts.tag);
   if (opts.q)        qs.set("q", opts.q);
+  if (opts.slugs && opts.slugs.length > 0) qs.set("slugs", opts.slugs.join(","));
   if (opts.page && opts.page > 1) qs.set("page", String(opts.page));
   if (opts.per_page) qs.set("per_page", String(opts.per_page));
 
@@ -223,6 +225,26 @@ export async function fetchBlogPosts(
     meta: { current_page: 1, last_page: 1, per_page: 12, total: 0, from: null, to: null },
     links: { first: null, last: null, prev: null, next: null },
   };
+}
+
+/**
+ * Resolves the `related[]` block from a PDP response (entity_type=post entries)
+ * into full post list items. Caps at 6 related posts.
+ */
+export async function fetchRelatedPosts(
+  lang: string,
+  related: CmsRelated[]
+): Promise<CmsPostListItem[]> {
+  const slugs = related
+    .filter((r) => r.entity_type === "post")
+    .map((r) => r.entity_key)
+    .slice(0, 6);
+  if (slugs.length === 0) return [];
+
+  const res = await fetchBlogPosts(lang, { slugs, per_page: slugs.length });
+  // preserve the order specified in `related[]`
+  const bySlug = new Map(res.data.map((p) => [p.slug, p]));
+  return slugs.map((s) => bySlug.get(s)).filter((p): p is CmsPostListItem => Boolean(p));
 }
 
 export async function fetchBlogCategories(lang: string): Promise<CmsCategory[]> {

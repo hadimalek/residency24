@@ -68,6 +68,13 @@ class PostController extends Controller
             });
         }
 
+        if (! empty($params['slugs'])) {
+            $slugs = array_filter(array_map('trim', explode(',', $params['slugs'])));
+            if (! empty($slugs)) {
+                $query->whereIn('slug', array_slice($slugs, 0, 20));
+            }
+        }
+
         $paginator = $query->paginate($perPage)->withQueryString();
 
         return PostListResource::collection($paginator)

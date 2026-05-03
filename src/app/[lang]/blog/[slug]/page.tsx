@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import type { Lang } from "@/translations";
-import { LANGS, LANG_CONFIG, localizedPath } from "@/lib/seo";
-import { fetchBlogPost, fetchBlogPostParams } from "@/lib/cms/api";
+import { LANGS, LANG_CONFIG, BLOG_SEO, localizedPath } from "@/lib/seo";
+import { fetchBlogPost, fetchBlogPostParams, fetchRelatedPosts } from "@/lib/cms/api";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -15,6 +15,8 @@ import PostAuthor from "@/components/blog/PostAuthor";
 import PostFaqs from "@/components/blog/PostFaqs";
 import PostCta from "@/components/blog/PostCta";
 import PostComments from "@/components/blog/PostComments";
+import PostMeta from "@/components/blog/PostMeta";
+import RelatedPosts from "@/components/blog/RelatedPosts";
 
 export const dynamicParams = true;
 
@@ -93,7 +95,11 @@ export default async function BlogPostPage({
   const res = await fetchBlogPost(lang, slug);
   if (!res) notFound();
 
-  const { post, seo, hreflang, faqs, ctas, breadcrumbs } = res.data;
+  const { post, seo, hreflang, faqs, ctas, breadcrumbs, related } = res.data;
+  const blogSeo = BLOG_SEO[lang];
+
+  // Resolve related entities (entity_type=post) into full list items
+  const relatedPosts = await fetchRelatedPosts(lang, related);
 
   // JSON-LD Article schema
   const articleSchema = {
@@ -189,6 +195,9 @@ export default async function BlogPostPage({
             <main className="flex-1 min-w-0">
               <PostBody html={post.content_html ?? ""} />
 
+              {/* Category + tag chips */}
+              <PostMeta category={post.category} tags={post.tags} lang={lang} />
+
               {/* Mid CTAs */}
               {midCtas.length > 0 && (
                 <div className="mt-10 space-y-4">
@@ -219,6 +228,16 @@ export default async function BlogPostPage({
                     <PostCta key={i} cta={cta} lang={lang} />
                   ))}
                 </div>
+              )}
+
+              {/* Related posts */}
+              {relatedPosts.length > 0 && (
+                <RelatedPosts
+                  posts={relatedPosts}
+                  lang={lang}
+                  readMore={blogSeo.readMore}
+                  readingTimeUnit={blogSeo.readingTimeUnit}
+                />
               )}
 
               {/* Comments */}

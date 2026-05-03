@@ -21,6 +21,7 @@ class PostIndexRequest extends FormRequest
             'tag'      => ['nullable', 'string', 'max:160'],
             'author'   => ['nullable', 'string', 'max:160'],
             'q'        => ['nullable', 'string', 'max:120'],
+            'slugs'    => ['nullable', 'string', 'max:1000'],
             'page'     => ['nullable', 'integer', 'min:1', 'max:10000'],
             'per_page' => ['nullable', 'integer', 'min:1', 'max:50'],
         ];
