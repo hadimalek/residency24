@@ -4,7 +4,7 @@ const NON_EN = ["fa", "ru", "ar"] as const;
 
 const SKIP_PREFIXES = ["/_next", "/api", "/admin", "/assets"];
 const SKIP_FILES = [
-  "/favicon.svg",
+  "/favicon.png",
   "/favicon.ico",
   "/robots.txt",
   "/sitemap.xml",

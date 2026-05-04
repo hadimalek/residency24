@@ -50,3 +50,6 @@ prisma/_old_sqlite_migrations/
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+cms/vendor/
+cms/node_modules/
+cms/.env
