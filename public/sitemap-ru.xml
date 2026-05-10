@@ -67,4 +67,59 @@
     <priority>0.7</priority>
     <lastmod>2026-05-10</lastmod>
   </url>
+  <url>
+    <loc>https://residency24.com/ru/turkey/</loc>
+    <xhtml:link rel="alternate" hreflang="fa" href="https://residency24.com/fa/turkey/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://residency24.com/turkey/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://residency24.com/ar/turkey/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://residency24.com/ru/turkey/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://residency24.com/turkey/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <lastmod>2026-05-11</lastmod>
+  </url>
+  <url>
+    <loc>https://residency24.com/ru/turkey/citizenship/</loc>
+    <xhtml:link rel="alternate" hreflang="fa" href="https://residency24.com/fa/turkey/citizenship/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://residency24.com/turkey/citizenship/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://residency24.com/ar/turkey/citizenship/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://residency24.com/ru/turkey/citizenship/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://residency24.com/turkey/citizenship/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <lastmod>2026-05-11</lastmod>
+  </url>
+  <url>
+    <loc>https://residency24.com/ru/turkey/buy-property/</loc>
+    <xhtml:link rel="alternate" hreflang="fa" href="https://residency24.com/fa/turkey/buy-property/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://residency24.com/turkey/buy-property/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://residency24.com/ar/turkey/buy-property/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://residency24.com/ru/turkey/buy-property/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://residency24.com/turkey/buy-property/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <lastmod>2026-05-11</lastmod>
+  </url>
+  <url>
+    <loc>https://residency24.com/ru/turkey/company-registration/</loc>
+    <xhtml:link rel="alternate" hreflang="fa" href="https://residency24.com/fa/turkey/company-registration/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://residency24.com/turkey/company-registration/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://residency24.com/ar/turkey/company-registration/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://residency24.com/ru/turkey/company-registration/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://residency24.com/turkey/company-registration/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <lastmod>2026-05-11</lastmod>
+  </url>
+  <url>
+    <loc>https://residency24.com/ru/turkey/tourist-visa/</loc>
+    <xhtml:link rel="alternate" hreflang="fa" href="https://residency24.com/fa/turkey/tourist-visa/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://residency24.com/turkey/tourist-visa/"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://residency24.com/ar/turkey/tourist-visa/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://residency24.com/ru/turkey/tourist-visa/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://residency24.com/turkey/tourist-visa/"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2026-05-11</lastmod>
+  </url>
 </urlset>
