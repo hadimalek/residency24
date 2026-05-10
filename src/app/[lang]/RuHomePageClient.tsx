@@ -82,10 +82,10 @@ const UAE_SERVICES: CardLink[] = [
 ];
 
 const OMAN_SERVICES: CardLink[] = [
-  { title: "Открытие компании в Омане", desc: "Подбор формы и юрисдикции под бизнес-задачу.", href: "/ru/oman/register-company/", icon: Building2 },
-  { title: "Резидентство в Омане", desc: "Маршруты для предпринимателей и инвесторов.", href: "/ru/oman/residency/", icon: ScrollText },
-  { title: "Недвижимость в Омане", desc: "Объекты в зонах, открытых для иностранцев.", href: "/ru/oman/property-purchase/", icon: Home },
-  { title: "Инвесторская виза", desc: "Для долгосрочной региональной структуры.", href: "/ru/oman/investor-visa/", icon: Landmark },
+  { title: "Открытие компании в Омане", desc: "Подбор формы и юрисдикции под бизнес-задачу.", href: "/ru/oman/company-registration/", icon: Building2 },
+  { title: "Резидентство в Омане", desc: "Маршруты для предпринимателей и инвесторов.", href: "/ru/oman/residency-visa/", icon: ScrollText },
+  { title: "Недвижимость в Омане", desc: "Объекты в зонах, открытых для иностранцев.", href: "/ru/oman/buy-property/", icon: Home },
+  { title: "Туристическая виза", desc: "eVisa для визита и оценки рынка.", href: "/ru/oman/tourist-visa/", icon: Landmark },
 ];
 
 const COMPARE_ROWS = [
