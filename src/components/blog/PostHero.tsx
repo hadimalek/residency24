@@ -32,7 +32,7 @@ export default function PostHero({ post, lang }: PostHeroProps) {
             width={post.featured_image.width ?? 1200}
             height={post.featured_image.height ?? 630}
             className="w-full h-full object-cover"
-            fetchpriority="high"
+            fetchPriority="high"
           />
         ) : (
           <div className="w-full h-full bg-gradient-to-br from-navy to-navy-lt" />
