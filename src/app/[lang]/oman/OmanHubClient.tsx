@@ -20,7 +20,7 @@ import {
   Globe2,
   ShieldCheck,
   TrendingUp,
-  Users,
+  Award,
   Trees,
   Anchor,
   ChevronLeft,
@@ -620,7 +620,7 @@ const CONTENT: Record<Lang, Content> = {
   },
 };
 
-export default function OmanHubClient({ h1 }: { h1?: string }) {
+export default function OmanHubClient() {
   const { lang, isRTL } = useLanguage();
   const c = CONTENT[lang];
   const Arrow = isRTL ? ChevronLeft : ChevronRight;
@@ -656,7 +656,7 @@ export default function OmanHubClient({ h1 }: { h1?: string }) {
     {
       title: c.crosssell_turkey_title,
       description: c.crosssell_turkey_desc,
-      icon: Users,
+      icon: Award,
       href: otherServiceLink("turkey/"),
     },
   ];
@@ -668,7 +668,7 @@ export default function OmanHubClient({ h1 }: { h1?: string }) {
         <SharedBreadcrumb items={breadcrumbItems} />
 
         <HeroChat
-          h1={h1 ?? c.hero_h1}
+          h1={c.hero_h1}
           sub={c.hero_sub}
           badge={c.hero_badge}
           placeholder={c.hero_placeholder}
