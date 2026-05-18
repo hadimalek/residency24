@@ -27,7 +27,6 @@ import {
   Target,
   Wallet,
   Globe2,
-  BookOpen,
   Landmark,
   ScrollText,
   HelpCircle,
@@ -44,6 +43,7 @@ const DOCS = "/ru/tools/document-checklist-generator/";
 const COMPARE_UAE_OMAN = "/ru/compare/uae-vs-oman/";
 const CONTACT = "/ru/contact/";
 const BLOG = "/ru/blog/";
+const IMG = "/images/ru";
 
 type CardLink = { title: string; desc: string; href: string; icon: any; badge?: string };
 
@@ -156,10 +156,10 @@ const RISKS = [
 ];
 
 const CASES = [
-  { tag: "Предприниматель", title: "Компания в ОАЭ", desc: "Подбор free zone и структура под IT-сервисы.", icon: Briefcase },
-  { tag: "Семья", title: "Релокация в Дубай", desc: "Резидентство для супругов и двух детей со школой рядом.", icon: Heart },
-  { tag: "Инвестор", title: "Недвижимость и резидентство", desc: "Объект в Дубае с маршрутом к инвесторской визе.", icon: Home },
-  { tag: "Бизнес-владелец", title: "Оман / региональная структура", desc: "Местная компания и счёт под GCC-операции.", icon: Landmark },
+  { tag: "Предприниматель", title: "Компания в ОАЭ", desc: "Подбор free zone и структура под IT-сервисы.", icon: Briefcase, img: `${IMG}/case-entrepreneur.jpg` },
+  { tag: "Семья", title: "Релокация в Дубай", desc: "Резидентство для супругов и двух детей со школой рядом.", icon: Heart, img: `${IMG}/case-family.jpg` },
+  { tag: "Инвестор", title: "Недвижимость и резидентство", desc: "Объект в Дубае с маршрутом к инвесторской визе.", icon: Home, img: `${IMG}/case-investor.jpg` },
+  { tag: "Бизнес-владелец", title: "Оман / региональная структура", desc: "Местная компания и счёт под GCC-операции.", icon: Landmark, img: `${IMG}/case-business.jpg` },
 ];
 
 const FAQS = [
@@ -175,12 +175,26 @@ const FAQS = [
 ];
 
 const GUIDES = [
-  { title: "ОАЭ или Оман: что выбрать для релокации?", desc: "Сравнение двух направлений по бизнесу, семье и стоимости.", href: BLOG },
-  { title: "Как открыть компанию в Дубае русскоязычному предпринимателю?", desc: "Free zone vs mainland и подготовка к банку.", href: BLOG },
-  { title: "Golden Visa ОАЭ: кому подходит?", desc: "Категории заявителей и ключевые требования.", href: BLOG },
-  { title: "Недвижимость в Дубае и резидентство", desc: "Что важно знать перед покупкой объекта.", href: BLOG },
-  { title: "Банковский счёт в ОАЭ", desc: "Какие документы могут понадобиться и как готовиться.", href: BLOG },
+  { title: "ОАЭ или Оман: что выбрать для релокации?", desc: "Сравнение двух направлений по бизнесу, семье и стоимости.", href: BLOG, img: `${IMG}/blog-uae-vs-oman.jpg` },
+  { title: "Как открыть компанию в Дубае русскоязычному предпринимателю?", desc: "Free zone vs mainland и подготовка к банку.", href: BLOG, img: `${IMG}/blog-company.jpg` },
+  { title: "Golden Visa ОАЭ: кому подходит?", desc: "Категории заявителей и ключевые требования.", href: BLOG, img: `${IMG}/blog-golden-visa.jpg` },
+  { title: "Недвижимость в Дубае и резидентство", desc: "Что важно знать перед покупкой объекта.", href: BLOG, img: `${IMG}/blog-property.jpg` },
+  { title: "Банковский счёт в ОАЭ", desc: "Какие документы могут понадобиться и как готовиться.", href: BLOG, img: `${IMG}/blog-banking.jpg` },
 ];
+
+const TEAM = [
+  { name: "Хасан Мостафави", role: "Специалист по международной недвижимости", location: "Дубай, ОАЭ", photo: "/team/team-hassan.webp" },
+  { name: "Зохре Назари", role: "Директор офиса в Дубае · Резидентство арабских стран", location: "Дубай, ОАЭ", photo: "/team/team-zohreh.webp" },
+  { name: "Мостафа Бахшиан", role: "Специалист по стартап-визам", location: "Дубай, ОАЭ", photo: "/team/team-mostafa.webp" },
+  { name: "Эльхам Юсефи", role: "Развитие бизнеса и регистрация компаний", location: "Дубай, ОАЭ", photo: "/team/team-elham.webp" },
+];
+
+const OFFICES = ["🇦🇪 Дубай, ОАЭ", "🇴🇲 Маскат, Оман", "🇹🇷 Стамбул, Турция"];
+
+const HERO_IMG = `${IMG}/hero-dubai.jpg`;
+const UAE_IMG = `${IMG}/uae-dubai.jpg`;
+const OMAN_IMG = `${IMG}/oman-muscat.jpg`;
+const OTHER_IMG = `${IMG}/turkey-istanbul.jpg`;
 
 function CardGrid({ items, cols = 3 }: { items: CardLink[]; cols?: 2 | 3 }) {
   const colClass = cols === 2 ? "md:grid-cols-2" : "md:grid-cols-2 lg:grid-cols-3";
@@ -332,12 +346,18 @@ export default function RuHomePageClient({ h1 }: { h1: string }) {
 
             <div className="lg:col-span-5 relative">
               <div className="relative aspect-[5/6] max-w-md mx-auto">
-                <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-navy-lt to-navy border border-gold/30 shadow-2xl" />
-                <div className="absolute inset-4 rounded-2xl bg-white/[0.04] border border-white/10 backdrop-blur-sm flex items-center justify-center">
-                  <div className="text-center px-6">
-                    <Globe2 className="w-14 h-14 text-gold mx-auto mb-3" />
-                    <div className="text-sm uppercase tracking-widest text-gold-lt">Residency24</div>
-                    <div className="mt-2 text-white/80 text-sm">Премиум-сопровождение релокации и резидентства</div>
+                <div className="absolute inset-0 rounded-3xl overflow-hidden border border-gold/30 shadow-2xl">
+                  <img
+                    src={HERO_IMG}
+                    alt="Дубай — Residency24"
+                    className="w-full h-full object-cover"
+                    loading="eager"
+                    fetchPriority="high"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/40 to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 p-6 text-center">
+                    <div className="text-xs uppercase tracking-widest text-gold-lt">Residency24</div>
+                    <div className="mt-1 text-white text-sm">Премиум-сопровождение релокации и резидентства</div>
                   </div>
                 </div>
                 {HERO_FLOATING.map((f, i) => {
@@ -407,9 +427,11 @@ export default function RuHomePageClient({ h1 }: { h1: string }) {
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* UAE */}
-            <div className="rounded-2xl overflow-hidden border border-border bg-white shadow-sm hover:shadow-xl transition-shadow flex flex-col">
-              <div className="relative h-36 bg-gradient-to-br from-navy to-navy-lt flex items-center justify-center">
-                <div className="text-6xl">🇦🇪</div>
+            <div className="rounded-2xl overflow-hidden border border-border bg-white shadow-sm hover:shadow-xl transition-shadow flex flex-col group">
+              <div className="relative h-44 overflow-hidden">
+                <img src={UAE_IMG} alt="ОАЭ — Дубай" loading="lazy" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/20 to-transparent" />
+                <div className="absolute bottom-3 left-3 text-3xl drop-shadow-lg">🇦🇪</div>
                 <span className="absolute top-3 left-3 bg-gold text-navy text-[10px] font-bold uppercase tracking-wide px-2 py-1 rounded-full">Топ-выбор</span>
               </div>
               <div className="p-6 flex flex-col flex-1">
@@ -427,9 +449,11 @@ export default function RuHomePageClient({ h1 }: { h1: string }) {
             </div>
 
             {/* Oman */}
-            <div className="rounded-2xl overflow-hidden border border-border bg-white shadow-sm hover:shadow-xl transition-shadow flex flex-col">
-              <div className="relative h-36 bg-gradient-to-br from-gold-dk to-gold flex items-center justify-center">
-                <div className="text-6xl">🇴🇲</div>
+            <div className="rounded-2xl overflow-hidden border border-border bg-white shadow-sm hover:shadow-xl transition-shadow flex flex-col group">
+              <div className="relative h-44 overflow-hidden">
+                <img src={OMAN_IMG} alt="Оман — Маскат" loading="lazy" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/20 to-transparent" />
+                <div className="absolute bottom-3 left-3 text-3xl drop-shadow-lg">🇴🇲</div>
               </div>
               <div className="p-6 flex flex-col flex-1">
                 <h3 className="text-xl font-bold text-navy">Оман</h3>
@@ -446,9 +470,14 @@ export default function RuHomePageClient({ h1 }: { h1: string }) {
             </div>
 
             {/* Other */}
-            <div className="rounded-2xl overflow-hidden border border-border bg-white shadow-sm hover:shadow-xl transition-shadow flex flex-col">
-              <div className="relative h-36 bg-gradient-to-br from-surface to-gold-lt flex items-center justify-center text-navy">
-                <Globe2 className="w-14 h-14" />
+            <div className="rounded-2xl overflow-hidden border border-border bg-white shadow-sm hover:shadow-xl transition-shadow flex flex-col group">
+              <div className="relative h-44 overflow-hidden">
+                <img src={OTHER_IMG} alt="Другие направления — Стамбул" loading="lazy" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/20 to-transparent" />
+                <div className="absolute bottom-3 left-3 flex items-center gap-2 text-white">
+                  <Globe2 className="w-6 h-6 drop-shadow-lg" />
+                  <span className="text-xs font-semibold tracking-wide drop-shadow">Глобально</span>
+                </div>
               </div>
               <div className="p-6 flex flex-col flex-1">
                 <h3 className="text-xl font-bold text-navy">Другие страны</h3>
@@ -502,6 +531,25 @@ export default function RuHomePageClient({ h1 }: { h1: string }) {
             <p className="text-white/75 mt-3 text-base md:text-lg">
               Сравните два направления по бизнесу, стоимости, банковской системе, семье и инвестиционным возможностям.
             </p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4 max-w-4xl mx-auto mb-10">
+            <div className="relative aspect-[16/9] rounded-2xl overflow-hidden border border-white/10">
+              <img src={UAE_IMG} alt="Дубай — ОАЭ" loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/30 to-transparent" />
+              <div className="absolute bottom-3 left-3 flex items-center gap-2">
+                <span className="text-2xl drop-shadow-lg">🇦🇪</span>
+                <span className="text-white font-bold drop-shadow-lg">Дубай</span>
+              </div>
+            </div>
+            <div className="relative aspect-[16/9] rounded-2xl overflow-hidden border border-white/10">
+              <img src={OMAN_IMG} alt="Маскат — Оман" loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/30 to-transparent" />
+              <div className="absolute bottom-3 left-3 flex items-center gap-2">
+                <span className="text-2xl drop-shadow-lg">🇴🇲</span>
+                <span className="text-white font-bold drop-shadow-lg">Маскат</span>
+              </div>
+            </div>
           </div>
 
           <div className="hidden md:block rounded-2xl overflow-hidden border border-white/10 bg-white/[0.04]">
@@ -700,6 +748,52 @@ export default function RuHomePageClient({ h1 }: { h1: string }) {
         </div>
       </section>
 
+      {/* TEAM */}
+      <section className="py-16 md:py-20 bg-background">
+        <div className="max-w-7xl mx-auto px-4">
+          <SectionHead
+            eyebrow="Наша команда"
+            title="Познакомьтесь с нашими специалистами"
+            subtitle="Команда в Дубае — поддержка на месте, сопровождение до результата."
+          />
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+            {TEAM.map((m) => (
+              <div
+                key={m.name}
+                className="group relative bg-white rounded-2xl overflow-hidden border border-border hover:border-navy/40 hover:shadow-xl transition-all duration-300"
+              >
+                <div className="relative w-full aspect-[3/4] bg-navy overflow-hidden">
+                  <img
+                    src={m.photo}
+                    alt={m.name}
+                    loading="lazy"
+                    className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-navy/80 to-transparent" />
+                </div>
+                <div className="p-5 text-center">
+                  <h4 className="text-base font-bold text-navy leading-tight">{m.name}</h4>
+                  <p className="text-xs text-muted-foreground mt-1.5 flex items-center justify-center gap-1.5">
+                    <Briefcase className="w-3 h-3 text-gold-dk shrink-0" />
+                    <span>{m.role}</span>
+                  </p>
+                  <p className="text-xs text-gold-dk mt-2 flex items-center justify-center gap-1">
+                    <MapPin className="w-3 h-3" /> {m.location}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="flex flex-wrap justify-center gap-3">
+            {OFFICES.map((o) => (
+              <div key={o} className="bg-navy text-white rounded-full px-5 py-2 text-sm">
+                {o}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* TRANSPARENCY / RISKS */}
       <section className="py-16 md:py-20 bg-surface">
         <div className="max-w-5xl mx-auto px-4">
@@ -739,12 +833,18 @@ export default function RuHomePageClient({ h1 }: { h1: string }) {
             {CASES.map((c) => {
               const Icon = c.icon;
               return (
-                <div key={c.title} className="rounded-2xl border border-border bg-white p-6 hover:shadow-lg transition-shadow">
-                  <div className="text-[11px] uppercase tracking-wider text-gold-dk font-semibold">{c.tag}</div>
-                  <div className="mt-2 flex items-center gap-2 font-semibold text-navy">
-                    <Icon className="w-4 h-4 text-navy" /> {c.title}
+                <div key={c.title} className="group rounded-2xl border border-border bg-white overflow-hidden hover:shadow-lg transition-shadow flex flex-col">
+                  <div className="relative h-40 overflow-hidden bg-navy">
+                    <img src={c.img} alt={c.title} loading="lazy" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-navy/70 via-navy/10 to-transparent" />
+                    <span className="absolute top-3 left-3 bg-gold text-navy text-[10px] font-bold uppercase tracking-wide px-2 py-1 rounded-full">{c.tag}</span>
                   </div>
-                  <p className="text-sm text-muted-foreground mt-2 leading-relaxed">{c.desc}</p>
+                  <div className="p-5 flex-1 flex flex-col">
+                    <div className="flex items-center gap-2 font-semibold text-navy">
+                      <Icon className="w-4 h-4 text-navy" /> {c.title}
+                    </div>
+                    <p className="text-sm text-muted-foreground mt-2 leading-relaxed">{c.desc}</p>
+                  </div>
                 </div>
               );
             })}
@@ -787,8 +887,9 @@ export default function RuHomePageClient({ h1 }: { h1: string }) {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {GUIDES.map((g) => (
               <a key={g.title} href={g.href} className="group rounded-2xl border border-border bg-white overflow-hidden hover:shadow-lg transition-shadow flex flex-col">
-                <div className="h-32 bg-gradient-to-br from-navy to-navy-lt flex items-center justify-center text-gold">
-                  <BookOpen className="w-10 h-10" />
+                <div className="relative h-40 overflow-hidden bg-navy">
+                  <img src={g.img} alt={g.title} loading="lazy" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-navy/50 to-transparent" />
                 </div>
                 <div className="p-5 flex-1 flex flex-col">
                   <div className="font-semibold text-navy">{g.title}</div>
