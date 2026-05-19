@@ -7,7 +7,8 @@ const BASE_URL = "https://residency24.com";
 
 interface SitemapEntry {
   loc: string;
-  lastmod: string;
+  /** ISO 8601 datetime trimmed to seconds (no milliseconds), or undefined to omit <lastmod>. */
+  lastmod?: string;
   changefreq?: string;
   priority?: number;
   /** locale -> absolute URL */
@@ -15,16 +16,29 @@ interface SitemapEntry {
 }
 
 /**
+ * W3C Datetime format Google's sitemap protocol expects: `YYYY-MM-DDTHH:MM:SSZ`.
+ * `Date#toISOString()` includes milliseconds (`...946Z`), which is technically
+ * valid ISO 8601 but is not what crawlers expect for sitemaps.
+ */
+function toSitemapDate(d: Date): string {
+  return d.toISOString().replace(/\.\d{3}Z$/, "Z");
+}
+
+/**
  * Builds the XML for one language's sitemap (a <urlset>): static pages + blog
  * articles translated in that locale. Each entry carries hreflang alternates.
+ *
+ * Static pages intentionally omit <lastmod> — we don't track real per-page
+ * edit dates for hand-coded pages, and Google explicitly recommends omitting
+ * lastmod over emitting an inaccurate "now" value on every revalidate (they
+ * ignore lastmod entirely if it looks fabricated). Articles carry the real
+ * `updatedAt` from the DB.
  */
 export async function buildLanguageSitemap(lang: Lang): Promise<string> {
-  const now = new Date().toISOString();
   const staticEntries: SitemapEntry[] = getIndexableStaticRoutes().map((r) => {
     const path = r.path ? `${r.path}/` : "";
     return {
       loc: getPageUrl(lang, path),
-      lastmod: now,
       changefreq: r.changeFrequency,
       priority: r.priority,
       alternates: alternatesForPath(path, LANGS),
@@ -34,7 +48,7 @@ export async function buildLanguageSitemap(lang: Lang): Promise<string> {
   const articles = await listSitemapArticles(lang).catch(() => []);
   const articleEntries: SitemapEntry[] = articles.map((a) => ({
     loc: getPageUrl(lang, `blog/${a.slug}/`),
-    lastmod: (a.updatedAt ?? a.publishedAt ?? new Date()).toISOString(),
+    lastmod: toSitemapDate(a.updatedAt ?? a.publishedAt ?? new Date()),
     changefreq: "monthly",
     priority: 0.7,
     alternates: alternatesForPath(
@@ -47,15 +61,34 @@ export async function buildLanguageSitemap(lang: Lang): Promise<string> {
 }
 
 /**
- * Builds the sitemap-index XML pointing at each per-language sitemap, with
- * each sub-sitemap's lastmod.
+ * Sitemap-index XML pointing at each per-language sitemap. Each sub-sitemap's
+ * lastmod is the most recent article updatedAt for that language (with a
+ * fallback for languages that have no articles yet). This gives crawlers a
+ * meaningful signal of when each sitemap's content actually changed.
  */
-export function buildSitemapIndex(): string {
-  const now = new Date().toISOString();
-  const sitemaps = LANGS.map(
-    (lang) =>
-      `  <sitemap>\n    <loc>${BASE_URL}/sitemap-${lang}.xml</loc>\n    <lastmod>${now}</lastmod>\n  </sitemap>`
-  ).join("\n");
+export async function buildSitemapIndex(): Promise<string> {
+  const entries = await Promise.all(
+    LANGS.map(async (lang) => {
+      const articles = await listSitemapArticles(lang).catch(() => []);
+      const latest = articles
+        .map((a) => a.updatedAt ?? a.publishedAt)
+        .filter((d): d is Date => d != null)
+        .sort((a, b) => b.getTime() - a.getTime())[0];
+      const lastmod = latest ? toSitemapDate(latest) : undefined;
+      return { lang, lastmod };
+    })
+  );
+
+  const sitemaps = entries
+    .map(({ lang, lastmod }) => {
+      const inner = [
+        `    <loc>${BASE_URL}/sitemap-${lang}.xml</loc>`,
+        lastmod ? `    <lastmod>${lastmod}</lastmod>` : "",
+      ].filter(Boolean).join("\n");
+      return `  <sitemap>\n${inner}\n  </sitemap>`;
+    })
+    .join("\n");
+
   return `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemaps}\n</sitemapindex>\n`;
 }
 
@@ -82,7 +115,7 @@ function renderUrlset(entries: SitemapEntry[]): string {
       "  <url>",
       `    <loc>${escapeXml(e.loc)}</loc>`,
       alts,
-      `    <lastmod>${e.lastmod}</lastmod>`,
+      e.lastmod ? `    <lastmod>${e.lastmod}</lastmod>` : "",
       e.changefreq ? `    <changefreq>${e.changefreq}</changefreq>` : "",
       e.priority != null ? `    <priority>${e.priority}</priority>` : "",
       "  </url>",

@@ -6,8 +6,8 @@ import { buildSitemapIndex } from "@/lib/seo/sitemap-xml";
 // per-language sitemaps at /sitemap-{lang}.xml.
 export const revalidate = 3600;
 
-export function GET() {
-  return new Response(buildSitemapIndex(), {
+export async function GET() {
+  return new Response(await buildSitemapIndex(), {
     headers: {
       "Content-Type": "application/xml; charset=utf-8",
       "Cache-Control": "public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400",
