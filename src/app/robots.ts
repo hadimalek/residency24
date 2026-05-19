@@ -1,5 +1,4 @@
 import type { MetadataRoute } from "next";
-import { LANGS } from "@/lib/seo";
 
 const BASE_URL = "https://residency24.com";
 
@@ -17,10 +16,17 @@ export default function robots(): MetadataRoute.Robots {
         ],
       },
     ],
-    // One sitemap entry per language. Modern search engines accept multiple
-    // sitemap entries here and crawl each in parallel — no separate index
-    // file needed for four sitemaps.
-    sitemap: LANGS.map((lang) => `${BASE_URL}/sitemap/${lang}.xml`),
+    // /sitemap.xml is the sitemap-INDEX file pointing to each per-language
+    // sitemap. Modern search engines follow the index and fetch all of them.
+    // Listing each per-language sitemap individually is also valid; we
+    // include both for maximum crawler compatibility.
+    sitemap: [
+      `${BASE_URL}/sitemap.xml`,
+      `${BASE_URL}/sitemap-en.xml`,
+      `${BASE_URL}/sitemap-fa.xml`,
+      `${BASE_URL}/sitemap-ar.xml`,
+      `${BASE_URL}/sitemap-ru.xml`,
+    ],
     host: BASE_URL,
   };
 }
