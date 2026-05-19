@@ -57,3 +57,52 @@ export async function listFeaturedArticles(locale: Locale, limit = 3) {
     take: limit,
   });
 }
+
+export interface HomePostPreview {
+  slug: string;
+  title: string;
+  excerpt: string;
+  href: string;
+  img: string | null;
+  alt: string;
+  tag: string;
+  date: string;
+}
+
+export async function listHomePagePreviewArticles(
+  locale: Locale,
+  limit = 6
+): Promise<HomePostPreview[]> {
+  const articles = await prisma.article.findMany({
+    where: {
+      status: "PUBLISHED",
+      translations: { some: { locale } },
+    },
+    include: {
+      translations: { where: { locale } },
+      featuredImage: true,
+    },
+    orderBy: { publishedAt: "desc" },
+    take: limit,
+  });
+
+  const monthYear = new Intl.DateTimeFormat(locale, { month: "long", year: "numeric" });
+
+  return articles
+    .filter((a) => a.translations.length > 0)
+    .map((a) => {
+      const t = a.translations[0];
+      const raw = a.featuredImage?.filePath ?? null;
+      const img = raw ? (raw.startsWith("/") || raw.startsWith("http") ? raw : `/${raw}`) : null;
+      return {
+        slug: a.slug,
+        title: t.title,
+        excerpt: t.excerpt ?? "",
+        href: `/${locale}/blog/${a.slug}/`,
+        img,
+        alt: t.title,
+        tag: a.category ?? "",
+        date: a.publishedAt ? monthYear.format(a.publishedAt) : "",
+      };
+    });
+}

@@ -34,6 +34,8 @@ import {
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
+import BlogPreview from "@/components/BlogPreview";
+import type { HomePostPreview } from "@/lib/cms/articles";
 
 const WA = "https://wa.me/971562009131?text=Здравствуйте,+нужна+консультация";
 
@@ -42,7 +44,6 @@ const COST = "/ru/tools/cost-calculator/";
 const DOCS = "/ru/tools/document-checklist-generator/";
 const COMPARE_UAE_OMAN = "/ru/compare/uae-vs-oman/";
 const CONTACT = "/ru/contact/";
-const BLOG = "/ru/blog/";
 const IMG = "/images/ru";
 
 type CardLink = { title: string; desc: string; href: string; icon: any; badge?: string };
@@ -174,14 +175,6 @@ const FAQS = [
   { q: "Что Residency24 не гарантирует?", a: "Мы не гарантируем одобрение государственных органов и не обещаем точные сроки. Наша работа — подбор маршрута и сопровождение подготовки документов." },
 ];
 
-const GUIDES = [
-  { title: "ОАЭ или Оман: что выбрать для релокации?", desc: "Сравнение двух направлений по бизнесу, семье и стоимости.", href: BLOG, img: `${IMG}/blog-uae-vs-oman.jpg` },
-  { title: "Как открыть компанию в Дубае русскоязычному предпринимателю?", desc: "Free zone vs mainland и подготовка к банку.", href: BLOG, img: `${IMG}/blog-company.jpg` },
-  { title: "Golden Visa ОАЭ: кому подходит?", desc: "Категории заявителей и ключевые требования.", href: BLOG, img: `${IMG}/blog-golden-visa.jpg` },
-  { title: "Недвижимость в Дубае и резидентство", desc: "Что важно знать перед покупкой объекта.", href: BLOG, img: `${IMG}/blog-property.jpg` },
-  { title: "Банковский счёт в ОАЭ", desc: "Какие документы могут понадобиться и как готовиться.", href: BLOG, img: `${IMG}/blog-banking.jpg` },
-];
-
 const TEAM = [
   { name: "Хасан Мостафави", role: "Специалист по международной недвижимости", location: "Дубай, ОАЭ", photo: "/team/team-hassan.webp" },
   { name: "Зохре Назари", role: "Директор офиса в Дубае · Резидентство арабских стран", location: "Дубай, ОАЭ", photo: "/team/team-zohreh.webp" },
@@ -259,7 +252,7 @@ function FaqItem({ q, a, idx, open, onToggle }: { q: string; a: string; idx: num
   );
 }
 
-export default function RuHomePageClient({ h1 }: { h1: string }) {
+export default function RuHomePageClient({ h1, blogPosts }: { h1: string; blogPosts?: HomePostPreview[] }) {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [form, setForm] = useState({ name: "", phone: "", goal: "", country: "ОАЭ", message: "" });
   const [sent, setSent] = useState(false);
@@ -880,34 +873,8 @@ export default function RuHomePageClient({ h1 }: { h1: string }) {
         </div>
       </section>
 
-      {/* GUIDES */}
-      <section className="py-16 md:py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4">
-          <SectionHead eyebrow="Блог" title="Полезные материалы" subtitle="Гайды и разборы для русскоязычных клиентов." />
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {GUIDES.map((g) => (
-              <a key={g.title} href={g.href} className="group rounded-2xl border border-border bg-white overflow-hidden hover:shadow-lg transition-shadow flex flex-col">
-                <div className="relative h-40 overflow-hidden bg-navy">
-                  <img src={g.img} alt={g.title} loading="lazy" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-navy/50 to-transparent" />
-                </div>
-                <div className="p-5 flex-1 flex flex-col">
-                  <div className="font-semibold text-navy">{g.title}</div>
-                  <p className="text-sm text-muted-foreground mt-1 flex-1">{g.desc}</p>
-                  <span className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-navy group-hover:text-gold-dk transition-colors">
-                    Читать <ArrowRight className="w-4 h-4" />
-                  </span>
-                </div>
-              </a>
-            ))}
-          </div>
-          <div className="mt-8 text-center">
-            <a href={BLOG} className="inline-flex items-center gap-2 bg-navy text-white font-semibold px-6 py-3 rounded-xl hover:bg-navy-lt transition-colors">
-              Смотреть все материалы <ArrowRight className="w-4 h-4" />
-            </a>
-          </div>
-        </div>
-      </section>
+      {/* GUIDES — dynamic from CMS (hidden when no posts for this locale) */}
+      <BlogPreview posts={blogPosts} />
 
       {/* FINAL CTA */}
       <section id="consultation-form" className="py-16 md:py-24 bg-navy text-white">
