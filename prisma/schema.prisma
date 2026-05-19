@@ -443,6 +443,11 @@ model Article {
   country   Country? @relation(fields: [countryId], references: [id], onDelete: SetNull)
   category  String?  @db.VarChar(64)
 
+  // robots meta — null/empty means default (indexable). Use values like
+  // "index,follow", "noindex,nofollow", "noindex,follow". The sitemap
+  // generator excludes anything that matches /noindex/i.
+  robots String? @db.VarChar(64)
+
   translations ArticleTranslation[]
 
   createdAt DateTime @default(now())

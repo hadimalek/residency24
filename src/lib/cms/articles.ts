@@ -69,6 +69,46 @@ export interface HomePostPreview {
   date: string;
 }
 
+export interface SitemapArticle {
+  slug: string;
+  publishedAt: Date | null;
+  updatedAt: Date;
+  /** Locales for which a translation exists (used to build hreflang alternates). */
+  locales: string[];
+}
+
+/**
+ * Returns one row per published, indexable article that has a translation in
+ * `locale`. The returned `locales` array tells the sitemap which hreflang
+ * alternates to emit (only locales where the article is actually translated).
+ *
+ * Articles whose `robots` field matches /noindex/i are excluded entirely.
+ */
+export async function listSitemapArticles(locale: Locale): Promise<SitemapArticle[]> {
+  const articles = await prisma.article.findMany({
+    where: {
+      status: "PUBLISHED",
+      translations: { some: { locale } },
+      // Tolerate both the legacy null case and explicit "index,follow".
+      OR: [{ robots: null }, { robots: { not: { contains: "noindex" } } }],
+    },
+    select: {
+      slug: true,
+      publishedAt: true,
+      updatedAt: true,
+      translations: { select: { locale: true } },
+    },
+    orderBy: { publishedAt: "desc" },
+  });
+
+  return articles.map((a) => ({
+    slug: a.slug,
+    publishedAt: a.publishedAt,
+    updatedAt: a.updatedAt,
+    locales: a.translations.map((t) => t.locale),
+  }));
+}
+
 export async function listHomePagePreviewArticles(
   locale: Locale,
   limit = 6
