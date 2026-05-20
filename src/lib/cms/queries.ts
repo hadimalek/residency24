@@ -43,10 +43,11 @@ type MediaWithTrans = Prisma.MediaGetPayload<{ include: { translations: true } }
 function mediaToCms(media: MediaWithTrans | null | undefined) {
   if (!media) return null;
   const t = media.translations?.[0];
-  const path = media.filePath ?? "";
-  const url = /^https?:\/\//.test(path)
-    ? path
-    : `${SITE_URL}${path.startsWith("/") ? "" : "/"}${path}`;
+  const raw = media.filePath ?? "";
+  // Strip any existing domain so DB entries with absolute URLs are re-prefixed
+  // with the current SITE_URL (handles migration from new.residency24.com → residency24.com).
+  const path = raw.replace(/^https?:\/\/[^/]+/, "");
+  const url = path ? `${SITE_URL}${path.startsWith("/") ? "" : "/"}${path}` : "";
   return {
     url,
     alt: t?.altText ?? null,

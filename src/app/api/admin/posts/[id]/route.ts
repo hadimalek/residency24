@@ -21,7 +21,18 @@ export async function GET(
     if (!article) {
       return NextResponse.json({ message: "Not found" }, { status: 404 });
     }
-    return NextResponse.json(article);
+    // Normalize filePath: strip any legacy absolute URL domain so the client
+    // always gets a path relative to the current site.
+    const normalized = {
+      ...article,
+      featuredImage: article.featuredImage
+        ? {
+            ...article.featuredImage,
+            filePath: article.featuredImage.filePath?.replace(/^https?:\/\/[^/]+/, "") ?? null,
+          }
+        : null,
+    };
+    return NextResponse.json(normalized);
   } catch (err) {
     console.error("[/api/admin/posts/[id]] GET error:", err);
     return NextResponse.json({ message: "Server error" }, { status: 500 });

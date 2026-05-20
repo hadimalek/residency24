@@ -47,11 +47,14 @@ export async function GET(request: NextRequest) {
         id: a.id,
         slug: a.slug,
         status: a.status,
+        locale: t?.locale ?? "fa",
         title: t?.title ?? "(بدون عنوان)",
         excerpt: t?.excerpt ?? null,
         publishedAt: a.publishedAt,
         updatedAt: a.updatedAt,
-        featuredImagePath: a.featuredImage?.filePath ?? null,
+        featuredImagePath: a.featuredImage?.filePath
+          ? a.featuredImage.filePath.replace(/^https?:\/\/[^/]+/, "")
+          : null,
       };
     });
 

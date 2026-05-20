@@ -30,7 +30,7 @@ interface PostRow {
   id: string;
   slug: string;
   status: string;
-  primaryLocale: string | null;
+  locale: string;
   title: string;
   excerpt: string | null;
   publishedAt: string | null;
@@ -210,6 +210,7 @@ export default function AdminPostsListPage() {
                   )
                   : rows.map((r) => {
                       const sl = STATUS_LABELS[r.status] ?? { label: r.status, color: "" };
+                      const blogPath = r.locale === "en" ? `/blog/${r.slug}` : `/${r.locale}/blog/${r.slug}`;
                       return (
                         <TableRow
                           key={r.id}
@@ -230,12 +231,12 @@ export default function AdminPostsListPage() {
                           <TableCell className="font-medium max-w-md truncate">
                             <div>{r.title}</div>
                             <div className="text-xs text-gray-400 truncate font-mono" dir="ltr">
-                              /{r.primaryLocale}/blog/{r.slug}
+                              {blogPath}
                             </div>
                           </TableCell>
                           <TableCell>
                             <Badge variant="outline" className="font-mono uppercase">
-                              {r.primaryLocale ?? "—"}
+                              {r.locale}
                             </Badge>
                           </TableCell>
                           <TableCell className="text-sm text-gray-600">
