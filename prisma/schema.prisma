@@ -465,7 +465,7 @@ model ArticleTranslation {
 
   title   String  @db.VarChar(255)
   excerpt String? @db.VarChar(512)
-  content String  @db.Text
+  content String  @db.LongText
 
   metaTitle       String? @db.VarChar(255)
   metaDescription String? @db.VarChar(512)
