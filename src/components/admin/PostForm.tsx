@@ -50,17 +50,6 @@ const STATUSES = [
   { code: "ARCHIVED", label: "بایگانی" },
 ];
 
-interface CategoryRow {
-  id: string;
-  name: string;
-  locale: string;
-  slug: string;
-}
-interface AuthorRow {
-  id: string;
-  name: string;
-  slug: string;
-}
 interface MediaRow {
   id: string;
   filePath: string;
@@ -73,8 +62,6 @@ export interface PostFormInitial {
   slug?: string;
   status?: string;
   primaryLocale?: string | null;
-  authorId?: string | null;
-  blogCategoryId?: string | null;
   featuredImage?: MediaRow | null;
   translations?: Array<{
     locale: string;
@@ -104,16 +91,12 @@ export default function PostForm({ mode, initial }: PostFormProps) {
   const [slug, setSlug] = useState<string>(initial?.slug ?? "");
   const [slugTouched, setSlugTouched] = useState<boolean>(!!initial?.slug);
   const [status, setStatus] = useState<string>(initial?.status ?? "DRAFT");
-  const [authorId, setAuthorId] = useState<string>(initial?.authorId ?? "__none");
-  const [blogCategoryId, setBlogCategoryId] = useState<string>(initial?.blogCategoryId ?? "__none");
   const [featuredImage, setFeaturedImage] = useState<MediaRow | null>(initial?.featuredImage ?? null);
   const [excerpt, setExcerpt] = useState<string>(initialTrans?.excerpt ?? "");
   const [contentJson, setContentJson] = useState<any | null>(initialTrans?.contentJson ?? null);
   const [metaTitle, setMetaTitle] = useState<string>(initialTrans?.metaTitle ?? "");
   const [metaDescription, setMetaDescription] = useState<string>(initialTrans?.metaDescription ?? "");
 
-  const [authors, setAuthors] = useState<AuthorRow[]>([]);
-  const [categories, setCategories] = useState<CategoryRow[]>([]);
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -133,24 +116,6 @@ export default function PostForm({ mode, initial }: PostFormProps) {
       setSlug(auto);
     }
   }, [title, slugTouched]);
-
-  // Load authors + categories
-  useEffect(() => {
-    let alive = true;
-    Promise.all([
-      fetch("/api/admin/authors").then((r) => r.json()),
-      fetch(`/api/admin/categories?lang=${lang}`).then((r) => r.json()),
-    ])
-      .then(([a, c]) => {
-        if (!alive) return;
-        setAuthors(a.data ?? []);
-        setCategories(c.data ?? []);
-      })
-      .catch(() => {});
-    return () => {
-      alive = false;
-    };
-  }, [lang]);
 
   const dir = lang === "en" || lang === "ru" ? "ltr" : "rtl";
 
@@ -194,8 +159,6 @@ export default function PostForm({ mode, initial }: PostFormProps) {
         title,
         slug: slug || undefined,
         status,
-        authorId: authorId === "__none" ? null : authorId,
-        blogCategoryId: blogCategoryId === "__none" ? null : blogCategoryId,
         featuredImageId: featuredImage?.id ?? null,
         excerpt: excerpt || null,
         contentJson,
@@ -452,47 +415,6 @@ export default function PostForm({ mode, initial }: PostFormProps) {
             </CardContent>
           </Card>
 
-          <Card className="border-0 shadow-sm">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm">دسته‌بندی</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Select value={blogCategoryId} onValueChange={setBlogCategoryId}>
-                <SelectTrigger>
-                  <SelectValue placeholder="—" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="__none">—</SelectItem>
-                  {categories.map((c) => (
-                    <SelectItem key={c.id} value={c.id}>
-                      {c.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </CardContent>
-          </Card>
-
-          <Card className="border-0 shadow-sm">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm">نویسنده</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Select value={authorId} onValueChange={setAuthorId}>
-                <SelectTrigger>
-                  <SelectValue placeholder="—" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="__none">—</SelectItem>
-                  {authors.map((a) => (
-                    <SelectItem key={a.id} value={a.id}>
-                      {a.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </CardContent>
-          </Card>
         </div>
       </div>
     </div>

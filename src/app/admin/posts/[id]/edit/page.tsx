@@ -28,8 +28,6 @@ export default function AdminPostEditPage() {
           slug: article.slug,
           status: article.status,
           primaryLocale: article.primaryLocale,
-          authorId: article.authorId,
-          blogCategoryId: article.blogCategoryId,
           featuredImage: article.featuredImage,
           translations: article.translations ?? [],
         });

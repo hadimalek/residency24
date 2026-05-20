@@ -15,8 +15,6 @@ export async function GET(
       where: { id },
       include: {
         translations: true,
-        author: true,
-        blogCategory: true,
         featuredImage: true,
       },
     });
@@ -90,9 +88,6 @@ export async function PATCH(
           status,
           publishedAt,
           primaryLocale: lang,
-          authorId: body.authorId === undefined ? article.authorId : body.authorId,
-          blogCategoryId:
-            body.blogCategoryId === undefined ? article.blogCategoryId : body.blogCategoryId,
           featuredImageId:
             body.featuredImageId === undefined ? article.featuredImageId : body.featuredImageId,
           readingTimeMinutes: rt,

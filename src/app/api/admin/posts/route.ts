@@ -36,8 +36,6 @@ export async function GET(request: NextRequest) {
         take: perPage,
         include: {
           translations: true,
-          author: true,
-          blogCategory: true,
           featuredImage: true,
         },
       }),
@@ -54,8 +52,6 @@ export async function GET(request: NextRequest) {
         excerpt: t?.excerpt ?? null,
         publishedAt: a.publishedAt,
         updatedAt: a.updatedAt,
-        author: a.author ? { id: a.author.id, name: a.author.name } : null,
-        category: a.blogCategory ? { id: a.blogCategory.id, name: a.blogCategory.name } : null,
         featuredImagePath: a.featuredImage?.filePath ?? null,
         readingTimeMinutes: a.readingTimeMinutes,
       };
@@ -105,8 +101,6 @@ export async function POST(request: NextRequest) {
     const contentHtml = contentJson ? tiptapJsonToHtml(contentJson) : (body.contentHtml ?? "");
     const excerpt = body.excerpt ?? null;
     const status = body.status === "PUBLISHED" ? "PUBLISHED" : "DRAFT";
-    const authorId = body.authorId ?? null;
-    const blogCategoryId = body.blogCategoryId ?? null;
     const featuredImageId = body.featuredImageId ?? null;
     const metaTitle = body.metaTitle ?? null;
     const metaDescription = body.metaDescription ?? null;
@@ -120,8 +114,6 @@ export async function POST(request: NextRequest) {
         status,
         publishedAt,
         primaryLocale: lang,
-        authorId,
-        blogCategoryId,
         featuredImageId,
         readingTimeMinutes: rt,
         source: "manual",

@@ -25,11 +25,6 @@ function blogIndexUrl(lang: string): string {
   return lang === "en" ? `/blog` : `/${lang}/blog`;
 }
 
-function categoryUrl(lang: string, catSlug: string): string {
-  const enc = encodeURIComponent(catSlug);
-  return lang === "en" ? `/blog/category/${enc}` : `/${lang}/blog/category/${enc}`;
-}
-
 function homeUrl(lang: string): string {
   return lang === "en" ? `/` : `/${lang}/`;
 }
@@ -61,33 +56,6 @@ function mediaToCms(media: MediaWithTrans | null | undefined) {
   };
 }
 
-type AuthorRow = Prisma.BlogAuthorGetPayload<{}>;
-
-function authorBrief(author: AuthorRow | null) {
-  if (!author) return null;
-  return { name: author.name, slug: author.slug };
-}
-
-function authorDetail(author: AuthorRow | null) {
-  if (!author) return null;
-  return {
-    name: author.name,
-    slug: author.slug,
-    title: null,
-    bio: author.bio ?? null,
-    avatar: author.avatarUrl
-      ? { url: author.avatarUrl, alt: author.name, width: null, height: null, mime_type: "" }
-      : null,
-  };
-}
-
-type CategoryRow = Prisma.BlogCategoryGetPayload<{}>;
-
-function categoryToCms(cat: CategoryRow | null) {
-  if (!cat) return null;
-  return { name: cat.name, slug: cat.slug, description: cat.description ?? null };
-}
-
 // ─────────────────────────────────────────────────────────────────────
 // LIST POSTS
 // ─────────────────────────────────────────────────────────────────────
@@ -109,7 +77,7 @@ export async function listPosts(opts: ListPostsOpts) {
   const where: Prisma.ArticleWhereInput = {
     status: "PUBLISHED",
     primaryLocale: lang,
-    ...(category ? { blogCategory: { is: { slug: category, locale: lang } } } : {}),
+    ...(category ? { category } : {}),
     ...(slugs && slugs.length > 0 ? { slug: { in: slugs } } : {}),
     ...(q
       ? {
@@ -135,8 +103,6 @@ export async function listPosts(opts: ListPostsOpts) {
       take: perPage,
       include: {
         translations: { where: { locale: lang } },
-        author: true,
-        blogCategory: true,
         featuredImage: { include: { translations: { where: { locale: lang } } } },
       },
     }),
@@ -155,8 +121,8 @@ export async function listPosts(opts: ListPostsOpts) {
       reading_time_minutes: a.readingTimeMinutes,
       published_at: a.publishedAt?.toISOString() ?? null,
       updated_at: a.updatedAt.toISOString(),
-      author: authorBrief(a.author),
-      category: categoryToCms(a.blogCategory),
+      author: null,
+      category: a.category ? { name: a.category, slug: a.category } : null,
       tags: [] as { name: string; slug: string }[],
       featured_image: mediaToCms(a.featuredImage),
       has_translations: false,
@@ -188,16 +154,9 @@ export async function listPosts(opts: ListPostsOpts) {
 // LIST CATEGORIES
 // ─────────────────────────────────────────────────────────────────────
 
-export async function listCategories(lang: string) {
-  const cats = await prisma.blogCategory.findMany({
-    where: { locale: lang },
-    orderBy: [{ sortOrder: "asc" }, { name: "asc" }],
-  });
-  return cats.map((c) => ({
-    name: c.name,
-    slug: c.slug,
-    description: c.description ?? null,
-  }));
+export async function listCategories(_lang: string) {
+  // BlogCategory model has been removed; return empty list.
+  return [];
 }
 
 // ─────────────────────────────────────────────────────────────────────
@@ -209,8 +168,6 @@ export async function getPostDetail(lang: string, slug: string) {
     where: { slug, primaryLocale: lang, status: "PUBLISHED" },
     include: {
       translations: { where: { locale: lang } },
-      author: true,
-      blogCategory: true,
       featuredImage: { include: { translations: { where: { locale: lang } } } },
       faqs: { where: { locale: lang }, orderBy: { sortOrder: "asc" } },
     },
@@ -235,8 +192,8 @@ export async function getPostDetail(lang: string, slug: string) {
     reading_time_minutes: article.readingTimeMinutes,
     published_at: article.publishedAt?.toISOString() ?? null,
     updated_at: article.updatedAt.toISOString(),
-    author: authorDetail(article.author),
-    category: categoryToCms(article.blogCategory),
+    author: null,
+    category: article.category ? { name: article.category, slug: article.category } : null,
     tags: [] as { name: string; slug: string }[],
     featured_image: featured,
   };
@@ -268,10 +225,10 @@ export async function getPostDetail(lang: string, slug: string) {
 
   // Same-category related posts (most recent 6, excluding self).
   let related: { entity_type: string; entity_key: string; relation: string }[] = [];
-  if (article.blogCategoryId) {
+  if (article.category) {
     const sameCat = await prisma.article.findMany({
       where: {
-        blogCategoryId: article.blogCategoryId,
+        category: article.category,
         primaryLocale: lang,
         status: "PUBLISHED",
         id: { not: article.id },
@@ -309,9 +266,6 @@ export async function getPostDetail(lang: string, slug: string) {
   const breadcrumbs = [
     { label: labels.home, href: `${SITE_URL}${homeUrl(lang)}` },
     { label: labels.blog, href: `${SITE_URL}${blogIndexUrl(lang)}` },
-    ...(article.blogCategory
-      ? [{ label: article.blogCategory.name, href: `${SITE_URL}${categoryUrl(lang, article.blogCategory.slug)}` }]
-      : []),
     { label: t.title, href: canonical },
   ];
 
