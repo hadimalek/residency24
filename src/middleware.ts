@@ -103,6 +103,16 @@ async function verifyToken(token: string | undefined): Promise<boolean> {
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
+  // Strip WordPress-style thumbnail suffixes: /uploads/…-768x481.webp → /uploads/….webp
+  if (pathname.startsWith("/uploads/")) {
+    const m = pathname.match(/^(.*)-\d+x\d+(\.[^./]+)$/);
+    if (m) {
+      const url = req.nextUrl.clone();
+      url.pathname = m[1] + m[2];
+      return NextResponse.redirect(url, 301);
+    }
+  }
+
   if (pathname.startsWith("/admin")) {
     const isLogin =
       pathname === "/admin/login" || pathname.startsWith("/admin/login/");
