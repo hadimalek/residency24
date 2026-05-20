@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import {
   LayoutDashboard,
@@ -14,30 +14,47 @@ import {
   LogOut,
   X,
   ChevronRight,
+  UserCog,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { useAdminAuth } from "@/context/AdminAuthContext";
 
 interface AdminSidebarProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const navItems = [
+const adminNavItems = [
   { label: "داشبورد", icon: LayoutDashboard, href: "/admin" },
   { label: "سشن‌ها", icon: MessageSquare, href: "/admin/sessions" },
   { label: "لیدها", icon: Users, href: "/admin/leads" },
   { label: "پرامت‌ها", icon: FileText, href: "/admin/prompts" },
   { label: "تامین‌کننده‌ها", icon: Cpu, href: "/admin/providers" },
+  { label: "نویسنده‌ها", icon: UserCog, href: "/admin/authors" },
   { label: "تنظیمات", icon: Settings, href: "/admin/settings" },
+];
+
+const editorNavItems = [
+  { label: "داشبورد", icon: LayoutDashboard, href: "/admin" },
 ];
 
 export default function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
   const pathname = usePathname();
+  const router = useRouter();
+  const { user } = useAdminAuth();
+
+  const isAdmin = user?.role === "ADMIN";
+  const navItems = isAdmin ? adminNavItems : editorNavItems;
 
   const isActive = (href: string) => {
     if (href === "/admin") return pathname === "/admin";
     return pathname.startsWith(href);
+  };
+
+  const handleLogout = async () => {
+    await fetch("/api/auth/logout", { method: "POST" }).catch(() => {});
+    router.push("/admin/login");
   };
 
   return (
@@ -72,6 +89,22 @@ export default function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
             <X className="h-5 w-5" />
           </button>
         </div>
+
+        {/* Role badge */}
+        {user && (
+          <div className="px-6 pb-3">
+            <span
+              className="text-xs px-2 py-0.5 rounded-full font-medium"
+              style={
+                isAdmin
+                  ? { backgroundColor: "rgba(220,200,150,0.2)", color: "#DCC896" }
+                  : { backgroundColor: "rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.7)" }
+              }
+            >
+              {isAdmin ? "مدیر ارشد" : "نویسنده"}
+            </span>
+          </div>
+        )}
 
         <Separator className="bg-white/10" />
 
@@ -114,14 +147,17 @@ export default function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
 
         <Separator className="bg-white/10" />
 
-        {/* Logout button */}
-        <div className="px-3 py-4">
+        {/* User info + logout */}
+        <div className="px-3 py-4 space-y-2">
+          {user && (
+            <div className="px-4 py-2">
+              <p className="text-xs text-white/40 truncate">{user.email}</p>
+            </div>
+          )}
           <Button
             variant="ghost"
             className="w-full justify-start gap-3 text-white/60 hover:text-white hover:bg-white/5"
-            onClick={() => {
-              window.location.href = "/admin/login";
-            }}
+            onClick={handleLogout}
           >
             <LogOut className="h-5 w-5" />
             <span>خروج</span>
