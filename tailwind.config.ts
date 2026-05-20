@@ -14,7 +14,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Outfit', 'sans-serif'],
+        sans: ['Vazirmatn', 'Outfit', 'sans-serif'],
         vazir: ['Vazirmatn', 'sans-serif'],
       },
       colors: {

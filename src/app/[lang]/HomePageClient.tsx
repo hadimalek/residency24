@@ -23,8 +23,9 @@ import WhatsAppFloat from "@/components/WhatsAppFloat";
 import { Trophy, Building2, Building, Plane } from "lucide-react";
 import type { CrossSellItem } from "@/components/shared/SharedCrossSell";
 import type { Stat } from "@/components/shared/SharedStatsStrip";
+import type { HomePostPreview } from "@/lib/cms/articles";
 
-export default function HomePageClient({ h1 }: { h1: string }) {
+export default function HomePageClient({ h1, blogPosts }: { h1: string; blogPosts?: HomePostPreview[] }) {
   const { t, lang } = useLanguage();
   const s = t.shared;
 
@@ -64,7 +65,7 @@ export default function HomePageClient({ h1 }: { h1: string }) {
       <AIAdvisorFeature />
       <TeamSection />
       <TrustCompliance />
-      <BlogPreview />
+      <BlogPreview posts={blogPosts} />
 
       {/* S10 — Testimonials */}
       <Testimonials />

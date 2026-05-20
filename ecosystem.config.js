@@ -3,7 +3,7 @@ module.exports = {
     {
       name: "residency24",
       script: ".next/standalone/server.js",
-      cwd: "/var/www/residency24",
+      cwd: "/home/new-res/htdocs/new.residency24.com/residency24",
       env: {
         NODE_ENV: "production",
         PORT: 3000,

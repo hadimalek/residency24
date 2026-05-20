@@ -443,13 +443,38 @@ model Article {
   country   Country? @relation(fields: [countryId], references: [id], onDelete: SetNull)
   category  String?  @db.VarChar(64)
 
+  // robots meta - null/empty = default (indexable). Use values like
+  // "index,follow", "noindex,nofollow". Sitemap excludes anything
+  // whose value matches /noindex/i.
+  robots String? @db.VarChar(64)
+
+  // ── BLOG: author ───────────────────────────────────────────
+  authorId String?
+  author   BlogAuthor? @relation(fields: [authorId], references: [id], onDelete: SetNull)
+
+  // ── BLOG: category (separate from existing `category` slug string) ──
+  blogCategoryId String?
+  blogCategory   BlogCategory? @relation(fields: [blogCategoryId], references: [id], onDelete: SetNull)
+
+  // ── BLOG: WP migration provenance & misc ──────────────────
+  source             String? @db.VarChar(32) // wp | manual
+  sourceId           String? @db.VarChar(64) // original WP post id
+  oldUrl             String? @db.VarChar(512) // original WP URL (for redirects)
+  readingTimeMinutes Int?    @db.SmallInt
+  primaryLocale      String? @db.VarChar(8) // for fast lang filtering
+
   translations ArticleTranslation[]
+  faqs         ArticleFaq[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  @@unique([source, sourceId])
   @@index([status, publishedAt])
   @@index([countryId, status])
+  @@index([primaryLocale, status, publishedAt])
+  @@index([authorId])
+  @@index([category])
 }
 
 model ArticleTranslation {
@@ -458,9 +483,10 @@ model ArticleTranslation {
   article   Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
   locale    String  @db.VarChar(8)
 
-  title   String  @db.VarChar(255)
-  excerpt String? @db.VarChar(512)
-  content String  @db.Text
+  title       String  @db.VarChar(255)
+  excerpt     String? @db.Text // widened (WP excerpts can exceed 512)
+  content     String  @db.LongText // rendered HTML cache (used by SSR)
+  contentJson Json? // Tiptap JSON: block-based source of truth
 
   metaTitle       String? @db.VarChar(255)
   metaDescription String? @db.VarChar(512)
@@ -745,5 +771,75 @@ model MenuItemTranslation {
   label String @db.VarChar(255)
 
   @@unique([menuItemId, locale])
+  @@index([locale])
+}
+
+// ============================================================
+// BLOG AUTHORS
+// ============================================================
+
+model BlogAuthor {
+  id        String  @id @default(cuid())
+  slug      String  @unique @db.VarChar(128)
+  name      String  @db.VarChar(255)
+  bio       String? @db.Text
+  avatarUrl String? @db.VarChar(512)
+
+  // WP provenance
+  source   String? @db.VarChar(32) // wp | manual
+  sourceId String? @db.VarChar(64) // original WP user id
+
+  articles Article[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([source, sourceId])
+}
+
+// ============================================================
+// BLOG CATEGORIES (per-locale)
+// ============================================================
+
+model BlogCategory {
+  id          String  @id @default(cuid())
+  locale      String  @db.VarChar(8)
+  slug        String  @db.VarChar(128)
+  name        String  @db.VarChar(255)
+  description String? @db.Text
+  sortOrder   Int     @default(0)
+
+  // WP provenance
+  source   String? @db.VarChar(32) // wp | manual
+  sourceId String? @db.VarChar(64) // original WP term id
+
+  articles Article[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([locale, slug])
+  @@unique([source, sourceId, locale])
+  @@index([locale])
+}
+
+// ============================================================
+// ARTICLE FAQs (per-locale Q&A pairs scraped from JSON-LD or admin-edited)
+// ============================================================
+
+model ArticleFaq {
+  id        String  @id @default(cuid())
+  articleId String
+  article   Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  locale    String  @db.VarChar(8)
+
+  question  String @db.Text
+  answer    String @db.Text
+  sortOrder Int    @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([articleId, locale, sortOrder])
   @@index([locale])
 }

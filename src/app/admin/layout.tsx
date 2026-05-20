@@ -10,6 +10,10 @@ const pageTitles: Record<string, string> = {
   "/admin": "داشبورد",
   "/admin/sessions": "سشن‌ها",
   "/admin/leads": "لیدها",
+  "/admin/posts": "مقالات بلاگ",
+  "/admin/posts/new": "پست جدید",
+  "/admin/categories": "دسته‌بندی‌ها",
+  "/admin/authors": "نویسنده‌ها",
   "/admin/prompts": "پرامت‌ها",
   "/admin/providers": "تامین‌کننده‌ها",
   "/admin/settings": "تنظیمات",
@@ -21,6 +25,8 @@ function getPageTitle(pathname: string): string {
   if (pathname.startsWith("/admin/sessions/")) return "جزئیات سشن";
   if (pathname.startsWith("/admin/leads/")) return "جزئیات لید";
   if (pathname.startsWith("/admin/prompts/")) return "ویرایش پرامت";
+  if (pathname.startsWith("/admin/posts/") && pathname.endsWith("/edit")) return "ویرایش پست";
+  if (pathname.startsWith("/admin/posts/")) return "پست";
   return "پنل مدیریت";
 }
 

@@ -1,6 +1,6 @@
 import type { CmsPostDetail } from "@/lib/cms/api";
 import type { Lang } from "@/translations";
-import { LANG_CONFIG } from "@/lib/seo";
+import { LANG_CONFIG, BLOG_SEO } from "@/lib/seo";
 
 interface PostHeroProps {
   post: CmsPostDetail;
@@ -20,6 +20,7 @@ function formatDate(dateStr: string | null, lang: Lang): string {
 
 export default function PostHero({ post, lang }: PostHeroProps) {
   const dir = LANG_CONFIG[lang].dir;
+  const readingTimeUnit = BLOG_SEO[lang]?.readingTimeUnit ?? "min";
 
   return (
     <header className="relative w-full" dir={dir}>
@@ -32,7 +33,7 @@ export default function PostHero({ post, lang }: PostHeroProps) {
             width={post.featured_image.width ?? 1200}
             height={post.featured_image.height ?? 630}
             className="w-full h-full object-cover"
-            fetchpriority="high"
+            fetchPriority="high"
           />
         ) : (
           <div className="w-full h-full bg-gradient-to-br from-navy to-navy-lt" />
@@ -90,7 +91,7 @@ export default function PostHero({ post, lang }: PostHeroProps) {
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" />
                 </svg>
-                {post.reading_time_minutes} min
+                {post.reading_time_minutes} {readingTimeUnit}
               </span>
             )}
           </div>

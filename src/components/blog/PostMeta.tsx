@@ -28,7 +28,7 @@ export default function PostMeta({ category, tags, lang }: PostMetaProps) {
     >
       {category && (
         <a
-          href={`${blogBase}?category=${encodeURIComponent(category.slug)}`}
+          href={`${blogBase}/category/${encodeURIComponent(category.slug)}`}
           className="inline-flex items-center gap-1.5 bg-gold-lt text-navy text-xs font-semibold px-3 py-1.5 rounded-full hover:bg-gold transition-colors"
         >
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
