@@ -58,7 +58,7 @@ export async function PATCH(
       nextSlug = candidate;
     }
 
-    const contentJson = body.contentJson ?? trans?.contentJson ?? null;
+    const contentJson = body.contentJson ?? (trans as any)?.contentJson ?? null;
     const contentHtml =
       body.contentJson !== undefined
         ? tiptapJsonToHtml(contentJson)
