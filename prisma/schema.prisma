@@ -455,6 +455,7 @@ model Article {
 
   @@index([status, publishedAt])
   @@index([countryId, status])
+  @@index([category])
 }
 
 model ArticleTranslation {
@@ -463,9 +464,10 @@ model ArticleTranslation {
   article   Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
   locale    String  @db.VarChar(8)
 
-  title   String  @db.VarChar(255)
-  excerpt String? @db.VarChar(512)
-  content String  @db.LongText
+  title       String  @db.VarChar(255)
+  excerpt     String? @db.VarChar(512)
+  content     String  @db.LongText
+  contentJson Json?
 
   metaTitle       String? @db.VarChar(255)
   metaDescription String? @db.VarChar(512)
@@ -752,3 +754,4 @@ model MenuItemTranslation {
   @@unique([menuItemId, locale])
   @@index([locale])
 }
+

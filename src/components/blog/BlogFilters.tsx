@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { type FormEvent, useCallback, useTransition } from "react";
 import type { CmsCategory } from "@/lib/cms/api";
@@ -27,25 +28,29 @@ export default function BlogFilters({
   const [, startTransition] = useTransition();
   const dir = LANG_CONFIG[lang].dir;
 
-  const navigate = useCallback(
-    (category: string, q: string) => {
-      const sp = new URLSearchParams();
-      if (category) sp.set("category", category);
-      if (q) sp.set("q", q);
-      const qs = sp.toString();
-      startTransition(() => {
-        router.push(`${basePath}${qs ? `?${qs}` : ""}`);
-      });
+  const categoryHref = useCallback(
+    (slug: string) => {
+      if (!slug) {
+        // "All" → blog index, preserving query if any
+        return activeQ ? `${basePath}?q=${encodeURIComponent(activeQ)}` : basePath;
+      }
+      const enc = encodeURIComponent(slug);
+      return activeQ
+        ? `${basePath}/category/${enc}?q=${encodeURIComponent(activeQ)}`
+        : `${basePath}/category/${enc}`;
     },
-    [basePath, router]
+    [activeQ, basePath]
   );
-
-  const handleCategory = (slug: string) => navigate(slug, activeQ);
 
   const handleSearch = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const q = (e.currentTarget.elements.namedItem("q") as HTMLInputElement).value.trim();
-    navigate(activeCategory, q);
+    const target = activeCategory
+      ? `${basePath}/category/${encodeURIComponent(activeCategory)}${q ? `?q=${encodeURIComponent(q)}` : ""}`
+      : `${basePath}${q ? `?q=${encodeURIComponent(q)}` : ""}`;
+    startTransition(() => {
+      router.push(target);
+    });
   };
 
   return (
@@ -55,9 +60,8 @@ export default function BlogFilters({
     >
       {/* Category chips */}
       <div className="flex items-center gap-2 flex-wrap flex-1 min-w-0">
-        <button
-          type="button"
-          onClick={() => handleCategory("")}
+        <Link
+          href={categoryHref("")}
           className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors whitespace-nowrap ${
             activeCategory === ""
               ? "bg-navy text-white"
@@ -65,12 +69,11 @@ export default function BlogFilters({
           }`}
         >
           {seo.allLabel}
-        </button>
+        </Link>
         {categories.map((cat) => (
-          <button
+          <Link
             key={cat.slug}
-            type="button"
-            onClick={() => handleCategory(cat.slug)}
+            href={categoryHref(cat.slug)}
             className={`px-3 py-1.5 rounded-full text-sm font-medium transition-colors whitespace-nowrap ${
               activeCategory === cat.slug
                 ? "bg-navy text-white"
@@ -78,7 +81,7 @@ export default function BlogFilters({
             }`}
           >
             {cat.name}
-          </button>
+          </Link>
         ))}
       </div>
 

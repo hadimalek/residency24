@@ -17,6 +17,7 @@ import PostCta from "@/components/blog/PostCta";
 import PostComments from "@/components/blog/PostComments";
 import PostMeta from "@/components/blog/PostMeta";
 import RelatedPosts from "@/components/blog/RelatedPosts";
+import ServicesSidebar from "@/components/blog/ServicesSidebar";
 
 export const dynamicParams = true;
 
@@ -98,7 +99,6 @@ export default async function BlogPostPage({
   const { post, seo, hreflang, faqs, ctas, breadcrumbs, related } = res.data;
   const blogSeo = BLOG_SEO[lang];
 
-  // Resolve related entities (entity_type=post) into full list items
   const relatedPosts = await fetchRelatedPosts(lang, related);
 
   // JSON-LD Article schema
@@ -120,7 +120,6 @@ export default async function BlogPostPage({
     },
   };
 
-  // FAQ schema (if faqs present)
   const faqSchema =
     faqs.length > 0
       ? {
@@ -134,7 +133,6 @@ export default async function BlogPostPage({
         }
       : null;
 
-  // Breadcrumb schema
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -146,7 +144,6 @@ export default async function BlogPostPage({
     })),
   };
 
-  // Split CTAs by placement
   const midCtas = ctas.filter((c) => c.placement === "mid" || c.placement === "inline");
   const bottomCtas = ctas.filter((c) => c.placement === "bottom" || !c.placement);
 
@@ -154,7 +151,6 @@ export default async function BlogPostPage({
 
   return (
     <LanguageProvider initialLang={lang}>
-      {/* JSON-LD */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
@@ -173,32 +169,28 @@ export default async function BlogPostPage({
       <div className="min-h-screen bg-background" dir={dir}>
         <Navbar />
 
-        {/* Hero */}
         <PostHero post={post} lang={lang} />
 
-        {/* Breadcrumbs */}
         <div className="max-w-5xl mx-auto px-4 mt-6">
           <PostBreadcrumbs breadcrumbs={breadcrumbs} lang={lang} blogListPath={blogListPath} />
         </div>
 
-        {/* Main content + sidebar */}
         <div className="max-w-5xl mx-auto px-4 mt-8 pb-20">
           <div className="flex flex-col lg:flex-row gap-10">
-            {/* Sidebar — ToC (sticky) */}
-            {post.content_html && (
-              <aside className="lg:w-64 flex-shrink-0 order-2 lg:order-none">
+            {/* Sidebar — ToC (sticky) + Services */}
+            <aside className="lg:w-64 flex-shrink-0 order-2 lg:order-none space-y-6">
+              {post.content_html && (
                 <PostToc html={post.content_html} lang={lang} dir={dir} />
-              </aside>
-            )}
+              )}
+              <ServicesSidebar lang={lang} categorySlug={post.category?.slug ?? null} />
+            </aside>
 
             {/* Article body */}
             <main className="flex-1 min-w-0">
               <PostBody html={post.content_html ?? ""} />
 
-              {/* Category + tag chips */}
               <PostMeta category={post.category} tags={post.tags} lang={lang} />
 
-              {/* Mid CTAs */}
               {midCtas.length > 0 && (
                 <div className="mt-10 space-y-4">
                   {midCtas.map((cta, i) => (
@@ -207,21 +199,18 @@ export default async function BlogPostPage({
                 </div>
               )}
 
-              {/* FAQs */}
               {faqs.length > 0 && (
                 <div className="mt-12">
                   <PostFaqs faqs={faqs} lang={lang} />
                 </div>
               )}
 
-              {/* Author */}
               {post.author && (
                 <div className="mt-12">
                   <PostAuthor author={post.author} lang={lang} />
                 </div>
               )}
 
-              {/* Bottom CTAs */}
               {bottomCtas.length > 0 && (
                 <div className="mt-10 space-y-4">
                   {bottomCtas.map((cta, i) => (
@@ -230,7 +219,6 @@ export default async function BlogPostPage({
                 </div>
               )}
 
-              {/* Related posts */}
               {relatedPosts.length > 0 && (
                 <RelatedPosts
                   posts={relatedPosts}
@@ -240,7 +228,6 @@ export default async function BlogPostPage({
                 />
               )}
 
-              {/* Comments */}
               <div className="mt-14">
                 <PostComments lang={lang} slug={slug} />
               </div>

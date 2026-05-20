@@ -13,7 +13,6 @@ function extractHeadings(html: string): TocItem[] {
   return matches.map((m, i) => {
     const level = parseInt(m[1], 10);
     const id = m[2] || `heading-${i}`;
-    // Strip inner HTML tags from heading text
     const text = m[3].replace(/<[^>]+>/g, "").trim();
     return { id, text, level };
   });
@@ -51,6 +50,18 @@ export default function PostToc({ html, lang, dir }: PostTocProps) {
 
   if (headings.length < 2) return null;
 
+  // Pure JS scroll — never updates the URL hash, so reload/share/back-button
+  // behavior is unaffected.
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>, id: string) => {
+    e.preventDefault();
+    const el = document.getElementById(id);
+    if (!el) return;
+    const headerOffset = 80;
+    const top = el.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+    window.scrollTo({ top, behavior: "smooth" });
+    setActiveId(id);
+  };
+
   const tocLabel: Record<string, string> = {
     fa: "فهرست مطالب",
     ar: "جدول المحتويات",
@@ -67,16 +78,17 @@ export default function PostToc({ html, lang, dir }: PostTocProps) {
         <ul className="space-y-1">
           {headings.map(({ id, text, level }) => (
             <li key={id} className={level === 3 ? "pl-3" : ""}>
-              <a
-                href={`#${id}`}
-                className={`block text-sm py-0.5 leading-snug transition-colors rounded px-1 ${
+              <button
+                type="button"
+                onClick={(e) => handleClick(e, id)}
+                className={`block w-full text-start text-sm py-0.5 leading-snug transition-colors rounded px-1 cursor-pointer ${
                   activeId === id
                     ? "text-navy font-semibold bg-gold-lt"
                     : "text-ink/70 hover:text-navy"
                 }`}
               >
                 {text}
-              </a>
+              </button>
             </li>
           ))}
         </ul>

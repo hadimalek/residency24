@@ -66,7 +66,6 @@
       prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4 prose-h2:border-b prose-h2:border-border prose-h2:pb-2
       prose-h3:text-xl prose-h3:mt-7 prose-h3:mb-3
       prose-p:text-ink prose-p:leading-8
-      prose-a:text-gold prose-a:no-underline hover:prose-a:underline
       prose-strong:text-navy
       prose-li:text-ink prose-li:leading-8
       prose-ul:my-4 prose-ol:my-4
@@ -81,6 +80,34 @@
   [dir="rtl"] .blog-prose p,
   [dir="rtl"] .blog-prose li {
     text-align: right;
+  }
+
+  /* ── Inline article links — very visible by design ────────────────
+   * Internal cross-links between blog posts must stand out from the
+   * surrounding text so readers naturally find their next read.
+   * Style: gold-tinted pill with a thicker bottom border, transitioning
+   * to a fully-gold background on hover. */
+  .blog-prose a:not(.blog-prose-image-link) {
+    color: hsl(var(--navy));
+    background: hsl(var(--gold-lt));
+    border-bottom: 2px solid hsl(var(--gold));
+    border-radius: 0.3rem;
+    padding: 0.05em 0.4em;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
+  .blog-prose a:not(.blog-prose-image-link):hover {
+    background: hsl(var(--gold));
+    color: hsl(var(--navy));
+    border-bottom-color: hsl(var(--gold-dk));
+  }
+  /* Don't pillify image-anchor wrappers (when an <a> wraps an <img>). */
+  .blog-prose a:has(img),
+  .blog-prose a > img {
+    background: transparent;
+    border: none;
+    padding: 0;
   }
 
   .pill-question {

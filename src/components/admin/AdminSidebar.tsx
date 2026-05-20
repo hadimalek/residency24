@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -15,6 +14,8 @@ import {
   X,
   ChevronRight,
   UserCog,
+  BookOpen,
+  Tags,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -29,6 +30,8 @@ const adminNavItems = [
   { label: "داشبورد", icon: LayoutDashboard, href: "/admin" },
   { label: "سشن‌ها", icon: MessageSquare, href: "/admin/sessions" },
   { label: "لیدها", icon: Users, href: "/admin/leads" },
+  { label: "پست‌ها", icon: BookOpen, href: "/admin/posts" },
+  { label: "دسته‌بندی‌ها", icon: Tags, href: "/admin/categories" },
   { label: "پرامت‌ها", icon: FileText, href: "/admin/prompts" },
   { label: "تامین‌کننده‌ها", icon: Cpu, href: "/admin/providers" },
   { label: "نویسنده‌ها", icon: UserCog, href: "/admin/authors" },
@@ -37,6 +40,7 @@ const adminNavItems = [
 
 const editorNavItems = [
   { label: "داشبورد", icon: LayoutDashboard, href: "/admin" },
+  { label: "پست‌ها", icon: BookOpen, href: "/admin/posts" },
 ];
 
 export default function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
