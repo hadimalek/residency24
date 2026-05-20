@@ -14,10 +14,6 @@ const pageTitles: Record<string, string> = {
   "/admin/posts": "مقالات بلاگ",
   "/admin/posts/new": "پست جدید",
   "/admin/categories": "دسته‌بندی‌ها",
-  "/admin/authors": "نویسنده‌ها",
-  "/admin/prompts": "پرامت‌ها",
-  "/admin/providers": "تامین‌کننده‌ها",
-  "/admin/settings": "تنظیمات",
   "/admin/authors": "مدیریت نویسنده‌ها",
   "/admin/login": "ورود",
 };
