@@ -186,5 +186,9 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next|assets|.*\\..*).*)"],
+  matcher: [
+    // Static files with extensions are excluded, EXCEPT /uploads/ which needs
+    // the WordPress thumbnail redirect (e.g. filename-768x481.webp → filename.webp).
+    "/uploads/:path*",
+    "/((?!_next|assets|.*\\..*).*)"],
 };
