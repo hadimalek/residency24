@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
-import { slugify, tiptapJsonToHtml, readingTimeFromHtml } from "@/lib/cms/admin-queries";
+import { slugify, tiptapJsonToHtml } from "@/lib/cms/admin-queries";
 
 export const dynamic = "force-dynamic";
 
@@ -44,7 +44,7 @@ export async function PATCH(
       return NextResponse.json({ message: "Not found" }, { status: 404 });
     }
 
-    const lang = body.lang ?? article.primaryLocale ?? "en";
+    const lang = body.lang ?? article.translations[0]?.locale ?? "en";
     const trans = article.translations.find((t) => t.locale === lang) ?? article.translations[0];
 
     // Slug change handling — must remain unique
@@ -78,8 +78,6 @@ export async function PATCH(
       publishedAt = article.publishedAt; // preserve original published timestamp on un-publish
     }
 
-    const rt = readingTimeFromHtml(contentHtml);
-
     await prisma.$transaction(async (tx) => {
       await tx.article.update({
         where: { id },
@@ -87,10 +85,8 @@ export async function PATCH(
           slug: nextSlug ?? article.slug,
           status,
           publishedAt,
-          primaryLocale: lang,
           featuredImageId:
             body.featuredImageId === undefined ? article.featuredImageId : body.featuredImageId,
-          readingTimeMinutes: rt,
         },
       });
 

@@ -76,7 +76,7 @@ export async function listPosts(opts: ListPostsOpts) {
 
   const where: Prisma.ArticleWhereInput = {
     status: "PUBLISHED",
-    primaryLocale: lang,
+    translations: { some: { locale: lang } },
     ...(category ? { category } : {}),
     ...(slugs && slugs.length > 0 ? { slug: { in: slugs } } : {}),
     ...(q
@@ -112,13 +112,13 @@ export async function listPosts(opts: ListPostsOpts) {
     const t = a.translations[0];
     return {
       id: hashId(a.id),
-      lang: a.primaryLocale ?? lang,
+      lang,
       type: "post",
       title: t?.title ?? "",
       slug: a.slug,
       url: postUrl(lang, a.slug),
       excerpt: t?.excerpt ?? null,
-      reading_time_minutes: a.readingTimeMinutes,
+      reading_time_minutes: null as number | null,
       published_at: a.publishedAt?.toISOString() ?? null,
       updated_at: a.updatedAt.toISOString(),
       author: null,
@@ -165,11 +165,14 @@ export async function listCategories(_lang: string) {
 
 export async function getPostDetail(lang: string, slug: string) {
   const article = await prisma.article.findFirst({
-    where: { slug, primaryLocale: lang, status: "PUBLISHED" },
+    where: {
+      slug,
+      status: "PUBLISHED",
+      translations: { some: { locale: lang } },
+    },
     include: {
       translations: { where: { locale: lang } },
       featuredImage: { include: { translations: { where: { locale: lang } } } },
-      faqs: { where: { locale: lang }, orderBy: { sortOrder: "asc" } },
     },
   });
   if (!article) return null;
@@ -189,7 +192,7 @@ export async function getPostDetail(lang: string, slug: string) {
     canonical_url: canonical,
     excerpt: t.excerpt ?? null,
     content_html: t.content,
-    reading_time_minutes: article.readingTimeMinutes,
+    reading_time_minutes: null as number | null,
     published_at: article.publishedAt?.toISOString() ?? null,
     updated_at: article.updatedAt.toISOString(),
     author: null,
@@ -216,12 +219,8 @@ export async function getPostDetail(lang: string, slug: string) {
   // Each WP-import post is mono-locale; expose just its own URL.
   const hreflang = [{ lang, url: canonical }];
 
-  // FAQs (scraped from WP JSON-LD at import time)
-  const faqs = article.faqs.map((f, i) => ({
-    question: f.question,
-    answer: f.answer,
-    sort_order: f.sortOrder ?? i,
-  }));
+  // FAQs — model removed, return empty list.
+  const faqs: Array<{ question: string; answer: string; sort_order: number }> = [];
 
   // Same-category related posts (most recent 6, excluding self).
   let related: { entity_type: string; entity_key: string; relation: string }[] = [];
@@ -229,7 +228,7 @@ export async function getPostDetail(lang: string, slug: string) {
     const sameCat = await prisma.article.findMany({
       where: {
         category: article.category,
-        primaryLocale: lang,
+        translations: { some: { locale: lang } },
         status: "PUBLISHED",
         id: { not: article.id },
       },
@@ -247,7 +246,7 @@ export async function getPostDetail(lang: string, slug: string) {
   if (related.length === 0) {
     const recent = await prisma.article.findMany({
       where: {
-        primaryLocale: lang,
+        translations: { some: { locale: lang } },
         status: "PUBLISHED",
         id: { not: article.id },
       },
@@ -294,10 +293,16 @@ export async function getPostDetail(lang: string, slug: string) {
 
 export async function getAllPostParams() {
   const articles = await prisma.article.findMany({
-    where: { status: "PUBLISHED", primaryLocale: { not: null } },
-    select: { slug: true, primaryLocale: true },
+    where: { status: "PUBLISHED" },
+    include: {
+      translations: { select: { locale: true } },
+    },
   });
-  return articles
-    .filter((a): a is { slug: string; primaryLocale: string } => !!a.primaryLocale)
-    .map((a) => ({ lang: a.primaryLocale, slug: a.slug }));
+  const params: { lang: string; slug: string }[] = [];
+  for (const a of articles) {
+    for (const t of a.translations) {
+      params.push({ lang: t.locale, slug: a.slug });
+    }
+  }
+  return params;
 }

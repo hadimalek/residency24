@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
-import { slugify, tiptapJsonToHtml, readingTimeFromHtml } from "@/lib/cms/admin-queries";
+import { slugify, tiptapJsonToHtml } from "@/lib/cms/admin-queries";
 
 export const dynamic = "force-dynamic";
 
@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
   const perPage = Math.min(100, Math.max(1, parseInt(searchParams.get("per_page") ?? "20", 10) || 20));
 
   const where: any = {
-    ...(lang ? { primaryLocale: lang } : {}),
+    ...(lang ? { translations: { some: { locale: lang } } } : {}),
     ...(status ? { status } : {}),
     ...(q
       ? {
@@ -42,18 +42,16 @@ export async function GET(request: NextRequest) {
     ]);
 
     const data = articles.map((a) => {
-      const t = a.translations.find((x) => x.locale === a.primaryLocale) ?? a.translations[0];
+      const t = a.translations[0];
       return {
         id: a.id,
         slug: a.slug,
         status: a.status,
-        primaryLocale: a.primaryLocale,
         title: t?.title ?? "(بدون عنوان)",
         excerpt: t?.excerpt ?? null,
         publishedAt: a.publishedAt,
         updatedAt: a.updatedAt,
         featuredImagePath: a.featuredImage?.filePath ?? null,
-        readingTimeMinutes: a.readingTimeMinutes,
       };
     });
 
@@ -106,17 +104,13 @@ export async function POST(request: NextRequest) {
     const metaDescription = body.metaDescription ?? null;
 
     const publishedAt = status === "PUBLISHED" ? new Date() : null;
-    const rt = readingTimeFromHtml(contentHtml);
 
     const article = await prisma.article.create({
       data: {
         slug,
         status,
         publishedAt,
-        primaryLocale: lang,
         featuredImageId,
-        readingTimeMinutes: rt,
-        source: "manual",
         translations: {
           create: {
             locale: lang,
