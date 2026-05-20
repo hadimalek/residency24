@@ -67,7 +67,6 @@ async function verifyToken(token: string | undefined): Promise<boolean> {
   if (!token) return false;
   const secret = process.env.AUTH_SECRET;
   if (!secret || secret.length < 16 || secret === "GENERATE_WITH_npx_auth_secret") {
-    // Fail closed: if secret is unset, no token is valid.
     return false;
   }
   const dot = token.indexOf(".");
@@ -91,7 +90,6 @@ async function verifyToken(token: string | undefined): Promise<boolean> {
   try {
     const key = await getKey(secret);
     const dataBuf = new TextEncoder().encode(payload);
-    // Copy to a fresh ArrayBuffer so the type is ArrayBuffer (not SharedArrayBuffer)
     const dataAB = new ArrayBuffer(dataBuf.byteLength);
     new Uint8Array(dataAB).set(dataBuf);
     return await crypto.subtle.verify("HMAC", key, sigBytes, dataAB);
@@ -100,7 +98,7 @@ async function verifyToken(token: string | undefined): Promise<boolean> {
   }
 }
 
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // Strip WordPress-style thumbnail suffixes: /uploads/…-768x481.webp → /uploads/….webp
@@ -128,7 +126,6 @@ export async function middleware(req: NextRequest) {
         url.searchParams.set("redirect", pathname);
       }
       const resp = NextResponse.redirect(url);
-      // Clear caches so the redirect isn't served from CDN.
       resp.headers.set("Cache-Control", "no-store, must-revalidate");
       return resp;
     }
@@ -187,8 +184,6 @@ export async function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
-    // Static files with extensions are excluded, EXCEPT /uploads/ which needs
-    // the WordPress thumbnail redirect (e.g. filename-768x481.webp → filename.webp).
     "/uploads/:path*",
     "/((?!_next|assets|.*\\..*).*)"],
 };
