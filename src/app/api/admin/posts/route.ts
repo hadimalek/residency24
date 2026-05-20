@@ -47,6 +47,7 @@ export async function GET(request: NextRequest) {
         id: a.id,
         slug: a.slug,
         status: a.status,
+        locale: t?.locale ?? "fa",
         title: t?.title ?? "(بدون عنوان)",
         excerpt: t?.excerpt ?? null,
         publishedAt: a.publishedAt,
