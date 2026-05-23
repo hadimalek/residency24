@@ -220,8 +220,13 @@ export async function getPostDetail(lang: string, slug: string) {
   // Each WP-import post is mono-locale; expose just its own URL.
   const hreflang = [{ lang, url: canonical }];
 
-  // FAQs — model removed, return empty list.
-  const faqs: Array<{ question: string; answer: string; sort_order: number }> = [];
+  // FAQs stored as JSON in the translation row.
+  const rawFaqs = (t as any).faqs;
+  const faqs: Array<{ question: string; answer: string; sort_order: number }> = Array.isArray(rawFaqs)
+    ? rawFaqs
+        .filter((f: any) => f && typeof f.question === "string" && typeof f.answer === "string")
+        .map((f: any, i: number) => ({ question: f.question, answer: f.answer, sort_order: i }))
+    : [];
 
   // Same-category related posts (most recent 6, excluding self).
   let related: { entity_type: string; entity_key: string; relation: string }[] = [];

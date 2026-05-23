@@ -472,6 +472,8 @@ model ArticleTranslation {
   metaTitle       String? @db.VarChar(255)
   metaDescription String? @db.VarChar(512)
 
+  faqs Json?
+
   @@unique([articleId, locale])
   @@index([locale])
 }

@@ -25,7 +25,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { ArrowRight, Save, Trash2, FileText, Upload, Image as ImageIcon } from "lucide-react";
+import { ArrowRight, Save, Trash2, FileText, Upload, Image as ImageIcon, Plus, X, HelpCircle } from "lucide-react";
 import { toast } from "sonner";
 
 const TiptapEditor = dynamic(() => import("@/components/admin/TiptapEditor"), {
@@ -57,6 +57,11 @@ interface MediaRow {
   mimeType: string;
 }
 
+export interface FaqItem {
+  question: string;
+  answer: string;
+}
+
 export interface PostFormInitial {
   id?: string;
   slug?: string;
@@ -71,6 +76,7 @@ export interface PostFormInitial {
     contentJson: any | null;
     metaTitle: string | null;
     metaDescription: string | null;
+    faqs?: FaqItem[] | null;
   }>;
 }
 
@@ -96,6 +102,8 @@ export default function PostForm({ mode, initial }: PostFormProps) {
   const [contentJson, setContentJson] = useState<any | null>(initialTrans?.contentJson ?? null);
   const [metaTitle, setMetaTitle] = useState<string>(initialTrans?.metaTitle ?? "");
   const [metaDescription, setMetaDescription] = useState<string>(initialTrans?.metaDescription ?? "");
+
+  const [faqs, setFaqs] = useState<FaqItem[]>(initialTrans?.faqs ?? []);
 
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -164,6 +172,7 @@ export default function PostForm({ mode, initial }: PostFormProps) {
         contentJson,
         metaTitle: metaTitle || null,
         metaDescription: metaDescription || null,
+        faqs: faqs.filter((f) => f.question.trim() || f.answer.trim()),
       };
 
       const url = mode === "new" ? "/api/admin/posts" : `/api/admin/posts/${initial?.id}`;
@@ -272,6 +281,68 @@ export default function PostForm({ mode, initial }: PostFormProps) {
                 onChange={setContentJson}
                 dir={dir as "ltr" | "rtl"}
               />
+            </div>
+            <Separator />
+            {/* FAQ section */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <Label className="text-xs uppercase tracking-wide text-gray-500 flex items-center gap-1">
+                  <HelpCircle className="h-3.5 w-3.5" />
+                  سوالات متداول (FAQ)
+                </Label>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="h-7 text-xs gap-1"
+                  onClick={() => setFaqs([...faqs, { question: "", answer: "" }])}
+                >
+                  <Plus className="h-3 w-3" />
+                  افزودن سوال
+                </Button>
+              </div>
+              {faqs.length === 0 && (
+                <p className="text-xs text-gray-400 py-2">هنوز سوالی اضافه نشده.</p>
+              )}
+              <div className="space-y-3">
+                {faqs.map((faq, i) => (
+                  <div key={i} className="border rounded-lg p-3 space-y-2 bg-gray-50">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-medium text-gray-600">سوال {i + 1}</span>
+                      <button
+                        type="button"
+                        onClick={() => setFaqs(faqs.filter((_, j) => j !== i))}
+                        className="text-gray-400 hover:text-red-500"
+                      >
+                        <X className="h-3.5 w-3.5" />
+                      </button>
+                    </div>
+                    <Input
+                      value={faq.question}
+                      onChange={(e) => {
+                        const next = [...faqs];
+                        next[i] = { ...next[i], question: e.target.value };
+                        setFaqs(next);
+                      }}
+                      placeholder="سوال"
+                      dir={dir}
+                      className="text-sm"
+                    />
+                    <Textarea
+                      value={faq.answer}
+                      onChange={(e) => {
+                        const next = [...faqs];
+                        next[i] = { ...next[i], answer: e.target.value };
+                        setFaqs(next);
+                      }}
+                      placeholder="پاسخ"
+                      dir={dir}
+                      rows={2}
+                      className="text-sm"
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
             <Separator />
             <div className="space-y-3">

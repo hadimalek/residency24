@@ -109,6 +109,7 @@ export async function PATCH(
         contentJson: contentJson ?? undefined,
         metaTitle: body.metaTitle ?? trans?.metaTitle ?? null,
         metaDescription: body.metaDescription ?? trans?.metaDescription ?? null,
+        faqs: body.faqs !== undefined ? body.faqs : ((trans as any)?.faqs ?? null),
       };
 
       if (trans) {

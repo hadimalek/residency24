@@ -105,6 +105,7 @@ export async function POST(request: NextRequest) {
     const featuredImageId = body.featuredImageId ?? null;
     const metaTitle = body.metaTitle ?? null;
     const metaDescription = body.metaDescription ?? null;
+    const faqs = body.faqs ?? null;
 
     const publishedAt = status === "PUBLISHED" ? new Date() : null;
 
@@ -123,6 +124,7 @@ export async function POST(request: NextRequest) {
             contentJson: contentJson ?? undefined,
             metaTitle,
             metaDescription,
+            faqs,
           },
         },
       },
