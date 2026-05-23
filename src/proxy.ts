@@ -101,7 +101,8 @@ async function verifyToken(token: string | undefined): Promise<boolean> {
 export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  // Strip WordPress-style thumbnail suffixes: /uploads/…-768x481.webp → /uploads/….webp
+  // Serve uploads via API route — Next.js standalone doesn't serve files
+  // added to public/ after build time.
   if (pathname.startsWith("/uploads/")) {
     const m = pathname.match(/^(.*)-\d+x\d+(\.[^./]+)$/);
     if (m) {
@@ -109,6 +110,9 @@ export async function proxy(req: NextRequest) {
       url.pathname = m[1] + m[2];
       return NextResponse.redirect(url, 301);
     }
+    const url = req.nextUrl.clone();
+    url.pathname = `/api/serve${pathname}`;
+    return NextResponse.rewrite(url);
   }
 
   if (pathname.startsWith("/admin")) {
