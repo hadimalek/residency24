@@ -59,7 +59,6 @@ export default function CompanyRegistrationClient({ lang }: { lang: Lang }) {
   const crossSellItems: CrossSellItem[] = [
     { title: s.cs_golden_visa, description: s.cs_golden_visa_comp_desc, icon: Trophy, href: `/${lang}/uae/golden-visa/`, isHighlighted: true },
     { title: s.cs_property, description: s.cs_property_comp_desc, icon: Building, href: `/${lang}/uae/buy-property/` },
-    { title: s.cs_visa, description: s.cs_visa_desc, icon: Plane, href: `/${lang}/visa/uae/` },
     { title: s.cs_oman_comp, description: s.cs_oman_comp_desc, icon: Globe, href: `/${lang}/oman/company-registration/` },
   ];
 

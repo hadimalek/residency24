@@ -40,7 +40,6 @@ export default function HomePageClient({ h1, blogPosts }: { h1: string; blogPost
     { title: s.cs_golden_visa, description: s.cs_golden_visa_desc, icon: Trophy, href: `/${lang}/uae/golden-visa/`, isHighlighted: true, badge: s.cs_badge_popular },
     { title: s.cs_company_reg, description: s.cs_company_reg_desc, icon: Building2, href: `/${lang}/uae/company-registration/` },
     { title: s.cs_property, description: s.cs_property_desc, icon: Building, href: `/${lang}/uae/buy-property/` },
-    { title: s.cs_visa, description: s.cs_visa_desc, icon: Plane, href: `/${lang}/visa/uae/` },
   ];
 
   return (

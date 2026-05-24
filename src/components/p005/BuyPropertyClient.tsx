@@ -148,7 +148,6 @@ export default function BuyPropertyClient({ h1 }: { h1: string }) {
     { title: s.cs_golden_visa, description: s.cs_golden_via_prop_desc, icon: Trophy, href: `/${lang}/uae/golden-visa/`, isHighlighted: true, badge: s.cs_badge_unlock },
     { title: s.cs_company_reg, description: s.cs_company_reg_desc, icon: Building2, href: `/${lang}/uae/company-registration/` },
     { title: s.cs_oman_prop, description: s.cs_oman_prop_desc, icon: Globe, href: `/${lang}/oman/buy-property/` },
-    { title: s.cs_visa, description: s.cs_visa_desc, icon: Plane, href: `/${lang}/visa/uae/` },
   ];
 
   const breadcrumbItems = [

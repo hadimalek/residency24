@@ -52,7 +52,6 @@ export default function GoldenVisaPageClient() {
     { title: s.cs_property, description: s.cs_property_gold_desc, icon: Building, href: `/${lang}/uae/buy-property/`, isHighlighted: true, badge: s.cs_badge_fastest },
     { title: s.cs_company_reg, description: s.cs_company_gold_desc, icon: Building2, href: `/${lang}/uae/company-registration/` },
     { title: s.cs_oman, description: s.cs_oman_desc, icon: Globe, href: `/${lang}/oman/` },
-    { title: s.cs_visa, description: s.cs_visa_desc, icon: Plane, href: `/${lang}/visa/uae/` },
   ];
 
   return (
