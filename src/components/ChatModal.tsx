@@ -355,10 +355,20 @@ const ChatModal = ({ isOpen, onClose, initialMessage = '' }: { isOpen: boolean; 
       // Parse response for lead form trigger
       let responseText = data.response;
       let shouldShowLeadForm = false;
-      const triggerRegex = /\{"action"\s*:\s*"open_lead_form"[^}]*\}/;
-      const triggerMatch = responseText.match(triggerRegex);
+      // Normalize smart quotes to plain ASCII before matching
+      const normalized = responseText.replace(/[“”„‟″‶]/g, '"');
+      const triggerRegex = /\{\s*"action"\s*:\s*"open_lead_form"[^}]*\}/;
+      const triggerMatch = normalized.match(triggerRegex);
       if (triggerMatch && !leadDone) {
-        responseText = responseText.replace(triggerRegex, '').trim();
+        // Remove the JSON trigger and any "fill in the form" lead-in text
+        responseText = normalized
+          .replace(triggerRegex, '')
+          .replace(/[^\n]*fill in the form[^\n]*/i, '')
+          .replace(/[^\n]*فرم زیر را تکمیل[^\n]*/i, '')
+          .replace(/[^\n]*املأ النموذج[^\n]*/i, '')
+          .replace(/[^\n]*заполните форму[^\n]*/i, '')
+          .replace(/\n{3,}/g, '\n\n')
+          .trim();
         shouldShowLeadForm = true;
       }
 
