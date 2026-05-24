@@ -134,7 +134,7 @@ export async function getAIResponse(
     model: provider.model,
     messages: fullMessages,
     temperature: provider.temperature,
-    max_tokens: provider.maxTokens,
+    max_completion_tokens: provider.maxTokens,
   });
 
   const response = completion.choices[0]?.message?.content || "متاسفانه پاسخی دریافت نشد.";
