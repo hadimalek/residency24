@@ -44,6 +44,9 @@ backups/
 # legacy SQLite migrations folder (preserved if discovered; never push to remote)
 prisma/_old_sqlite_migrations/
 
+# persistent uploads (survives rebuilds)
+/data/
+
 # vercel
 .vercel
 

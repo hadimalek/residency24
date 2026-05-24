@@ -17,6 +17,7 @@ const MIME: Record<string, string> = {
 const ROOTS = [
   path.join(process.cwd(), ".next/standalone/public"),
   path.join(process.cwd(), "public"),
+  process.env.UPLOAD_PERSIST_DIR || path.join(process.cwd(), "data"),
 ];
 
 export async function GET(
@@ -24,7 +25,7 @@ export async function GET(
   { params }: { params: Promise<{ path: string[] }> }
 ) {
   const { path: segments } = await params;
-  const relPath = segments.join("/");
+  const relPath = segments.map((s) => decodeURIComponent(s)).join("/");
 
   for (const root of ROOTS) {
     const filePath = path.join(root, relPath);

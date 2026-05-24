@@ -8,7 +8,6 @@ module.exports = {
     {
       name: "residency24",
       script: ".next/standalone/server.js",
-<<<<<<< HEAD
       cwd: APP_DIR,
       env: {
         NODE_ENV: "production",

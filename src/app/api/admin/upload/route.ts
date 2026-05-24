@@ -22,6 +22,7 @@ const MAX_BYTES = 10 * 1024 * 1024; // 10 MB
 const PROJECT_ROOT = process.cwd();
 const PUBLIC_DIR = path.join(PROJECT_ROOT, "public");
 const STANDALONE_PUBLIC_DIR = path.join(PROJECT_ROOT, ".next/standalone/public");
+const DATA_DIR = path.join(process.env.UPLOAD_PERSIST_DIR || path.join(PROJECT_ROOT, "data"));
 
 function extFromMime(mime: string): string {
   switch (mime) {
@@ -65,8 +66,8 @@ export async function POST(request: NextRequest) {
 
     const relPath = `/uploads/blog/manual/${yyyy}/${mm}/${fileName}`;
 
-    // Mirror into both source and standalone so both build and running PM2 see it.
-    for (const baseDir of [PUBLIC_DIR, STANDALONE_PUBLIC_DIR]) {
+    // Mirror into source, standalone, and persistent data dir so files survive rebuilds.
+    for (const baseDir of [PUBLIC_DIR, STANDALONE_PUBLIC_DIR, DATA_DIR]) {
       const target = path.join(baseDir, relPath);
       try {
         await mkdir(path.dirname(target), { recursive: true });
