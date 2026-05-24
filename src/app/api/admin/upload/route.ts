@@ -6,7 +6,6 @@ import { createHash } from "node:crypto";
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
-// Increase the body size cap so a 10MB image upload doesn't 413.
 export const maxDuration = 60;
 
 const ALLOWED_MIME = new Set([
@@ -19,10 +18,12 @@ const ALLOWED_MIME = new Set([
 ]);
 const MAX_BYTES = 10 * 1024 * 1024; // 10 MB
 
-const PROJECT_ROOT = process.cwd();
-const PUBLIC_DIR = path.join(PROJECT_ROOT, "public");
-const STANDALONE_PUBLIC_DIR = path.join(PROJECT_ROOT, ".next/standalone/public");
-const DATA_DIR = path.join(process.env.UPLOAD_PERSIST_DIR || path.join(PROJECT_ROOT, "data"));
+const CWD = process.cwd();
+const DATA_DIR = process.env.UPLOAD_PERSIST_DIR || path.join(CWD, "data");
+const MIRROR_DIRS = [
+  path.join(CWD, "public"),
+  path.join(CWD, ".next/standalone/public"),
+];
 
 function extFromMime(mime: string): string {
   switch (mime) {
@@ -36,7 +37,6 @@ function extFromMime(mime: string): string {
   }
 }
 
-// POST /api/admin/upload — multipart/form-data with field "file"
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
@@ -66,18 +66,22 @@ export async function POST(request: NextRequest) {
 
     const relPath = `/uploads/blog/manual/${yyyy}/${mm}/${fileName}`;
 
-    // Mirror into source, standalone, and persistent data dir so files survive rebuilds.
-    for (const baseDir of [PUBLIC_DIR, STANDALONE_PUBLIC_DIR, DATA_DIR]) {
+    // Write to persistent data dir first (survives rebuilds).
+    const primaryTarget = path.join(DATA_DIR, relPath);
+    await mkdir(path.dirname(primaryTarget), { recursive: true });
+    await writeFile(primaryTarget, buf);
+
+    // Best-effort mirror to public dirs for static serving.
+    for (const baseDir of MIRROR_DIRS) {
       const target = path.join(baseDir, relPath);
       try {
         await mkdir(path.dirname(target), { recursive: true });
         await writeFile(target, buf);
-      } catch (e) {
-        console.warn("[/api/admin/upload] mirror write failed:", baseDir, (e as Error).message);
+      } catch {
+        // Non-critical — serve route reads from data/ as primary.
       }
     }
 
-    // Persist a Media record (idempotent on filePath)
     const existing = await prisma.media.findFirst({ where: { filePath: relPath } });
     const media =
       existing ??

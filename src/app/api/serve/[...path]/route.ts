@@ -14,11 +14,30 @@ const MIME: Record<string, string> = {
   ".svg": "image/svg+xml",
 };
 
-const ROOTS = [
-  path.join(process.cwd(), ".next/standalone/public"),
-  path.join(process.cwd(), "public"),
-  process.env.UPLOAD_PERSIST_DIR || path.join(process.cwd(), "data"),
-];
+const CWD = process.cwd();
+
+function buildRoots(): string[] {
+  const roots: string[] = [];
+  const seen = new Set<string>();
+  const add = (p: string) => {
+    const resolved = path.resolve(p);
+    if (!seen.has(resolved)) {
+      seen.add(resolved);
+      roots.push(resolved);
+    }
+  };
+
+  if (process.env.UPLOAD_PERSIST_DIR) {
+    add(process.env.UPLOAD_PERSIST_DIR);
+  }
+  add(path.join(CWD, "data"));
+  add(path.join(CWD, "public"));
+  add(path.join(CWD, ".next/standalone/public"));
+
+  return roots;
+}
+
+const ROOTS = buildRoots();
 
 export async function GET(
   _req: NextRequest,
@@ -46,5 +65,6 @@ export async function GET(
     }
   }
 
+  console.warn(`[serve] 404: ${relPath} — checked: ${ROOTS.join(", ")}`);
   return new NextResponse(null, { status: 404 });
 }
