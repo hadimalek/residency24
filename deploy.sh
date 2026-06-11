@@ -43,14 +43,27 @@ npm run build
 # These copies are no-ops if standalone isn't in use.
 if [ -d ".next/standalone" ]; then
   echo "==> Setting up standalone bundle..."
-  cp -r public .next/standalone/public 2>/dev/null || true
-  cp -r .next/static .next/standalone/.next/static 2>/dev/null || true
+  # public/ and .next/static are synced by scripts/postbuild-standalone.sh
+  # (runs inside `npm run build`). Only prisma/.env/uploads remain here.
+  rm -rf .next/standalone/prisma
   cp -r prisma .next/standalone/prisma 2>/dev/null || true
   cp .env .next/standalone/.env 2>/dev/null || true
+
+  # Mirror persisted uploads into the freshly rebuilt standalone public/
+  # so static serving works even if UPLOAD_PERSIST_DIR is ever unset.
+  if [ -d "$APP_DIR/data/uploads" ]; then
+    mkdir -p .next/standalone/public/uploads
+    cp -r "$APP_DIR/data/uploads/." .next/standalone/public/uploads/
+    chmod -R o+rx .next/standalone/public/uploads
+  fi
 fi
 
 echo "==> Restarting PM2..."
-APP_DIR="$APP_DIR" pm2 restart residency24 --update-env || APP_DIR="$APP_DIR" pm2 start ecosystem.config.js
+# startOrReload re-reads ecosystem.config.js so env changes (e.g.
+# UPLOAD_PERSIST_DIR) actually reach the process — `pm2 restart <name>`
+# only refreshes env from the shell, not from the ecosystem file.
+APP_DIR="$APP_DIR" pm2 startOrReload ecosystem.config.js --update-env
+pm2 save
 
 echo ""
 echo "  ✅ Deploy complete!"

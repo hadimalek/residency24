@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && cp -r .next/static .next/standalone/.next/static && cp -r public .next/standalone/public && chmod -R o+rx .next/standalone/",
+    "build": "next build && sh scripts/postbuild-standalone.sh",
     "start": "next start",
     "lint": "eslint"
   },

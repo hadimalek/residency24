@@ -15,6 +15,11 @@ const MIME: Record<string, string> = {
 };
 
 const CWD = process.cwd();
+// Standalone server.js chdirs into .next/standalone; resolve back to the
+// app root so persisted uploads outside the build output are found.
+const APP_ROOT = CWD.endsWith(path.join(".next", "standalone"))
+  ? path.resolve(CWD, "..", "..")
+  : CWD;
 
 function buildRoots(): string[] {
   const roots: string[] = [];
@@ -30,6 +35,8 @@ function buildRoots(): string[] {
   if (process.env.UPLOAD_PERSIST_DIR) {
     add(process.env.UPLOAD_PERSIST_DIR);
   }
+  add(path.join(APP_ROOT, "data"));
+  add(path.join(APP_ROOT, "public"));
   add(path.join(CWD, "data"));
   add(path.join(CWD, "public"));
   add(path.join(CWD, ".next/standalone/public"));
@@ -48,7 +55,7 @@ export async function GET(
 
   for (const root of ROOTS) {
     const filePath = path.join(root, relPath);
-    if (!filePath.startsWith(root)) continue;
+    if (!filePath.startsWith(root + path.sep)) continue;
     try {
       const s = await stat(filePath);
       if (!s.isFile()) continue;

@@ -19,10 +19,16 @@ const ALLOWED_MIME = new Set([
 const MAX_BYTES = 10 * 1024 * 1024; // 10 MB
 
 const CWD = process.cwd();
-const DATA_DIR = process.env.UPLOAD_PERSIST_DIR || path.join(CWD, "data");
+// Standalone server.js chdirs into .next/standalone; resolve back to the
+// app root so fallback paths land outside the build output and survive
+// rebuilds.
+const APP_ROOT = CWD.endsWith(path.join(".next", "standalone"))
+  ? path.resolve(CWD, "..", "..")
+  : CWD;
+const DATA_DIR = process.env.UPLOAD_PERSIST_DIR || path.join(APP_ROOT, "data");
 const MIRROR_DIRS = [
-  path.join(CWD, "public"),
-  path.join(CWD, ".next/standalone/public"),
+  path.join(APP_ROOT, "public"),
+  path.join(APP_ROOT, ".next/standalone/public"),
 ];
 
 function extFromMime(mime: string): string {
