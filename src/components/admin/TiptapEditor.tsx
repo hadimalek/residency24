@@ -30,11 +30,36 @@ export interface TiptapEditorProps {
   onChange: (json: any) => void;
   dir?: "ltr" | "rtl";
   placeholder?: string;
+  fallbackHtml?: string | null; // stored HTML, used to seed the editor when JSON is empty
 }
 
-export default function TiptapEditor({ value, onChange, dir = "rtl", placeholder }: TiptapEditorProps) {
+/** True when a Tiptap JSON document carries no real content (null, no blocks,
+ *  or a single empty paragraph). Such a doc is treated as "no JSON yet" so we
+ *  can fall back to the cached HTML. */
+function isEmptyDoc(json: any): boolean {
+  if (!json) return true;
+  const content = json.content;
+  if (!Array.isArray(content) || content.length === 0) return true;
+  if (content.length === 1) {
+    const only = content[0];
+    if (only?.type === "paragraph" && (!only.content || only.content.length === 0)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+const EMPTY_DOC = { type: "doc", content: [{ type: "paragraph" }] };
+
+export default function TiptapEditor({ value, onChange, dir = "rtl", placeholder, fallbackHtml }: TiptapEditorProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
+
+  // When there is no usable JSON but we do have cached HTML (e.g. WP imports
+  // whose HTML→JSON conversion failed, or posts inserted with HTML only),
+  // seed the editor from that HTML so the editor isn't blank.
+  const initialContent =
+    !isEmptyDoc(value) ? value : fallbackHtml ? fallbackHtml : EMPTY_DOC;
 
   const editor = useEditor({
     extensions: [
@@ -42,7 +67,7 @@ export default function TiptapEditor({ value, onChange, dir = "rtl", placeholder
       Image.configure({ inline: false, allowBase64: false }),
       Link.configure({ openOnClick: false, autolink: true, HTMLAttributes: { rel: "noopener" } }),
     ],
-    content: value ?? { type: "doc", content: [{ type: "paragraph" }] },
+    content: initialContent,
     immediatelyRender: false,
     onUpdate: ({ editor }) => {
       onChange(editor.getJSON());
@@ -61,7 +86,7 @@ export default function TiptapEditor({ value, onChange, dir = "rtl", placeholder
   // External value sync (e.g. when loading existing post into the editor)
   useEffect(() => {
     if (!editor) return;
-    if (!value) return;
+    if (isEmptyDoc(value)) return;
     const current = editor.getJSON();
     // Avoid resetting selection on every keystroke — only sync if document
     // really differs.

@@ -70,10 +70,16 @@ export async function PATCH(
     }
 
     const contentJson = body.contentJson ?? (trans as any)?.contentJson ?? null;
-    const contentHtml =
+    let contentHtml =
       body.contentJson !== undefined
         ? tiptapJsonToHtml(contentJson)
         : (body.contentHtml ?? trans?.content ?? "");
+    // Safety net: never let an empty render silently wipe content that already
+    // exists. Posts imported with HTML-only (no contentJson) would otherwise be
+    // blanked if saved before the editor seeded its JSON.
+    if (!contentHtml.trim() && trans?.content) {
+      contentHtml = trans.content;
+    }
 
     const status =
       body.status === "PUBLISHED" || body.status === "DRAFT" || body.status === "ARCHIVED"
