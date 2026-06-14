@@ -280,6 +280,7 @@ export default function PostForm({ mode, initial }: PostFormProps) {
                 value={contentJson}
                 onChange={setContentJson}
                 dir={dir as "ltr" | "rtl"}
+                fallbackHtml={initialTrans?.content ?? null}
               />
             </div>
             <Separator />
