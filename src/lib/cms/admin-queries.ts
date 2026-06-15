@@ -7,6 +7,10 @@ import { generateHTML } from "@tiptap/html";
 import StarterKit from "@tiptap/starter-kit";
 import { Image } from "@tiptap/extension-image";
 import { Link } from "@tiptap/extension-link";
+import { Table } from "@tiptap/extension-table";
+import { TableRow } from "@tiptap/extension-table-row";
+import { TableHeader } from "@tiptap/extension-table-header";
+import { TableCell } from "@tiptap/extension-table-cell";
 import { JSDOM } from "jsdom";
 
 // JSDOM polyfill so Tiptap's prosemirror DOMParser works under Node.
@@ -17,7 +21,9 @@ g.document ||= dom.window.document;
 g.DOMParser ||= dom.window.DOMParser;
 g.Node ||= dom.window.Node;
 
-const TIPTAP_EXTENSIONS = [StarterKit, Image, Link];
+// Must match the editor's extension set (TiptapEditor.tsx) so JSON saved by the
+// editor renders back to HTML without dropping nodes (notably tables).
+const TIPTAP_EXTENSIONS = [StarterKit, Image, Link, Table, TableRow, TableHeader, TableCell];
 
 export function tiptapJsonToHtml(json: any): string {
   if (!json) return "";

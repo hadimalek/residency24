@@ -4,6 +4,10 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { Image } from "@tiptap/extension-image";
 import { Link } from "@tiptap/extension-link";
+import { Table } from "@tiptap/extension-table";
+import { TableRow } from "@tiptap/extension-table-row";
+import { TableHeader } from "@tiptap/extension-table-header";
+import { TableCell } from "@tiptap/extension-table-cell";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,6 +25,8 @@ import {
   Undo,
   Redo,
   Minus,
+  Table as TableIcon,
+  Trash2,
 } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -66,6 +72,12 @@ export default function TiptapEditor({ value, onChange, dir = "rtl", placeholder
       StarterKit,
       Image.configure({ inline: false, allowBase64: false }),
       Link.configure({ openOnClick: false, autolink: true, HTMLAttributes: { rel: "noopener" } }),
+      // Tables (e.g. pasted from Google Docs / Word). resizable adds column
+      // handles; the four node types must all be registered for paste parsing.
+      Table.configure({ resizable: true }),
+      TableRow,
+      TableHeader,
+      TableCell,
     ],
     content: initialContent,
     immediatelyRender: false,
@@ -269,6 +281,34 @@ export default function TiptapEditor({ value, onChange, dir = "rtl", placeholder
           className="hidden"
           onChange={handleFileSelected}
         />
+        <span className="w-px bg-gray-300 self-stretch mx-1" />
+        <ToolBtn
+          onClick={() =>
+            editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()
+          }
+          title="درج جدول"
+        >
+          <TableIcon className="h-4 w-4" />
+        </ToolBtn>
+        {editor.isActive("table") && (
+          <>
+            <ToolBtn onClick={() => editor.chain().focus().addColumnAfter().run()} title="ستون جدید">
+              <span className="text-xs font-semibold">+col</span>
+            </ToolBtn>
+            <ToolBtn onClick={() => editor.chain().focus().addRowAfter().run()} title="سطر جدید">
+              <span className="text-xs font-semibold">+row</span>
+            </ToolBtn>
+            <ToolBtn onClick={() => editor.chain().focus().deleteColumn().run()} title="حذف ستون">
+              <span className="text-xs font-semibold">−col</span>
+            </ToolBtn>
+            <ToolBtn onClick={() => editor.chain().focus().deleteRow().run()} title="حذف سطر">
+              <span className="text-xs font-semibold">−row</span>
+            </ToolBtn>
+            <ToolBtn onClick={() => editor.chain().focus().deleteTable().run()} title="حذف جدول">
+              <Trash2 className="h-4 w-4" />
+            </ToolBtn>
+          </>
+        )}
         <span className="flex-1" />
         <ToolBtn
           onClick={() => editor.chain().focus().undo().run()}

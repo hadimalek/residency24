@@ -110,6 +110,54 @@
     padding: 0;
   }
 
+  /* ── Tables (blog content + admin editor) ──────────────────────────
+   * Tailwind Typography only adds row separators; pasted Google Docs /
+   * Word tables read better with a full grid. Applies to both the public
+   * article (.blog-prose) and the Tiptap editor surface (.ProseMirror). */
+  .blog-prose table,
+  .ProseMirror table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.25rem 0;
+    table-layout: fixed;
+    overflow: hidden;
+  }
+  .blog-prose th,
+  .blog-prose td,
+  .ProseMirror th,
+  .ProseMirror td {
+    border: 1px solid hsl(var(--border));
+    padding: 0.5rem 0.75rem;
+    vertical-align: top;
+    text-align: start;
+  }
+  .blog-prose th,
+  .ProseMirror th {
+    background: hsl(var(--gold-lt));
+    font-weight: 700;
+    color: hsl(var(--navy));
+  }
+  /* Column-resize + cell-selection affordances inside the editor. */
+  .ProseMirror .selectedCell {
+    background: rgba(0, 30, 110, 0.08);
+  }
+  .ProseMirror .column-resize-handle {
+    position: absolute;
+    right: -2px;
+    top: 0;
+    bottom: -2px;
+    width: 4px;
+    background: hsl(var(--gold));
+    pointer-events: none;
+  }
+  .ProseMirror table {
+    position: relative;
+  }
+  .ProseMirror td,
+  .ProseMirror th {
+    position: relative;
+  }
+
   .pill-question {
     @apply bg-background border border-border rounded-full px-4 py-1.5 text-[13px] text-foreground cursor-pointer transition-all duration-150;
   }
