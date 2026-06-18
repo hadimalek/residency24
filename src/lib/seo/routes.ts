@@ -58,6 +58,9 @@ export const STATIC_ROUTES: SitemapRoute[] = [
   { path: "turkey/company-registration", priority: 0.8, changeFrequency: "monthly" },
   { path: "turkey/buy-property", priority: 0.8, changeFrequency: "monthly" },
   { path: "turkey/tourist-visa", priority: 0.7, changeFrequency: "monthly" },
+
+  // Comparison
+  { path: "compare/uae-vs-oman-vs-turkey", priority: 0.8, changeFrequency: "monthly" },
 ];
 
 export function getIndexableStaticRoutes(): SitemapRoute[] {
