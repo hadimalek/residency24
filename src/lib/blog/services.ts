@@ -20,7 +20,7 @@ const FA_SERVICES: ServiceCard[] = [
   { id: "uae-residency",  title: "اقامت امارات",         subtitle: "۱ تا ۱۰ ساله!",             href: "/fa/uae/golden-visa/" },
   { id: "oman-company",   title: "ثبت شرکت در عمان",     subtitle: "فرصت حضور در بازار بین‌الملل", href: "/fa/oman/company-registration/" },
   { id: "oman-property",  title: "خرید ملک در عمان",     subtitle: "مالکیت ۱۰۰٪",                href: "/fa/oman/buy-property/" },
-  { id: "oman-residency", title: "اقامت عمان",            subtitle: "زندگی آرام و امن",          href: "/fa/oman/golden-visa/" },
+  { id: "oman-residency", title: "اقامت عمان",            subtitle: "زندگی آرام و امن",          href: "/fa/oman/residency-visa/" },
 ];
 
 const EN_SERVICES: ServiceCard[] = [
@@ -29,7 +29,7 @@ const EN_SERVICES: ServiceCard[] = [
   { id: "uae-residency",  title: "UAE Residency",           subtitle: "2 to 10 years",             href: "/uae/golden-visa/" },
   { id: "oman-company",   title: "Oman Company Setup",      subtitle: "Access to GCC markets",     href: "/oman/company-registration/" },
   { id: "oman-property",  title: "Property in Oman",        subtitle: "100% ownership",            href: "/oman/buy-property/" },
-  { id: "oman-residency", title: "Oman Residency",          subtitle: "Calm, family-friendly",     href: "/oman/golden-visa/" },
+  { id: "oman-residency", title: "Oman Residency",          subtitle: "Calm, family-friendly",     href: "/oman/residency-visa/" },
 ];
 
 const RU_SERVICES: ServiceCard[] = [
@@ -38,7 +38,7 @@ const RU_SERVICES: ServiceCard[] = [
   { id: "uae-residency",  title: "Резидентство ОАЭ",               subtitle: "От 2 до 10 лет",              href: "/ru/uae/golden-visa/" },
   { id: "oman-company",   title: "Регистрация компании в Омане",   subtitle: "Выход на рынки Залива",       href: "/ru/oman/company-registration/" },
   { id: "oman-property",  title: "Недвижимость в Омане",           subtitle: "100 % собственность",         href: "/ru/oman/buy-property/" },
-  { id: "oman-residency", title: "Резидентство Омана",              subtitle: "Спокойная жизнь",             href: "/ru/oman/golden-visa/" },
+  { id: "oman-residency", title: "Резидентство Омана",              subtitle: "Спокойная жизнь",             href: "/ru/oman/residency-visa/" },
 ];
 
 const AR_SERVICES: ServiceCard[] = [
@@ -47,7 +47,7 @@ const AR_SERVICES: ServiceCard[] = [
   { id: "uae-residency",  title: "إقامة الإمارات",          subtitle: "من سنتين إلى عشر سنوات",     href: "/ar/uae/golden-visa/" },
   { id: "oman-company",   title: "تأسيس شركة في عُمان",   subtitle: "بوابة لأسواق الخليج",         href: "/ar/oman/company-registration/" },
   { id: "oman-property",  title: "شراء عقار في عُمان",     subtitle: "ملكية 100٪",                  href: "/ar/oman/buy-property/" },
-  { id: "oman-residency", title: "إقامة عُمان",              subtitle: "حياة هادئة وآمنة",            href: "/ar/oman/golden-visa/" },
+  { id: "oman-residency", title: "إقامة عُمان",              subtitle: "حياة هادئة وآمنة",            href: "/ar/oman/residency-visa/" },
 ];
 
 const ALL_SERVICES: Record<string, ServiceCard[]> = {

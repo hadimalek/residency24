@@ -44,21 +44,23 @@ import SharedBreadcrumb from "@/components/shared/SharedBreadcrumb";
 
 const WA = "https://wa.me/971562009131?text=Здравствуйте,+нужна+консультация+по+ОАЭ";
 
-const ELIGIBILITY = "/ru/tools/visa-eligibility-checker/";
-const COST = "/ru/tools/cost-calculator/";
-const DOCS = "/ru/tools/document-checklist-generator/";
-const COMPARE_UAE_OMAN = "/ru/compare/uae-vs-oman/";
-const COMPARE_COMPANY_PROPERTY = "/ru/compare/company-formation-vs-property-purchase/";
-const CONTACT = "/ru/contact/";
+// Routes without a dedicated page yet are sent to the on-page lead form
+// (id="consultation-form") instead of 404ing on /tools/*, /contact/, etc.
+const ELIGIBILITY = "#consultation-form";
+const COST = "#consultation-form";
+const DOCS = "#consultation-form";
+const COMPARE_UAE_OMAN = "/ru/compare/uae-vs-oman-vs-turkey/";
+const COMPARE_COMPANY_PROPERTY = "#consultation-form";
+const CONTACT = "#consultation-form";
 const BLOG = "/ru/blog/";
 
 const UAE_REGISTER = "/ru/uae/register-company/";
-const UAE_RESIDENCY = "/ru/uae/residency/";
+const UAE_RESIDENCY = "/ru/uae/golden-visa/";
 const UAE_PROPERTY = "/ru/uae/property-purchase/";
 const UAE_GOLDEN = "/ru/uae/golden-visa/";
 const UAE_TOURIST = "/ru/uae/tourist-visa/";
-const UAE_FAMILY = "/ru/uae/family-visa/";
-const UAE_VISA = "/ru/uae/visa/";
+const UAE_FAMILY = "#consultation-form";
+const UAE_VISA = "/ru/uae/tourist-visa/";
 
 type CardLink = { title: string; desc: string; href: string; icon: any; badge?: string };
 

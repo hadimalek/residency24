@@ -30,31 +30,44 @@ import {
   Landmark,
   ScrollText,
   HelpCircle,
+  Send,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import BlogPreview from "@/components/BlogPreview";
+import ChatModal from "@/components/ChatModal";
 import type { HomePostPreview } from "@/lib/cms/articles";
 
 const WA = "https://wa.me/971562009131?text=Здравствуйте,+нужна+консультация";
 
-const ELIGIBILITY = "/ru/tools/visa-eligibility-checker/";
-const COST = "/ru/tools/cost-calculator/";
-const DOCS = "/ru/tools/document-checklist-generator/";
-const COMPARE_UAE_OMAN = "/ru/compare/uae-vs-oman/";
-const CONTACT = "/ru/contact/";
+// On-page consultation form (the final CTA section has id="consultation-form").
+// Used for actions that don't have a dedicated page yet — instead of dead
+// links to /tools/* or /contact/, we send the user to the lead form.
+const CONSULT = "#consultation-form";
+const ELIGIBILITY = CONSULT;
+const COST = CONSULT;
+const CONTACT = CONSULT;
+const COMPARE_UAE_OMAN = "/ru/compare/uae-vs-oman-vs-turkey/";
 const IMG = "/images/ru";
 
-type CardLink = { title: string; desc: string; href: string; icon: any; badge?: string };
+// AI advisor shown in the hero — opens the chat modal.
+const HERO_CHAT = {
+  badge: "ИИ-советник · Бесплатно · 24/7",
+  title: "Спросите ИИ-советника",
+  sub: "Мгновенный ответ по ОАЭ, Оману и Турции — на русском.",
+  placeholder: "Напр.: ОАЭ или Оман для бизнеса?",
+  send: "Спросить",
+  pill_label: "Популярные вопросы:",
+  pills: [
+    "ОАЭ или Оман для бизнеса?",
+    "Как работает Golden Visa через недвижимость?",
+    "Сколько стоит компания в Дубае?",
+    "Можно ли перевезти семью?",
+  ],
+};
 
-const HERO_FLOATING = [
-  { title: "Компания в ОАЭ", icon: Building2 },
-  { title: "Недвижимость в Дубае", icon: Home },
-  { title: "Golden Visa", icon: Trophy },
-  { title: "Семейная релокация", icon: Heart },
-  { title: "Банковский счёт", icon: CreditCard },
-];
+type CardLink = { title: string; desc: string; href?: string; icon: any; badge?: string };
 
 const TRUST_BAR = [
   { label: "4 языка", icon: Languages },
@@ -66,20 +79,20 @@ const TRUST_BAR = [
 
 const QUICK_ROUTES: CardLink[] = [
   { title: "Открыть компанию", desc: "Регистрация в ОАЭ или Омане — структура, лицензия, сопровождение.", href: "/ru/uae/register-company/", icon: Building2 },
-  { title: "Получить резидентство", desc: "Резидентская виза через компанию, инвестиции или другие маршруты.", href: "/ru/uae/residency/", icon: ScrollText },
+  { title: "Получить резидентство", desc: "Резидентская виза через компанию, инвестиции или другие маршруты.", href: "/ru/uae/golden-visa/", icon: ScrollText },
   { title: "Купить недвижимость", desc: "Объекты в Дубае и Омане — для жизни, аренды или резидентства.", href: "/ru/uae/property-purchase/", icon: Home },
-  { title: "Перевезти семью", desc: "Семейные визы для супруги/супруга и детей с подготовкой документов.", href: "/ru/uae/family-visa/", icon: Users },
+  { title: "Перевезти семью", desc: "Семейные визы для супруги/супруга и детей с подготовкой документов.", href: CONSULT, icon: Users },
   { title: "Открыть банковский счёт", desc: "Корпоративный счёт после оценки compliance.", href: CONTACT, icon: CreditCard },
-  { title: "Сравнить страны", desc: "ОАЭ или Оман — что подходит вам по бизнесу, бюджету и семье.", href: COMPARE_UAE_OMAN, icon: GitCompare },
+  { title: "Сравнить страны", desc: "ОАЭ, Оман или Турция — что подходит вам по бизнесу, бюджету и семье.", href: COMPARE_UAE_OMAN, icon: GitCompare },
 ];
 
 const UAE_SERVICES: CardLink[] = [
   { title: "Открытие компании в ОАЭ", desc: "Free zone или mainland — подбор структуры под цель.", href: "/ru/uae/register-company/", icon: Building2 },
-  { title: "Резидентская виза ОАЭ", desc: "Маршруты через компанию, работу или инвестиции.", href: "/ru/uae/residency/", icon: ScrollText },
+  { title: "Резидентская виза ОАЭ", desc: "Маршруты через компанию, работу или инвестиции.", href: "/ru/uae/golden-visa/", icon: ScrollText },
   { title: "Недвижимость в Дубае", desc: "Готовые и off-plan объекты с прозрачным сопровождением.", href: "/ru/uae/property-purchase/", icon: Home },
   { title: "Golden Visa ОАЭ", desc: "Долгосрочная виза для инвесторов и предпринимателей.", href: "/ru/uae/golden-visa/", icon: Trophy, badge: "Популярно" },
   { title: "Туристическая виза ОАЭ", desc: "Для бизнес-визитов и подготовки к релокации.", href: "/ru/uae/tourist-visa/", icon: Plane },
-  { title: "Семейная виза ОАЭ", desc: "Резидентство для супруги/супруга и детей.", href: "/ru/uae/family-visa/", icon: Users },
+  { title: "Семейная виза ОАЭ", desc: "Резидентство для супруги/супруга и детей.", href: CONSULT, icon: Users },
 ];
 
 const OMAN_SERVICES: CardLink[] = [
@@ -123,20 +136,22 @@ const PROCESS = [
   { title: "Следующий шаг", desc: "Подача, поездка или открытие счёта." },
 ];
 
+// Advisory topics — no dedicated pages yet, so these are informational
+// (non-clickable) cards. The section CTA below routes to the consultation form.
 const BUSINESS_CARDS: CardLink[] = [
-  { title: "Открытие компании", desc: "Free zone, mainland или offshore — под задачу.", href: "/ru/uae/register-company/", icon: Building2 },
-  { title: "Корпоративный банковский счёт", desc: "Подготовка к compliance-проверке банка.", href: CONTACT, icon: CreditCard },
-  { title: "Business visa", desc: "Виза предпринимателя и инвестора.", href: "/ru/uae/residency/", icon: Briefcase },
-  { title: "Tax residency guidance", desc: "Ориентир по налоговому резидентству.", href: CONTACT, icon: Landmark },
-  { title: "Подготовка документов", desc: "Чек-лист и сопровождение по этапам.", href: DOCS, icon: FileText },
-  { title: "Compliance notes", desc: "Что важно знать о KYC и проверках.", href: CONTACT, icon: ShieldCheck },
+  { title: "Открытие компании", desc: "Free zone, mainland или offshore — под задачу.", icon: Building2 },
+  { title: "Корпоративный банковский счёт", desc: "Подготовка к compliance-проверке банка.", icon: CreditCard },
+  { title: "Business visa", desc: "Виза предпринимателя и инвестора.", icon: Briefcase },
+  { title: "Tax residency guidance", desc: "Ориентир по налоговому резидентству.", icon: Landmark },
+  { title: "Подготовка документов", desc: "Чек-лист и сопровождение по этапам.", icon: FileText },
+  { title: "Compliance notes", desc: "Что важно знать о KYC и проверках.", icon: ShieldCheck },
 ];
 
 const FAMILY_CARDS: CardLink[] = [
-  { title: "Семейная виза", desc: "Резидентство для супруги/супруга и детей.", href: "/ru/uae/family-visa/", icon: Heart },
-  { title: "Документы для dependents", desc: "Свидетельства, переводы, апостили.", href: DOCS, icon: FileText },
-  { title: "Стоимость по составу семьи", desc: "Расчёт под количество членов семьи.", href: COST, icon: Calculator },
-  { title: "Сроки и этапы", desc: "Что и когда оформляется.", href: ELIGIBILITY, icon: ListChecks },
+  { title: "Семейная виза", desc: "Резидентство для супруги/супруга и детей.", icon: Heart },
+  { title: "Документы для dependents", desc: "Свидетельства, переводы, апостили.", icon: FileText },
+  { title: "Стоимость по составу семьи", desc: "Расчёт под количество членов семьи.", icon: Calculator },
+  { title: "Сроки и этапы", desc: "Что и когда оформляется.", icon: ListChecks },
 ];
 
 const WHY_US = [
@@ -184,7 +199,6 @@ const TEAM = [
 
 const OFFICES = ["🇦🇪 Дубай, ОАЭ", "🇴🇲 Маскат, Оман", "🇹🇷 Стамбул, Турция"];
 
-const HERO_IMG = `${IMG}/hero-dubai.jpg`;
 const UAE_IMG = `${IMG}/uae-dubai.jpg`;
 const OMAN_IMG = `${IMG}/oman-muscat.jpg`;
 const OTHER_IMG = `${IMG}/turkey-istanbul.jpg`;
@@ -195,26 +209,43 @@ function CardGrid({ items, cols = 3 }: { items: CardLink[]; cols?: 2 | 3 }) {
     <div className={`grid grid-cols-1 ${colClass} gap-5`}>
       {items.map((c) => {
         const Icon = c.icon;
-        return (
-          <a
-            key={c.title}
-            href={c.href}
-            className="group relative rounded-2xl border border-border bg-white p-6 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all"
-          >
+        const isLink = Boolean(c.href);
+        const inner = (
+          <>
             {c.badge && (
               <span className="absolute top-4 right-4 bg-gold text-navy text-[10px] font-bold uppercase tracking-wide px-2 py-1 rounded-full">
                 {c.badge}
               </span>
             )}
-            <div className="w-11 h-11 rounded-xl bg-navy/5 text-navy flex items-center justify-center mb-4 group-hover:bg-navy group-hover:text-white transition-colors">
+            <div className={`w-11 h-11 rounded-xl bg-navy/5 text-navy flex items-center justify-center mb-4 transition-colors ${
+              isLink ? "group-hover:bg-navy group-hover:text-white" : ""
+            }`}>
               <Icon className="w-5 h-5" />
             </div>
             <div className="font-semibold text-navy text-base mb-1">{c.title}</div>
-            <p className="text-sm text-muted-foreground leading-relaxed mb-4">{c.desc}</p>
-            <span className="inline-flex items-center gap-1 text-sm font-medium text-navy group-hover:text-gold-dk transition-colors">
-              Подробнее <ArrowRight className="w-4 h-4" />
-            </span>
+            <p className="text-sm text-muted-foreground leading-relaxed">{c.desc}</p>
+            {isLink && (
+              <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-navy group-hover:text-gold-dk transition-colors">
+                Подробнее <ArrowRight className="w-4 h-4" />
+              </span>
+            )}
+          </>
+        );
+        return isLink ? (
+          <a
+            key={c.title}
+            href={c.href}
+            className="group relative rounded-2xl border border-border bg-white p-6 shadow-sm transition-all hover:shadow-lg hover:-translate-y-0.5"
+          >
+            {inner}
           </a>
+        ) : (
+          <div
+            key={c.title}
+            className="group relative rounded-2xl border border-border bg-white p-6 shadow-sm"
+          >
+            {inner}
+          </div>
         );
       })}
     </div>
@@ -256,6 +287,17 @@ export default function RuHomePageClient({ h1, blogPosts }: { h1: string; blogPo
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [form, setForm] = useState({ name: "", phone: "", goal: "", country: "ОАЭ", message: "" });
   const [sent, setSent] = useState(false);
+
+  // Hero AI advisor
+  const [chatOpen, setChatOpen] = useState(false);
+  const [chatInitial, setChatInitial] = useState("");
+  const [chatInput, setChatInput] = useState("");
+
+  const openChat = (msg: string) => {
+    setChatInitial(msg.trim());
+    setChatOpen(true);
+    setChatInput("");
+  };
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -337,41 +379,54 @@ export default function RuHomePageClient({ h1, blogPosts }: { h1: string; blogPo
               </div>
             </div>
 
+            {/* AI advisor */}
             <div className="lg:col-span-5 relative">
-              <div className="relative aspect-[5/6] max-w-md mx-auto">
-                <div className="absolute inset-0 rounded-3xl overflow-hidden border border-gold/30 shadow-2xl">
-                  <img
-                    src={HERO_IMG}
-                    alt="Дубай — Residency24"
-                    className="w-full h-full object-cover"
-                    loading="eager"
-                    fetchPriority="high"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/40 to-transparent" />
-                  <div className="absolute inset-x-0 bottom-0 p-6 text-center">
-                    <div className="text-xs uppercase tracking-widest text-gold-lt">Residency24</div>
-                    <div className="mt-1 text-white text-sm">Премиум-сопровождение релокации и резидентства</div>
+              <div className="rounded-3xl border border-gold/30 bg-white/[0.04] backdrop-blur-sm shadow-2xl p-5 sm:p-6 max-w-md mx-auto">
+                <div className="inline-flex items-center gap-2 bg-gold/15 border border-gold/40 rounded-full px-3 py-1 text-xs text-gold-lt mb-4">
+                  <Sparkles className="w-3.5 h-3.5" /> {HERO_CHAT.badge}
+                </div>
+                <h2 className="text-xl font-bold text-white">{HERO_CHAT.title}</h2>
+                <p className="text-sm text-white/70 mt-1">{HERO_CHAT.sub}</p>
+
+                <div className="mt-4 bg-white rounded-2xl shadow-lg border border-white/15">
+                  <div className="flex items-end p-2.5 gap-2">
+                    <textarea
+                      value={chatInput}
+                      onChange={(e) => setChatInput(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" && !e.shiftKey) {
+                          e.preventDefault();
+                          if (chatInput.trim()) openChat(chatInput);
+                        }
+                      }}
+                      placeholder={HERO_CHAT.placeholder}
+                      rows={1}
+                      className="flex-1 bg-transparent border-none outline-none text-[15px] text-ink resize-none py-2.5 px-2 placeholder:text-muted-foreground leading-relaxed"
+                      style={{ minHeight: "44px", maxHeight: "44px" }}
+                    />
+                    <button
+                      onClick={() => chatInput.trim() && openChat(chatInput)}
+                      disabled={!chatInput.trim()}
+                      aria-label={HERO_CHAT.send}
+                      className="shrink-0 w-11 h-11 rounded-xl flex items-center justify-center bg-navy text-white transition-opacity disabled:opacity-30"
+                    >
+                      <Send className="w-4 h-4" />
+                    </button>
                   </div>
                 </div>
-                {HERO_FLOATING.map((f, i) => {
-                  const Icon = f.icon;
-                  const positions = [
-                    "top-2 -left-4 sm:-left-10",
-                    "top-1/4 -right-4 sm:-right-10",
-                    "top-1/2 -left-6 sm:-left-14",
-                    "bottom-1/4 -right-2 sm:-right-8",
-                    "bottom-4 left-1/2 -translate-x-1/2",
-                  ];
-                  return (
-                    <div
-                      key={f.title}
-                      className={`absolute ${positions[i]} bg-white text-navy rounded-xl shadow-xl px-3 py-2 flex items-center gap-2 text-xs font-semibold`}
+
+                <p className="text-[12px] text-white/50 mt-4 mb-2">{HERO_CHAT.pill_label}</p>
+                <div className="flex flex-wrap gap-2">
+                  {HERO_CHAT.pills.map((pill) => (
+                    <button
+                      key={pill}
+                      onClick={() => openChat(pill)}
+                      className="px-3 py-1.5 text-[13px] rounded-full bg-white/10 text-white/80 border border-white/15 hover:bg-white/20 hover:text-white hover:border-white/30 transition-all"
                     >
-                      <Icon className="w-4 h-4 text-gold-dk" />
-                      {f.title}
-                    </div>
-                  );
-                })}
+                      {pill}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -978,6 +1033,15 @@ export default function RuHomePageClient({ h1, blogPosts }: { h1: string; blogPo
 
       <Footer />
       <WhatsAppFloat />
+
+      <ChatModal
+        isOpen={chatOpen}
+        onClose={() => {
+          setChatOpen(false);
+          setChatInitial("");
+        }}
+        initialMessage={chatInitial}
+      />
     </div>
   );
 }

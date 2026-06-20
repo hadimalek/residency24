@@ -93,7 +93,7 @@ const TeamSection = () => {
         {t.team.meet_more && (
           <div className="text-center">
             <a
-              href={`/${lang}/team/`}
+              href={`/${lang}/about/`}
               className="text-sm text-gold hover:underline font-medium"
             >
               {t.team.meet_more} →
