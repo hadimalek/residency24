@@ -42,12 +42,11 @@ import type { HomePostPreview } from "@/lib/cms/articles";
 const WA = "https://wa.me/971562009131?text=Здравствуйте,+нужна+консультация";
 
 // On-page consultation form (the final CTA section has id="consultation-form").
-// Used for actions that don't have a dedicated page yet — instead of dead
-// links to /tools/* or /contact/, we send the user to the lead form.
+// Used for tool-style actions that don't have a dedicated page yet.
 const CONSULT = "#consultation-form";
 const ELIGIBILITY = CONSULT;
 const COST = CONSULT;
-const CONTACT = CONSULT;
+const CONTACT = "/ru/contact/";
 const COMPARE_UAE_OMAN = "/ru/compare/uae-vs-oman-vs-turkey/";
 const IMG = "/images/ru";
 

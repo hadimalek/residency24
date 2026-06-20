@@ -1,0 +1,87 @@
+# =============================================================================
+# Residency24 — nginx reverse proxy for the Next.js standalone server
+# =============================================================================
+#
+# WHY THIS FILE EXISTS
+# --------------------
+# Symptom: after every deploy the site shows "This page couldn't load" and the
+# browser console is full of:
+#
+#     GET https://residency24.com/_next/static/chunks/<hash>.js  404 (Not Found)
+#     Uncaught ChunkLoadError: Failed to load chunk ...
+#
+# Root cause: every `next build` produces NEW content-hashed chunk filenames.
+# The Node standalone server (PM2, 127.0.0.1:3000) always serves the matching
+# files. But if nginx is configured to serve `/_next/static/*` itself from a
+# filesystem path (a stale copy, the wrong directory, or one whose parent dirs
+# the nginx user can't traverse), those new hashes 404 — every single deploy.
+#
+# THE FIX: do NOT let nginx serve /_next/static from disk. Proxy EVERYTHING to
+# the Node server. Node serves the hashed assets in lock-step with the HTML it
+# renders (with correct long-lived immutable cache headers), so the chunk-404
+# problem becomes structurally impossible.
+#
+# If your current vhost (or your hosting panel: CloudPanel / Plesk / etc.) has
+# any of these, DELETE them — they are what breaks on each deploy:
+#     location /_next/static/ { alias .../.next/static/; ... }
+#     root  .../.next/standalone/public;   # with try_files serving _next
+#
+# After editing, run:  nginx -t && systemctl reload nginx
+# (On a panel, paste the location blocks into the vhost's nginx config section.)
+# =============================================================================
+
+upstream residency24_node {
+    server 127.0.0.1:3000;   # PORT from ecosystem.config.js / .env
+    keepalive 32;
+}
+
+server {
+    listen 443 ssl http2;
+    server_name residency24.com www.residency24.com;
+
+    # --- Keep your existing TLS directives (certbot / panel-managed) ---
+    # ssl_certificate     /path/fullchain.pem;
+    # ssl_certificate_key /path/privkey.pem;
+
+    client_max_body_size 25m;
+
+    # Everything — including /_next/static, /_next/data, /uploads — is proxied
+    # to the Node standalone server. No filesystem static serving = no stale
+    # chunk 404s after deploy.
+    location / {
+        proxy_pass http://residency24_node;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade           $http_upgrade;
+        proxy_set_header Connection         "upgrade";
+        proxy_set_header Host               $host;
+        proxy_set_header X-Real-IP          $remote_addr;
+        proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto  $scheme;
+        proxy_read_timeout 60s;
+    }
+}
+
+# OPTIONAL — serve hashed assets straight from disk for a little less CPU.
+# Only use this if you understand the trade-off. It re-introduces the
+# filesystem dependency, so it MUST point at the freshly-synced standalone
+# directory AND every parent dir needs o+x for the nginx user:
+#
+#   location /_next/static/ {
+#       alias /home/<user>/htdocs/residency24.com/residency24/.next/standalone/.next/static/;
+#       access_log off;
+#       expires 1y;
+#       add_header Cache-Control "public, max-age=31536000, immutable";
+#       try_files $uri @node;          # fall back to Node if a file is missing
+#   }
+#   location @node { proxy_pass http://residency24_node; proxy_set_header Host $host; }
+#
+# The `try_files ... @node` fallback is the key safety net: even if the disk
+# copy is briefly out of sync, requests still succeed via Node instead of 404.
+
+# =============================================================================
+# CDN NOTE (Cloudflare etc.)
+# If a CDN sits in front and you use a "Cache Everything" page rule, it can
+# cache the HTML document and keep serving old chunk hashes after a deploy.
+# Either (a) don't cache HTML (cache only /_next/static, /uploads, images), or
+# (b) purge the cache as part of every deploy.
+# =============================================================================

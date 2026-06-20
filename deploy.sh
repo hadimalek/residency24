@@ -65,6 +65,36 @@ echo "==> Restarting PM2..."
 APP_DIR="$APP_DIR" pm2 startOrReload ecosystem.config.js --update-env
 pm2 save
 
+# ---------------------------------------------------------------------------
+# Post-deploy self-check: confirm the running Node server actually serves a
+# freshly-hashed JS chunk. This isolates the two causes behind the recurring
+# "/_next/static 404 + ChunkLoadError after deploy" problem:
+#   • check FAILS  -> the standalone bundle is out of sync (postbuild issue).
+#   • check PASSES but the live site still 404s on /_next/static
+#                  -> the problem is your nginx/CDN layer, NOT the build.
+#                     Make nginx PROXY /_next/ to the Node server instead of
+#                     serving it from disk (see deploy/nginx.conf.example) and
+#                     purge any CDN/HTML cache.
+# Wrapped so it can never abort the deploy.
+# ---------------------------------------------------------------------------
+CHECK_PORT="${PORT:-3000}"
+( set +e
+  sleep 2
+  HTML=$(curl -s "http://127.0.0.1:${CHECK_PORT}/fa" 2>/dev/null || true)
+  CHUNK=$(printf '%s' "$HTML" | grep -oE '/_next/static/[^"]+\.js' | head -1 || true)
+  if [ -n "$CHUNK" ]; then
+    CODE=$(curl -s -o /dev/null -w "%{http_code}" "http://127.0.0.1:${CHECK_PORT}${CHUNK}" 2>/dev/null || echo "000")
+    if [ "$CODE" = "200" ]; then
+      echo "  ✅ Static self-check OK — Node serves a fresh chunk (200)."
+      echo "     If the LIVE site still 404s on /_next/static, the BUILD is fine —"
+      echo "     fix nginx/CDN (see deploy/nginx.conf.example), do not rebuild."
+    else
+      echo "  ⚠️  Static self-check: Node returned ${CODE} for ${CHUNK}."
+      echo "     Standalone bundle looks out of sync — verify scripts/postbuild-standalone.sh ran."
+    fi
+  fi
+) || true
+
 echo ""
 echo "  ✅ Deploy complete!"
 echo "  pm2 logs residency24    # View logs"
