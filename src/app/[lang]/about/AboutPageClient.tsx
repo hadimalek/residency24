@@ -284,9 +284,7 @@ export default function AboutPageClient() {
           <h2 className="text-[36px] font-bold text-white mb-4">{a.cta.h2}</h2>
           <p className="text-[16px] text-white/80 mb-8">{a.cta.p}</p>
           <a
-            href="https://wa.me/971562009131"
-            target="_blank"
-            rel="noopener noreferrer"
+            href={`/${lang}/contact/`}
             className="inline-block bg-gold text-navy font-semibold rounded-xl px-8 py-3.5 text-base hover:opacity-90 transition-opacity"
           >
             {a.cta.btn}

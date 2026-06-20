@@ -51,7 +51,7 @@ const COST = "#consultation-form";
 const DOCS = "#consultation-form";
 const COMPARE_UAE_OMAN = "/ru/compare/uae-vs-oman-vs-turkey/";
 const COMPARE_COMPANY_PROPERTY = "#consultation-form";
-const CONTACT = "#consultation-form";
+const CONTACT = "/ru/contact/";
 const BLOG = "/ru/blog/";
 
 const UAE_REGISTER = "/ru/uae/register-company/";

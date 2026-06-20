@@ -61,6 +61,9 @@ export const STATIC_ROUTES: SitemapRoute[] = [
 
   // Comparison
   { path: "compare/uae-vs-oman-vs-turkey", priority: 0.8, changeFrequency: "monthly" },
+
+  // Contact
+  { path: "contact", priority: 0.7, changeFrequency: "yearly" },
 ];
 
 export function getIndexableStaticRoutes(): SitemapRoute[] {
