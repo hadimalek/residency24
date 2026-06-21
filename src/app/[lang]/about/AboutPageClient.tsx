@@ -91,7 +91,7 @@ export default function AboutPageClient() {
           <p className="text-[15px] text-muted-foreground max-w-2xl mx-auto mb-8">{a.media.video_sub}</p>
           <div className="mx-auto w-full max-w-[320px] aspect-[9/16] rounded-2xl overflow-hidden border border-gold/30 shadow-xl bg-navy">
             <iframe
-              src="https://www.youtube-nocookie.com/embed/PjylvIBbzAA"
+              src="https://www.youtube.com/embed/PjylvIBbzAA?rel=0&playsinline=1&modestbranding=1"
               title={a.media.video_h2}
               className="w-full h-full"
               style={{ border: 0 }}
