@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import SharedBreadcrumb from "@/components/shared/SharedBreadcrumb";
+import MediaImage from "@/components/MediaImage";
 import type { Lang } from "@/translations";
 import { motion } from "framer-motion";
 import {
@@ -401,6 +402,12 @@ export default function ContactPageClient() {
               <p className="text-xs uppercase tracking-wider text-gold mb-2">{c.offices_eyebrow}</p>
               <h2 className="text-2xl md:text-3xl font-bold text-navy mb-3">{c.offices_title}</h2>
               <p className="text-sm text-muted-foreground max-w-2xl mx-auto">{c.offices_sub}</p>
+            </div>
+
+            {/* Dubai office photo */}
+            <div className="relative aspect-[16/9] md:aspect-[21/9] rounded-2xl overflow-hidden border-t-2 border-gold shadow-sm mb-8">
+              <MediaImage src="/images/office-dubai.jpg" alt={c.offices[0].city} className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-navy/40 to-transparent pointer-events-none" />
             </div>
 
             <div className="grid lg:grid-cols-2 gap-6 items-stretch">

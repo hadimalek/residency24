@@ -609,6 +609,14 @@ const translations: Record<Lang, any> = {
     },
     about: {
       breadcrumb_home: "خانه",
+      media: {
+        eyebrow: "پشت صحنهٔ رزیدنسی۲۴",
+        video_h2: "ما را بهتر بشناسید",
+        video_sub: "نگاهی کوتاه به اینکه چه کسی هستیم و چطور برای ساختن آیندهٔ شما در خارج کمک می‌کنیم.",
+        gallery_h2: "داخل دفتر دبی ما",
+        gallery_sub: "آدم‌های واقعی، حضور واقعی — نه فقط یک وب‌سایت.",
+        alt: "رزیدنسی۲۴ — دفتر و تیم دبی",
+      },
       hero: {
         h1: "رزیدنسی۲۴ — همراه مطمئن شما در مهاجرت سرمایه‌گذاری",
         p: "از سال ۲۰۱۸، رزیدنسی۲۴ با دفاتر فعال در دبی و مشهد، بیش از ۵,۰۰۰ پرونده موفق اقامت، ثبت شرکت و خرید ملک را در کارنامه خود دارد. ما بر این باوریم که مهاجرت سرمایه‌گذاری نباید پیچیده، مبهم یا پرریسک باشد — تمام تلاش ما ارائه مسیر قانونی، شفاف و مطمئن برای هر مشتری است.",
@@ -1746,6 +1754,14 @@ const translations: Record<Lang, any> = {
     },
     about: {
       breadcrumb_home: "Home",
+      media: {
+        eyebrow: "Behind Residency24",
+        video_h2: "Get to Know Us",
+        video_sub: "A quick look at who we are and how we help you build your future abroad.",
+        gallery_h2: "Inside Our Dubai Office",
+        gallery_sub: "Real people, real presence — not just a website.",
+        alt: "Residency24 — Dubai office and team",
+      },
       hero: {
         h1: "About Residency24 — Your Trusted Partner for Investment Immigration",
         p: "Since 2018, Residency24 has helped over 5,000 investors, entrepreneurs, and families build their global future through legal, transparent pathways in the UAE, Oman, and Turkey. With offices in Dubai and Mashhad, we are not just an online service — we are a real team with real presence in the markets that matter most to you.",
@@ -2883,6 +2899,14 @@ const translations: Record<Lang, any> = {
     },
     about: {
       breadcrumb_home: "الرئيسية",
+      media: {
+        eyebrow: "خلف Residency24",
+        video_h2: "تعرّف علينا",
+        video_sub: "لمحة سريعة عمّن نكون وكيف نساعدك في بناء مستقبلك في الخارج.",
+        gallery_h2: "داخل مكتبنا في دبي",
+        gallery_sub: "أشخاص حقيقيون وحضور حقيقي — وليس مجرد موقع إلكتروني.",
+        alt: "Residency24 — مكتب وفريق دبي",
+      },
       hero: {
         h1: "Residency24 — شريكك الموثوق في الهجرة الاستثمارية",
         p: "منذ عام 2018، ساعدت Residency24 أكثر من 5,000 مستثمر وعائلة في بناء مستقبلهم العالمي عبر مسارات قانونية وشفافة في الإمارات وعُمان وتركيا. مع مكتبين في دبي ومشهد، نحن لسنا مجرد خدمة إلكترونية — بل فريق حقيقي بحضور ميداني في الأسواق الأكثر أهمية لعملائنا.",
@@ -4020,6 +4044,14 @@ const translations: Record<Lang, any> = {
     },
     about: {
       breadcrumb_home: "Главная",
+      media: {
+        eyebrow: "Закулисье Residency24",
+        video_h2: "Познакомьтесь с нами",
+        video_sub: "Короткий взгляд на то, кто мы и как помогаем строить ваше будущее за рубежом.",
+        gallery_h2: "Наш офис в Дубае",
+        gallery_sub: "Реальные люди и реальное присутствие — а не просто сайт.",
+        alt: "Residency24 — офис и команда в Дубае",
+      },
       hero: {
         h1: "О компании Residency24 — Ваш надёжный партнёр по инвестиционной иммиграции",
         p: "С 2018 года Residency24 помогла более 5 000 инвесторов и семей построить своё глобальное будущее через законные и прозрачные пути в ОАЭ, Омане и Турции. С офисами в Дубае и Мешхеде мы — не просто онлайн-сервис, а реальная команда с реальным присутствием на ключевых рынках.",
