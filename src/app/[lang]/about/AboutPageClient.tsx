@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import ContactBar from "@/components/ContactBar";
 import MediaImage from "@/components/MediaImage";
+import YouTubeFacade from "@/components/YouTubeFacade";
 import SharedCrossSell from "@/components/shared/SharedCrossSell";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { motion } from "framer-motion";
@@ -90,16 +91,16 @@ export default function AboutPageClient() {
           <h2 className="text-[32px] font-bold text-navy mb-3">{a.media.video_h2}</h2>
           <p className="text-[15px] text-muted-foreground max-w-2xl mx-auto mb-8">{a.media.video_sub}</p>
           <div className="mx-auto w-full max-w-[320px] aspect-[9/16] rounded-2xl overflow-hidden border border-gold/30 shadow-xl bg-navy">
-            <iframe
-              src="https://www.youtube.com/embed/PjylvIBbzAA?rel=0&playsinline=1&modestbranding=1"
-              title={a.media.video_h2}
-              className="w-full h-full"
-              style={{ border: 0 }}
-              loading="lazy"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-            />
+            <YouTubeFacade videoId="PjylvIBbzAA" title={a.media.video_h2} watchKind="shorts" />
           </div>
+          <a
+            href="https://www.youtube.com/shorts/PjylvIBbzAA"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block mt-4 text-sm font-medium text-navy underline hover:text-gold transition-colors"
+          >
+            {a.media.video_watch}
+          </a>
         </div>
       </motion.section>
 
