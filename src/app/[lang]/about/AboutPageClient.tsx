@@ -265,8 +265,8 @@ export default function AboutPageClient() {
             <p className="text-[15px] text-muted-foreground max-w-2xl mx-auto">{a.media.gallery_sub}</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            {["/images/about-1.jpg", "/images/about-2.jpg", "/images/about-3.jpg"].map((src, i) => (
-              <div key={src} className="relative aspect-[4/3] rounded-2xl overflow-hidden border-t-2 border-gold shadow-sm">
+            {["/images/about-1.jpg", "/images/about-2.jpg", "/images/about-3.png"].map((src, i) => (
+              <div key={src} className="relative aspect-[3/4] rounded-2xl overflow-hidden border-t-2 border-gold shadow-sm">
                 <MediaImage src={src} alt={`${a.media.alt} ${i + 1}`} className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-navy/30 to-transparent pointer-events-none" />
               </div>

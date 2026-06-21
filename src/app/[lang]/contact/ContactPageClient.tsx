@@ -405,7 +405,7 @@ export default function ContactPageClient() {
             </div>
 
             {/* Dubai office photo */}
-            <div className="relative aspect-[16/9] md:aspect-[21/9] rounded-2xl overflow-hidden border-t-2 border-gold shadow-sm mb-8">
+            <div className="relative mx-auto w-full max-w-sm aspect-[3/4] rounded-2xl overflow-hidden border-t-2 border-gold shadow-md mb-10">
               <MediaImage src="/images/office-dubai.jpg" alt={c.offices[0].city} className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-navy/40 to-transparent pointer-events-none" />
             </div>

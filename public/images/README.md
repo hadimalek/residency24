@@ -15,8 +15,9 @@ a broken image — so you can add them at any time.
 | `office-dubai.jpg` | Contact page — office banner | Dubai office (exterior or interior), wide/landscape |
 | `about-1.jpg` | About page — gallery | Office / workspace |
 | `about-2.jpg` | About page — gallery | Team at work / meeting |
-| `about-3.jpg` | About page — gallery | Reception / signage / city context |
+| `about-3.png` | About page — gallery | Reception / signage / city context |
 
-Recommended: landscape ~4:3 or 16:9, ≥ 1200px wide, optimized (< ~400 KB each).
+Photos render in portrait cards (3:4), so portrait shots fit best. To replace
+one, keep the exact filename (and extension) above.
 
 The About "Get to Know Us" video is embedded from YouTube — no file needed here.
