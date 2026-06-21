@@ -27,6 +27,7 @@ export default function YouTubeFacade({ videoId, title, watchKind = "watch" }: Y
         style={{ border: 0 }}
         loading="lazy"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerPolicy="strict-origin-when-cross-origin"
         allowFullScreen
       />
     );
