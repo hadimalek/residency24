@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import ContactBar from "@/components/ContactBar";
+import MediaImage from "@/components/MediaImage";
 import SharedCrossSell from "@/components/shared/SharedCrossSell";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { motion } from "framer-motion";
@@ -73,6 +74,32 @@ export default function AboutPageClient() {
             </a>
             {a.story.p2.split(a.story.link_text)[1] || ""}
           </p>
+        </div>
+      </motion.section>
+
+      {/* 2b. Intro video */}
+      <motion.section
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.12 }}
+        className="py-20 bg-surface border-y border-border"
+        style={{ direction: isRTL ? "rtl" : "ltr" }}
+      >
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <span className="inline-block text-xs font-semibold text-gold tracking-[0.12em] uppercase mb-3">{a.media.eyebrow}</span>
+          <h2 className="text-[32px] font-bold text-navy mb-3">{a.media.video_h2}</h2>
+          <p className="text-[15px] text-muted-foreground max-w-2xl mx-auto mb-8">{a.media.video_sub}</p>
+          <div className="mx-auto w-full max-w-[320px] aspect-[9/16] rounded-2xl overflow-hidden border border-gold/30 shadow-xl bg-navy">
+            <iframe
+              src="https://www.youtube-nocookie.com/embed/PjylvIBbzAA"
+              title={a.media.video_h2}
+              className="w-full h-full"
+              style={{ border: 0 }}
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+            />
+          </div>
         </div>
       </motion.section>
 
@@ -218,6 +245,30 @@ export default function AboutPageClient() {
                     )}
                   </div>
                 )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </motion.section>
+
+      {/* 5b. Office & team gallery */}
+      <motion.section
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.12 }}
+        className="py-20 bg-surface"
+        style={{ direction: isRTL ? "rtl" : "ltr" }}
+      >
+        <div className="max-w-5xl mx-auto px-4">
+          <div className="text-center mb-10">
+            <h2 className="text-[32px] font-bold text-navy mb-3">{a.media.gallery_h2}</h2>
+            <p className="text-[15px] text-muted-foreground max-w-2xl mx-auto">{a.media.gallery_sub}</p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {["/images/about-1.jpg", "/images/about-2.jpg", "/images/about-3.jpg"].map((src, i) => (
+              <div key={src} className="relative aspect-[4/3] rounded-2xl overflow-hidden border-t-2 border-gold shadow-sm">
+                <MediaImage src={src} alt={`${a.media.alt} ${i + 1}`} className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-navy/30 to-transparent pointer-events-none" />
               </div>
             ))}
           </div>
