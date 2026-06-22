@@ -3,6 +3,80 @@ export type Lang = 'fa' | 'en' | 'ar' | 'ru';
 const translations: Record<Lang, any> = {
   fa: {
     dir: "rtl",
+    uaeLife: {
+      meta: {
+        title: "زندگی در امارات — یک راهنمای کوتاه",
+        description: "ببینید زندگی روزمره در امارات متحدهٔ عربی واقعاً چگونه است: امنیت، سبک زندگی، اقتصاد، آب‌وهوا و تفریح، سلامت و آموزش.",
+      },
+      hero: {
+        headline: "به فکر یک زندگی بهتر در امارات هستید؟",
+        sub: "از شهرهای امن و مدرن تا آفتاب در تمام طول سال — با زندگی در امارات بیشتر آشنا شوید. اطلاعات خود را بگذارید تا اطلاعات مفیدی برایتان بفرستیم.",
+      },
+      form: {
+        namePlaceholder: "نام شما",
+        phonePlaceholder: "شمارهٔ واتساپ",
+        phoneHint: "لطفاً کد کشور را هم وارد کنید.",
+        cta: "ارسال اطلاعات من",
+        sending: "در حال ارسال…",
+        thankYou: "متشکریم! به‌زودی با شما تماس می‌گیریم.",
+        errorRequired: "لطفاً نام و شمارهٔ واتساپ خود را وارد کنید.",
+        errorGeneric: "مشکلی پیش آمد. لطفاً دوباره تلاش کنید.",
+        consent: "با ارسال این فرم، با تماس گرفتن ما موافقت می‌کنید. ما به حریم خصوصی شما احترام می‌گذاریم و اطلاعات شما را با کسی به اشتراک نمی‌گذاریم.",
+      },
+      sections: {
+        lifestyle: {
+          title: "سبک زندگی امن و مدرن",
+          body: "امارات به امنیت، نظافت و جامعهٔ چندفرهنگی و پذیرا شناخته می‌شود. مردم از بیش از ۲۰۰ ملیت در کنار هم در شهرهایی زندگی می‌کنند که حول آسایش و رفاه ساخته شده‌اند.",
+          points: [
+            "به‌طور مداوم جزو امن‌ترین کشورهای جهان",
+            "خانه‌ای پذیرا برای بیش از ۲۰۰ ملیت",
+            "زیرساخت مدرن، حمل‌ونقل و خدمات شهر هوشمند",
+            "رواج گستردهٔ زبان انگلیسی در زندگی روزمره",
+          ],
+        },
+        economy: {
+          title: "اقتصاد پویا و فرصت‌ها",
+          body: "امارات با اقتصادی متنوع و رو به رشد و محیط کسب‌وکار قوی، یکی از قطب‌های پیشروی منطقه برای کار، تجارت و کارآفرینی است.",
+          points: [
+            "اقتصادی باثبات، متنوع و رو به رشد",
+            "قطبی جهانی برای تجارت و کسب‌وکار",
+            "بازار کار گسترده و فعال",
+            "خدمات بانکی و مالی در سطح جهانی",
+          ],
+        },
+        leisure: {
+          title: "آفتاب، ساحل و تفریح",
+          body: "از هوای گرم تقریباً در تمام سال، سواحل زیبا، رستوران‌های مشهور جهانی و تفریحات بی‌پایان لذت ببرید — از کویر و پارک‌ها تا خرید و سرگرمی.",
+          points: [
+            "آفتاب و هوای گرم در بیشتر طول سال",
+            "سواحل تمیز و زندگی کنار آب",
+            "رستوران، خرید و سرگرمی در سطح جهانی",
+            "کویر، پارک‌ها و جاذبه‌های خانوادگی",
+          ],
+        },
+        health: {
+          title: "سلامت و آموزش",
+          body: "امارات بیمارستان‌های مدرن و طیف گسترده‌ای از مدارس و دانشگاه‌های بین‌المللی را ارائه می‌دهد و محیطی راحت برای خانواده‌هاست.",
+          points: [
+            "بیمارستان‌های مدرن و مراقبت‌های پزشکی پیشرفته",
+            "تنوع گسترده‌ای از مدارس بین‌المللی",
+            "دانشگاه‌های شناخته‌شدهٔ بین‌المللی",
+            "محیطی مناسب برای خانواده",
+          ],
+        },
+      },
+      trust: {
+        items: [
+          "خانهٔ بیش از ۲۰۰ ملیت",
+          "آفتاب تقریباً در تمام سال",
+          "از امن‌ترین شهرهای جهان",
+        ],
+      },
+      finalCta: {
+        title: "کنجکاو زندگی در امارات هستید؟",
+        sub: "نام و شمارهٔ واتساپ خود را بگذارید تا اطلاعات مفیدی دربارهٔ زندگی در اینجا برایتان بفرستیم.",
+      },
+    },
     nav: {
       services: "خدمات", countries: "کشورها", about: "درباره ما", blog: "بلاگ", contact: "تماس",
       wa: "واتساپ", tg: "تلگرام",
@@ -1149,6 +1223,80 @@ const translations: Record<Lang, any> = {
 
   en: {
     dir: "ltr",
+    uaeLife: {
+      meta: {
+        title: "Life in the UAE — A Quick Guide",
+        description: "Discover what daily life in the United Arab Emirates is really like: safety, lifestyle, the economy, weather and leisure, healthcare and schools.",
+      },
+      hero: {
+        headline: "Dreaming of a better life in the UAE?",
+        sub: "From safe, modern cities to sunshine all year round — get to know what living in the UAE is like. Leave your details and we'll share helpful information.",
+      },
+      form: {
+        namePlaceholder: "Your name",
+        phonePlaceholder: "WhatsApp number",
+        phoneHint: "Please include your country code.",
+        cta: "Send my details",
+        sending: "Sending…",
+        thankYou: "Thank you! We'll be in touch shortly.",
+        errorRequired: "Please enter your name and WhatsApp number.",
+        errorGeneric: "Something went wrong. Please try again.",
+        consent: "By submitting, you agree to be contacted. We respect your privacy and never share your details.",
+      },
+      sections: {
+        lifestyle: {
+          title: "A safe, modern lifestyle",
+          body: "The UAE is known for its safety, cleanliness and welcoming, multicultural communities. People from more than 200 nationalities live side by side in cities built around comfort and convenience.",
+          points: [
+            "Consistently ranked among the world's safest countries",
+            "A welcoming home to 200+ nationalities",
+            "Modern infrastructure, transport and smart-city services",
+            "English widely spoken in daily life",
+          ],
+        },
+        economy: {
+          title: "A dynamic economy & opportunities",
+          body: "With a diversified, fast-growing economy and a strong business environment, the UAE is one of the region's leading hubs for work, trade and entrepreneurship.",
+          points: [
+            "A stable, diversified and growing economy",
+            "A global hub for trade and business",
+            "A wide and active job market",
+            "World-class banking and financial services",
+          ],
+        },
+        leisure: {
+          title: "Sunshine, beaches & leisure",
+          body: "Enjoy warm weather almost all year, beautiful beaches, world-famous dining and endless things to do — from deserts and parks to shopping and entertainment.",
+          points: [
+            "Sunshine and warm weather for most of the year",
+            "Clean beaches and waterfront living",
+            "World-class dining, shopping and entertainment",
+            "Deserts, parks and family attractions",
+          ],
+        },
+        health: {
+          title: "Healthcare & education",
+          body: "The UAE offers modern hospitals and a wide choice of international schools and universities, making it a comfortable place for families.",
+          points: [
+            "Modern hospitals and advanced medical care",
+            "A wide choice of international schools",
+            "Internationally recognised universities",
+            "A family-friendly environment",
+          ],
+        },
+      },
+      trust: {
+        items: [
+          "Home to 200+ nationalities",
+          "Sunshine almost all year round",
+          "Among the world's safest cities",
+        ],
+      },
+      finalCta: {
+        title: "Curious about life in the UAE?",
+        sub: "Leave your name and WhatsApp number and we'll share helpful information about living here.",
+      },
+    },
     nav: {
       services: "Services", countries: "Countries", about: "About", blog: "Blog", contact: "Contact",
       wa: "WhatsApp", tg: "Telegram",
@@ -2295,6 +2443,80 @@ const translations: Record<Lang, any> = {
 
   ar: {
     dir: "rtl",
+    uaeLife: {
+      meta: {
+        title: "الحياة في الإمارات — دليل سريع",
+        description: "اكتشف كيف تبدو الحياة اليومية في الإمارات العربية المتحدة حقًا: الأمان، نمط الحياة، الاقتصاد، الطقس والترفيه، الرعاية الصحية والتعليم.",
+      },
+      hero: {
+        headline: "تحلم بحياة أفضل في الإمارات؟",
+        sub: "من المدن الآمنة والعصرية إلى الشمس على مدار العام — تعرّف على الحياة في الإمارات. اترك بياناتك وسنرسل لك معلومات مفيدة.",
+      },
+      form: {
+        namePlaceholder: "اسمك",
+        phonePlaceholder: "رقم واتساب",
+        phoneHint: "يرجى إضافة رمز الدولة.",
+        cta: "إرسال بياناتي",
+        sending: "جارٍ الإرسال…",
+        thankYou: "شكرًا لك! سنتواصل معك قريبًا.",
+        errorRequired: "يرجى إدخال اسمك ورقم واتساب.",
+        errorGeneric: "حدث خطأ ما. يرجى المحاولة مرة أخرى.",
+        consent: "بإرسالك النموذج، فإنك توافق على أن نتواصل معك. نحن نحترم خصوصيتك ولا نشارك بياناتك مع أي جهة.",
+      },
+      sections: {
+        lifestyle: {
+          title: "نمط حياة آمن وعصري",
+          body: "تشتهر الإمارات بالأمان والنظافة والمجتمعات المتعددة الثقافات والمرحّبة. يعيش أشخاص من أكثر من 200 جنسية جنبًا إلى جنب في مدن مبنية حول الراحة والرفاهية.",
+          points: [
+            "تُصنّف باستمرار بين أكثر دول العالم أمانًا",
+            "موطن مرحّب لأكثر من 200 جنسية",
+            "بنية تحتية حديثة ونقل وخدمات مدن ذكية",
+            "اللغة الإنجليزية شائعة في الحياة اليومية",
+          ],
+        },
+        economy: {
+          title: "اقتصاد ديناميكي وفرص",
+          body: "بفضل اقتصاد متنوع وسريع النمو وبيئة أعمال قوية، تُعد الإمارات من أبرز مراكز المنطقة للعمل والتجارة وريادة الأعمال.",
+          points: [
+            "اقتصاد مستقر ومتنوع ونامٍ",
+            "مركز عالمي للتجارة والأعمال",
+            "سوق عمل واسع ونشط",
+            "خدمات مصرفية ومالية بمستوى عالمي",
+          ],
+        },
+        leisure: {
+          title: "شمس وشواطئ وترفيه",
+          body: "استمتع بالطقس الدافئ على مدار العام تقريبًا، والشواطئ الجميلة، والمطاعم العالمية الشهيرة، وأنشطة لا تنتهي — من الصحراء والحدائق إلى التسوق والترفيه.",
+          points: [
+            "شمس وطقس دافئ معظم أيام السنة",
+            "شواطئ نظيفة وحياة على الواجهة المائية",
+            "مطاعم وتسوق وترفيه بمستوى عالمي",
+            "صحارٍ وحدائق ومعالم عائلية",
+          ],
+        },
+        health: {
+          title: "الرعاية الصحية والتعليم",
+          body: "توفر الإمارات مستشفيات حديثة وخيارات واسعة من المدارس والجامعات الدولية، مما يجعلها مكانًا مريحًا للعائلات.",
+          points: [
+            "مستشفيات حديثة ورعاية طبية متقدمة",
+            "خيارات واسعة من المدارس الدولية",
+            "جامعات معترف بها دوليًا",
+            "بيئة مناسبة للعائلات",
+          ],
+        },
+      },
+      trust: {
+        items: [
+          "موطن لأكثر من 200 جنسية",
+          "شمس على مدار العام تقريبًا",
+          "من أكثر مدن العالم أمانًا",
+        ],
+      },
+      finalCta: {
+        title: "هل تتساءل عن الحياة في الإمارات؟",
+        sub: "اترك اسمك ورقم واتساب وسنرسل لك معلومات مفيدة عن الحياة هنا.",
+      },
+    },
     nav: {
       services: "الخدمات", countries: "الدول", about: "من نحن", blog: "المدونة", contact: "اتصل بنا",
       wa: "واتساب", tg: "تيليغرام",
@@ -3441,6 +3663,80 @@ const translations: Record<Lang, any> = {
 
   ru: {
     dir: "ltr",
+    uaeLife: {
+      meta: {
+        title: "Жизнь в ОАЭ — краткий путеводитель",
+        description: "Узнайте, какова на самом деле повседневная жизнь в Объединённых Арабских Эмиратах: безопасность, образ жизни, экономика, погода и отдых, здравоохранение и образование.",
+      },
+      hero: {
+        headline: "Мечтаете о лучшей жизни в ОАЭ?",
+        sub: "Безопасные современные города и солнце круглый год — узнайте, какова жизнь в ОАЭ. Оставьте свои данные, и мы пришлём вам полезную информацию.",
+      },
+      form: {
+        namePlaceholder: "Ваше имя",
+        phonePlaceholder: "Номер WhatsApp",
+        phoneHint: "Пожалуйста, укажите код страны.",
+        cta: "Отправить данные",
+        sending: "Отправка…",
+        thankYou: "Спасибо! Мы свяжемся с вами в ближайшее время.",
+        errorRequired: "Пожалуйста, укажите имя и номер WhatsApp.",
+        errorGeneric: "Что-то пошло не так. Попробуйте ещё раз.",
+        consent: "Отправляя форму, вы соглашаетесь на то, чтобы мы с вами связались. Мы уважаем вашу конфиденциальность и не передаём ваши данные третьим лицам.",
+      },
+      sections: {
+        lifestyle: {
+          title: "Безопасный современный образ жизни",
+          body: "ОАЭ известны безопасностью, чистотой и гостеприимными мультикультурными сообществами. Люди более чем 200 национальностей живут бок о бок в городах, созданных для комфорта и удобства.",
+          points: [
+            "Неизменно входит в число самых безопасных стран мира",
+            "Гостеприимный дом для 200+ национальностей",
+            "Современная инфраструктура, транспорт и услуги умного города",
+            "Английский широко используется в повседневной жизни",
+          ],
+        },
+        economy: {
+          title: "Динамичная экономика и возможности",
+          body: "Благодаря диверсифицированной, быстрорастущей экономике и сильной деловой среде ОАЭ — один из ведущих центров региона для работы, торговли и предпринимательства.",
+          points: [
+            "Стабильная, диверсифицированная и растущая экономика",
+            "Мировой центр торговли и бизнеса",
+            "Широкий и активный рынок труда",
+            "Банковские и финансовые услуги мирового уровня",
+          ],
+        },
+        leisure: {
+          title: "Солнце, пляжи и отдых",
+          body: "Тёплая погода почти круглый год, прекрасные пляжи, всемирно известные рестораны и бесконечные развлечения — от пустынь и парков до шопинга и развлечений.",
+          points: [
+            "Солнце и тёплая погода большую часть года",
+            "Чистые пляжи и жизнь у воды",
+            "Рестораны, шопинг и развлечения мирового уровня",
+            "Пустыни, парки и семейные достопримечательности",
+          ],
+        },
+        health: {
+          title: "Здравоохранение и образование",
+          body: "В ОАЭ современные больницы и широкий выбор международных школ и университетов, что делает страну комфортной для семей.",
+          points: [
+            "Современные больницы и передовая медицина",
+            "Широкий выбор международных школ",
+            "Университеты с мировым признанием",
+            "Среда, дружелюбная к семьям",
+          ],
+        },
+      },
+      trust: {
+        items: [
+          "Дом для 200+ национальностей",
+          "Солнце почти круглый год",
+          "Среди самых безопасных городов мира",
+        ],
+      },
+      finalCta: {
+        title: "Интересно, какова жизнь в ОАЭ?",
+        sub: "Оставьте имя и номер WhatsApp, и мы пришлём полезную информацию о жизни здесь.",
+      },
+    },
     nav: {
       services: "Услуги", countries: "Страны", about: "О нас", blog: "Блог", contact: "Контакты",
       wa: "WhatsApp", tg: "Telegram",
