@@ -10,6 +10,8 @@ interface LandingLeadFormProps {
   variant?: "hero" | "cta";
   /** Page slug used to tag the lead's sourcePage, e.g. "uae-life". */
   sourceSlug: string;
+  /** Optional localized form labels; defaults to t.uaeLife.form. */
+  strings?: Record<string, string>;
 }
 
 type Status = "idle" | "loading" | "sent" | "error";
@@ -17,9 +19,9 @@ type Status = "idle" | "loading" | "sent" | "error";
 const inputClass =
   "w-full bg-white/10 border border-gold/30 text-white placeholder:text-white/40 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-gold transition-colors min-h-[48px]";
 
-export default function LandingLeadForm({ sourceSlug }: LandingLeadFormProps) {
+export default function LandingLeadForm({ sourceSlug, strings }: LandingLeadFormProps) {
   const { t, lang } = useLanguage();
-  const f = t.uaeLife.form;
+  const f = strings ?? t.uaeLife.form;
 
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
