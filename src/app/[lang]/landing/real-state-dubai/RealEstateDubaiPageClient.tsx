@@ -91,14 +91,31 @@ export default function RealEstateDubaiPageClient() {
               </div>
             </div>
 
-            {/* Lead form card */}
-            <div className="bg-white/5 rounded-3xl p-6 md:p-7 border border-gold/20 text-start">
-              <div className="inline-flex items-center gap-1.5 bg-white/10 text-gold px-3 py-1.5 rounded-full text-xs font-bold mb-4">
-                <Sparkles className="w-3.5 h-3.5" /> {u.hero.pill}
+            {/* AI advisor card — opens the lead form on interaction */}
+            <div className="bg-white rounded-2xl p-6 md:p-7 shadow-2xl text-start">
+              <div className="inline-flex items-center gap-1.5 bg-[#F0F2FB] text-navy px-3 py-1.5 rounded-full text-xs font-bold mb-4">
+                <Sparkles className="w-3.5 h-3.5" /> {u.hero.advisor.pill}
               </div>
-              <h3 className="text-lg font-bold text-white mb-1.5">{u.form.cta_title}</h3>
-              <p className="text-[13.5px] text-white/70 leading-relaxed mb-5">{u.form.cta_sub}</p>
-              <LandingLeadForm variant="hero" sourceSlug="landing/real-state-dubai" strings={u.form} />
+              <h3 className="text-lg font-bold text-ink mb-2">{u.hero.advisor.h3}</h3>
+              <p className="text-[13.5px] text-muted-foreground leading-relaxed mb-4">{u.hero.advisor.p}</p>
+              <button
+                onClick={openLead}
+                className="w-full text-start border border-border rounded-xl px-4 py-3 text-[13.5px] text-muted-foreground bg-[#FAFBFD] mb-4 hover:border-navy/40 transition-colors"
+              >
+                {u.hero.advisor.placeholder}
+              </button>
+              <div className="text-xs font-bold text-muted-foreground mb-2.5">{u.hero.advisor.questions_label}</div>
+              <div className="flex flex-col gap-2">
+                {u.hero.advisor.questions.map((q: string, i: number) => (
+                  <button
+                    key={i}
+                    onClick={openLead}
+                    className="text-start bg-surface border border-border text-navy px-3.5 py-2.5 rounded-lg text-[13px] font-semibold hover:bg-[#EEF1FA] transition-colors"
+                  >
+                    {q}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </div>
