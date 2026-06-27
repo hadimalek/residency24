@@ -12,10 +12,10 @@ import {
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
-import ChatModal from "@/components/ChatModal";
 import TeamSection from "@/components/TeamSection";
 import MediaImage from "@/components/MediaImage";
 import LandingLeadForm from "@/components/landing/LandingLeadForm";
+import LeadFormModal from "@/components/landing/LeadFormModal";
 import SharedStatsStrip from "@/components/shared/SharedStatsStrip";
 import SharedHowItWorks from "@/components/shared/SharedHowItWorks";
 import SharedFAQ from "@/components/shared/SharedFAQ";
@@ -52,13 +52,8 @@ const fade = {
 export default function RealEstateDubaiPageClient() {
   const { t, isRTL } = useLanguage();
   const u = t.realEstateDubai;
-  const [chatOpen, setChatOpen] = useState(false);
-  const [chatMessage, setChatMessage] = useState("");
-
-  const openChat = (message = "") => {
-    setChatMessage(message);
-    setChatOpen(true);
-  };
+  const [leadOpen, setLeadOpen] = useState(false);
+  const openLead = () => setLeadOpen(true);
 
   const dir = isRTL ? "rtl" : "ltr";
 
@@ -87,43 +82,23 @@ export default function RealEstateDubaiPageClient() {
                 ))}
               </div>
               <div className="flex flex-wrap gap-3 mt-9">
-                <button onClick={() => openChat()} className="inline-flex items-center gap-2 bg-[#FBF6E8] text-navy font-bold px-6 py-3.5 rounded-xl text-sm hover:-translate-y-0.5 transition-transform">
+                <button onClick={openLead} className="inline-flex items-center gap-2 bg-[#FBF6E8] text-navy font-bold px-6 py-3.5 rounded-xl text-sm hover:-translate-y-0.5 transition-transform">
                   {u.hero.cta_options} <ArrowRight className={`w-4 h-4 ${isRTL ? "rotate-180" : ""}`} />
                 </button>
-                <a href="#pricing" className="inline-flex items-center gap-2 bg-navy text-white font-bold px-6 py-3.5 rounded-xl text-sm hover:-translate-y-0.5 transition-transform">
-                  <Calculator className="w-4 h-4" /> {u.hero.cta_calc}
-                </a>
                 <a href={WA} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-green-500 text-white font-bold px-6 py-3.5 rounded-xl text-sm hover:-translate-y-0.5 transition-transform">
                   <MessageCircle className="w-4 h-4" /> {u.hero.cta_whatsapp}
                 </a>
               </div>
             </div>
 
-            {/* AI advisor card */}
-            <div className="bg-white rounded-2xl p-6 md:p-7 shadow-2xl text-start">
-              <div className="inline-flex items-center gap-1.5 bg-[#F0F2FB] text-navy px-3 py-1.5 rounded-full text-xs font-bold mb-4">
-                <Sparkles className="w-3.5 h-3.5" /> {u.hero.advisor.pill}
+            {/* Lead form card */}
+            <div className="bg-white/5 rounded-3xl p-6 md:p-7 border border-gold/20 text-start">
+              <div className="inline-flex items-center gap-1.5 bg-white/10 text-gold px-3 py-1.5 rounded-full text-xs font-bold mb-4">
+                <Sparkles className="w-3.5 h-3.5" /> {u.hero.pill}
               </div>
-              <h3 className="text-lg font-bold text-ink mb-2">{u.hero.advisor.h3}</h3>
-              <p className="text-[13.5px] text-muted-foreground leading-relaxed mb-4">{u.hero.advisor.p}</p>
-              <button
-                onClick={() => openChat()}
-                className="w-full text-start border border-border rounded-xl px-4 py-3 text-[13.5px] text-muted-foreground bg-[#FAFBFD] mb-4 hover:border-navy/40 transition-colors"
-              >
-                {u.hero.advisor.placeholder}
-              </button>
-              <div className="text-xs font-bold text-muted-foreground mb-2.5">{u.hero.advisor.questions_label}</div>
-              <div className="flex flex-col gap-2">
-                {u.hero.advisor.questions.map((q: string, i: number) => (
-                  <button
-                    key={i}
-                    onClick={() => openChat(q)}
-                    className="text-start bg-surface border border-border text-navy px-3.5 py-2.5 rounded-lg text-[13px] font-semibold hover:bg-[#EEF1FA] transition-colors"
-                  >
-                    {q}
-                  </button>
-                ))}
-              </div>
+              <h3 className="text-lg font-bold text-white mb-1.5">{u.form.cta_title}</h3>
+              <p className="text-[13.5px] text-white/70 leading-relaxed mb-5">{u.form.cta_sub}</p>
+              <LandingLeadForm variant="hero" sourceSlug="landing/real-state-dubai" strings={u.form} />
             </div>
           </div>
         </div>
@@ -147,7 +122,7 @@ export default function RealEstateDubaiPageClient() {
                   <div className="w-12 h-12 rounded-xl bg-[#EEF1FB] text-navy flex items-center justify-center mb-4"><Icon className="w-6 h-6" /></div>
                   <h3 className="text-[17px] font-bold text-ink mb-2">{c.title}</h3>
                   <p className="text-[13.5px] text-muted-foreground leading-relaxed mb-4">{c.desc}</p>
-                  <button onClick={() => openChat()} className="text-[13px] font-bold text-navy inline-flex items-center gap-1.5">
+                  <button onClick={openLead} className="text-[13px] font-bold text-navy inline-flex items-center gap-1.5">
                     {c.cta} <ArrowRight className={`w-3.5 h-3.5 ${isRTL ? "rotate-180" : ""}`} />
                   </button>
                 </div>
@@ -180,7 +155,7 @@ export default function RealEstateDubaiPageClient() {
                       </span>
                     ))}
                   </div>
-                  <button onClick={() => openChat()} className="text-[13.5px] font-bold text-navy inline-flex items-center gap-1.5">
+                  <button onClick={openLead} className="text-[13.5px] font-bold text-navy inline-flex items-center gap-1.5">
                     {c.cta} <ArrowRight className={`w-3.5 h-3.5 ${isRTL ? "rotate-180" : ""}`} />
                   </button>
                 </div>
@@ -218,7 +193,7 @@ export default function RealEstateDubaiPageClient() {
             ))}
           </div>
           <div className="text-center mt-8">
-            <button onClick={() => openChat()} className="inline-flex items-center gap-2 bg-gold text-navy font-bold px-6 py-3.5 rounded-xl text-sm hover:-translate-y-0.5 transition-transform">
+            <button onClick={openLead} className="inline-flex items-center gap-2 bg-gold text-navy font-bold px-6 py-3.5 rounded-xl text-sm hover:-translate-y-0.5 transition-transform">
               {u.compare.cta} <ArrowRight className={`w-4 h-4 ${isRTL ? "rotate-180" : ""}`} />
             </button>
           </div>
@@ -244,8 +219,8 @@ export default function RealEstateDubaiPageClient() {
             })}
           </div>
           <div className="text-center mt-9">
-            <button onClick={() => openChat()} className="inline-flex items-center gap-2 bg-navy text-white font-bold px-6 py-3.5 rounded-xl text-sm hover:-translate-y-0.5 transition-transform">
-              <Calculator className="w-4 h-4" /> {u.pricing.cta}
+            <button onClick={openLead} className="inline-flex items-center gap-2 bg-navy text-white font-bold px-6 py-3.5 rounded-xl text-sm hover:-translate-y-0.5 transition-transform">
+              {u.form.cta} <ArrowRight className={`w-4 h-4 ${isRTL ? "rotate-180" : ""}`} />
             </button>
           </div>
         </div>
@@ -262,7 +237,7 @@ export default function RealEstateDubaiPageClient() {
                 </span>
                 <h2 className="text-[26px] md:text-[30px] font-bold mb-3">{u.finder.h2}</h2>
                 <p className="text-white/70 leading-relaxed mb-6">{u.finder.sub}</p>
-                <button onClick={() => openChat()} className="inline-flex items-center gap-2 bg-[#FBF6E8] text-navy font-bold px-6 py-3.5 rounded-xl text-sm hover:-translate-y-0.5 transition-transform">
+                <button onClick={openLead} className="inline-flex items-center gap-2 bg-[#FBF6E8] text-navy font-bold px-6 py-3.5 rounded-xl text-sm hover:-translate-y-0.5 transition-transform">
                   {u.finder.cta} <ArrowRight className={`w-4 h-4 ${isRTL ? "rotate-180" : ""}`} />
                 </button>
               </div>
@@ -319,7 +294,7 @@ export default function RealEstateDubaiPageClient() {
             })}
           </div>
           <div className="text-center">
-            <button onClick={() => openChat()} className="inline-flex items-center gap-2 bg-navy text-white font-bold px-6 py-3.5 rounded-xl text-sm hover:-translate-y-0.5 transition-transform">
+            <button onClick={openLead} className="inline-flex items-center gap-2 bg-navy text-white font-bold px-6 py-3.5 rounded-xl text-sm hover:-translate-y-0.5 transition-transform">
               {u.topics.cta} <ArrowRight className={`w-4 h-4 ${isRTL ? "rotate-180" : ""}`} />
             </button>
           </div>
@@ -385,7 +360,7 @@ export default function RealEstateDubaiPageClient() {
 
       <WhatsAppFloat />
       <Footer />
-      <ChatModal isOpen={chatOpen} onClose={() => setChatOpen(false)} initialMessage={chatMessage} />
+      <LeadFormModal open={leadOpen} onOpenChange={setLeadOpen} sourceSlug="landing/real-state-dubai" strings={u.form} />
     </div>
   );
 }
