@@ -12,6 +12,7 @@ import {
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
+import ChatModal from "@/components/ChatModal";
 import TeamSection from "@/components/TeamSection";
 import MediaImage from "@/components/MediaImage";
 import LandingLeadForm from "@/components/landing/LandingLeadForm";
@@ -54,6 +55,12 @@ export default function RealEstateDubaiPageClient() {
   const u = t.realEstateDubai;
   const [leadOpen, setLeadOpen] = useState(false);
   const openLead = () => setLeadOpen(true);
+  const [chatOpen, setChatOpen] = useState(false);
+  const [chatMessage, setChatMessage] = useState("");
+  const openChat = (message = "") => {
+    setChatMessage(message);
+    setChatOpen(true);
+  };
 
   const dir = isRTL ? "rtl" : "ltr";
 
@@ -99,7 +106,7 @@ export default function RealEstateDubaiPageClient() {
               <h3 className="text-lg font-bold text-ink mb-2">{u.hero.advisor.h3}</h3>
               <p className="text-[13.5px] text-muted-foreground leading-relaxed mb-4">{u.hero.advisor.p}</p>
               <button
-                onClick={openLead}
+                onClick={() => openChat()}
                 className="w-full text-start border border-border rounded-xl px-4 py-3 text-[13.5px] text-muted-foreground bg-[#FAFBFD] mb-4 hover:border-navy/40 transition-colors"
               >
                 {u.hero.advisor.placeholder}
@@ -109,7 +116,7 @@ export default function RealEstateDubaiPageClient() {
                 {u.hero.advisor.questions.map((q: string, i: number) => (
                   <button
                     key={i}
-                    onClick={openLead}
+                    onClick={() => openChat(q)}
                     className="text-start bg-surface border border-border text-navy px-3.5 py-2.5 rounded-lg text-[13px] font-semibold hover:bg-[#EEF1FA] transition-colors"
                   >
                     {q}
@@ -378,6 +385,7 @@ export default function RealEstateDubaiPageClient() {
       <WhatsAppFloat />
       <Footer />
       <LeadFormModal open={leadOpen} onOpenChange={setLeadOpen} sourceSlug="landing/real-state-dubai" strings={u.form} />
+      <ChatModal isOpen={chatOpen} onClose={() => setChatOpen(false)} initialMessage={chatMessage} />
     </div>
   );
 }
