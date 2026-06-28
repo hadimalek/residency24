@@ -187,7 +187,7 @@ export default function TiptapEditor({ value, onChange, dir = "rtl", placeholder
   return (
     <div className="border rounded-lg bg-white">
       {/* Toolbar */}
-      <div className="flex flex-wrap items-center gap-1 p-2 border-b bg-gray-50 sticky top-0 z-10" dir="ltr">
+      <div className="flex flex-wrap items-center gap-1 p-2 border-b bg-gray-50 sticky top-[68px] z-20" dir="ltr">
         <ToolBtn
           onClick={() => editor.chain().focus().toggleBold().run()}
           active={editor.isActive("bold")}
