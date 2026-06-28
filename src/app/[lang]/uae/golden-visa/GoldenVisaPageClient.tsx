@@ -19,7 +19,7 @@ import SharedCrossSell from "@/components/shared/SharedCrossSell";
 import SharedLeadForm from "@/components/shared/SharedLeadForm";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
-import { Building, Building2, Globe, Plane } from "lucide-react";
+import { Building, Building2, Globe, Plane, Leaf } from "lucide-react";
 import type { Testimonial } from "@/components/shared/SharedTestimonials";
 import type { FAQItem } from "@/components/shared/SharedFAQ";
 import type { CrossSellItem } from "@/components/shared/SharedCrossSell";
@@ -50,6 +50,7 @@ export default function GoldenVisaPageClient() {
 
   const crossSellItems: CrossSellItem[] = [
     { title: s.cs_property, description: s.cs_property_gold_desc, icon: Building, href: `/${lang}/uae/buy-property/`, isHighlighted: true, badge: s.cs_badge_fastest },
+    { title: s.cs_green_visa, description: s.cs_green_visa_desc, icon: Leaf, href: `/${lang}/uae/green-visa/` },
     { title: s.cs_company_reg, description: s.cs_company_gold_desc, icon: Building2, href: `/${lang}/uae/company-registration/` },
     { title: s.cs_oman, description: s.cs_oman_desc, icon: Globe, href: `/${lang}/oman/` },
   ];

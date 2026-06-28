@@ -3,6 +3,120 @@ export type Lang = 'fa' | 'en' | 'ar' | 'ru';
 const translations: Record<Lang, any> = {
   fa: {
     dir: "rtl",
+    hero_p037: {
+      eyebrow: "اقامت ۵ سالهٔ خوداتکا",
+      title: "ویزای سبز امارات ۲۰۲۶ — اقامت ۵ ساله بدون کارفرما",
+      subtitle: "اقامت ۵ ساله با خوداسپانسری برای متخصصان ماهر، فریلنسرها و سرمایه‌گذاران — بدون نیاز به کارفرما یا شریک اماراتی، با امکان اسپانسر خانواده.",
+      pathwayBadges: ["متخصص ماهر", "فریلنسر / خوداشتغال", "سرمایه‌گذار / شریک"],
+      trustMicro: ["۵ سال اقامت", "خوداسپانسری", "اسپانسر خانواده"],
+      heroChatPlaceholder: "هر سؤالی دربارهٔ ویزای سبز امارات بپرسید...",
+      imageAlt: "نمای آسمان‌خراش‌های دبی در غروب — اقامت ۵ سالهٔ ویزای سبز امارات",
+    },
+    page_p037: {
+      meta: {
+        title: "ویزای سبز امارات ۲۰۲۶ — اقامت ۵ سالهٔ خوداتکا | رزیدنسی۲۴",
+        description: "راهنمای کامل ویزای سبز امارات ۲۰۲۶: شرایط متخصص ماهر، فریلنسر و سرمایه‌گذار، هزینه‌ها، مراحل و تفاوت با گلدن ویزا. مشاورهٔ رایگان به چهار زبان.",
+        canonical: "https://residency24.com/fa/uae/green-visa/",
+      },
+      breadcrumb: ["خانه", "امارات", "ویزای سبز"],
+      eligibility: {
+        title: "کدام مسیر برای شما مناسب است؟",
+        subtitle: "ویزای سبز سه مسیر اصلی دارد. مسیر خود را انتخاب کنید تا شرایط و گام بعدی را ببینید.",
+        pathways: [
+          { title: "متخصص ماهر", requirement: "حقوق ماهانه حداقل ۱۵٬۰۰۰ درهم + مدرک کارشناسی + قرارداد کاری معتبر (سطح مهارتی ۱ تا ۳)" },
+          { title: "فریلنسر / خوداشتغال", requirement: "مجوز فریلنس از وزارت منابع انسانی + مدرک تحصیلی + درآمد سالانه حدود ۳۶۰٬۰۰۰ درهم یا اثبات تمکن مالی" },
+          { title: "سرمایه‌گذار / شریک", requirement: "سرمایه‌گذاری در فعالیت تجاری مجاز + تأییدیهٔ سرمایه‌گذاری از مراجع اقتصادی" },
+        ],
+        ctaLabel: "بررسی واجد شرایط بودن",
+      },
+      why: {
+        title: "چرا ویزای سبز؟",
+        cards: [
+          { title: "خوداسپانسری", desc: "بدون نیاز به کارفرما یا شریک اماراتی؛ خودتان اسپانسر اقامت خود هستید." },
+          { title: "اقامت ۵ ساله", desc: "اقامت پنج‌ساله با امکان تمدید، مستقل از شغل یا کارفرما." },
+          { title: "اسپانسر خانواده", desc: "امکان اسپانسرکردن همسر، فرزندان و والدین تحت همین ویزا." },
+          { title: "دورهٔ مهلت طولانی‌تر", desc: "تا ۶ ماه مهلت پس از لغو یا انقضای ویزا برای ماندن قانونی در کشور." },
+        ],
+      },
+      pathwaysDetail: {
+        title: "جزئیات هر مسیر",
+        tabs: [
+          { label: "متخصص ماهر", heading: "ویزای سبز برای متخصصان ماهر", body: "اگر کارمند ماهری با قرارداد معتبر هستید، می‌توانید بدون وابستگی دائمی به کارفرما، اقامت ۵ ساله بگیرید.", points: ["حقوق ماهانه حداقل ۱۵٬۰۰۰ درهم", "مدرک کارشناسی یا بالاتر", "قرارداد کاری معتبر و طبقه‌بندی شغلی سطح ۱ تا ۳", "امکان جابه‌جایی شغل بدون از دست دادن اقامت"] },
+          { label: "فریلنسر / خوداشتغال", heading: "ویزای سبز برای فریلنسرها", body: "برای متخصصان مستقل و خوداشتغال که می‌خواهند بدون کارفرما در امارات فعالیت کنند.", points: ["مجوز فریلنس/خوداشتغال از وزارت منابع انسانی", "مدرک کارشناسی یا دیپلم تخصصی", "درآمد سالانهٔ حدود ۳۶۰٬۰۰۰ درهم در دو سال گذشته یا اثبات تمکن مالی", "انعطاف کامل در انتخاب پروژه و مشتری"] },
+          { label: "سرمایه‌گذار / شریک", heading: "ویزای سبز برای سرمایه‌گذاران", body: "برای صاحبان کسب‌وکار و شرکای تجاری که در فعالیت اقتصادی مجاز در امارات سرمایه‌گذاری کرده‌اند.", points: ["سرمایه‌گذاری در فعالیت تجاری دارای مجوز", "تأییدیهٔ مراجع اقتصادی محلی", "امکان اسپانسر خانواده", "مناسب برای کارآفرینان و مالکان شرکت"] },
+        ],
+      },
+      pricing: {
+        title: "هزینه‌های تقریبی",
+        rows: [
+          { label: "کارمزد دولتی صدور ویزا", amount: "از ۲٬۲۸۰ درهم", note: "بسته به مدت و نوع" },
+          { label: "معاینهٔ پزشکی", amount: "۳۲۰–۷۰۰ درهم" },
+          { label: "کارت شناسایی اماراتی (Emirates ID)", amount: "۳۷۰–۵۷۵ درهم", note: "بسته به مدت اعتبار" },
+          { label: "بیمهٔ درمانی", amount: "متغیر", note: "بسته به سن و پوشش" },
+          { label: "هزینهٔ خدمات و پردازش", amount: "بر اساس مسیر", note: "پس از ارزیابی پرونده" },
+        ],
+        disclaimer: "ارقام تقریبی و بر اساس تعرفه‌های جاری است و ممکن است بسته به امارت، مسیر و شرایط پرونده تغییر کند.",
+        ctaLabel: "دریافت برآورد دقیق",
+      },
+      comparison: {
+        title: "ویزای سبز یا گلدن ویزا؟",
+        columns: ["معیار", "ویزای سبز", "گلدن ویزا"],
+        rows: [
+          { label: "مدت اقامت", green: "۵ سال", golden: "۱۰ سال" },
+          { label: "خوداسپانسری", green: "بله", golden: "بله" },
+          { label: "حداقل حقوق (مسیر شغلی)", green: "۱۵٬۰۰۰ درهم در ماه", golden: "۳۰٬۰۰۰ درهم در ماه" },
+          { label: "مسیر سرمایه‌گذاری ملک", green: "الزامی نیست", golden: "از ۲ میلیون درهم" },
+          { label: "اسپانسر خانواده", green: "بله", golden: "بله" },
+          { label: "مناسب برای", green: "متخصص، فریلنسر، سرمایه‌گذار کوچک‌تر", golden: "سرمایه‌گذار و استعداد سطح بالا" },
+        ],
+      },
+      howItWorks: {
+        title: "مراحل دریافت ویزای سبز",
+        steps: [
+          { title: "ارزیابی واجد شرایط بودن", description: "مسیر مناسب شما (متخصص، فریلنسر یا سرمایه‌گذار) و مدارک لازم را مشخص می‌کنیم." },
+          { title: "آماده‌سازی مدارک", description: "جمع‌آوری مدرک تحصیلی، قرارداد یا مجوز، اثبات درآمد و سایر مستندات." },
+          { title: "ثبت درخواست", description: "ارسال درخواست به ادارهٔ امور اقامت و خارجیان یا از طریق کانال‌های مجاز." },
+          { title: "معاینهٔ پزشکی و Emirates ID", description: "انجام معاینهٔ پزشکی و ثبت بیومتریک برای کارت شناسایی اماراتی." },
+          { title: "صدور ویزا", description: "دریافت ویزای سبز ۵ ساله و امکان اسپانسر خانواده." },
+        ],
+      },
+      faq: {
+        title: "سؤالات متداول",
+        items: [
+          { question: "ویزای سبز امارات چیست؟", answer: "ویزای سبز یک اقامت ۵ سالهٔ خوداتکاست که بدون نیاز به کارفرما یا شریک اماراتی صادر می‌شود و برای متخصصان ماهر، فریلنسرها و سرمایه‌گذاران در نظر گرفته شده است." },
+          { question: "تفاوت ویزای سبز و گلدن ویزا چیست؟", answer: "گلدن ویزا اقامت ۱۰ ساله با آستانه‌های بالاتر (مثل ۲ میلیون درهم ملک یا حقوق ۳۰٬۰۰۰ درهم) است؛ ویزای سبز اقامت ۵ ساله با شرایط دسترس‌پذیرتر مانند حقوق ۱۵٬۰۰۰ درهم یا مجوز فریلنس است." },
+          { question: "آیا برای ویزای سبز به کارفرما نیاز دارم؟", answer: "خیر. ویزای سبز خوداسپانسر است و نیازی به کارفرما یا شریک اماراتی ندارد." },
+          { question: "حداقل حقوق برای مسیر متخصص ماهر چقدر است؟", answer: "حقوق ماهانهٔ حداقل ۱۵٬۰۰۰ درهم همراه با مدرک کارشناسی و قرارداد کاری معتبر." },
+          { question: "فریلنسرها چه شرایطی دارند؟", answer: "داشتن مجوز فریلنس از وزارت منابع انسانی، مدرک تحصیلی مرتبط و درآمد سالانهٔ حدود ۳۶۰٬۰۰۰ درهم یا اثبات تمکن مالی." },
+          { question: "آیا می‌توانم خانواده‌ام را اسپانسر کنم؟", answer: "بله، با ویزای سبز می‌توانید همسر، فرزندان و والدین خود را اسپانسر کنید (طبق ضوابط جاری)." },
+          { question: "ویزای سبز چند سال اعتبار دارد؟", answer: "پنج سال، با امکان تمدید در صورت تداوم شرایط." },
+          { question: "دورهٔ مهلت پس از لغو ویزا چقدر است؟", answer: "تا ۶ ماه مهلت برای ماندن قانونی در کشور پس از لغو یا انقضای ویزای سبز در نظر گرفته شده است." },
+          { question: "آیا می‌توانم شغلم را تغییر دهم؟", answer: "بله، چون ویزا به کارفرما وابسته نیست، تغییر شغل اقامت شما را باطل نمی‌کند." },
+          { question: "آیا می‌توان از راه دور اقدام کرد؟", answer: "بخشی از مراحل (انتخاب مسیر، آماده‌سازی مدارک و بخشی از ثبت درخواست) از راه دور ممکن است؛ معاینهٔ پزشکی و بیومتریک نیاز به حضور دارد." },
+        ],
+      },
+      crossSell: {
+        title: "خدمات مرتبط",
+        items: [
+          { title: "گلدن ویزا امارات", description: "اقامت ۱۰ ساله برای سرمایه‌گذاران و استعدادهای سطح بالا." },
+          { title: "ثبت شرکت در امارات", description: "راه‌اندازی شرکت در فری‌زون یا مین‌لند با مالکیت کامل." },
+          { title: "خرید ملک در دبی", description: "ملک درآمدزا و پیش‌فروش، با امکان مسیر اقامت." },
+        ],
+      },
+      finalCta: {
+        title: "آماده‌اید مسیر اقامت ۵ ساله‌تان را شروع کنید؟",
+        subtitle: "با مشاور رزیدنسی۲۴ صحبت کنید تا مسیر مناسب و مدارک لازم را مشخص کنیم.",
+        primaryLabel: "گفتگو با مشاور",
+        whatsappLabel: "پیام در واتساپ",
+      },
+      images: {
+        hero: { alt: "نمای آسمان‌خراش‌های دبی در غروب — اقامت ۵ سالهٔ ویزای سبز امارات", src: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1600&q=80" },
+        skilledPathway: { alt: "متخصص ماهر در محیط کار حرفه‌ای در دبی", src: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=1400&q=80" },
+        freelancerPathway: { alt: "فریلنسر در حال کار با لپ‌تاپ در فضای کاری مدرن", src: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=1400&q=80" },
+        investorPathway: { alt: "جلسهٔ کاری سرمایه‌گذاران در دفتری در امارات", src: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1400&q=80" },
+        processBanner: { alt: "نمای دفتر اداری مدرن در امارات", src: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1600&q=80" },
+      },
+    },
     realEstateDubai: {
       meta: {
         title: "سرمایه‌گذاری ملک در دبی و امارات | رزیدنسی۲۴",
@@ -1373,6 +1487,8 @@ const translations: Record<Lang, any> = {
       faq_title: "سؤالات متداول",
       crosssell_view: "مشاهده",
       cs_golden_visa: "گلدن ویزا امارات",
+      cs_green_visa: "ویزای سبز امارات",
+      cs_green_visa_desc: "اقامت ۵ سالهٔ خوداتکا برای متخصص، فریلنسر و سرمایه‌گذار.",
       cs_company_reg: "ثبت شرکت دبی",
       cs_property: "خرید ملک دبی",
       cs_visa: "ویزای توریستی",
@@ -1402,6 +1518,120 @@ const translations: Record<Lang, any> = {
 
   en: {
     dir: "ltr",
+    hero_p037: {
+      eyebrow: "[TRANSLATE: EN]",
+      title: "[TRANSLATE: EN]",
+      subtitle: "[TRANSLATE: EN]",
+      pathwayBadges: ["[TRANSLATE: EN]", "[TRANSLATE: EN]", "[TRANSLATE: EN]"],
+      trustMicro: ["[TRANSLATE: EN]", "[TRANSLATE: EN]", "[TRANSLATE: EN]"],
+      heroChatPlaceholder: "[TRANSLATE: EN]",
+      imageAlt: "Dubai skyline at dusk — UAE Green Visa 5-year residency",
+    },
+    page_p037: {
+      meta: {
+        title: "[TRANSLATE: EN]",
+        description: "[TRANSLATE: EN]",
+        canonical: "https://residency24.com/uae/green-visa/",
+      },
+      breadcrumb: ["[TRANSLATE: EN]", "[TRANSLATE: EN]", "[TRANSLATE: EN]"],
+      eligibility: {
+        title: "[TRANSLATE: EN]",
+        subtitle: "[TRANSLATE: EN]",
+        pathways: [
+          { title: "[TRANSLATE: EN]", requirement: "[TRANSLATE: EN]" },
+          { title: "[TRANSLATE: EN]", requirement: "[TRANSLATE: EN]" },
+          { title: "[TRANSLATE: EN]", requirement: "[TRANSLATE: EN]" },
+        ],
+        ctaLabel: "[TRANSLATE: EN]",
+      },
+      why: {
+        title: "[TRANSLATE: EN]",
+        cards: [
+          { title: "[TRANSLATE: EN]", desc: "[TRANSLATE: EN]" },
+          { title: "[TRANSLATE: EN]", desc: "[TRANSLATE: EN]" },
+          { title: "[TRANSLATE: EN]", desc: "[TRANSLATE: EN]" },
+          { title: "[TRANSLATE: EN]", desc: "[TRANSLATE: EN]" },
+        ],
+      },
+      pathwaysDetail: {
+        title: "[TRANSLATE: EN]",
+        tabs: [
+          { label: "[TRANSLATE: EN]", heading: "[TRANSLATE: EN]", body: "[TRANSLATE: EN]", points: ["[TRANSLATE: EN]", "[TRANSLATE: EN]", "[TRANSLATE: EN]", "[TRANSLATE: EN]"] },
+          { label: "[TRANSLATE: EN]", heading: "[TRANSLATE: EN]", body: "[TRANSLATE: EN]", points: ["[TRANSLATE: EN]", "[TRANSLATE: EN]", "[TRANSLATE: EN]", "[TRANSLATE: EN]"] },
+          { label: "[TRANSLATE: EN]", heading: "[TRANSLATE: EN]", body: "[TRANSLATE: EN]", points: ["[TRANSLATE: EN]", "[TRANSLATE: EN]", "[TRANSLATE: EN]", "[TRANSLATE: EN]"] },
+        ],
+      },
+      pricing: {
+        title: "[TRANSLATE: EN]",
+        rows: [
+          { label: "[TRANSLATE: EN]", amount: "[TRANSLATE: EN]", note: "[TRANSLATE: EN]" },
+          { label: "[TRANSLATE: EN]", amount: "[TRANSLATE: EN]" },
+          { label: "[TRANSLATE: EN]", amount: "[TRANSLATE: EN]", note: "[TRANSLATE: EN]" },
+          { label: "[TRANSLATE: EN]", amount: "[TRANSLATE: EN]", note: "[TRANSLATE: EN]" },
+          { label: "[TRANSLATE: EN]", amount: "[TRANSLATE: EN]", note: "[TRANSLATE: EN]" },
+        ],
+        disclaimer: "[TRANSLATE: EN]",
+        ctaLabel: "[TRANSLATE: EN]",
+      },
+      comparison: {
+        title: "[TRANSLATE: EN]",
+        columns: ["[TRANSLATE: EN]", "[TRANSLATE: EN]", "[TRANSLATE: EN]"],
+        rows: [
+          { label: "[TRANSLATE: EN]", green: "[TRANSLATE: EN]", golden: "[TRANSLATE: EN]" },
+          { label: "[TRANSLATE: EN]", green: "[TRANSLATE: EN]", golden: "[TRANSLATE: EN]" },
+          { label: "[TRANSLATE: EN]", green: "[TRANSLATE: EN]", golden: "[TRANSLATE: EN]" },
+          { label: "[TRANSLATE: EN]", green: "[TRANSLATE: EN]", golden: "[TRANSLATE: EN]" },
+          { label: "[TRANSLATE: EN]", green: "[TRANSLATE: EN]", golden: "[TRANSLATE: EN]" },
+          { label: "[TRANSLATE: EN]", green: "[TRANSLATE: EN]", golden: "[TRANSLATE: EN]" },
+        ],
+      },
+      howItWorks: {
+        title: "[TRANSLATE: EN]",
+        steps: [
+          { title: "[TRANSLATE: EN]", description: "[TRANSLATE: EN]" },
+          { title: "[TRANSLATE: EN]", description: "[TRANSLATE: EN]" },
+          { title: "[TRANSLATE: EN]", description: "[TRANSLATE: EN]" },
+          { title: "[TRANSLATE: EN]", description: "[TRANSLATE: EN]" },
+          { title: "[TRANSLATE: EN]", description: "[TRANSLATE: EN]" },
+        ],
+      },
+      faq: {
+        title: "[TRANSLATE: EN]",
+        items: [
+          { question: "[TRANSLATE: EN]", answer: "[TRANSLATE: EN]" },
+          { question: "[TRANSLATE: EN]", answer: "[TRANSLATE: EN]" },
+          { question: "[TRANSLATE: EN]", answer: "[TRANSLATE: EN]" },
+          { question: "[TRANSLATE: EN]", answer: "[TRANSLATE: EN]" },
+          { question: "[TRANSLATE: EN]", answer: "[TRANSLATE: EN]" },
+          { question: "[TRANSLATE: EN]", answer: "[TRANSLATE: EN]" },
+          { question: "[TRANSLATE: EN]", answer: "[TRANSLATE: EN]" },
+          { question: "[TRANSLATE: EN]", answer: "[TRANSLATE: EN]" },
+          { question: "[TRANSLATE: EN]", answer: "[TRANSLATE: EN]" },
+          { question: "[TRANSLATE: EN]", answer: "[TRANSLATE: EN]" },
+        ],
+      },
+      crossSell: {
+        title: "[TRANSLATE: EN]",
+        items: [
+          { title: "[TRANSLATE: EN]", description: "[TRANSLATE: EN]" },
+          { title: "[TRANSLATE: EN]", description: "[TRANSLATE: EN]" },
+          { title: "[TRANSLATE: EN]", description: "[TRANSLATE: EN]" },
+        ],
+      },
+      finalCta: {
+        title: "[TRANSLATE: EN]",
+        subtitle: "[TRANSLATE: EN]",
+        primaryLabel: "[TRANSLATE: EN]",
+        whatsappLabel: "[TRANSLATE: EN]",
+      },
+      images: {
+        hero: { alt: "Dubai skyline at dusk — UAE Green Visa 5-year residency", src: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1600&q=80" },
+        skilledPathway: { alt: "[TRANSLATE: EN]", src: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=1400&q=80" },
+        freelancerPathway: { alt: "[TRANSLATE: EN]", src: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=1400&q=80" },
+        investorPathway: { alt: "[TRANSLATE: EN]", src: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1400&q=80" },
+        processBanner: { alt: "[TRANSLATE: EN]", src: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1600&q=80" },
+      },
+    },
     realEstateDubai: {
       meta: {
         title: "Real Estate Investment in Dubai & the UAE | Residency24",
@@ -2772,6 +3002,8 @@ const translations: Record<Lang, any> = {
       faq_title: "Frequently Asked Questions",
       crosssell_view: "View",
       cs_golden_visa: "UAE Golden Visa",
+      cs_green_visa: "UAE Green Visa",
+      cs_green_visa_desc: "5-year self-sponsored residency for skilled, freelance & investor routes.",
       cs_company_reg: "Company Registration",
       cs_property: "Buy Property Dubai",
       cs_visa: "Tourist Visa",
@@ -2801,6 +3033,120 @@ const translations: Record<Lang, any> = {
 
   ar: {
     dir: "rtl",
+    hero_p037: {
+      eyebrow: "[TRANSLATE: AR]",
+      title: "[TRANSLATE: AR]",
+      subtitle: "[TRANSLATE: AR]",
+      pathwayBadges: ["[TRANSLATE: AR]", "[TRANSLATE: AR]", "[TRANSLATE: AR]"],
+      trustMicro: ["[TRANSLATE: AR]", "[TRANSLATE: AR]", "[TRANSLATE: AR]"],
+      heroChatPlaceholder: "[TRANSLATE: AR]",
+      imageAlt: "أفق دبي عند الغروب — الإقامة الخضراء في الإمارات لمدة 5 سنوات",
+    },
+    page_p037: {
+      meta: {
+        title: "[TRANSLATE: AR]",
+        description: "[TRANSLATE: AR]",
+        canonical: "https://residency24.com/ar/uae/green-visa/",
+      },
+      breadcrumb: ["[TRANSLATE: AR]", "[TRANSLATE: AR]", "[TRANSLATE: AR]"],
+      eligibility: {
+        title: "[TRANSLATE: AR]",
+        subtitle: "[TRANSLATE: AR]",
+        pathways: [
+          { title: "[TRANSLATE: AR]", requirement: "[TRANSLATE: AR]" },
+          { title: "[TRANSLATE: AR]", requirement: "[TRANSLATE: AR]" },
+          { title: "[TRANSLATE: AR]", requirement: "[TRANSLATE: AR]" },
+        ],
+        ctaLabel: "[TRANSLATE: AR]",
+      },
+      why: {
+        title: "[TRANSLATE: AR]",
+        cards: [
+          { title: "[TRANSLATE: AR]", desc: "[TRANSLATE: AR]" },
+          { title: "[TRANSLATE: AR]", desc: "[TRANSLATE: AR]" },
+          { title: "[TRANSLATE: AR]", desc: "[TRANSLATE: AR]" },
+          { title: "[TRANSLATE: AR]", desc: "[TRANSLATE: AR]" },
+        ],
+      },
+      pathwaysDetail: {
+        title: "[TRANSLATE: AR]",
+        tabs: [
+          { label: "[TRANSLATE: AR]", heading: "[TRANSLATE: AR]", body: "[TRANSLATE: AR]", points: ["[TRANSLATE: AR]", "[TRANSLATE: AR]", "[TRANSLATE: AR]", "[TRANSLATE: AR]"] },
+          { label: "[TRANSLATE: AR]", heading: "[TRANSLATE: AR]", body: "[TRANSLATE: AR]", points: ["[TRANSLATE: AR]", "[TRANSLATE: AR]", "[TRANSLATE: AR]", "[TRANSLATE: AR]"] },
+          { label: "[TRANSLATE: AR]", heading: "[TRANSLATE: AR]", body: "[TRANSLATE: AR]", points: ["[TRANSLATE: AR]", "[TRANSLATE: AR]", "[TRANSLATE: AR]", "[TRANSLATE: AR]"] },
+        ],
+      },
+      pricing: {
+        title: "[TRANSLATE: AR]",
+        rows: [
+          { label: "[TRANSLATE: AR]", amount: "[TRANSLATE: AR]", note: "[TRANSLATE: AR]" },
+          { label: "[TRANSLATE: AR]", amount: "[TRANSLATE: AR]" },
+          { label: "[TRANSLATE: AR]", amount: "[TRANSLATE: AR]", note: "[TRANSLATE: AR]" },
+          { label: "[TRANSLATE: AR]", amount: "[TRANSLATE: AR]", note: "[TRANSLATE: AR]" },
+          { label: "[TRANSLATE: AR]", amount: "[TRANSLATE: AR]", note: "[TRANSLATE: AR]" },
+        ],
+        disclaimer: "[TRANSLATE: AR]",
+        ctaLabel: "[TRANSLATE: AR]",
+      },
+      comparison: {
+        title: "[TRANSLATE: AR]",
+        columns: ["[TRANSLATE: AR]", "[TRANSLATE: AR]", "[TRANSLATE: AR]"],
+        rows: [
+          { label: "[TRANSLATE: AR]", green: "[TRANSLATE: AR]", golden: "[TRANSLATE: AR]" },
+          { label: "[TRANSLATE: AR]", green: "[TRANSLATE: AR]", golden: "[TRANSLATE: AR]" },
+          { label: "[TRANSLATE: AR]", green: "[TRANSLATE: AR]", golden: "[TRANSLATE: AR]" },
+          { label: "[TRANSLATE: AR]", green: "[TRANSLATE: AR]", golden: "[TRANSLATE: AR]" },
+          { label: "[TRANSLATE: AR]", green: "[TRANSLATE: AR]", golden: "[TRANSLATE: AR]" },
+          { label: "[TRANSLATE: AR]", green: "[TRANSLATE: AR]", golden: "[TRANSLATE: AR]" },
+        ],
+      },
+      howItWorks: {
+        title: "[TRANSLATE: AR]",
+        steps: [
+          { title: "[TRANSLATE: AR]", description: "[TRANSLATE: AR]" },
+          { title: "[TRANSLATE: AR]", description: "[TRANSLATE: AR]" },
+          { title: "[TRANSLATE: AR]", description: "[TRANSLATE: AR]" },
+          { title: "[TRANSLATE: AR]", description: "[TRANSLATE: AR]" },
+          { title: "[TRANSLATE: AR]", description: "[TRANSLATE: AR]" },
+        ],
+      },
+      faq: {
+        title: "[TRANSLATE: AR]",
+        items: [
+          { question: "[TRANSLATE: AR]", answer: "[TRANSLATE: AR]" },
+          { question: "[TRANSLATE: AR]", answer: "[TRANSLATE: AR]" },
+          { question: "[TRANSLATE: AR]", answer: "[TRANSLATE: AR]" },
+          { question: "[TRANSLATE: AR]", answer: "[TRANSLATE: AR]" },
+          { question: "[TRANSLATE: AR]", answer: "[TRANSLATE: AR]" },
+          { question: "[TRANSLATE: AR]", answer: "[TRANSLATE: AR]" },
+          { question: "[TRANSLATE: AR]", answer: "[TRANSLATE: AR]" },
+          { question: "[TRANSLATE: AR]", answer: "[TRANSLATE: AR]" },
+          { question: "[TRANSLATE: AR]", answer: "[TRANSLATE: AR]" },
+          { question: "[TRANSLATE: AR]", answer: "[TRANSLATE: AR]" },
+        ],
+      },
+      crossSell: {
+        title: "[TRANSLATE: AR]",
+        items: [
+          { title: "[TRANSLATE: AR]", description: "[TRANSLATE: AR]" },
+          { title: "[TRANSLATE: AR]", description: "[TRANSLATE: AR]" },
+          { title: "[TRANSLATE: AR]", description: "[TRANSLATE: AR]" },
+        ],
+      },
+      finalCta: {
+        title: "[TRANSLATE: AR]",
+        subtitle: "[TRANSLATE: AR]",
+        primaryLabel: "[TRANSLATE: AR]",
+        whatsappLabel: "[TRANSLATE: AR]",
+      },
+      images: {
+        hero: { alt: "أفق دبي عند الغروب — الإقامة الخضراء في الإمارات لمدة 5 سنوات", src: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1600&q=80" },
+        skilledPathway: { alt: "[TRANSLATE: AR]", src: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=1400&q=80" },
+        freelancerPathway: { alt: "[TRANSLATE: AR]", src: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=1400&q=80" },
+        investorPathway: { alt: "[TRANSLATE: AR]", src: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1400&q=80" },
+        processBanner: { alt: "[TRANSLATE: AR]", src: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1600&q=80" },
+      },
+    },
     realEstateDubai: {
       meta: {
         title: "الاستثمار العقاري في دبي والإمارات | Residency24",
@@ -4171,6 +4517,8 @@ const translations: Record<Lang, any> = {
       faq_title: "الأسئلة الشائعة",
       crosssell_view: "عرض",
       cs_golden_visa: "فيزا ذهبية",
+      cs_green_visa: "التأشيرة الخضراء",
+      cs_green_visa_desc: "إقامة ذاتية الكفالة لمدة 5 سنوات للمهنيين والمستقلين والمستثمرين.",
       cs_company_reg: "تسجيل شركة",
       cs_property: "شراء عقار دبي",
       cs_visa: "تأشيرة سياحية",
@@ -4200,6 +4548,120 @@ const translations: Record<Lang, any> = {
 
   ru: {
     dir: "ltr",
+    hero_p037: {
+      eyebrow: "[TRANSLATE: RU]",
+      title: "[TRANSLATE: RU]",
+      subtitle: "[TRANSLATE: RU]",
+      pathwayBadges: ["[TRANSLATE: RU]", "[TRANSLATE: RU]", "[TRANSLATE: RU]"],
+      trustMicro: ["[TRANSLATE: RU]", "[TRANSLATE: RU]", "[TRANSLATE: RU]"],
+      heroChatPlaceholder: "[TRANSLATE: RU]",
+      imageAlt: "Панорама Дубая на закате — 5-летняя «зелёная» виза ОАЭ",
+    },
+    page_p037: {
+      meta: {
+        title: "[TRANSLATE: RU]",
+        description: "[TRANSLATE: RU]",
+        canonical: "https://residency24.com/ru/uae/green-visa/",
+      },
+      breadcrumb: ["[TRANSLATE: RU]", "[TRANSLATE: RU]", "[TRANSLATE: RU]"],
+      eligibility: {
+        title: "[TRANSLATE: RU]",
+        subtitle: "[TRANSLATE: RU]",
+        pathways: [
+          { title: "[TRANSLATE: RU]", requirement: "[TRANSLATE: RU]" },
+          { title: "[TRANSLATE: RU]", requirement: "[TRANSLATE: RU]" },
+          { title: "[TRANSLATE: RU]", requirement: "[TRANSLATE: RU]" },
+        ],
+        ctaLabel: "[TRANSLATE: RU]",
+      },
+      why: {
+        title: "[TRANSLATE: RU]",
+        cards: [
+          { title: "[TRANSLATE: RU]", desc: "[TRANSLATE: RU]" },
+          { title: "[TRANSLATE: RU]", desc: "[TRANSLATE: RU]" },
+          { title: "[TRANSLATE: RU]", desc: "[TRANSLATE: RU]" },
+          { title: "[TRANSLATE: RU]", desc: "[TRANSLATE: RU]" },
+        ],
+      },
+      pathwaysDetail: {
+        title: "[TRANSLATE: RU]",
+        tabs: [
+          { label: "[TRANSLATE: RU]", heading: "[TRANSLATE: RU]", body: "[TRANSLATE: RU]", points: ["[TRANSLATE: RU]", "[TRANSLATE: RU]", "[TRANSLATE: RU]", "[TRANSLATE: RU]"] },
+          { label: "[TRANSLATE: RU]", heading: "[TRANSLATE: RU]", body: "[TRANSLATE: RU]", points: ["[TRANSLATE: RU]", "[TRANSLATE: RU]", "[TRANSLATE: RU]", "[TRANSLATE: RU]"] },
+          { label: "[TRANSLATE: RU]", heading: "[TRANSLATE: RU]", body: "[TRANSLATE: RU]", points: ["[TRANSLATE: RU]", "[TRANSLATE: RU]", "[TRANSLATE: RU]", "[TRANSLATE: RU]"] },
+        ],
+      },
+      pricing: {
+        title: "[TRANSLATE: RU]",
+        rows: [
+          { label: "[TRANSLATE: RU]", amount: "[TRANSLATE: RU]", note: "[TRANSLATE: RU]" },
+          { label: "[TRANSLATE: RU]", amount: "[TRANSLATE: RU]" },
+          { label: "[TRANSLATE: RU]", amount: "[TRANSLATE: RU]", note: "[TRANSLATE: RU]" },
+          { label: "[TRANSLATE: RU]", amount: "[TRANSLATE: RU]", note: "[TRANSLATE: RU]" },
+          { label: "[TRANSLATE: RU]", amount: "[TRANSLATE: RU]", note: "[TRANSLATE: RU]" },
+        ],
+        disclaimer: "[TRANSLATE: RU]",
+        ctaLabel: "[TRANSLATE: RU]",
+      },
+      comparison: {
+        title: "[TRANSLATE: RU]",
+        columns: ["[TRANSLATE: RU]", "[TRANSLATE: RU]", "[TRANSLATE: RU]"],
+        rows: [
+          { label: "[TRANSLATE: RU]", green: "[TRANSLATE: RU]", golden: "[TRANSLATE: RU]" },
+          { label: "[TRANSLATE: RU]", green: "[TRANSLATE: RU]", golden: "[TRANSLATE: RU]" },
+          { label: "[TRANSLATE: RU]", green: "[TRANSLATE: RU]", golden: "[TRANSLATE: RU]" },
+          { label: "[TRANSLATE: RU]", green: "[TRANSLATE: RU]", golden: "[TRANSLATE: RU]" },
+          { label: "[TRANSLATE: RU]", green: "[TRANSLATE: RU]", golden: "[TRANSLATE: RU]" },
+          { label: "[TRANSLATE: RU]", green: "[TRANSLATE: RU]", golden: "[TRANSLATE: RU]" },
+        ],
+      },
+      howItWorks: {
+        title: "[TRANSLATE: RU]",
+        steps: [
+          { title: "[TRANSLATE: RU]", description: "[TRANSLATE: RU]" },
+          { title: "[TRANSLATE: RU]", description: "[TRANSLATE: RU]" },
+          { title: "[TRANSLATE: RU]", description: "[TRANSLATE: RU]" },
+          { title: "[TRANSLATE: RU]", description: "[TRANSLATE: RU]" },
+          { title: "[TRANSLATE: RU]", description: "[TRANSLATE: RU]" },
+        ],
+      },
+      faq: {
+        title: "[TRANSLATE: RU]",
+        items: [
+          { question: "[TRANSLATE: RU]", answer: "[TRANSLATE: RU]" },
+          { question: "[TRANSLATE: RU]", answer: "[TRANSLATE: RU]" },
+          { question: "[TRANSLATE: RU]", answer: "[TRANSLATE: RU]" },
+          { question: "[TRANSLATE: RU]", answer: "[TRANSLATE: RU]" },
+          { question: "[TRANSLATE: RU]", answer: "[TRANSLATE: RU]" },
+          { question: "[TRANSLATE: RU]", answer: "[TRANSLATE: RU]" },
+          { question: "[TRANSLATE: RU]", answer: "[TRANSLATE: RU]" },
+          { question: "[TRANSLATE: RU]", answer: "[TRANSLATE: RU]" },
+          { question: "[TRANSLATE: RU]", answer: "[TRANSLATE: RU]" },
+          { question: "[TRANSLATE: RU]", answer: "[TRANSLATE: RU]" },
+        ],
+      },
+      crossSell: {
+        title: "[TRANSLATE: RU]",
+        items: [
+          { title: "[TRANSLATE: RU]", description: "[TRANSLATE: RU]" },
+          { title: "[TRANSLATE: RU]", description: "[TRANSLATE: RU]" },
+          { title: "[TRANSLATE: RU]", description: "[TRANSLATE: RU]" },
+        ],
+      },
+      finalCta: {
+        title: "[TRANSLATE: RU]",
+        subtitle: "[TRANSLATE: RU]",
+        primaryLabel: "[TRANSLATE: RU]",
+        whatsappLabel: "[TRANSLATE: RU]",
+      },
+      images: {
+        hero: { alt: "Панорама Дубая на закате — 5-летняя «зелёная» виза ОАЭ", src: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1600&q=80" },
+        skilledPathway: { alt: "[TRANSLATE: RU]", src: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=1400&q=80" },
+        freelancerPathway: { alt: "[TRANSLATE: RU]", src: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=1400&q=80" },
+        investorPathway: { alt: "[TRANSLATE: RU]", src: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1400&q=80" },
+        processBanner: { alt: "[TRANSLATE: RU]", src: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1600&q=80" },
+      },
+    },
     realEstateDubai: {
       meta: {
         title: "Инвестиции в недвижимость в Дубае и ОАЭ | Residency24",
@@ -5570,6 +6032,8 @@ const translations: Record<Lang, any> = {
       faq_title: "Часто задаваемые вопросы",
       crosssell_view: "Подробнее",
       cs_golden_visa: "Золотая виза ОАЭ",
+      cs_green_visa: "Зелёная виза ОАЭ",
+      cs_green_visa_desc: "5-летний ВНЖ с самоспонсированием для специалистов, фрилансеров и инвесторов.",
       cs_company_reg: "Регистрация компании",
       cs_property: "Покупка недвижимости",
       cs_visa: "Туристическая виза",

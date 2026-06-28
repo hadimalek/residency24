@@ -105,7 +105,7 @@ export default function PostToc({ html, lang, dir }: PostTocProps) {
   const remaining = headings.length - COLLAPSED_COUNT;
 
   return (
-    <div className="sticky top-20 z-10 bg-surface rounded-2xl border border-border p-5" dir={dir}>
+    <div className="bg-surface rounded-2xl border border-border p-5" dir={dir}>
       <p className="text-xs font-bold text-navy/60 uppercase tracking-widest mb-3">
         {tocLabel[lang] ?? tocLabel.en}
       </p>
