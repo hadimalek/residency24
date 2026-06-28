@@ -177,12 +177,14 @@ export default async function BlogPostPage({
 
         <div className="max-w-5xl mx-auto px-4 mt-8 pb-20">
           <div className="flex flex-col lg:flex-row gap-10">
-            {/* Sidebar — ToC (sticky) + Services */}
-            <aside className="lg:w-64 flex-shrink-0 order-2 lg:order-none space-y-6">
-              {post.content_html && (
-                <PostToc html={post.content_html} lang={lang} dir={dir} />
-              )}
-              <ServicesSidebar lang={lang} categorySlug={post.category?.slug ?? null} />
+            {/* Sidebar — ToC + Services pinned together as one sticky unit */}
+            <aside className="lg:w-64 flex-shrink-0 order-2 lg:order-none">
+              <div className="space-y-6 lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto lg:px-1">
+                {post.content_html && (
+                  <PostToc html={post.content_html} lang={lang} dir={dir} />
+                )}
+                <ServicesSidebar lang={lang} categorySlug={post.category?.slug ?? null} />
+              </div>
             </aside>
 
             {/* Article body */}
