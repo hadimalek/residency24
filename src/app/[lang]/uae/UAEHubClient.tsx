@@ -21,7 +21,7 @@ import SharedLeadForm from "@/components/shared/SharedLeadForm";
 import HowItWorks from "@/components/HowItWorks";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
-import { Trophy, Building2, Building, Globe } from "lucide-react";
+import { Trophy, Building2, Building, Globe, Leaf } from "lucide-react";
 import type { CrossSellItem } from "@/components/shared/SharedCrossSell";
 
 export default function UAEHubClient({ h1 }: { h1: string }) {
@@ -35,6 +35,7 @@ export default function UAEHubClient({ h1 }: { h1: string }) {
 
   const crossSellItems: CrossSellItem[] = [
     { title: s.cs_golden_visa, description: s.cs_golden_visa_desc, icon: Trophy, href: `/${lang}/uae/golden-visa/`, isHighlighted: true, badge: s.cs_badge_popular },
+    { title: s.cs_green_visa, description: s.cs_green_visa_desc, icon: Leaf, href: `/${lang}/uae/green-visa/` },
     { title: s.cs_company_reg, description: s.cs_company_reg_desc, icon: Building2, href: `/${lang}/uae/company-registration/` },
     { title: s.cs_property, description: s.cs_property_desc, icon: Building, href: `/${lang}/uae/buy-property/` },
     { title: s.cs_oman, description: s.cs_oman_desc, icon: Globe, href: `/${lang}/oman/` },

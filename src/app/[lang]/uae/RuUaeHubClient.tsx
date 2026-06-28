@@ -36,6 +36,7 @@ import {
   Banknote,
   ClipboardList,
   Search,
+  Leaf,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -58,6 +59,7 @@ const UAE_REGISTER = "/ru/uae/register-company/";
 const UAE_RESIDENCY = "/ru/uae/golden-visa/";
 const UAE_PROPERTY = "/ru/uae/property-purchase/";
 const UAE_GOLDEN = "/ru/uae/golden-visa/";
+const UAE_GREEN = "/ru/uae/green-visa/";
 const UAE_TOURIST = "/ru/uae/tourist-visa/";
 const UAE_FAMILY = "#consultation-form";
 const UAE_VISA = "/ru/uae/tourist-visa/";
@@ -104,6 +106,7 @@ const SERVICES: CardLink[] = [
   { title: "Резидентская виза ОАЭ", desc: "Подбор подходящего основания для резидентства.", href: UAE_RESIDENCY, icon: ScrollText },
   { title: "Недвижимость в Дубае", desc: "Покупка недвижимости с учётом цели и бюджета.", href: UAE_PROPERTY, icon: Home },
   { title: "Golden Visa ОАЭ", desc: "Проверка соответствия требованиям долгосрочной визы.", href: UAE_GOLDEN, icon: Trophy, badge: "Популярно" },
+  { title: "Зелёная виза ОАЭ", desc: "5-летний ВНЖ с самоспонсированием: специалисты, фрилансеры, инвесторы.", href: UAE_GREEN, icon: Leaf },
   { title: "Туристическая виза ОАЭ", desc: "Краткосрочные визы и подготовка документов.", href: UAE_TOURIST, icon: Plane },
   { title: "Семейная виза ОАЭ", desc: "Визы для супруги/супруга, детей и dependents.", href: UAE_FAMILY, icon: Users },
 ];
