@@ -10,7 +10,9 @@ set -euo pipefail
 # First time setup:
 #   1. Clone repo into your APP_DIR
 #   2. Copy .env.example to .env and fill values
-#   3. npm install && npx prisma generate && npx prisma db push
+#   3. npm install && npx prisma generate && npx prisma migrate deploy
+#      (see docs/BACKUP_AND_MIGRATIONS.md for the one-time baseline if the
+#       DB predates the migrations/ folder)
 #   4. npx prisma db seed
 #   5. npm run build
 #   6. APP_DIR=$(pwd) pm2 start ecosystem.config.js
@@ -30,11 +32,26 @@ git pull origin "$BRANCH" --rebase
 echo "==> Installing dependencies..."
 npm ci
 
+# ---------------------------------------------------------------------------
+# Pre-deploy snapshot — ALWAYS back up the DB + uploads before touching the
+# schema. `set -e` means a failed backup aborts the deploy, so we never run a
+# (potentially destructive) migration without a fresh snapshot to restore from.
+# Restore with: bash scripts/db-restore.sh data/backups/db-<stamp>.sql.gz
+# ---------------------------------------------------------------------------
+echo "==> Taking pre-deploy backup (DB + uploads)..."
+APP_DIR="$APP_DIR" bash scripts/db-backup.sh
+
 echo "==> Generating Prisma client..."
 npx prisma generate --schema=./prisma/schema.prisma
 
-echo "==> Running database migrations..."
-npx prisma db push --schema=./prisma/schema.prisma
+# Apply versioned migrations from prisma/migrations/ (non-destructive).
+# IMPORTANT: do NOT switch this back to `prisma db push` — db push diffs the
+# live DB against schema.prisma and SILENTLY DROPS tables/columns that were
+# removed from the schema (this is what wiped BlogCategory and Media rows).
+# `migrate deploy` only ever applies the committed migration files in order.
+# See docs/BACKUP_AND_MIGRATIONS.md for the one-time server baseline.
+echo "==> Running database migrations (migrate deploy)..."
+npx prisma migrate deploy --schema=./prisma/schema.prisma
 
 echo "==> Building Next.js..."
 npm run build

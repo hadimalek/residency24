@@ -95,6 +95,15 @@ export async function PATCH(
       publishedAt = article.publishedAt; // preserve original published timestamp on un-publish
     }
 
+    // category: undefined → leave unchanged; null/"" → clear; string → set slug
+    let nextCategory: string | null | undefined = undefined;
+    if (body.category !== undefined) {
+      nextCategory =
+        typeof body.category === "string" && body.category.trim()
+          ? body.category.trim().slice(0, 64)
+          : null;
+    }
+
     await prisma.$transaction(async (tx) => {
       await tx.article.update({
         where: { id },
@@ -104,6 +113,7 @@ export async function PATCH(
           publishedAt,
           featuredImageId:
             body.featuredImageId === undefined ? article.featuredImageId : body.featuredImageId,
+          category: nextCategory === undefined ? article.category : nextCategory,
         },
       });
 

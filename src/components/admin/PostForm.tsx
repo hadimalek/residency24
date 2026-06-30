@@ -57,6 +57,15 @@ interface MediaRow {
   mimeType: string;
 }
 
+interface CategoryOption {
+  slug: string;
+  name: string;
+}
+
+// Radix Select cannot use an empty string as an item value, so "no category"
+// is represented by this sentinel and mapped back to null on save.
+const NO_CATEGORY = "__none__";
+
 export interface FaqItem {
   question: string;
   answer: string;
@@ -67,6 +76,7 @@ export interface PostFormInitial {
   slug?: string;
   status?: string;
   primaryLocale?: string | null;
+  category?: string | null;
   featuredImage?: MediaRow | null;
   translations?: Array<{
     locale: string;
@@ -104,6 +114,8 @@ export default function PostForm({ mode, initial }: PostFormProps) {
   const [metaDescription, setMetaDescription] = useState<string>(initialTrans?.metaDescription ?? "");
 
   const [faqs, setFaqs] = useState<FaqItem[]>(initialTrans?.faqs ?? []);
+  const [category, setCategory] = useState<string>(initial?.category ?? "");
+  const [categories, setCategories] = useState<CategoryOption[]>([]);
 
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -124,6 +136,30 @@ export default function PostForm({ mode, initial }: PostFormProps) {
       setSlug(auto);
     }
   }, [title, slugTouched]);
+
+  // Load the managed categories for the selected language so the article can
+  // be assigned one (stored as the category slug on the Article).
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch(`/api/admin/categories?lang=${encodeURIComponent(lang)}`);
+        if (!res.ok) return;
+        const json = await res.json();
+        if (cancelled) return;
+        const list: CategoryOption[] = (json.data ?? []).map((c: any) => ({
+          slug: c.slug,
+          name: c.name,
+        }));
+        setCategories(list);
+      } catch {
+        /* non-fatal: category selector just stays empty */
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [lang]);
 
   const dir = lang === "en" || lang === "ru" ? "ltr" : "rtl";
 
@@ -167,6 +203,7 @@ export default function PostForm({ mode, initial }: PostFormProps) {
         title,
         slug: slug || undefined,
         status,
+        category: category || null,
         featuredImageId: featuredImage?.id ?? null,
         excerpt: excerpt || null,
         contentJson,
@@ -407,6 +444,29 @@ export default function PostForm({ mode, initial }: PostFormProps) {
                         {s.label}
                       </SelectItem>
                     ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="category">دسته‌بندی</Label>
+                <Select
+                  value={category || NO_CATEGORY}
+                  onValueChange={(v) => setCategory(v === NO_CATEGORY ? "" : v)}
+                >
+                  <SelectTrigger id="category">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value={NO_CATEGORY}>بدون دسته‌بندی</SelectItem>
+                    {categories.map((c) => (
+                      <SelectItem key={c.slug} value={c.slug}>
+                        {c.name}
+                      </SelectItem>
+                    ))}
+                    {/* Preserve a slug already assigned but not in this locale's list */}
+                    {category && !categories.some((c) => c.slug === category) && (
+                      <SelectItem value={category}>{category}</SelectItem>
+                    )}
                   </SelectContent>
                 </Select>
               </div>

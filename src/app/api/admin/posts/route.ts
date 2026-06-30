@@ -103,6 +103,10 @@ export async function POST(request: NextRequest) {
     const excerpt = body.excerpt ?? null;
     const status = body.status === "PUBLISHED" ? "PUBLISHED" : "DRAFT";
     const featuredImageId = body.featuredImageId ?? null;
+    const category =
+      typeof body.category === "string" && body.category.trim()
+        ? body.category.trim().slice(0, 64)
+        : null;
     const metaTitle = body.metaTitle ?? null;
     const metaDescription = body.metaDescription ?? null;
     const faqs = body.faqs ?? null;
@@ -115,6 +119,7 @@ export async function POST(request: NextRequest) {
         status,
         publishedAt,
         featuredImageId,
+        category,
         translations: {
           create: {
             locale: lang,
