@@ -155,9 +155,16 @@ export async function listPosts(opts: ListPostsOpts) {
 // LIST CATEGORIES
 // ─────────────────────────────────────────────────────────────────────
 
-export async function listCategories(_lang: string) {
-  // BlogCategory model has been removed; return empty list.
-  return [];
+export async function listCategories(lang: string) {
+  const cats = await prisma.blogCategory.findMany({
+    where: { locale: lang },
+    orderBy: [{ sortOrder: "asc" }, { name: "asc" }],
+  });
+  return cats.map((c) => ({
+    name: c.name,
+    slug: c.slug,
+    description: c.description ?? null,
+  }));
 }
 
 // ─────────────────────────────────────────────────────────────────────
