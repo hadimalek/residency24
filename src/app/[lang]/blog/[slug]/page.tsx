@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import type { Lang } from "@/translations";
 import { LANGS, LANG_CONFIG, BLOG_SEO, localizedPath } from "@/lib/seo";
 import { fetchBlogPost, fetchBlogPostParams, fetchRelatedPosts } from "@/lib/cms/api";
-import { LanguageProvider } from "@/contexts/LanguageContext";
+
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
@@ -150,7 +150,7 @@ export default async function BlogPostPage({
   const blogListPath = localizedPath(lang, "blog");
 
   return (
-    <LanguageProvider initialLang={lang}>
+    <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
@@ -240,6 +240,6 @@ export default async function BlogPostPage({
         <Footer />
         <WhatsAppFloat />
       </div>
-    </LanguageProvider>
+    </>
   );
 }

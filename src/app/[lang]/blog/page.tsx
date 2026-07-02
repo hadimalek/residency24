@@ -11,7 +11,7 @@ import { fetchBlogPosts, fetchBlogCategories } from "@/lib/cms/api";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
-import { LanguageProvider } from "@/contexts/LanguageContext";
+
 import BlogHero from "@/components/blog/BlogHero";
 import BlogFilters from "@/components/blog/BlogFilters";
 import BlogGrid from "@/components/blog/BlogGrid";
@@ -106,7 +106,7 @@ export default async function BlogPage({
   };
 
   return (
-    <LanguageProvider initialLang={lang}>
+    <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(blogListingSchema) }}
@@ -159,6 +159,6 @@ export default async function BlogPage({
         <Footer />
         <WhatsAppFloat />
       </div>
-    </LanguageProvider>
+    </>
   );
 }

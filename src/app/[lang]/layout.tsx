@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import type { Lang } from "@/translations";
+import translations, { type Lang } from "@/translations";
 import { SEO, LANG_CONFIG, LANGS, getPageUrl, getOrganizationSchema, getLocalBusinessSchema, getFaqSchema, getBreadcrumbSchema } from "@/lib/seo";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 
@@ -59,7 +59,7 @@ export default async function LangLayout({ children, params }: { children: React
   ];
 
   return (
-    <LanguageProvider initialLang={lang}>
+    <LanguageProvider initialLang={lang} dict={translations[lang]}>
       {schemas.map((schema, i) => (
         <script
           key={i}

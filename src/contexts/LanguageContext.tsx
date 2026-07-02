@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import translations, { type Lang } from '@/translations';
+import { type Lang } from '@/translations';
 
 interface LanguageContextType {
   lang: Lang;
@@ -12,9 +12,17 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-export const LanguageProvider: React.FC<{ children: React.ReactNode; initialLang?: Lang }> = ({ children, initialLang }) => {
+// IMPORTANT: never value-import `@/translations` from a Client Component — the
+// whole 4-language blob (~460KB) would ship in every visitor's JS. The server
+// layout passes only the active language's dict in here; client code reads it
+// via useLanguage().t.
+export const LanguageProvider: React.FC<{
+  children: React.ReactNode;
+  initialLang?: Lang;
+  dict: Record<string, any>;
+}> = ({ children, initialLang, dict }) => {
   const [lang, setLang] = useState<Lang>(initialLang || 'fa');
-  const t = translations[lang];
+  const t = dict;
   const isRTL = t.dir === 'rtl';
 
   useEffect(() => {
