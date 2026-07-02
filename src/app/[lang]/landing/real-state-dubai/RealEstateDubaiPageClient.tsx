@@ -9,14 +9,17 @@ import {
   ClipboardCheck, Ban, Target, Search, CreditCard, Phone, MessageCircle, AlertTriangle,
   type LucideIcon,
 } from "lucide-react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import dynamicImport from "next/dynamic";
+import LandingHeader from "@/components/landing/LandingHeader";
+import LandingFooter from "@/components/landing/LandingFooter";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
-import ChatModal from "@/components/ChatModal";
 import TeamSection from "@/components/TeamSection";
 import MediaImage from "@/components/MediaImage";
 import LandingLeadForm from "@/components/landing/LandingLeadForm";
-import LeadFormModal from "@/components/landing/LeadFormModal";
+
+// Modals are click-only UI — load their chunks on first open, not on page load.
+const ChatModal = dynamicImport(() => import("@/components/ChatModal"), { ssr: false });
+const LeadFormModal = dynamicImport(() => import("@/components/landing/LeadFormModal"), { ssr: false });
 import SharedStatsStrip from "@/components/shared/SharedStatsStrip";
 import SharedHowItWorks from "@/components/shared/SharedHowItWorks";
 import SharedFAQ from "@/components/shared/SharedFAQ";
@@ -54,11 +57,19 @@ export default function RealEstateDubaiPageClient() {
   const { t, isRTL } = useLanguage();
   const u = t.realEstateDubai;
   const [leadOpen, setLeadOpen] = useState(false);
-  const openLead = () => setLeadOpen(true);
+  // "Ever opened" flags gate mounting so the dynamic modal chunks are only
+  // fetched on first interaction (kept mounted afterwards to preserve state).
+  const [leadMounted, setLeadMounted] = useState(false);
+  const openLead = () => {
+    setLeadMounted(true);
+    setLeadOpen(true);
+  };
   const [chatOpen, setChatOpen] = useState(false);
+  const [chatMounted, setChatMounted] = useState(false);
   const [chatMessage, setChatMessage] = useState("");
   const openChat = (message = "") => {
     setChatMessage(message);
+    setChatMounted(true);
     setChatOpen(true);
   };
 
@@ -66,7 +77,7 @@ export default function RealEstateDubaiPageClient() {
 
   return (
     <div className="min-h-screen bg-background" style={{ direction: dir }}>
-      <Navbar />
+      <LandingHeader />
 
       {/* Hero */}
       <header className="relative overflow-hidden text-white" style={{ background: HERO_BG }}>
@@ -344,8 +355,8 @@ export default function RealEstateDubaiPageClient() {
         </div>
       </motion.section>
 
-      {/* Team (shared, real photos) */}
-      <TeamSection />
+      {/* Team (shared, real photos) — no outbound links on an ad landing */}
+      <TeamSection hideMeetMore />
 
       {/* Transparency */}
       <motion.section {...fade} className="py-12 md:py-16" style={{ direction: dir }}>
@@ -383,9 +394,13 @@ export default function RealEstateDubaiPageClient() {
       </motion.section>
 
       <WhatsAppFloat />
-      <Footer />
-      <LeadFormModal open={leadOpen} onOpenChange={setLeadOpen} sourceSlug="landing/real-state-dubai" strings={u.form} />
-      <ChatModal isOpen={chatOpen} onClose={() => setChatOpen(false)} initialMessage={chatMessage} />
+      <LandingFooter />
+      {leadMounted && (
+        <LeadFormModal open={leadOpen} onOpenChange={setLeadOpen} sourceSlug="landing/real-state-dubai" strings={u.form} />
+      )}
+      {chatMounted && (
+        <ChatModal isOpen={chatOpen} onClose={() => setChatOpen(false)} initialMessage={chatMessage} />
+      )}
     </div>
   );
 }

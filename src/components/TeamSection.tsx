@@ -4,7 +4,8 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { motion } from 'framer-motion';
 import { MapPin, Briefcase } from 'lucide-react';
 
-const TeamSection = () => {
+/** hideMeetMore: ad landings must not link out — hides the "/about" link. */
+const TeamSection = ({ hideMeetMore = false }: { hideMeetMore?: boolean }) => {
   const { t, isRTL, lang } = useLanguage();
 
   return (
@@ -90,7 +91,7 @@ const TeamSection = () => {
         </div>
 
         {/* Meet more link */}
-        {t.team.meet_more && (
+        {!hideMeetMore && t.team.meet_more && (
           <div className="text-center">
             <a
               href={`/${lang}/about/`}
