@@ -1,4 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Vazirmatn:wght@300;400;500;600;700;800&display=swap');
+/* Google Fonts are loaded via <link> tags in src/app/layout.tsx (with
+   preconnect) instead of a CSS @import — an @import here chains the font CSS
+   behind this stylesheet and blocks first paint on every page. */
 
 @tailwind base;
 @tailwind components;

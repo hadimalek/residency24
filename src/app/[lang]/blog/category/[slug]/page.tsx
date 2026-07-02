@@ -12,7 +12,7 @@ import { fetchBlogPosts, fetchBlogCategories } from "@/lib/cms/api";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
-import { LanguageProvider } from "@/contexts/LanguageContext";
+
 import BlogHero from "@/components/blog/BlogHero";
 import BlogFilters from "@/components/blog/BlogFilters";
 import BlogGrid from "@/components/blog/BlogGrid";
@@ -87,7 +87,7 @@ export default async function BlogCategoryPage({
   if (!cat) notFound();
 
   return (
-    <LanguageProvider initialLang={lang}>
+    <>
       <div className="min-h-screen bg-background">
         <Navbar />
 
@@ -129,6 +129,6 @@ export default async function BlogCategoryPage({
         <Footer />
         <WhatsAppFloat />
       </div>
-    </LanguageProvider>
+    </>
   );
 }

@@ -1,30 +1,15 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { motion } from 'framer-motion';
-import translations from '@/translations';
+
+// NOTE: no FAQPage JSON-LD here — the [lang] layout already injects
+// getFaqSchema(lang) server-side for every page, in the correct language.
 
 const FAQ = () => {
   const { t } = useLanguage();
   const [openIndex, setOpenIndex] = useState(0);
-
-  useEffect(() => {
-    const enFaq = translations.en.faq.items;
-    const script = document.createElement('script');
-    script.type = 'application/ld+json';
-    script.text = JSON.stringify({
-      '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      mainEntity: enFaq.map((item: any) => ({
-        '@type': 'Question',
-        name: item.q,
-        acceptedAnswer: { '@type': 'Answer', text: item.a },
-      })),
-    });
-    document.head.appendChild(script);
-    return () => { document.head.removeChild(script); };
-  }, []);
 
   return (
     <motion.section
