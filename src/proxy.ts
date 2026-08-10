@@ -23,7 +23,11 @@ const ADMIN_API_PREFIXES = [
   "/api/sessions",
 ];
 
-const PUBLIC_API_PREFIXES = ["/api/auth", "/api/chat", "/api/cms"];
+// `/api/content` is the programmatic, article-scoped Content API. It does NOT
+// use the admin cookie — it authenticates per-request with a bearer API key
+// (see src/lib/content-api/auth.ts). Listed here so the cookie gate lets it
+// through to enforce its own auth.
+const PUBLIC_API_PREFIXES = ["/api/auth", "/api/chat", "/api/cms", "/api/content"];
 
 const MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;
 

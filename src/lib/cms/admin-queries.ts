@@ -23,7 +23,10 @@ g.Node ||= dom.window.Node;
 
 // Must match the editor's extension set (TiptapEditor.tsx) so JSON saved by the
 // editor renders back to HTML without dropping nodes (notably tables).
-const TIPTAP_EXTENSIONS = [StarterKit, Image, Link, Table, TableRow, TableHeader, TableCell];
+// Exported so the programmatic Content API (src/lib/content-api) can convert
+// inbound HTML/Markdown → Tiptap JSON using the exact same node schema, keeping
+// API-created posts editable in the admin editor and sanitising unknown nodes.
+export const TIPTAP_EXTENSIONS = [StarterKit, Image, Link, Table, TableRow, TableHeader, TableCell];
 
 export function tiptapJsonToHtml(json: any): string {
   if (!json) return "";
