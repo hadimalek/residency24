@@ -72,7 +72,7 @@ const UAE_BREADCRUMB: Record<Lang, string> = {
 };
 
 function getUaePageUrl(lang: Lang) {
-  return lang === "en" ? `${BASE_URL}/uae/` : `${BASE_URL}/${lang}/uae/`;
+  return lang === "en" ? `${BASE_URL}/uae` : `${BASE_URL}/${lang}/uae`;
 }
 
 function getFaqSchema(lang: Lang) {
@@ -92,7 +92,7 @@ function getBreadcrumbSchema(lang: Lang) {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: BREADCRUMB_HOME[lang], item: lang === "en" ? `${BASE_URL}/` : `${BASE_URL}/${lang}/` },
+      { "@type": "ListItem", position: 1, name: BREADCRUMB_HOME[lang], item: lang === "en" ? `${BASE_URL}/` : `${BASE_URL}/${lang}` },
       { "@type": "ListItem", position: 2, name: UAE_BREADCRUMB[lang], item: getUaePageUrl(lang) },
     ],
   };

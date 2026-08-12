@@ -3,7 +3,7 @@ import type { Lang } from "@/translations";
 import { LANGS, LANG_CONFIG } from "@/lib/seo";
 
 const BASE_URL = "https://residency24.com";
-const PATH = "compare/uae-vs-oman-vs-turkey/";
+const PATH = "compare/uae-vs-oman-vs-turkey";
 
 const PAGE_SEO: Record<Lang, { title: string; description: string }> = {
   fa: {
@@ -63,6 +63,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
       description: seo.description,
       locale: config.locale,
       alternateLocale: LANGS.filter((l) => l !== lang).map((l) => LANG_CONFIG[l].locale),
+      images: [{ url: `${BASE_URL}/assets/og-image-${lang}.jpg`, width: 1200, height: 630 }],
       siteName: "Residency24",
     },
     twitter: {

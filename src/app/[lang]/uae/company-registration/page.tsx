@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
     ru: 'Зарегистрируйте компанию в Дубае за 7-10 дней. 100% иностранное владение. От AED 21,000.',
   };
 
-  const localized = (l: Lang) => l === "en" ? `${BASE_URL}/uae/company-registration/` : `${BASE_URL}/${l}/uae/company-registration/`;
+  const localized = (l: Lang) => l === "en" ? `${BASE_URL}/uae/company-registration` : `${BASE_URL}/${l}/uae/company-registration`;
   const pageUrl = localized(lang);
   const alternates: Record<string, string> = {};
   for (const l of LANGS) {

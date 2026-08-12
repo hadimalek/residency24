@@ -21,6 +21,17 @@ export default function RootLayout({
   return (
     <html lang="en" dir="ltr" suppressHydrationWarning>
       <head>
+        {/* Locale is in the [lang] segment (below the root <html>), so we can't
+            read it here without opting the whole tree into dynamic rendering.
+            This tiny inline script fixes <html lang>/<dir> from the URL BEFORE
+            first paint — correct for RTL (fa/ar), screen readers, and the
+            JS-rendered DOM crawlers see — while keeping every page static. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "(function(){try{var m=location.pathname.match(/^\\/(fa|ar|ru)(\\/|$)/);var l=m?m[1]:'en';var e=document.documentElement;e.lang=l;e.dir=(l==='fa'||l==='ar')?'rtl':'ltr';}catch(e){}})();",
+          }}
+        />
         {/* Fonts: plain <link> (not CSS @import) so the font CSS downloads in
             parallel with the app CSS instead of chained behind it. */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />

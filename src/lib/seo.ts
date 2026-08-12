@@ -249,6 +249,17 @@ export function getAboutBreadcrumbSchema(lang: Lang) {
   };
 }
 
+export function getWebsiteSchema(lang: Lang) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Residency24",
+    url: getPageUrl(lang),
+    inLanguage: LANG_CONFIG[lang].locale.replace("_", "-"),
+    publisher: { "@type": "Organization", name: "Residency24", url: `${BASE_URL}/` },
+  };
+}
+
 export function getOrganizationSchema() {
   return {
     "@context": "https://schema.org",

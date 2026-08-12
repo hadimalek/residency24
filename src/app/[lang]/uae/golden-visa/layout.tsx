@@ -24,7 +24,7 @@ const PAGE_SEO: Record<Lang, { title: string; description: string }> = {
 };
 
 function getPageUrl(lang: Lang) {
-  return lang === "en" ? `${BASE_URL}/uae/golden-visa/` : `${BASE_URL}/${lang}/uae/golden-visa/`;
+  return lang === "en" ? `${BASE_URL}/uae/golden-visa` : `${BASE_URL}/${lang}/uae/golden-visa`;
 }
 
 function langPathPrefix(lang: Lang) {
@@ -62,6 +62,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
       description: seo.description,
       locale: config.locale,
       alternateLocale: LANGS.filter((l) => l !== lang).map((l) => LANG_CONFIG[l].locale),
+      images: [{ url: `${BASE_URL}/assets/og-image-${lang}.jpg`, width: 1200, height: 630 }],
       siteName: "Residency24",
     },
     twitter: {

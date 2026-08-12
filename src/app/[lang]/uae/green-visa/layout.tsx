@@ -6,7 +6,7 @@ import { LANGS, LANG_CONFIG } from "@/lib/seo";
 const BASE_URL = "https://residency24.com";
 
 function getPageUrl(lang: Lang) {
-  return lang === "en" ? `${BASE_URL}/uae/green-visa/` : `${BASE_URL}/${lang}/uae/green-visa/`;
+  return lang === "en" ? `${BASE_URL}/uae/green-visa` : `${BASE_URL}/${lang}/uae/green-visa`;
 }
 
 function langPathPrefix(lang: Lang) {

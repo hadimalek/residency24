@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import translations, { type Lang } from "@/translations";
-import { SEO, LANG_CONFIG, LANGS, getPageUrl, getOrganizationSchema, getLocalBusinessSchema, getFaqSchema, getBreadcrumbSchema } from "@/lib/seo";
+import { SEO, LANG_CONFIG, LANGS, getPageUrl, getWebsiteSchema, getOrganizationSchema, getLocalBusinessSchema, getFaqSchema, getBreadcrumbSchema } from "@/lib/seo";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 
 export async function generateStaticParams() {
@@ -52,6 +52,7 @@ export default async function LangLayout({ children, params }: { children: React
   const lang = (LANGS.includes(rawLang as Lang) ? rawLang : "en") as Lang;
 
   const schemas = [
+    getWebsiteSchema(lang),
     getOrganizationSchema(),
     getLocalBusinessSchema(),
     getFaqSchema(lang),
