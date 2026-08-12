@@ -137,7 +137,14 @@ export async function getAIResponse(
     max_completion_tokens: provider.maxTokens,
   });
 
-  const response = completion.choices[0]?.message?.content || "متاسفانه پاسخی دریافت نشد.";
+  const emptyFallback: Record<string, string> = {
+    fa: "متأسفانه پاسخی دریافت نشد. لطفاً دوباره تلاش کنید.",
+    en: "Sorry, no response was received. Please try again.",
+    ar: "عذراً، لم يتم استلام أي رد. يرجى المحاولة مرة أخرى.",
+    ru: "К сожалению, ответ не получен. Пожалуйста, попробуйте ещё раз.",
+  };
+  const response =
+    completion.choices[0]?.message?.content || emptyFallback[language || "en"] || emptyFallback.en;
   const tokensUsed = completion.usage?.total_tokens || 0;
 
   return { response, tokensUsed };

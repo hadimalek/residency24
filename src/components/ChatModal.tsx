@@ -104,6 +104,15 @@ const getNow = () => {
   return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 };
 
+/* ── Localized connection-error fallback (network failures only; server errors
+      already arrive localized in `data.error`) ── */
+const CONNECT_ERR: Record<string, string> = {
+  fa: 'خطا در اتصال به سرور. لطفاً دوباره تلاش کنید.',
+  en: 'Connection error. Please try again.',
+  ar: 'خطأ في الاتصال بالخادم. يرجى المحاولة مرة أخرى.',
+  ru: 'Ошибка соединения. Пожалуйста, попробуйте ещё раз.',
+};
+
 /* ── Lead Form Translations ── */
 const LEAD_FORM_T: Record<string, { title: string; subtitle: string; name_label: string; name_ph: string; phone_label: string; phone_ph: string; email_label: string; service_label: string; submit: string; success_title: string; success_msg: string; privacy: string; later: string; error_req: string }> = {
   fa: { title: "مشاوره رایگان — رزیدنسی۲۴", subtitle: "کارشناسان ما در کمتر از ۲۴ ساعت با شما تماس می‌گیرند", name_label: "نام و نام خانوادگی", name_ph: "مثال: علی رضایی", phone_label: "شماره واتساپ یا تلفن", phone_ph: "+98 یا +971", email_label: "ایمیل (اختیاری)", service_label: "خدمت مورد نظر", submit: "ارسال و دریافت مشاوره رایگان", success_title: "درخواست شما ثبت شد ✓", success_msg: "کارشناسان رزیدنسی۲۴ به زودی با شما تماس خواهند گرفت.", privacy: "اطلاعات شما محرمانه است", later: "بعداً", error_req: "لطفاً نام و شماره تلفن را وارد کنید" },
@@ -344,7 +353,11 @@ const ChatModal = ({ isOpen, onClose, initialMessage = '' }: { isOpen: boolean; 
       });
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'API error');
+      if (!res.ok) {
+        const e = new Error(data.error || (CONNECT_ERR[lang] || CONNECT_ERR.en)) as Error & { fromServer?: boolean };
+        e.fromServer = Boolean(data.error);
+        throw e;
+      }
 
       // Save session ID for future messages
       if (data.sessionId) {
@@ -385,7 +398,9 @@ const ChatModal = ({ isOpen, onClose, initialMessage = '' }: { isOpen: boolean; 
         setTimeout(() => setShowLead(true), 700);
       }
     } catch (err: any) {
-      const errorText = err?.message || 'خطا در اتصال به سرور';
+      const errorText = err?.fromServer && err?.message
+        ? err.message
+        : (CONNECT_ERR[lang] || CONNECT_ERR.en);
       setMessages(prev => {
         const updated = prev.map(m => m.role === 'user' ? { ...m, read: true } : m);
         return [
