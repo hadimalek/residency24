@@ -64,20 +64,18 @@ export const CONTENT = {
     { display: "RU · EN · FA · AR", label: "Языки поддержки" },
   ],
 
-  // 03 — Selected UAE projects (indicative data — replace with verified listings)
+  // 03 — Selected UAE projects (real projects from developer brochures: DAMAC & Emaar)
   projects: {
     tag: "Объекты",
-    h2: "Подборка объектов в ОАЭ",
-    sub: "Примеры объектов под разные цели и бюджет. Актуальную подборку под ваш запрос пришлём после короткой анкеты.",
-    note: "Цены ориентировочные и зависят от объекта, застройщика и стадии строительства.",
-    cta: "Получить детали объекта",
+    h2: "Актуальные проекты в Дубае и ОАЭ",
+    sub: "Подборка проектов от ведущих застройщиков — DAMAC и Emaar. Полную подборку под вашу цель и бюджет пришлём после короткой анкеты.",
+    note: "Проекты застройщиков DAMAC и Emaar. Цены и наличие уточняются под ваш запрос и зависят от типа объекта и стадии проекта.",
+    cta: "Получить детали проекта",
     cards: [
-      { img: "marina-studio", name: "Студия · Dubai Marina", area: "Dubai Marina", type: "Студия", price: "от $250 000", meta: "≈ 7,5% доходность", status: "Готово" },
-      { img: "business-bay", name: "1-комн. off-plan · Business Bay", area: "Business Bay", type: "1 спальня", price: "от $320 000", meta: "рассрочка 60/40", status: "Off-plan" },
-      { img: "downtown-tower", name: "Апартаменты · Downtown Dubai", area: "Downtown Dubai", type: "1–2 спальни", price: "от $410 000", meta: "рядом с Burj Khalifa", status: "Готово" },
-      { img: "creek-harbour", name: "Таунхаус · Dubai Creek Harbour", area: "Creek Harbour", type: "Таунхаус", price: "от $540 000", meta: "рассрочка 80/20", status: "Off-plan" },
-      { img: "apartment-interior", name: "Квартира · JVC", area: "Jumeirah Village Circle", type: "Студия / 1 спальня", price: "от $190 000", meta: "≈ 8% доходность", status: "Готово" },
-      { img: "palm-villa", name: "Вилла · Palm Jumeirah", area: "Palm Jumeirah", type: "Вилла", price: "от $2 950 000", meta: "≈ 6,8% доходность", status: "Готово" },
+      { img: "damac-islands-2", name: "DAMAC Islands 2", developer: "DAMAC", area: "Дубай", type: "Виллы, твин-виллы, таунхаусы", price: "Цена по запросу", meta: "Сообщество у воды с лагунами", status: "Off-plan" },
+      { img: "damac-district", name: "DAMAC District — Tower A", developer: "DAMAC", area: "DAMAC Hills", type: "Апартаменты", price: "Цена по запросу", meta: "Live · Work · Play у гольф-поля", status: "Off-plan" },
+      { img: "emaar-lavita", name: "Lavita", developer: "Emaar", area: "The Oasis by Emaar", type: "Особняки 6–7 спален", price: "Цена по запросу", meta: "43 особняка · 21 000–35 500 sq.ft", status: "Off-plan" },
+      { img: "emaar-palmiera", name: "Palmiera", developer: "Emaar", area: "The Oasis by Emaar", type: "Таунхаусы и виллы 3–6 спален", price: "Цена по запросу", meta: "Виллы у лагуны и водных каналов", status: "Off-plan" },
     ],
   },
 

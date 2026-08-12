@@ -165,31 +165,32 @@ export default function RealEstateDubaiPageClient() {
       <motion.section {...fade} id="projects" className="py-16 md:py-20">
         <div className="max-w-6xl mx-auto px-4">
           <SectionHead tag={C.projects.tag} h2={C.projects.h2} sub={C.projects.sub} />
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {C.projects.cards.map((p, i) => (
-              <div key={i} className="bg-surface border border-border rounded-2xl overflow-hidden shadow-sm hover:-translate-y-1 hover:border-navy-lt transition-all">
-                <div className="relative h-48">
+              <div key={i} className="bg-surface border border-border rounded-2xl overflow-hidden shadow-sm hover:-translate-y-1 hover:border-navy-lt transition-all flex flex-col">
+                <div className="relative h-44">
                   <MediaImage src={IMG(p.img)} alt={p.name} className="w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-navy/50 to-transparent" />
                   <span className={`absolute top-3.5 start-3.5 text-[11px] font-extrabold px-3 py-1 rounded-full ${p.status === "Off-plan" ? "bg-gold text-navy" : "bg-white/95 text-ink"}`}>
                     {p.status}
                   </span>
+                  <span className="absolute top-3.5 end-3.5 bg-white/90 text-navy text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-full">
+                    {p.developer}
+                  </span>
                 </div>
-                <div className="p-6">
-                  <h3 className="text-[17px] font-bold text-ink mb-1.5">{p.name}</h3>
-                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[12.5px] text-muted-foreground mb-4">
-                    <span className="inline-flex items-center gap-1"><MapPin className="w-3.5 h-3.5" /> {p.area}</span>
-                    <span className="inline-flex items-center gap-1"><Ruler className="w-3.5 h-3.5" /> {p.type}</span>
+                <div className="p-5 flex flex-col flex-1">
+                  <h3 className="text-[16px] font-bold text-ink mb-2">{p.name}</h3>
+                  <div className="flex flex-col gap-1.5 text-[12.5px] text-muted-foreground mb-4">
+                    <span className="inline-flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5 shrink-0" /> {p.area}</span>
+                    <span className="inline-flex items-center gap-1.5"><Ruler className="w-3.5 h-3.5 shrink-0" /> {p.type}</span>
                   </div>
-                  <div className="flex items-end justify-between mb-4">
-                    <div>
-                      <div className="text-[18px] font-extrabold text-navy">{p.price}</div>
-                      <div className="text-[12px] text-muted-foreground">{p.meta}</div>
-                    </div>
+                  <div className="mt-auto">
+                    <div className="text-[15px] font-extrabold text-navy">{p.price}</div>
+                    <div className="text-[12px] text-muted-foreground mb-3">{p.meta}</div>
+                    <button onClick={openLead} className="text-[13px] font-bold text-navy inline-flex items-center gap-1.5">
+                      {C.projects.cta} <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
                   </div>
-                  <button onClick={openLead} className="text-[13px] font-bold text-navy inline-flex items-center gap-1.5">
-                    {C.projects.cta} <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
                 </div>
               </div>
             ))}
