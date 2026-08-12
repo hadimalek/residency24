@@ -68,14 +68,16 @@ export const CONTENT = {
   projects: {
     tag: "Объекты",
     h2: "Актуальные проекты в Дубае и ОАЭ",
-    sub: "Подборка проектов от ведущих застройщиков — DAMAC и Emaar. Полную подборку под вашу цель и бюджет пришлём после короткой анкеты.",
-    note: "Проекты застройщиков DAMAC и Emaar. Цены и наличие уточняются под ваш запрос и зависят от типа объекта и стадии проекта.",
+    sub: "Подборка проектов от ведущих застройщиков — DAMAC, Emaar и Beyond. Полную подборку под вашу цель и бюджет пришлём после короткой анкеты.",
+    note: "Проекты застройщиков DAMAC, Emaar и Beyond. Цены и наличие уточняются под ваш запрос и зависят от типа объекта и стадии проекта.",
     cta: "Получить детали проекта",
     cards: [
       { img: "damac-islands-2", name: "DAMAC Islands 2", developer: "DAMAC", area: "Дубай", type: "Виллы, твин-виллы, таунхаусы", price: "Цена по запросу", meta: "Сообщество у воды с лагунами", status: "Off-plan" },
       { img: "damac-district", name: "DAMAC District — Tower A", developer: "DAMAC", area: "DAMAC Hills", type: "Апартаменты", price: "Цена по запросу", meta: "Live · Work · Play у гольф-поля", status: "Off-plan" },
       { img: "emaar-lavita", name: "Lavita", developer: "Emaar", area: "The Oasis by Emaar", type: "Особняки 6–7 спален", price: "Цена по запросу", meta: "43 особняка · 21 000–35 500 sq.ft", status: "Off-plan" },
       { img: "emaar-palmiera", name: "Palmiera", developer: "Emaar", area: "The Oasis by Emaar", type: "Таунхаусы и виллы 3–6 спален", price: "Цена по запросу", meta: "Виллы у лагуны и водных каналов", status: "Off-plan" },
+      { img: "beyond-kanyon", name: "Kanyon", developer: "Beyond", area: "Dubai Maritime City", type: "Апартаменты 1–3 спальни", price: "Цена по запросу", meta: "Небоскрёб в Forest District · спа и sky pool", status: "Off-plan" },
+      { img: "beyond-soulever", name: "Soulever", developer: "Beyond", area: "Dubai Maritime City", type: "Люксовые апартаменты", price: "Цена по запросу", meta: "Две башни у побережья, рядом с Forest & Cove", status: "Off-plan" },
     ],
   },
 

@@ -165,7 +165,7 @@ export default function RealEstateDubaiPageClient() {
       <motion.section {...fade} id="projects" className="py-16 md:py-20">
         <div className="max-w-6xl mx-auto px-4">
           <SectionHead tag={C.projects.tag} h2={C.projects.h2} sub={C.projects.sub} />
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {C.projects.cards.map((p, i) => (
               <div key={i} className="bg-surface border border-border rounded-2xl overflow-hidden shadow-sm hover:-translate-y-1 hover:border-navy-lt transition-all flex flex-col">
                 <div className="relative h-44">
