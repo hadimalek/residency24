@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import type { Lang } from "@/translations";
-import translations from "@/translations";
 import { LANGS, LANG_CONFIG, getPageUrl } from "@/lib/seo";
 import RealEstateDubaiPageClient from "./RealEstateDubaiPageClient";
+import { CONTENT } from "./content";
 
 const PATH = "landing/real-state-dubai/";
 
@@ -13,7 +13,8 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
   const { lang: rawLang } = await params;
   const lang = (LANGS.includes(rawLang as Lang) ? rawLang : "en") as Lang;
-  const meta = translations[lang].realEstateDubai.meta;
+  // Russian-only ads landing — metadata is single-language regardless of segment.
+  const meta = CONTENT.meta;
   const config = LANG_CONFIG[lang];
   const pageUrl = getPageUrl(lang, PATH);
 
