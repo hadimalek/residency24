@@ -101,11 +101,17 @@ export const ABOUT_SEO: Record<Lang, { title: string; description: string; h1: s
 };
 
 // English is served at root (no /en prefix). Other locales keep the prefix.
+//
+// The site canonicalises to NO trailing slash (Next `trailingSlash: false`):
+// any `/path/` 308-redirects to `/path`. So every URL we emit (canonicals,
+// sitemap <loc>, hreflang alternates) MUST be trailing-slash-free, otherwise
+// we hand Google redirecting URLs — which is exactly what tanked indexing
+// (GSC "Page with redirect"). We strip both leading AND trailing slashes here
+// so callers can keep passing "about/" or "blog/slug/" without breaking it.
 export function localizedPath(lang: Lang, path: string = "") {
-  // path should NOT have a leading slash; pass "" for the locale homepage.
-  const normalized = path.replace(/^\/+/, "");
-  if (lang === "en") return `/${normalized}`;
-  return `/${lang}/${normalized}`;
+  const normalized = path.replace(/^\/+/, "").replace(/\/+$/, "");
+  if (lang === "en") return normalized ? `/${normalized}` : "/";
+  return normalized ? `/${lang}/${normalized}` : `/${lang}`;
 }
 
 export function getPageUrl(lang: Lang, path: string = "") {

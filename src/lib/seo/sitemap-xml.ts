@@ -35,24 +35,23 @@ function toSitemapDate(d: Date): string {
  * `updatedAt` from the DB.
  */
 export async function buildLanguageSitemap(lang: Lang): Promise<string> {
-  const staticEntries: SitemapEntry[] = getIndexableStaticRoutes().map((r) => {
-    const path = r.path ? `${r.path}/` : "";
-    return {
-      loc: getPageUrl(lang, path),
-      changefreq: r.changeFrequency,
-      priority: r.priority,
-      alternates: alternatesForPath(path, LANGS),
-    };
-  });
+  // No trailing slashes: emit the exact canonical URL the server serves 200 for
+  // (a trailing slash 308-redirects). See localizedPath() in src/lib/seo.ts.
+  const staticEntries: SitemapEntry[] = getIndexableStaticRoutes().map((r) => ({
+    loc: getPageUrl(lang, r.path),
+    changefreq: r.changeFrequency,
+    priority: r.priority,
+    alternates: alternatesForPath(r.path, LANGS),
+  }));
 
   const articles = await listSitemapArticles(lang).catch(() => []);
   const articleEntries: SitemapEntry[] = articles.map((a) => ({
-    loc: getPageUrl(lang, `blog/${a.slug}/`),
+    loc: getPageUrl(lang, `blog/${a.slug}`),
     lastmod: toSitemapDate(a.updatedAt ?? a.publishedAt ?? new Date()),
     changefreq: "monthly",
     priority: 0.7,
     alternates: alternatesForPath(
-      `blog/${a.slug}/`,
+      `blog/${a.slug}`,
       a.locales.filter((l): l is Lang => (LANGS as readonly string[]).includes(l))
     ),
   }));

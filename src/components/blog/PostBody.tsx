@@ -23,10 +23,26 @@ function injectHeadingIds(html: string): string {
   });
 }
 
+/**
+ * Defer in-article images: content HTML comes from the CMS with plain <img>
+ * tags that load eagerly. On long mobile posts that hurts LCP/INP and wastes
+ * bandwidth (a big driver of GSC "needs improvement" Core Web Vitals). We add
+ * loading="lazy" + decoding="async" to every <img> that doesn't already set
+ * them. The hero image (PostHero) stays eager/high-priority — it's the LCP.
+ */
+function deferImages(html: string): string {
+  return html.replace(/<img\b([^>]*?)\/?>/gi, (match, attrs) => {
+    if (/\bloading\s*=/i.test(attrs)) return match;
+    let a: string = attrs;
+    if (!/\bdecoding\s*=/i.test(a)) a += ' decoding="async"';
+    return `<img${a} loading="lazy">`;
+  });
+}
+
 export default function PostBody({ html }: PostBodyProps) {
   if (!html) return null;
 
-  const processedHtml = injectHeadingIds(html);
+  const processedHtml = deferImages(injectHeadingIds(html));
 
   return (
     <article
