@@ -44,7 +44,7 @@ export default function TouristVisaClient() {
 
   // S04 — Stats
   const stats: Stat[] = [
-    { value: "5000", label: l("ویزا صادر شده", "Visas Processed", "تأشيرة معالجة", "виз оформлено"), display: "5,000+" },
+    { value: "390", label: l("ویزا صادر شده", "Visas Processed", "تأشيرة معالجة", "виз оформлено"), display: "390+" },
     { value: "350", label: l("شروع قیمت", "Starting From", "يبدأ من", "от"), display: "AED 350" },
     { value: "5", label: l("روز پردازش", "Day Processing", "أيام معالجة", "дней обработки"), display: "5–10" },
     { value: "4", label: l("زبان پشتیبانی", "Languages", "لغات الدعم", "языка"), display: "4" },

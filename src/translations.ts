@@ -2473,7 +2473,7 @@ const translations: Record<Lang, any> = {
         cross_property_title: "Buy Property Dubai", cross_property_desc: "6-8% yield · Zero tax · Golden Visa path",
         // P006 enhanced keys
         hero_h1: "UAE Tourist Visa 2026 — Fast Processing, Expert Guidance",
-        hero_sub: "Expert UAE visa processing — trusted by 5,000+ clients across 40+ nationalities",
+        hero_sub: "Expert UAE visa processing — trusted by 390+ clients across 40+ nationalities",
         visa_types_title: "Choose Your UAE Tourist Visa Type",
         process_title: "How to Apply — 5 Simple Steps",
         docs_title: "Required Documents for UAE Tourist Visa",
@@ -2502,7 +2502,7 @@ const translations: Record<Lang, any> = {
       },
       hero: {
         h1: "About Residency24 — Your Trusted Partner for Investment Immigration",
-        p: "Since 2018, Residency24 has helped over 5,000 investors, entrepreneurs, and families build their global future through legal, transparent pathways in the UAE, Oman, and Turkey. With offices in Dubai and Mashhad, we are not just an online service — we are a real team with real presence in the markets that matter most to you.",
+        p: "Since 2018, Residency24 has helped over 390 investors, entrepreneurs, and families build their global future through legal, transparent pathways in the UAE, Oman, and Turkey. With offices in Dubai and Mashhad, we are not just an online service — we are a real team with real presence in the markets that matter most to you.",
       },
       story: {
         h2: "Our Story",
@@ -2904,7 +2904,7 @@ const translations: Record<Lang, any> = {
       breadcrumb_gv: 'Golden Visa',
     },
     bp: {
-      hero_badge: "5,000+ Clients Served",
+      hero_badge: "390+ Clients Served",
       hero_headline: "Buy Property in Dubai — 6–8% Yield, Zero Tax, Legal Residency",
       hero_sub: "The only market where your property earns, grows, and gives you 10-year residency.",
       stats_yield_num: "6–8%", stats_yield_label: "Gross Rental Yield",
@@ -4017,7 +4017,7 @@ const translations: Record<Lang, any> = {
       },
       hero: {
         h1: "Residency24 — شريكك الموثوق في الهجرة الاستثمارية",
-        p: "منذ عام 2018، ساعدت Residency24 أكثر من 5,000 مستثمر وعائلة في بناء مستقبلهم العالمي عبر مسارات قانونية وشفافة في الإمارات وعُمان وتركيا. مع مكتبين في دبي ومشهد، نحن لسنا مجرد خدمة إلكترونية — بل فريق حقيقي بحضور ميداني في الأسواق الأكثر أهمية لعملائنا.",
+        p: "منذ عام 2018، ساعدت Residency24 أكثر من 390 مستثمر وعائلة في بناء مستقبلهم العالمي عبر مسارات قانونية وشفافة في الإمارات وعُمان وتركيا. مع مكتبين في دبي ومشهد، نحن لسنا مجرد خدمة إلكترونية — بل فريق حقيقي بحضور ميداني في الأسواق الأكثر أهمية لعملائنا.",
       },
       story: {
         h2: "قصتنا",
@@ -4183,7 +4183,7 @@ const translations: Record<Lang, any> = {
       cross_prop_title: 'عقار + إقامة',
       cross_prop_desc: 'شراء عقار 2M+ درهم يمنحك إقامة ذهبية 10 سنوات',
       cross_prop_cta: 'شراء عقار دبي',
-      testi_title: '5,000+ قصة نجاح',
+      testi_title: '390+ قصة نجاح',
       t1_name: 'علیرضا م.',
       t1_flag: 'IR',
       t1_type: 'شركة تقنية — IFZA',
@@ -4949,7 +4949,7 @@ const translations: Record<Lang, any> = {
       thanks: "Сообщение получено — наш консультант свяжется с вами.",
     },
     stats: [
-      { num: "5 000+", label: "Успешных кейсов" },
+      { num: "390+", label: "Успешных кейсов" },
       { num: "12 лет", label: "Опыта" },
       { num: "3 страны", label: "ОАЭ, Оман, Турция" },
       { num: "4 языка", label: "Поддержки" },
@@ -5532,7 +5532,7 @@ const translations: Record<Lang, any> = {
       },
       hero: {
         h1: "О компании Residency24 — Ваш надёжный партнёр по инвестиционной иммиграции",
-        p: "С 2018 года Residency24 помогла более 5 000 инвесторов и семей построить своё глобальное будущее через законные и прозрачные пути в ОАЭ, Омане и Турции. С офисами в Дубае и Мешхеде мы — не просто онлайн-сервис, а реальная команда с реальным присутствием на ключевых рынках.",
+        p: "С 2018 года Residency24 помогла более 390 инвесторов и семей построить своё глобальное будущее через законные и прозрачные пути в ОАЭ, Омане и Турции. С офисами в Дубае и Мешхеде мы — не просто онлайн-сервис, а реальная команда с реальным присутствием на ключевых рынках.",
       },
       story: {
         h2: "Наша история",
@@ -5934,7 +5934,7 @@ const translations: Record<Lang, any> = {
       breadcrumb_gv: 'Золотая виза',
     },
     bp: {
-      hero_badge: "5000+ успешных клиентов",
+      hero_badge: "390+ успешных клиентов",
       hero_headline: "Купить недвижимость в Дубае — доходность 6–8%, без налогов, ВНЖ",
       hero_sub: "Нейтральная юрисдикция. Стабильный актив. Путь к 10-летнему резидентству.",
       stats_yield_num: "6–8%", stats_yield_label: "Доходность аренды",
