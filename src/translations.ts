@@ -1389,7 +1389,7 @@ const translations: Record<Lang, any> = {
       breadcrumb_gv: 'گلدن ویزا',
     },
     bp: {
-      hero_badge: "+۵٬۰۰۰ مشتری موفق",
+      hero_badge: "+۳۹۰ مشتری موفق",
       hero_headline: "خرید ملک در دبی — بازدهی ۶-۸٪ + اقامت قانونی",
       hero_sub: "بدون مالیات. بدون محدودیت ملیت. از خرید تا ویزا با راهنمایی ما.",
       stats_yield_num: "۶-۸٪", stats_yield_label: "بازدهی اجاره سالانه",
@@ -3434,7 +3434,7 @@ const translations: Record<Lang, any> = {
       thanks: "تم استلام رسالتك — سيتواصل معك مستشارنا قريباً.",
     },
     stats: [
-      { num: "+٥٬٠٠٠", label: "حالة ناجحة" },
+      { num: "+٣٩٠", label: "حالة ناجحة" },
       { num: "١٢ عاماً", label: "من الخبرة" },
       { num: "٣ دول", label: "الإمارات، عمان، تركيا" },
       { num: "٤ لغات", label: "دعم متعدد" },
