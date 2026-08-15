@@ -4,7 +4,6 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import Navbar from "@/components/Navbar";
 import HeroChat from "@/components/HeroChat";
 import TrustBar from "@/components/TrustBar";
-import SharedStatsStrip from "@/components/shared/SharedStatsStrip";
 import CountriesHub from "@/components/CountriesHub";
 import AllServicesGrid from "@/components/AllServicesGrid";
 import VideoSection from "@/components/VideoSection";
@@ -22,19 +21,11 @@ import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import { Trophy, Building2, Building, Plane } from "lucide-react";
 import type { CrossSellItem } from "@/components/shared/SharedCrossSell";
-import type { Stat } from "@/components/shared/SharedStatsStrip";
 import type { HomePostPreview } from "@/lib/cms/articles";
 
 export default function HomePageClient({ h1, blogPosts }: { h1: string; blogPosts?: HomePostPreview[] }) {
   const { t, lang } = useLanguage();
   const s = t.shared;
-
-  const stats: Stat[] = [
-    { value: "500", label: s.stats_clients, display: "500+" },
-    { value: "10", label: s.stats_years, display: "10+" },
-    { value: "3", label: s.stats_offices, display: "3" },
-    { value: "40", label: s.stats_countries, display: "40+" },
-  ];
 
   const crossSellItems: CrossSellItem[] = [
     { title: s.cs_golden_visa, description: s.cs_golden_visa_desc, icon: Trophy, href: `/${lang}/uae/golden-visa/`, isHighlighted: true, badge: s.cs_badge_popular },
@@ -51,9 +42,6 @@ export default function HomePageClient({ h1, blogPosts }: { h1: string; blogPost
 
       {/* S03 — TrustBar (LOCKED) */}
       <TrustBar />
-
-      {/* S04 — StatsStrip */}
-      <SharedStatsStrip stats={stats} variant="dark" />
 
       {/* S05–S07 — Unique content */}
       <CountriesHub />

@@ -419,7 +419,7 @@ const translations: Record<Lang, any> = {
           highlights: ["۰٪ مالیات شخصی", "گلدن ویزا ۱۰ ساله", "ثبت شرکت از ۱۱,۹۰۰ درهم"],
           cta: "خدمات امارات", href: "/fa/uae/",
           services: [
-            { name: "گلدن ویزا", href: "/fa/uae/golden-visa/", price: "از ۹,۶۴۸ درهم" },
+            { name: "گلدن ویزا", href: "/fa/uae/golden-visa/", price: "از ۲ میلیون درهم" },
             { name: "ثبت شرکت", href: "/fa/uae/company-registration/", price: "از ۱۱,۹۰۰ درهم" },
             { name: "خرید ملک", href: "/fa/uae/buy-property/", price: "از ۷۵۰,۰۰۰ درهم" },
             { name: "ویزای توریستی", href: "/fa/uae/tourist-visa/", price: "از ۵۰۰ درهم" },
@@ -461,7 +461,7 @@ const translations: Record<Lang, any> = {
         {
           country: "🇦🇪 امارات", color: "navy",
           services: [
-            { icon: "star", name: "گلدن ویزا", desc: "اقامت ۱۰ ساله خودکفا", price: "از ۹,۶۴۸ درهم", href: "/fa/uae/golden-visa/", tag: "پرطرفدار" },
+            { icon: "star", name: "گلدن ویزا", desc: "اقامت ۱۰ ساله خودکفا", price: "از ۲ میلیون درهم", href: "/fa/uae/golden-visa/", tag: "پرطرفدار" },
             { icon: "building2", name: "ثبت شرکت دبی", desc: "مالکیت ۱۰۰٪ · ۷-۱۰ روز", price: "از ۱۱,۹۰۰ درهم", href: "/fa/uae/company-registration/" },
             { icon: "home", name: "خرید ملک دبی", desc: "ویزا از ۷۵۰K درهم", price: "از ۷۵۰,۰۰۰ درهم", href: "/fa/uae/buy-property/" },
             { icon: "plane", name: "ویزای توریستی", desc: "۳۰ تا ۹۰ روز", price: "از ۵۰۰ درهم", href: "/fa/uae/tourist-visa/" },
@@ -591,7 +591,7 @@ const translations: Record<Lang, any> = {
     },
     testimonials: {
       badge: "نظرات مشتریان",
-      h2: "بیش از ۵,۰۰۰ نفر آینده‌شون رو به ما سپردند",
+      h2: "بیش از ۳۹۰ نفر آینده‌شون رو به ما سپردند",
       google: { rating: "۴.۸", reviews: "بر اساس نظرات مشتریان" },
       items: [
         { text: "گلدن ویزام رو در ۳ هفته از طریق خرید ملک آف‌پلن گرفتم. رزیدنسی۲۴ همه مراحل رو مدیریت کرد و حتی یک بار لازم نشد نگران چیزی باشم.", name: "رضا م.", route: "تهران ← دبی مارینا", tag: "گلدن ویزا · ملک" },
@@ -777,7 +777,7 @@ const translations: Record<Lang, any> = {
         badge: "خدمات امارات",
         h2: "چه خدماتی در امارات ارائه می‌دهیم؟",
         items: [
-          { icon: "star", title: "گلدن ویزا", desc: "اقامت ۱۰ ساله — بدون کفیل، با حق کار و اسپانسر خانواده", price: "از ۹,۶۴۸ درهم", href: "/fa/uae/golden-visa/", tag: "پرطرفدار" },
+          { icon: "star", title: "گلدن ویزا", desc: "اقامت ۱۰ ساله — بدون کفیل، با حق کار و اسپانسر خانواده", price: "از ۲ میلیون درهم", href: "/fa/uae/golden-visa/", tag: "پرطرفدار" },
           { icon: "building2", title: "ثبت شرکت دبی", desc: "مالکیت ۱۰۰٪ — فری‌زون یا مین‌لند — ۷ تا ۱۰ روز", price: "از ۱۱,۹۰۰ درهم", href: "/fa/uae/company-registration/" },
           { icon: "home", title: "خرید ملک دبی", desc: "سرمایه‌گذاری ملکی با اقامت — آف‌پلن و آماده", price: "از ۷۵۰,۰۰۰ درهم", href: "/fa/uae/buy-property/" },
           { icon: "plane", title: "ویزای توریستی", desc: "ورود ۳۰ تا ۹۰ روزه — تمدید آسان", price: "از ۵۰۰ درهم", href: "/fa/uae/tourist-visa/" },
@@ -892,7 +892,7 @@ const translations: Record<Lang, any> = {
       },
       golden_visa: {
         h1: "گلدن ویزای امارات", intro: "اقامت ۱۰ ساله بدون نیاز به کفیل — با حق کار، اسپانسر خانواده و تمدید نامحدود.",
-        price: "از ۹,۶۴۸ درهم", processing: "۷-۱۰ روز کاری", duration: "۱۰ سال",
+        price: "از ۲ میلیون درهم", processing: "۷-۱۰ روز کاری", duration: "۱۰ سال",
         visa_info: "شامل همسر، فرزندان و والدین",
         categories_title: "انواع گلدن ویزا",
         categories: [
@@ -953,7 +953,7 @@ const translations: Record<Lang, any> = {
         steps: ["ارسال مدارک آنلاین", "بررسی و تأیید (۱-۳ روز)", "دریافت ویزای الکترونیکی", "ورود به امارات"],
         cta: "درخواست ویزای توریستی",
         cross_sell_title: "خدمات مرتبط",
-        cross_gv_title: "گلدن ویزا امارات", cross_gv_desc: "اقامت ۱۰ ساله بدون کفیل — از ۹,۶۴۸ درهم",
+        cross_gv_title: "گلدن ویزا امارات", cross_gv_desc: "اقامت ۱۰ ساله بدون کفیل — از ۲ میلیون درهم",
         cross_company_title: "ثبت شرکت دبی", cross_company_desc: "مالکیت ۱۰۰٪ · فری‌زون و مین‌لند · از ۲۱,۰۰۰ درهم",
         cross_property_title: "خرید ملک دبی", cross_property_desc: "بازدهی ۶-۸٪ · بدون مالیات · مسیر گلدن ویزا",
         // P006 enhanced keys
@@ -1038,7 +1038,7 @@ const translations: Record<Lang, any> = {
         btn: "مشاوره رایگان بگیرید",
       },
       cross_sell_title: "خدمات ما",
-      cross_gv_title: "گلدن ویزا امارات", cross_gv_desc: "اقامت ۱۰ ساله بدون کفیل — از ۹,۶۴۸ درهم",
+      cross_gv_title: "گلدن ویزا امارات", cross_gv_desc: "اقامت ۱۰ ساله بدون کفیل — از ۲ میلیون درهم",
       cross_company_title: "ثبت شرکت دبی", cross_company_desc: "مالکیت ۱۰۰٪ · فری‌زون و مین‌لند · از ۲۱,۰۰۰ درهم",
       cross_property_title: "خرید ملک دبی", cross_property_desc: "بازدهی ۶-۸٪ · بدون مالیات · مسیر گلدن ویزا",
       cross_tourist_title: "ویزای توریستی", cross_tourist_desc: "ویزای ۳۰ تا ۹۰ روزه — از ۵۰۰ درهم",
@@ -1934,7 +1934,7 @@ const translations: Record<Lang, any> = {
           highlights: ["0% Personal Tax", "10-Year Golden Visa", "Company from AED 11,900"],
           cta: "UAE Services", href: "/uae/",
           services: [
-            { name: "Golden Visa", href: "/uae/golden-visa/", price: "From AED 9,648" },
+            { name: "Golden Visa", href: "/uae/golden-visa/", price: "From AED 2M" },
             { name: "Company Registration", href: "/uae/company-registration/", price: "From AED 11,900" },
             { name: "Buy Property", href: "/uae/buy-property/", price: "From AED 750,000" },
             { name: "Tourist Visa", href: "/uae/tourist-visa/", price: "From AED 500" },
@@ -1976,7 +1976,7 @@ const translations: Record<Lang, any> = {
         {
           country: "🇦🇪 UAE", color: "navy",
           services: [
-            { icon: "star", name: "Golden Visa", desc: "10-year self-sponsored residency", price: "From AED 9,648", href: "/uae/golden-visa/", tag: "Popular" },
+            { icon: "star", name: "Golden Visa", desc: "10-year self-sponsored residency", price: "From AED 2M", href: "/uae/golden-visa/", tag: "Popular" },
             { icon: "building2", name: "Dubai Company", desc: "100% ownership · 7-10 days", price: "From AED 11,900", href: "/uae/company-registration/" },
             { icon: "home", name: "Buy Property Dubai", desc: "Visa from AED 750K", price: "From AED 750,000", href: "/uae/buy-property/" },
             { icon: "plane", name: "Tourist Visa", desc: "30 to 90 days", price: "From AED 500", href: "/uae/tourist-visa/" },
@@ -2106,7 +2106,7 @@ const translations: Record<Lang, any> = {
     },
     testimonials: {
       badge: "Client Reviews",
-      h2: "5,000+ people trusted us with their future",
+      h2: "390+ people trusted us with their future",
       google: { rating: "4.8", reviews: "Based on client reviews" },
       items: [
         { text: "Got my Golden Visa in 3 weeks through off-plan property. Residency24 managed every step perfectly — I never had to worry about a thing.", name: "Reza M.", route: "Tehran → Dubai Marina", tag: "Golden Visa · Property" },
@@ -2292,7 +2292,7 @@ const translations: Record<Lang, any> = {
         badge: "UAE Services",
         h2: "What Services Do We Offer in the UAE?",
         items: [
-          { icon: "star", title: "Golden Visa", desc: "10-year residency — no sponsor, work permit, family sponsorship", price: "From AED 9,648", href: "/uae/golden-visa/", tag: "Popular" },
+          { icon: "star", title: "Golden Visa", desc: "10-year residency — no sponsor, work permit, family sponsorship", price: "From AED 2M", href: "/uae/golden-visa/", tag: "Popular" },
           { icon: "building2", title: "Company Registration", desc: "100% ownership — Free Zone or Mainland — 7 to 10 days", price: "From AED 11,900", href: "/uae/company-registration/" },
           { icon: "home", title: "Buy Property Dubai", desc: "Property investment with residency — off-plan and ready", price: "From AED 750,000", href: "/uae/buy-property/" },
           { icon: "plane", title: "Tourist Visa", desc: "30 to 90 day entry — easy extension", price: "From AED 500", href: "/uae/tourist-visa/" },
@@ -2407,7 +2407,7 @@ const translations: Record<Lang, any> = {
       },
       golden_visa: {
         h1: "UAE Golden Visa", intro: "10-year residency without a sponsor — work permit, family sponsorship, unlimited renewals.",
-        price: "From AED 9,648", processing: "7-10 business days", duration: "10 years",
+        price: "From AED 2M", processing: "7-10 business days", duration: "10 years",
         visa_info: "Includes spouse, children, and parents",
         categories_title: "Golden Visa Types",
         categories: [
@@ -2468,7 +2468,7 @@ const translations: Record<Lang, any> = {
         steps: ["Submit documents online", "Review and approval (1-3 days)", "Receive e-visa", "Enter the UAE"],
         cta: "Apply for Tourist Visa",
         cross_sell_title: "Related Services",
-        cross_gv_title: "UAE Golden Visa", cross_gv_desc: "10-year residency, no sponsor — from AED 9,648",
+        cross_gv_title: "UAE Golden Visa", cross_gv_desc: "10-year residency, no sponsor — from AED 2M",
         cross_company_title: "Company Registration Dubai", cross_company_desc: "100% ownership · Free Zone & Mainland · from AED 21,000",
         cross_property_title: "Buy Property Dubai", cross_property_desc: "6-8% yield · Zero tax · Golden Visa path",
         // P006 enhanced keys
@@ -2553,7 +2553,7 @@ const translations: Record<Lang, any> = {
         btn: "Get Free Consultation",
       },
       cross_sell_title: "Our Services",
-      cross_gv_title: "UAE Golden Visa", cross_gv_desc: "10-year residency, no sponsor — from AED 9,648",
+      cross_gv_title: "UAE Golden Visa", cross_gv_desc: "10-year residency, no sponsor — from AED 2M",
       cross_company_title: "Company Registration Dubai", cross_company_desc: "100% ownership · Free Zone & Mainland · from AED 21,000",
       cross_property_title: "Buy Property Dubai", cross_property_desc: "6-8% yield · Zero tax · Golden Visa path",
       cross_tourist_title: "Tourist Visa", cross_tourist_desc: "30 to 90-day visa — from AED 500",
@@ -3449,7 +3449,7 @@ const translations: Record<Lang, any> = {
           highlights: ["٠٪ ضريبة شخصية", "إقامة ذهبية ١٠ سنوات", "شركة من ١١,٩٠٠ درهم"],
           cta: "خدمات الإمارات", href: "/ar/uae/",
           services: [
-            { name: "الإقامة الذهبية", href: "/ar/uae/golden-visa/", price: "من ٩,٦٤٨ درهم" },
+            { name: "الإقامة الذهبية", href: "/ar/uae/golden-visa/", price: "من ٢ مليون درهم" },
             { name: "تأسيس شركة", href: "/ar/uae/company-registration/", price: "من ١١,٩٠٠ درهم" },
             { name: "شراء عقار", href: "/ar/uae/buy-property/", price: "من ٧٥٠,٠٠٠ درهم" },
             { name: "تأشيرة سياحية", href: "/ar/uae/tourist-visa/", price: "من ٥٠٠ درهم" },
@@ -3491,7 +3491,7 @@ const translations: Record<Lang, any> = {
         {
           country: "🇦🇪 الإمارات", color: "navy",
           services: [
-            { icon: "star", name: "الإقامة الذهبية", desc: "إقامة ذاتية ١٠ سنوات", price: "من ٩,٦٤٨ درهم", href: "/ar/uae/golden-visa/", tag: "الأكثر طلباً" },
+            { icon: "star", name: "الإقامة الذهبية", desc: "إقامة ذاتية ١٠ سنوات", price: "من ٢ مليون درهم", href: "/ar/uae/golden-visa/", tag: "الأكثر طلباً" },
             { icon: "building2", name: "تأسيس شركة دبي", desc: "ملكية ١٠٠٪ · ٧-١٠ أيام", price: "من ١١,٩٠٠ درهم", href: "/ar/uae/company-registration/" },
             { icon: "home", name: "شراء عقار دبي", desc: "تأشيرة من ٧٥٠K درهم", price: "من ٧٥٠,٠٠٠ درهم", href: "/ar/uae/buy-property/" },
             { icon: "plane", name: "تأشيرة سياحية", desc: "٣٠ إلى ٩٠ يوماً", price: "من ٥٠٠ درهم", href: "/ar/uae/tourist-visa/" },
@@ -3621,7 +3621,7 @@ const translations: Record<Lang, any> = {
     },
     testimonials: {
       badge: "آراء العملاء",
-      h2: "أكثر من ٥,٠٠٠ شخص وثقوا بنا مستقبلهم",
+      h2: "أكثر من ٣٩٠ شخص وثقوا بنا مستقبلهم",
       google: { rating: "٤.٨", reviews: "بناءً على آراء العملاء" },
       items: [
         { text: "حصلت على إقامتي الذهبية في ٣ أسابيع عبر شراء عقار. Residency24 أدار كل خطوة بكل احترافية.", name: "رضا م.", route: "طهران ← دبي مارينا", tag: "ذهبية · عقار" },
@@ -3807,7 +3807,7 @@ const translations: Record<Lang, any> = {
         badge: "خدمات الإمارات",
         h2: "ما هي الخدمات التي نقدمها في الإمارات؟",
         items: [
-          { icon: "star", title: "التأشيرة الذهبية", desc: "إقامة ١٠ سنوات — بدون كفيل، مع تصريح عمل وكفالة عائلية", price: "من ٩,٦٤٨ درهم", href: "/ar/uae/golden-visa/", tag: "الأكثر طلباً" },
+          { icon: "star", title: "التأشيرة الذهبية", desc: "إقامة ١٠ سنوات — بدون كفيل، مع تصريح عمل وكفالة عائلية", price: "من ٢ مليون درهم", href: "/ar/uae/golden-visa/", tag: "الأكثر طلباً" },
           { icon: "building2", title: "تسجيل شركة في دبي", desc: "ملكية ١٠٠٪ — منطقة حرة أو البر الرئيسي — ٧ إلى ١٠ أيام", price: "من ١١,٩٠٠ درهم", href: "/ar/uae/company-registration/" },
           { icon: "home", title: "شراء عقار في دبي", desc: "استثمار عقاري مع إقامة — على الخارطة وجاهز", price: "من ٧٥٠,٠٠٠ درهم", href: "/ar/uae/buy-property/" },
           { icon: "plane", title: "تأشيرة سياحية", desc: "دخول ٣٠ إلى ٩٠ يوماً — تمديد سهل", price: "من ٥٠٠ درهم", href: "/ar/uae/tourist-visa/" },
@@ -3922,7 +3922,7 @@ const translations: Record<Lang, any> = {
       },
       golden_visa: {
         h1: "التأشيرة الذهبية للإمارات", intro: "إقامة ١٠ سنوات بدون كفيل — تصريح عمل، كفالة عائلية، تجديد غير محدود.",
-        price: "من ٩,٦٤٨ درهم", processing: "٧-١٠ أيام عمل", duration: "١٠ سنوات",
+        price: "من ٢ مليون درهم", processing: "٧-١٠ أيام عمل", duration: "١٠ سنوات",
         visa_info: "تشمل الزوجة والأطفال والوالدين",
         categories_title: "أنواع التأشيرة الذهبية",
         categories: [
@@ -3983,7 +3983,7 @@ const translations: Record<Lang, any> = {
         steps: ["تقديم المستندات عبر الإنترنت", "المراجعة والموافقة (١-٣ أيام)", "استلام التأشيرة الإلكترونية", "الدخول إلى الإمارات"],
         cta: "التقدم للتأشيرة السياحية",
         cross_sell_title: "خدمات ذات صلة",
-        cross_gv_title: "الإقامة الذهبية", cross_gv_desc: "إقامة ١٠ سنوات بدون كفيل — من ٩,٦٤٨ درهم",
+        cross_gv_title: "الإقامة الذهبية", cross_gv_desc: "إقامة ١٠ سنوات بدون كفيل — من ٢ مليون درهم",
         cross_company_title: "تأسيس شركة في دبي", cross_company_desc: "ملكية ١٠٠٪ · منطقة حرة وبر رئيسي · من ٢١,٠٠٠ درهم",
         cross_property_title: "شراء عقار في دبي", cross_property_desc: "عائد ٦-٨٪ · صفر ضريبة · مسار التأشيرة الذهبية",
         // P006 enhanced keys
@@ -4068,7 +4068,7 @@ const translations: Record<Lang, any> = {
         btn: "احصل على استشارة مجانية",
       },
       cross_sell_title: "خدماتنا",
-      cross_gv_title: "الإقامة الذهبية", cross_gv_desc: "إقامة ١٠ سنوات بدون كفيل — من ٩,٦٤٨ درهم",
+      cross_gv_title: "الإقامة الذهبية", cross_gv_desc: "إقامة ١٠ سنوات بدون كفيل — من ٢ مليون درهم",
       cross_company_title: "تأسيس شركة في دبي", cross_company_desc: "ملكية ١٠٠٪ · منطقة حرة وبر رئيسي · من ٢١,٠٠٠ درهم",
       cross_property_title: "شراء عقار في دبي", cross_property_desc: "عائد ٦-٨٪ · صفر ضريبة · مسار التأشيرة الذهبية",
       cross_tourist_title: "تأشيرة سياحية", cross_tourist_desc: "تأشيرة ٣٠ إلى ٩٠ يوماً — من ٥٠٠ درهم",
@@ -4964,7 +4964,7 @@ const translations: Record<Lang, any> = {
           highlights: ["0% подоходный налог", "Золотая виза 10 лет", "Компания от 11 900 AED"],
           cta: "Услуги ОАЭ", href: "/ru/uae/",
           services: [
-            { name: "Золотая виза", href: "/ru/uae/golden-visa/", price: "от 9 648 AED" },
+            { name: "Золотая виза", href: "/ru/uae/golden-visa/", price: "от 2 млн AED" },
             { name: "Регистрация компании", href: "/ru/uae/company-registration/", price: "от 11 900 AED" },
             { name: "Недвижимость", href: "/ru/uae/buy-property/", price: "от 750 000 AED" },
             { name: "Туристическая виза", href: "/ru/uae/tourist-visa/", price: "от 500 AED" },
@@ -5006,7 +5006,7 @@ const translations: Record<Lang, any> = {
         {
           country: "🇦🇪 ОАЭ", color: "navy",
           services: [
-            { icon: "star", name: "Золотая виза", desc: "ВНЖ на 10 лет без спонсора", price: "от 9 648 AED", href: "/ru/uae/golden-visa/", tag: "Популярное" },
+            { icon: "star", name: "Золотая виза", desc: "ВНЖ на 10 лет без спонсора", price: "от 2 млн AED", href: "/ru/uae/golden-visa/", tag: "Популярное" },
             { icon: "building2", name: "Компания Дубай", desc: "100% владение · 7-10 дней", price: "от 11 900 AED", href: "/ru/uae/company-registration/" },
             { icon: "home", name: "Недвижимость Дубай", desc: "Виза от 750K AED", price: "от 750 000 AED", href: "/ru/uae/buy-property/" },
             { icon: "plane", name: "Туристическая виза", desc: "30-90 дней", price: "от 500 AED", href: "/ru/uae/tourist-visa/" },
@@ -5136,7 +5136,7 @@ const translations: Record<Lang, any> = {
     },
     testimonials: {
       badge: "Отзывы клиентов",
-      h2: "5 000+ человек доверили нам своё будущее",
+      h2: "390+ человек доверили нам своё будущее",
       google: { rating: "4.8", reviews: "На основе отзывов клиентов" },
       items: [
         { text: "Получил золотую визу за 3 недели через покупку недвижимости off-plan. Residency24 управлял каждым шагом — ни разу не пришлось волноваться.", name: "Реза М.", route: "Тегеран → Дубай Марина", tag: "Золотая виза · Недвижимость" },
@@ -5322,7 +5322,7 @@ const translations: Record<Lang, any> = {
         badge: "Услуги в ОАЭ",
         h2: "Какие услуги мы предлагаем в ОАЭ?",
         items: [
-          { icon: "star", title: "Золотая виза", desc: "ВНЖ на 10 лет — без спонсора, разрешение на работу, спонсорство семьи", price: "От 9 648 дирхамов", href: "/ru/uae/golden-visa/", tag: "Популярное" },
+          { icon: "star", title: "Золотая виза", desc: "ВНЖ на 10 лет — без спонсора, разрешение на работу, спонсорство семьи", price: "От 2 млн AED", href: "/ru/uae/golden-visa/", tag: "Популярное" },
           { icon: "building2", title: "Регистрация компании", desc: "100% владение — Free Zone или Mainland — 7-10 дней", price: "От 11 900 д��рхамов", href: "/ru/uae/company-registration/" },
           { icon: "home", title: "Покупка недвижимости", desc: "Инвестиции в недвижимость с ВНЖ — off-plan и готовые", price: "От 750 000 дирхамов", href: "/ru/uae/buy-property/" },
           { icon: "plane", title: "Туристическая виза", desc: "Въезд на 30-90 дней — лёгкое продление", price: "От 500 дирхамов", href: "/ru/uae/tourist-visa/" },
@@ -5437,7 +5437,7 @@ const translations: Record<Lang, any> = {
       },
       golden_visa: {
         h1: "Золотая виза ОАЭ", intro: "ВНЖ на 10 лет без спонсора — разрешение на работу, спонсорство семьи, неограниченное продление.",
-        price: "От 9 648 AED", processing: "7-10 рабочих дней", duration: "10 лет",
+        price: "От 2 млн AED", processing: "7-10 рабочих дней", duration: "10 лет",
         visa_info: "Включает супруга, детей и родителей",
         categories_title: "Типы Золотой визы",
         categories: [
@@ -5498,7 +5498,7 @@ const translations: Record<Lang, any> = {
         steps: ["Подача документов онлайн", "Проверка и одобрение (1-3 дня)", "Получение электронной визы", "Въезд в ОАЭ"],
         cta: "Оформить туристическую визу",
         cross_sell_title: "Связанные услуги",
-        cross_gv_title: "Золотая виза ОАЭ", cross_gv_desc: "ВНЖ на 10 лет без спонсора — от 9 648 AED",
+        cross_gv_title: "Золотая виза ОАЭ", cross_gv_desc: "ВНЖ на 10 лет без спонсора — от 2 млн AED",
         cross_company_title: "Регистрация компании Дубай", cross_company_desc: "100% владение · Фризона и материк · от 21 000 AED",
         cross_property_title: "Купить недвижимость Дубай", cross_property_desc: "Доходность 6-8% · 0% налог · путь к Золотой визе",
         // P006 enhanced keys
@@ -5583,7 +5583,7 @@ const translations: Record<Lang, any> = {
         btn: "Получить бесплатную консультацию",
       },
       cross_sell_title: "Наши услуги",
-      cross_gv_title: "Золотая виза ОАЭ", cross_gv_desc: "ВНЖ на 10 лет без спонсора — от 9 648 AED",
+      cross_gv_title: "Золотая виза ОАЭ", cross_gv_desc: "ВНЖ на 10 лет без спонсора — от 2 млн AED",
       cross_company_title: "Регистрация компании Дубай", cross_company_desc: "100% владение · Фризона и материк · от 21 000 AED",
       cross_property_title: "Купить недвижимость Дубай", cross_property_desc: "Доходность 6-8% · 0% налог · путь к Золотой визе",
       cross_tourist_title: "Туристическая виза", cross_tourist_desc: "Виза на 30-90 дней — от 500 AED",
