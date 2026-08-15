@@ -404,7 +404,7 @@ const translations: Record<Lang, any> = {
       thanks: "پیام دریافت شد — مشاور ما به زودی تماس می‌گیرد.",
     },
     stats: [
-      { num: "+۵,۰۰۰", label: "پرونده موفق" },
+      { num: "+۳۹۰", label: "پرونده موفق" },
       { num: "۱۲ سال", label: "تجربه" },
       { num: "۳ کشور", label: "امارات، عمان، ترکیه" },
       { num: "۴ زبان", label: "پشتیبانی" },
@@ -987,7 +987,7 @@ const translations: Record<Lang, any> = {
       },
       hero: {
         h1: "رزیدنسی۲۴ — همراه مطمئن شما در مهاجرت سرمایه‌گذاری",
-        p: "از سال ۲۰۱۸، رزیدنسی۲۴ با دفاتر فعال در دبی و مشهد، بیش از ۵,۰۰۰ پرونده موفق اقامت، ثبت شرکت و خرید ملک را در کارنامه خود دارد. ما بر این باوریم که مهاجرت سرمایه‌گذاری نباید پیچیده، مبهم یا پرریسک باشد — تمام تلاش ما ارائه مسیر قانونی، شفاف و مطمئن برای هر مشتری است.",
+        p: "از سال ۲۰۱۸، رزیدنسی۲۴ با دفاتر فعال در دبی و مشهد، بیش از ۳۹۰ پرونده موفق اقامت، ثبت شرکت و خرید ملک را در کارنامه خود دارد. ما بر این باوریم که مهاجرت سرمایه‌گذاری نباید پیچیده، مبهم یا پرریسک باشد — تمام تلاش ما ارائه مسیر قانونی، شفاف و مطمئن برای هر مشتری است.",
       },
       story: {
         h2: "داستان رزیدنسی۲۴",
@@ -998,7 +998,7 @@ const translations: Record<Lang, any> = {
       stats: {
         h2: "دستاوردهای ما در اعداد",
         items: [
-          { num: "۵,۰۰۰+", label: "پرونده موفق" },
+          { num: "۳۹۰+", label: "پرونده موفق" },
           { num: "۲", label: "دفتر در دبی و مشهد" },
           { num: "۳", label: "کشور مقصد: امارات، عمان، ترکیه" },
           { num: "۴", label: "زبان کاری: فارسی، انگلیسی، عربی، روسی" },
@@ -1049,7 +1049,7 @@ const translations: Record<Lang, any> = {
       seo_desc: 'ثبت شرکت دبی در ۷-۱۰ روز. مالکیت ۱۰۰٪، بدون کفیل. Mainland و Free Zone از ۲۱,۰۰۰ درهم.',
       hero_headline: 'ثبت شرکت در دبی\nمالکیت ۱۰۰٪، بدون کفیل',
       hero_sub: 'از ۱۲,۰۰۰ درهم | ۷ تا ۱۰ روز | بدون مالیات بر درآمد',
-      hero_badge: '۵۰۰۰+ پرونده موفق',
+      hero_badge: '۳۹۰+ پرونده موفق',
       nav_items: 'چرا دبی؟|نوع شرکت|مناطق آزاد|مراحل|هزینه|مدارک|سؤالات',
       why_title: 'چرا دبی؟',
       why_body: 'دبی نزدیک‌ترین مرکز تجاری بین‌المللی به ایران است — ۱.۵ ساعت پرواز. شرکت دبی دسترسی به سیستم بانکی بین‌المللی را باز می‌کند.',
@@ -1153,7 +1153,7 @@ const translations: Record<Lang, any> = {
       cross_prop_title: 'خرید ملک + اقامت',
       cross_prop_desc: 'خرید ملک ۲M+ درهم، گلدن ویزای ۱۰ ساله — شرکت و ملک مکمل یکدیگرند',
       cross_prop_cta: 'خرید ملک دبی',
-      testi_title: '۵۰۰۰+ موفقیت — اینجا چند نمونه',
+      testi_title: '۳۹۰+ موفقیت — اینجا چند نمونه',
       t1_name: 'علیرضا م.',
       t1_flag: 'IR',
       t1_type: 'شرکت IT — IFZA Free Zone',
@@ -1919,7 +1919,7 @@ const translations: Record<Lang, any> = {
       thanks: "Message received — our advisor will contact you shortly.",
     },
     stats: [
-      { num: "5,000+", label: "Successful Cases" },
+      { num: "390+", label: "Successful Cases" },
       { num: "12 Years", label: "Experience" },
       { num: "3 Countries", label: "UAE, Oman, Turkey" },
       { num: "4 Languages", label: "Support" },
@@ -2513,7 +2513,7 @@ const translations: Record<Lang, any> = {
       stats: {
         h2: "Our Numbers",
         items: [
-          { num: "5,000+", label: "Successful Cases" },
+          { num: "390+", label: "Successful Cases" },
           { num: "2", label: "Offices: Dubai & Mashhad" },
           { num: "3", label: "Destinations: UAE · Oman · Turkey" },
           { num: "4", label: "Working Languages" },
@@ -2564,7 +2564,7 @@ const translations: Record<Lang, any> = {
       seo_desc: 'Register in Dubai in 7-10 days. 100% foreign ownership, no sponsor. From AED 21,000. Free consult.',
       hero_headline: 'Register Your Company\nin Dubai — 100% Yours',
       hero_sub: 'From AED 12,000 | 7-10 Days | 0% Income Tax',
-      hero_badge: '5,000+ Successful Cases',
+      hero_badge: '390+ Successful Cases',
       nav_items: 'Why Dubai?|Company Type|Free Zones|Process|Cost|Documents|FAQ',
       why_title: 'Why Dubai?',
       why_body: 'Dubai sits at the crossroads of Europe, Asia, and Africa — reaching 2+ billion consumers within 4 hours. 0% personal income tax, 100% profit repatriation.',
@@ -2668,7 +2668,7 @@ const translations: Record<Lang, any> = {
       cross_prop_title: 'Property + Residency',
       cross_prop_desc: 'Buy AED 2M+ property, get 10-year Golden Visa — company and property complement each other',
       cross_prop_cta: 'Buy Property Dubai',
-      testi_title: '5,000+ Success Stories',
+      testi_title: '390+ Success Stories',
       t1_name: 'Alireza M.',
       t1_flag: 'IR',
       t1_type: 'IT Company — IFZA Free Zone',
@@ -4028,7 +4028,7 @@ const translations: Record<Lang, any> = {
       stats: {
         h2: "أرقامنا",
         items: [
-          { num: "+5,000", label: "حالة ناجحة" },
+          { num: "+390", label: "حالة ناجحة" },
           { num: "2", label: "مكتبان: دبي ومشهد" },
           { num: "3", label: "وجهات: الإمارات · عُمان · تركيا" },
           { num: "4", label: "لغات العمل" },
@@ -4079,7 +4079,7 @@ const translations: Record<Lang, any> = {
       seo_desc: 'تأسيس شركة في دبي خلال 7-10 أيام. ملكية أجنبية 100%، بدون كفيل. من 21,000 درهم.',
       hero_headline: 'أسس شركتك في دبي\nملكية 100%، بدون كفيل',
       hero_sub: 'من 12,000 درهم | 7-10 أيام | 0% ضريبة دخل',
-      hero_badge: '5,000+ حالة ناجحة',
+      hero_badge: '390+ حالة ناجحة',
       nav_items: 'لماذا دبي؟|نوع الشركة|المناطق الحرة|الخطوات|التكلفة|الوثائق|أسئلة',
       why_title: 'لماذا دبي؟',
       why_body: 'دبي بوابة الأعمال الأولى في المنطقة. بيئة تجارية بلا ضرائب على الدخل، ملكية 100% للأجانب.',
@@ -4419,7 +4419,7 @@ const translations: Record<Lang, any> = {
       breadcrumb_gv: 'التأشيرة الذهبية',
     },
     bp: {
-      hero_badge: "+5,000 عميل ناجح",
+      hero_badge: "+390 عميل ناجح",
       hero_headline: "شراء عقار في دبي — عائد 6-8٪ ومسار قانوني للإقامة",
       hero_sub: "استثمارك في دبي يعمل على مدار الساعة. إيجار. تقدير. إقامة ذهبية.",
       stats_yield_num: "6–8%", stats_yield_label: "عائد الإيجار السنوي",
@@ -5543,7 +5543,7 @@ const translations: Record<Lang, any> = {
       stats: {
         h2: "Наши цифры",
         items: [
-          { num: "5 000+", label: "успешных дел" },
+          { num: "390+", label: "успешных дел" },
           { num: "2", label: "офиса: Дубай и Мешхед" },
           { num: "3", label: "направления: ОАЭ · Оман · Турция" },
           { num: "4", label: "рабочих языка" },
@@ -5594,7 +5594,7 @@ const translations: Record<Lang, any> = {
       seo_desc: 'Зарегистрируйте компанию в Дубае за 7-10 дней. 100% иностранное владение. От AED 21,000.',
       hero_headline: 'Откройте компанию\nв Дубае — 100% ваша',
       hero_sub: 'От AED 12,000 | 7-10 дней | 0% налога на доход',
-      hero_badge: '5,000+ успешных дел',
+      hero_badge: '390+ успешных дел',
       nav_items: 'Почему Дубай?|Тип компании|Свободные зоны|Процесс|Стоимость|Документы|FAQ',
       why_title: 'Почему Дубай?',
       why_body: 'ОАЭ — нейтральная юрисдикция с доступом к глобальным финансовым системам. 0% налога на доход, 100% репатриация прибыли.',
@@ -5698,7 +5698,7 @@ const translations: Record<Lang, any> = {
       cross_prop_title: 'Недвижимость + ВНЖ',
       cross_prop_desc: 'Купите от 2M AED — Золотая виза на 10 лет: бизнес + недвижимость',
       cross_prop_cta: 'Купить недвижимость',
-      testi_title: '5,000+ историй успеха',
+      testi_title: '390+ историй успеха',
       t1_name: 'Alireza M.',
       t1_flag: 'IR',
       t1_type: 'IT-компания — IFZA',

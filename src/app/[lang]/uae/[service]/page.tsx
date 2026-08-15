@@ -1,9 +1,16 @@
+import { notFound } from "next/navigation";
 import type { Lang } from "@/translations";
 import { LANGS } from "@/lib/seo";
 import UAEServiceClient from "./UAEServiceClient";
 
 // golden-visa, company-registration, buy-property have dedicated pages — only tourist-visa uses the generic route
 const UAE_SERVICES = ["tourist-visa"];
+
+// Only pre-generate the known service; unknown slugs must NOT be rendered on
+// demand (dynamicParams=false → they 404 instead of soft-404ing a golden-visa
+// clone). This stops the /uae/<anything> soft-404 factory that fed Google
+// thin, redirect-canonical junk URLs.
+export const dynamicParams = false;
 
 export async function generateStaticParams() {
   const params: { lang: string; service: string }[] = [];
@@ -55,5 +62,6 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
 
 export default async function UAEServicePage({ params }: { params: Promise<{ lang: string; service: string }> }) {
   const { service } = await params;
+  if (!UAE_SERVICES.includes(service)) notFound();
   return <UAEServiceClient serviceId={service} />;
 }

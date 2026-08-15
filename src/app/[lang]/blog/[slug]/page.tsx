@@ -140,7 +140,7 @@ export default async function BlogPostPage({
       "@type": "ListItem",
       position: i + 1,
       name: b.label,
-      item: `https://residency24.com${b.href}`,
+      item: b.href.startsWith("http") ? b.href : `https://residency24.com${b.href}`,
     })),
   };
 

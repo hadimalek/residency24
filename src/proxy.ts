@@ -133,7 +133,19 @@ const OLD_CATS = new Set([
   "study-immigration-guide", "migration-destinations", "country-guides", "immigration",
   "investment-guide", "property-buying-guide", "travel-and-entertainment",
   "work-immigration-guide", "immigration-documents",
+  // Persian legacy category slugs (matched decoded — pathname is percent-encoded)
+  "ثبت-شرکت", "دسته‌بندی-نشده", "دستهبندی-نشده",
 ]);
+
+/** A path segment may arrive percent-encoded (non-ASCII slugs); match both forms. */
+function isOldCat(seg: string): boolean {
+  if (OLD_CATS.has(seg)) return true;
+  try {
+    return OLD_CATS.has(decodeURIComponent(seg));
+  } catch {
+    return false;
+  }
+}
 const CAT_LANDINGS = new Set([
   "immigration", "immigration-documents", "migration-destinations", "country-guides",
   "work-immigration-guide", "travel-and-entertainment", "investment-guide",
@@ -169,10 +181,10 @@ function legacyRedirect(pathname: string): string | null {
   }
   // Category pagination → category base (or blog for old cats)
   if (rest.length === 5 && rest[0] === "blog" && rest[1] === "category" && rest[3] === "page" && /^\d+$/.test(rest[4])) {
-    return OLD_CATS.has(rest[2]) ? withLocale(locale, "blog") : withLocale(locale, `blog/category/${rest[2]}`);
+    return isOldCat(rest[2]) ? withLocale(locale, "blog") : withLocale(locale, `blog/category/${rest[2]}`);
   }
   // Old WP blog categories → blog index
-  if (rest.length === 3 && rest[0] === "blog" && rest[1] === "category" && OLD_CATS.has(rest[2])) {
+  if (rest.length === 3 && rest[0] === "blog" && rest[1] === "category" && isOldCat(rest[2])) {
     return withLocale(locale, "blog");
   }
   // Author archives → blog index

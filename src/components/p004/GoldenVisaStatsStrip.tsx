@@ -9,7 +9,7 @@ const STATS = [
   { value: 2, display: "2M", key: "stat_min_aed" },
   { value: 10, display: "7-10", key: "stat_days", noAnimate: true },
   { value: 15, display: "15+", key: "stat_categories" },
-  { value: 5000, display: "5K+", key: "stat_cases" },
+  { value: 390, display: "390+", key: "stat_cases" },
 ];
 
 function useCountUp(target: number, duration: number, trigger: boolean, noAnimate?: boolean) {

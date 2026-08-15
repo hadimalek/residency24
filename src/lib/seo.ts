@@ -20,7 +20,7 @@ export const SEO: Record<Lang, { title: string; description: string; h1: string;
   },
   en: {
     title: "Residency24 | UAE Golden Visa, Company Setup & Property Investment",
-    description: "Your trusted partner for UAE golden visa, company registration & property investment. 5000+ cases.",
+    description: "Your trusted partner for UAE golden visa, company registration & property investment. 390+ cases.",
     h1: "Open Your Global Future with Residency24",
     ogImage: `${BASE_URL}/assets/og-image-en.jpg`,
   },
@@ -79,22 +79,22 @@ export const BREADCRUMB_HOME: Record<Lang, string> = {
 
 export const ABOUT_SEO: Record<Lang, { title: string; description: string; h1: string }> = {
   fa: {
-    title: "درباره رزیدنسی۲۴ | ۲ دفتر، ۵۰۰۰+ پرونده موفق",
+    title: "درباره رزیدنسی۲۴ | ۲ دفتر، ۳۹۰+ پرونده موفق",
     description: "رزیدنسی۲۴ از ۲۰۱۸ به ایرانیان در اخذ اقامت، ثبت شرکت و خرید ملک در امارات، عمان و ترکیه کمک می‌کند. دفاتر در دبی و مشهد. مشاوره رایگان.",
     h1: "رزیدنسی۲۴ — همراه مطمئن شما در مهاجرت سرمایه‌گذاری",
   },
   en: {
-    title: "About Residency24 | 2 Offices, 5,000+ Success Cases",
+    title: "About Residency24 | 2 Offices, 390+ Success Cases",
     description: "Residency24 is a legal, transparent investment immigration firm with offices in Dubai & Mashhad. Helping investors with UAE, Oman & Turkey residency since 2018.",
     h1: "About Residency24 — Your Trusted Partner for Investment Immigration",
   },
   ar: {
-    title: "عن Residency24 | مكتبان، +5000 حالة ناجحة",
+    title: "عن Residency24 | مكتبان، +390 حالة ناجحة",
     description: "Residency24 شركة متخصصة في الإقامة الاستثمارية بمكتبين في دبي ومشهد. خدمات قانونية وشفافة في الإمارات وعُمان وتركيا منذ 2018.",
     h1: "Residency24 — شريكك الموثوق في الهجرة الاستثمارية",
   },
   ru: {
-    title: "О компании Residency24 | 2 офиса, 5000+ успешных дел",
+    title: "О компании Residency24 | 2 офиса, 390+ успешных дел",
     description: "Residency24 — легальная иммиграционная компания с офисами в Дубае и Мешхеде. Помогаем инвесторам с резидентством в ОАЭ, Омане и Турции с 2018 года.",
     h1: "О компании Residency24 — Ваш надёжный партнёр по инвестиционной иммиграции",
   },

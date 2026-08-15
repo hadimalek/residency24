@@ -9,17 +9,17 @@ const BASE_URL = "https://residency24.com";
 const UAE_SEO: Record<Lang, { title: string; description: string; h1: string }> = {
   fa: {
     title: "مهاجرت به امارات ۲۰۲۶ | اقامت، ثبت شرکت و خرید ملک دبی",
-    description: "راهنمای کامل مهاجرت به امارات — گلدن ویزا از ۲ میلیون درهم، ثبت شرکت بدون کفیل، خرید ملک با اقامت. ۵۰۰۰+ پرونده موفق. مشاوره رایگان رزیدنسی۲۴.",
+    description: "راهنمای کامل مهاجرت به امارات — گلدن ویزا از ۲ میلیون درهم، ثبت شرکت بدون کفیل، خرید ملک با اقامت. ۳۹۰+ پرونده موفق. مشاوره رایگان رزیدنسی۲۴.",
     h1: "مهاجرت به امارات — گلدن ویزا، ثبت شرکت و سرمایه‌گذاری در دبی ۲۰۲۶",
   },
   en: {
     title: "UAE Residency & Investment 2026 | Residency24 Dubai",
-    description: "Golden Visa, company registration & property investment in Dubai. 5,000+ successful cases since 2018. Expert multilingual team. 100% foreign ownership. Free consultation.",
+    description: "Golden Visa, company registration & property investment in Dubai. 390+ successful cases since 2018. Expert multilingual team. 100% foreign ownership. Free consultation.",
     h1: "Live, Invest & Build in Dubai — Your 10-Year Tax-Free Future",
   },
   ar: {
     title: "الإقامة في الإمارات 2026 | إقامة ذهبية وتأسيس شركة ودبي",
-    description: "دليلك الشامل للإقامة في الإمارات — إقامة ذهبية من 2 مليون درهم، تأسيس شركة بملكية كاملة، شراء عقار بإقامة. رزيدنسي24، أكثر من 5000 حالة ناجحة.",
+    description: "دليلك الشامل للإقامة في الإمارات — إقامة ذهبية من 2 مليون درهم، تأسيس شركة بملكية كاملة، شراء عقار بإقامة. رزيدنسي24، أكثر من 390 حالة ناجحة.",
     h1: "الهجرة إلى الإمارات — الإقامة الذهبية وتأسيس شركة والاستثمار في دبي 2026",
   },
   ru: {
