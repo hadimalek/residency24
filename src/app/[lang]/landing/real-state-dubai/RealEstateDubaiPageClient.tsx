@@ -18,7 +18,7 @@ import LandingLeadForm from "@/components/landing/LandingLeadForm";
 import SharedStatsStrip from "@/components/shared/SharedStatsStrip";
 import SharedHowItWorks from "@/components/shared/SharedHowItWorks";
 import SharedFAQ from "@/components/shared/SharedFAQ";
-import { CONTENT as C } from "./content";
+import { getLandingContent } from "./content";
 
 const ChatModal = dynamicImport(() => import("@/components/ChatModal"), { ssr: false });
 const LeadFormModal = dynamicImport(() => import("@/components/landing/LeadFormModal"), { ssr: false });
@@ -53,7 +53,9 @@ function SectionHead({ tag, h2, sub, light }: { tag: string; h2: string; sub?: s
   );
 }
 
-export default function RealEstateDubaiPageClient() {
+export default function RealEstateDubaiPageClient({ lang = "en" }: { lang?: string }) {
+  // Two separate landings share this component: en → English, ru → Russian.
+  const C = getLandingContent(lang);
   const [leadOpen, setLeadOpen] = useState(false);
   const [leadMounted, setLeadMounted] = useState(false);
   const openLead = () => {

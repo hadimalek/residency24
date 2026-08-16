@@ -1,20 +1,216 @@
 /**
- * Russian-only content for the "Buy property in Dubai / UAE" ads landing.
+ * Bilingual content for the "Buy property in Dubai / UAE" ads landing.
  *
- * This landing targets Russian-language Google Ads keywords (купить
- * недвижимость в Дубае / покупка недвижимости в ОАЭ). It is a noindex ads page
- * (see ../layout.tsx), so the copy is intentionally single-language and lives
- * here — self-contained — rather than in the 4-language src/translations.ts.
+ * Two SEPARATE landings share this component, one per language:
+ *   - /landing/real-state-dubai      → English (CONTENT.en)
+ *   - /ru/landing/real-state-dubai   → Russian (CONTENT.ru)
+ * The client picks the object by locale (ru → Russian, everything else → English).
+ * These are noindex ads pages (see ../layout.tsx), so the copy is self-contained
+ * here rather than in the 4-language src/translations.ts.
  *
- * Editorial rules (mirrors the strategy doc + the site's existing tone):
- *   - No guaranteed yield / visa promises. Numbers are "ориентировочно".
- *   - Prices reuse figures the site already publishes (Marina studio ~$250k,
- *     Palm villa ~$2.95M, Business Bay off-plan 60/40). New rows stay modest.
- *   - Proof placeholders (projects, cases, advisor) are clearly indicative and
- *     meant to be swapped for verified data later.
+ * Editorial rules (mirror the strategy doc + the site's tone):
+ *   - No guaranteed yield / visa promises. Figures are indicative.
+ *   - Prices/availability are "on request" and confirmed per unit.
+ *   - Proof placeholders (cases, advisor) are indicative, to be swapped for
+ *     verified data later.
  */
 
-export const CONTENT = {
+const en = {
+  meta: {
+    title: "Buy Property in Dubai & the UAE — Guided Selection | Residency24",
+    description:
+      "We help you find property in Dubai and the UAE for your goal, budget and purchase format — ready and off-plan units, a clear cost and yield breakdown, and expert guidance.",
+  },
+
+  hero: {
+    pill: "Property in Dubai & the UAE · expert guidance",
+    h1: "Property in Dubai & the UAE for your goals — with expert guidance",
+    sub: "We'll find current units for investment or personal living, compare areas, purchase formats and costs — with no promises of guaranteed yield or an automatic visa.",
+    bullets: [
+      "Guidance and support throughout the deal",
+      "Ready and off-plan units in Dubai & the UAE",
+      "Transparent cost breakdown before you buy",
+      "Help vetting the developer and paperwork",
+    ],
+    cta_primary: "Get a property shortlist",
+    cta_whatsapp: "Message on WhatsApp",
+    advisor: {
+      pill: "AI advisor · Free · 24/7",
+      h3: "Ask the AI advisor",
+      p: "Instant answers about buying property in Dubai and the UAE.",
+      placeholder: "e.g. how much does an apartment in Dubai cost?",
+      questions_label: "Popular questions:",
+      questions: [
+        "How much does an apartment in Dubai cost?",
+        "How is off-plan different from ready property?",
+        "Can I buy property in the UAE remotely?",
+        "What costs are there beyond the property price?",
+      ],
+    },
+  },
+
+  trust: [
+    "Guidance in your language",
+    "Current projects and terms",
+    "Clear explanation of steps and costs",
+    "No yield or visa guarantees",
+  ],
+
+  stats: [
+    { display: "Dubai & the UAE", label: "Core markets" },
+    { display: "Off-plan + ready", label: "Purchase formats" },
+    { display: "Cost breakdown", label: "Before the deal" },
+    { display: "EN · RU · FA · AR", label: "Support languages" },
+  ],
+
+  projects: {
+    tag: "Projects",
+    h2: "Current projects in Dubai & the UAE",
+    sub: "A selection from leading developers — DAMAC, Emaar and Beyond. We'll send the full shortlist for your goal and budget after a short form.",
+    note: "Projects by DAMAC, Emaar and Beyond. Prices and availability are confirmed per request and depend on the unit type and project stage.",
+    cta: "Get project details",
+    cards: [
+      { img: "damac-islands-2", name: "DAMAC Islands 2", developer: "DAMAC", area: "Dubai", type: "Villas, twin-villas, townhouses", price: "Price on request", meta: "Waterfront community with lagoons", status: "Off-plan" },
+      { img: "damac-district", name: "DAMAC District — Tower A", developer: "DAMAC", area: "DAMAC Hills", type: "Apartments", price: "Price on request", meta: "Live · Work · Play by the golf course", status: "Off-plan" },
+      { img: "emaar-lavita", name: "Lavita", developer: "Emaar", area: "The Oasis by Emaar", type: "6–7 bedroom mansions", price: "Price on request", meta: "43 mansions · 21,000–35,500 sq.ft", status: "Off-plan" },
+      { img: "emaar-palmiera", name: "Palmiera", developer: "Emaar", area: "The Oasis by Emaar", type: "Townhouses & villas, 3–6 bedrooms", price: "Price on request", meta: "Villas by the lagoon and water canals", status: "Off-plan" },
+      { img: "beyond-kanyon", name: "Kanyon", developer: "Beyond", area: "Dubai Maritime City", type: "1–3 bedroom apartments", price: "Price on request", meta: "Tower in the Forest District · spa & sky pool", status: "Off-plan" },
+      { img: "beyond-soulever", name: "Soulever", developer: "Beyond", area: "Dubai Maritime City", type: "Luxury apartments", price: "Price on request", meta: "Twin towers by the coast, next to Forest & Cove", status: "Off-plan" },
+    ],
+  },
+
+  goals: {
+    tag: "Where to start",
+    h2: "What do you want to do?",
+    sub: "Pick a goal — we'll show suitable units, indicative costs and the next step.",
+    cards: [
+      { title: "Buy income property", desc: "Ready units in Dubai for rental income — with a yield calculation.", cta: "Learn more" },
+      { title: "Invest in off-plan", desc: "Under-construction projects with growth potential and flexible payment plans.", cta: "Learn more" },
+      { title: "Buy a house or villa", desc: "Villas and townhouses for family living — area, schools, amenities.", cta: "Learn more" },
+      { title: "Relocate your family", desc: "A unit matched to your family's needs and daily life.", cta: "Learn more" },
+      { title: "Calculate the costs", desc: "Compare units by price per m², costs and indicative yield.", cta: "Learn more" },
+      { title: "Personal living", desc: "A home for your lifestyle and budget — for yourself, not for rent.", cta: "Learn more" },
+    ],
+  },
+
+  areas: {
+    tag: "Areas",
+    h2: "Where to look in the UAE",
+    sub: "Dubai is the core market. We source other emirates when suitable units for your goal are available.",
+    cards: [
+      { name: "Dubai", desc: "The widest choice: Marina, Downtown, Business Bay, Creek Harbour, JVC and other areas." },
+      { name: "Abu Dhabi", desc: "A calmer market and select projects — sourced on request." },
+      { name: "Ras Al Khaimah", desc: "Coastal and resort projects — considered when current options are available." },
+    ],
+  },
+
+  readyOffplan: {
+    tag: "Purchase format",
+    h2: "Ready or off-plan — which suits you?",
+    sub: "We'll explain the difference without one-sided promotion — the choice depends on your goal and time horizon.",
+    ready: {
+      title: "Ready property",
+      points: ["Use or rent out immediately", "Clear rental income", "Full payment or mortgage", "Less dependent on developer timelines"],
+    },
+    offplan: {
+      title: "Off-plan (under construction)",
+      points: ["Lower entry price and installment plans", "Growth potential by handover", "Staged payments via escrow", "Handover timing depends on the developer"],
+    },
+    cta: "Compare options for my goal",
+  },
+
+  why: {
+    tag: "Advantages",
+    h2: "Why clients choose us",
+    sub: "We work on transparency and careful unit selection — without loud promises.",
+    cards: [
+      { title: "Support in your language", desc: "Managers, documents and correspondence — no language barrier." },
+      { title: "Selection by goal", desc: "We help pick the unit and market for your objective, not push one option." },
+      { title: "Transparent assessment", desc: "We explain costs, timelines and deal risks up front." },
+      { title: "No false guarantees", desc: "We don't promise a fixed yield or an automatic visa." },
+      { title: "Unit vetting", desc: "We help with due diligence: developer, contract, terms." },
+      { title: "Deal support", desc: "We guide you from selection to handover and the next step." },
+    ],
+  },
+
+  process: {
+    tag: "Process",
+    h2: "How the deal works",
+    sub: "We don't just show a list of units — we help you through the deal step by step.",
+    steps: [
+      { title: "Goal & budget", description: "We define the objective: income, capital growth or personal living." },
+      { title: "Unit selection", description: "We compare areas, developers and unit types within budget." },
+      { title: "Due diligence", description: "Developer, contract, and a cost and yield breakdown." },
+      { title: "Reservation / contract", description: "Reserving the unit and paperwork — with every step explained." },
+      { title: "Registration & handover", description: "Registration at the DLD and handover, then the next step." },
+    ],
+    remote: "Some steps — selection, reservation and part of the payment — can be done remotely. Certain stages may require personal presence or a notarised power of attorney; this depends on the unit and your situation.",
+  },
+
+  costs: {
+    tag: "Costs",
+    h2: "Costs beyond the property price",
+    sub: "An indicative list of associated costs when buying in Dubai. Exact amounts depend on the unit and the deal.",
+    items: [
+      { name: "DLD registration", note: "≈ 4% of the property value (Dubai Land Department)" },
+      { name: "Admin / trustee fees", note: "Fixed fees for registering the transaction" },
+      { name: "Developer NOC", note: "Transfer no-objection fee (for resale)" },
+      { name: "Agency commission", note: "Usually ≈ 2% — confirmed per unit" },
+      { name: "Mortgage (if needed)", note: "Bank and valuation fees when financing" },
+      { name: "Service charge", note: "Annual maintenance — depends on the project" },
+    ],
+    note: "This information is general. Final costs, yield and timelines depend on the unit, developer and market conditions at the time of the deal.",
+    cta: "Calculate the total budget",
+  },
+
+  cases: {
+    tag: "Examples",
+    h2: "How it looks in practice",
+    sub: "Generalised examples of client requests. Verifiable reviews and case studies will be added separately.",
+    cards: [
+      { img: "case-investor", goal: "Investment", text: "Sourced a ready studio in Dubai Marina for rental, with a yield and cost breakdown." },
+      { img: "case-family", goal: "Family relocation", text: "Helped a family choose a townhouse considering the area, schools and amenities." },
+      { img: "case-entrepreneur", goal: "Off-plan", text: "Guided an off-plan purchase in Business Bay with a 60/40 installment plan and developer vetting." },
+      { img: "case-business", goal: "Diversification", text: "Compared the UAE with neighbouring markets and selected a unit for a long-term strategy." },
+    ],
+  },
+
+  residency: {
+    tag: "Residency",
+    h2: "Property and the resident visa",
+    sub: "Buying property above a certain amount may grant eligibility for a UAE resident visa. This is not automatic — conditions are checked separately against the official rules (ICP).",
+    cta: "Check visa conditions",
+  },
+
+  faq: {
+    tag: "FAQ",
+    h2: "Frequently asked questions",
+    items: [
+      { question: "Can I buy property in the UAE remotely?", answer: "Yes — many steps such as selecting the unit, reserving and part of the payment can be done remotely. Final registration sometimes requires personal presence or a notarised power of attorney." },
+      { question: "How much does an apartment in Dubai cost?", answer: "The range is wide: studios in affordable areas from roughly $190,000, units in premium areas considerably higher. We'll send an exact shortlist for your budget after a short form." },
+      { question: "How is off-plan different from ready property?", answer: "Off-plan is bought during construction — a lower entry price and installments, but handover depends on the developer's timeline. A ready unit can be used or rented immediately." },
+      { question: "What costs are there beyond the property price?", answer: "Typically DLD registration (≈ 4%), admin fees and agency commission, plus bank fees for a mortgage and an annual service charge where applicable." },
+      { question: "How are off-plan payments protected?", answer: "Payments go to regulated escrow accounts tied to construction milestones — the developer doesn't receive the full amount up front." },
+      { question: "Does buying property grant a resident visa?", answer: "A purchase above a certain amount may grant eligibility, but not automatically. Conditions and eligibility are checked separately against the official rules." },
+    ],
+  },
+
+  form: {
+    namePlaceholder: "Your name",
+    phonePlaceholder: "WhatsApp number",
+    phoneHint: "Please include your country code.",
+    cta: "Get a property shortlist",
+    cta_title: "Get a shortlist matched to your goal",
+    cta_sub: "Leave your name and WhatsApp number — an advisor will confirm your goal and send suitable options.",
+    sending: "Sending…",
+    thankYou: "Thank you! An advisor will contact you shortly.",
+    errorRequired: "Please enter your name and WhatsApp number.",
+    errorGeneric: "Something went wrong. Please try again.",
+    consent: "By submitting this form you agree to be contacted. We respect your privacy and never share your data with third parties.",
+  },
+};
+
+const ru: typeof en = {
   meta: {
     title: "Купить недвижимость в Дубае и ОАЭ — подбор с поддержкой | Residency24",
     description:
@@ -48,7 +244,6 @@ export const CONTENT = {
     },
   },
 
-  // 02 — Trust strip
   trust: [
     "Консультация на русском",
     "Актуальные проекты и условия",
@@ -56,7 +251,6 @@ export const CONTENT = {
     "Без гарантий доходности и визы",
   ],
 
-  // Light stat strip (reused from the site — factual, no invented metrics)
   stats: [
     { display: "Дубай и ОАЭ", label: "Основные рынки" },
     { display: "Off-plan + готовое", label: "Форматы покупки" },
@@ -64,7 +258,6 @@ export const CONTENT = {
     { display: "RU · EN · FA · AR", label: "Языки поддержки" },
   ],
 
-  // 03 — Selected UAE projects (real projects from developer brochures: DAMAC & Emaar)
   projects: {
     tag: "Объекты",
     h2: "Актуальные проекты в Дубае и ОАЭ",
@@ -81,7 +274,6 @@ export const CONTENT = {
     ],
   },
 
-  // 05 — Buy by goal (reused from existing site copy)
   goals: {
     tag: "С чего начать",
     h2: "Что вы хотите сделать?",
@@ -96,7 +288,6 @@ export const CONTENT = {
     ],
   },
 
-  // 06 — Emirates & areas navigator
   areas: {
     tag: "Районы",
     h2: "Где искать в ОАЭ",
@@ -108,7 +299,6 @@ export const CONTENT = {
     ],
   },
 
-  // 07 — Ready vs Off-plan
   readyOffplan: {
     tag: "Формат покупки",
     h2: "Готовое или off-plan — что подходит вам?",
@@ -124,7 +314,6 @@ export const CONTENT = {
     cta: "Сравнить варианты под мою цель",
   },
 
-  // 08 — Why Residency24 (reused)
   why: {
     tag: "Преимущества",
     h2: "Почему клиенты выбирают нас",
@@ -139,7 +328,6 @@ export const CONTENT = {
     ],
   },
 
-  // 10 — Process + remote coordination (reused + remote note)
   process: {
     tag: "Процесс",
     h2: "Как проходит сделка",
@@ -154,7 +342,6 @@ export const CONTENT = {
     remote: "Часть шагов — подбор, бронирование и часть оплаты — можно сделать удалённо. Для отдельных этапов может понадобиться личное присутствие или нотариальная доверенность; условия зависят от объекта и вашей ситуации.",
   },
 
-  // 11 — Costs & transparency
   costs: {
     tag: "Расходы",
     h2: "Расходы кроме цены объекта",
@@ -171,7 +358,6 @@ export const CONTENT = {
     cta: "Рассчитать общий бюджет",
   },
 
-  // 12 — Case studies (reuse existing /images/ru/case-*.jpg — indicative)
   cases: {
     tag: "Примеры",
     h2: "Как это выглядит на практике",
@@ -184,7 +370,6 @@ export const CONTENT = {
     ],
   },
 
-  // 13 — Residency / Golden Visa (secondary, honest)
   residency: {
     tag: "Резидентство",
     h2: "Недвижимость и виза резидента",
@@ -192,7 +377,6 @@ export const CONTENT = {
     cta: "Проверить условия визы",
   },
 
-  // 14 — FAQ (reused)
   faq: {
     tag: "FAQ",
     h2: "Частые вопросы",
@@ -219,6 +403,13 @@ export const CONTENT = {
     errorGeneric: "Что-то пошло не так. Попробуйте ещё раз.",
     consent: "Отправляя форму, вы соглашаетесь на то, чтобы мы с вами связались. Мы уважаем вашу конфиденциальность и не передаём ваши данные третьим лицам.",
   },
-} as const;
+};
 
-export type LandingContent = typeof CONTENT;
+export const CONTENT = { en, ru };
+
+/** Pick the landing content for a locale: ru → Russian, everything else → English. */
+export function getLandingContent(lang: string): LandingContent {
+  return lang === "ru" ? CONTENT.ru : CONTENT.en;
+}
+
+export type LandingContent = typeof en;

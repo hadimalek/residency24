@@ -405,7 +405,7 @@ const translations: Record<Lang, any> = {
     },
     stats: [
       { num: "+۳۹۰", label: "پرونده موفق" },
-      { num: "۱۲ سال", label: "تجربه" },
+      { num: "از ۲۰۱۸", label: "تجربه" },
       { num: "۳ کشور", label: "امارات، عمان، ترکیه" },
       { num: "۴ زبان", label: "پشتیبانی" },
     ],
@@ -422,7 +422,7 @@ const translations: Record<Lang, any> = {
             { name: "گلدن ویزا", href: "/fa/uae/golden-visa/", price: "از ۲ میلیون درهم" },
             { name: "ثبت شرکت", href: "/fa/uae/company-registration/", price: "از ۱۱,۹۰۰ درهم" },
             { name: "خرید ملک", href: "/fa/uae/buy-property/", price: "از ۷۵۰,۰۰۰ درهم" },
-            { name: "ویزای توریستی", href: "/fa/uae/tourist-visa/", price: "از ۵۰۰ درهم" },
+            { name: "ویزای توریستی", href: "/fa/uae/tourist-visa/", price: "از ۳۵۰ درهم" },
           ],
         },
         {
@@ -464,7 +464,7 @@ const translations: Record<Lang, any> = {
             { icon: "star", name: "گلدن ویزا", desc: "اقامت ۱۰ ساله خودکفا", price: "از ۲ میلیون درهم", href: "/fa/uae/golden-visa/", tag: "پرطرفدار" },
             { icon: "building2", name: "ثبت شرکت دبی", desc: "مالکیت ۱۰۰٪ · ۷-۱۰ روز", price: "از ۱۱,۹۰۰ درهم", href: "/fa/uae/company-registration/" },
             { icon: "home", name: "خرید ملک دبی", desc: "ویزا از ۷۵۰K درهم", price: "از ۷۵۰,۰۰۰ درهم", href: "/fa/uae/buy-property/" },
-            { icon: "plane", name: "ویزای توریستی", desc: "۳۰ تا ۹۰ روز", price: "از ۵۰۰ درهم", href: "/fa/uae/tourist-visa/" },
+            { icon: "plane", name: "ویزای توریستی", desc: "۳۰ تا ۹۰ روز", price: "از ۳۵۰ درهم", href: "/fa/uae/tourist-visa/" },
           ],
         },
         {
@@ -606,7 +606,7 @@ const translations: Record<Lang, any> = {
         { icon: "shield", title: "شفافیت کامل قیمت", desc: "هزینه‌های واقعی بدون هزینه‌های پنهان" },
         { icon: "check-circle", title: "منابع رسمی", desc: "تمام اطلاعات با لینک به منابع رسمی دولتی" },
         { icon: "users", title: "تیم مقیم", desc: "تیم ما در دبی، مسقط و استانبول مستقر است" },
-        { icon: "clock", title: "۱۲ سال سابقه", desc: "از ۲۰۱۳ در منطقه فعال" },
+        { icon: "clock", title: "از ۲۰۱۸", desc: "فعال در منطقه از سال ۲۰۱۸" },
         { icon: "lock", title: "محرمانگی", desc: "اطلاعات پرونده شما محرمانه است" },
         { icon: "award", title: "مجوز رسمی", desc: "مجوز فعالیت از مراجع ذیصلاح امارات" },
       ],
@@ -780,7 +780,7 @@ const translations: Record<Lang, any> = {
           { icon: "star", title: "گلدن ویزا", desc: "اقامت ۱۰ ساله — بدون کفیل، با حق کار و اسپانسر خانواده", price: "از ۲ میلیون درهم", href: "/fa/uae/golden-visa/", tag: "پرطرفدار" },
           { icon: "building2", title: "ثبت شرکت دبی", desc: "مالکیت ۱۰۰٪ — فری‌زون یا مین‌لند — ۷ تا ۱۰ روز", price: "از ۱۱,۹۰۰ درهم", href: "/fa/uae/company-registration/" },
           { icon: "home", title: "خرید ملک دبی", desc: "سرمایه‌گذاری ملکی با اقامت — آف‌پلن و آماده", price: "از ۷۵۰,۰۰۰ درهم", href: "/fa/uae/buy-property/" },
-          { icon: "plane", title: "ویزای توریستی", desc: "ورود ۳۰ تا ۹۰ روزه — تمدید آسان", price: "از ۵۰۰ درهم", href: "/fa/uae/tourist-visa/" },
+          { icon: "plane", title: "ویزای توریستی", desc: "ورود ۳۰ تا ۹۰ روزه — تمدید آسان", price: "از ۳۵۰ درهم", href: "/fa/uae/tourist-visa/" },
         ],
         cta: "اطلاعات بیشتر",
       },
@@ -940,10 +940,10 @@ const translations: Record<Lang, any> = {
       },
       tourist_visa: {
         h1: "ویزای توریستی امارات", intro: "ورود ۳۰ تا ۹۰ روزه — تمدید آسان — مناسب بازدید و بررسی فرصت‌ها.",
-        price: "از ۵۰۰ درهم", processing: "۱-۳ روز کاری", duration: "۳۰-۹۰ روز",
+        price: "از ۳۵۰ درهم", processing: "۱-۳ روز کاری", duration: "۳۰-۹۰ روز",
         types_title: "انواع ویزای توریستی",
         types: [
-          { name: "ویزای ۳۰ روزه", desc: "برای بازدید کوتاه‌مدت", price: "از ۵۰۰ درهم" },
+          { name: "ویزای ۳۰ روزه", desc: "برای بازدید کوتاه‌مدت", price: "از ۳۵۰ درهم" },
           { name: "ویزای ۶۰ روزه", desc: "بررسی فرصت‌ها و خرید ملک", price: "از ۸۵۰ درهم" },
           { name: "ویزای ۹۰ روزه", desc: "اقامت طولانی‌تر با امکان تمدید", price: "از ۱,۲۰۰ درهم" },
         ],
@@ -1041,7 +1041,7 @@ const translations: Record<Lang, any> = {
       cross_gv_title: "گلدن ویزا امارات", cross_gv_desc: "اقامت ۱۰ ساله بدون کفیل — از ۲ میلیون درهم",
       cross_company_title: "ثبت شرکت دبی", cross_company_desc: "مالکیت ۱۰۰٪ · فری‌زون و مین‌لند · از ۲۱,۰۰۰ درهم",
       cross_property_title: "خرید ملک دبی", cross_property_desc: "بازدهی ۶-۸٪ · بدون مالیات · مسیر گلدن ویزا",
-      cross_tourist_title: "ویزای توریستی", cross_tourist_desc: "ویزای ۳۰ تا ۹۰ روزه — از ۵۰۰ درهم",
+      cross_tourist_title: "ویزای توریستی", cross_tourist_desc: "ویزای ۳۰ تا ۹۰ روزه — از ۳۵۰ درهم",
     },
     // === p003 — Company Registration UAE ===
     cr: {
@@ -1920,7 +1920,7 @@ const translations: Record<Lang, any> = {
     },
     stats: [
       { num: "390+", label: "Successful Cases" },
-      { num: "12 Years", label: "Experience" },
+      { num: "Since 2018", label: "Experience" },
       { num: "3 Countries", label: "UAE, Oman, Turkey" },
       { num: "4 Languages", label: "Support" },
     ],
@@ -1937,7 +1937,7 @@ const translations: Record<Lang, any> = {
             { name: "Golden Visa", href: "/uae/golden-visa/", price: "From AED 2M" },
             { name: "Company Registration", href: "/uae/company-registration/", price: "From AED 11,900" },
             { name: "Buy Property", href: "/uae/buy-property/", price: "From AED 750,000" },
-            { name: "Tourist Visa", href: "/uae/tourist-visa/", price: "From AED 500" },
+            { name: "Tourist Visa", href: "/uae/tourist-visa/", price: "From AED 350" },
           ],
         },
         {
@@ -1979,7 +1979,7 @@ const translations: Record<Lang, any> = {
             { icon: "star", name: "Golden Visa", desc: "10-year self-sponsored residency", price: "From AED 2M", href: "/uae/golden-visa/", tag: "Popular" },
             { icon: "building2", name: "Dubai Company", desc: "100% ownership · 7-10 days", price: "From AED 11,900", href: "/uae/company-registration/" },
             { icon: "home", name: "Buy Property Dubai", desc: "Visa from AED 750K", price: "From AED 750,000", href: "/uae/buy-property/" },
-            { icon: "plane", name: "Tourist Visa", desc: "30 to 90 days", price: "From AED 500", href: "/uae/tourist-visa/" },
+            { icon: "plane", name: "Tourist Visa", desc: "30 to 90 days", price: "From AED 350", href: "/uae/tourist-visa/" },
           ],
         },
         {
@@ -2121,7 +2121,7 @@ const translations: Record<Lang, any> = {
         { icon: "shield", title: "Full Price Transparency", desc: "Real costs with no hidden fees" },
         { icon: "check-circle", title: "Official Sources", desc: "All info linked to official government sources" },
         { icon: "users", title: "Local Team", desc: "Our team is based in Dubai, Muscat, and Istanbul" },
-        { icon: "clock", title: "12 Years Track Record", desc: "Active in the region since 2013" },
+        { icon: "clock", title: "Since 2018", desc: "Active in the region since 2018" },
         { icon: "lock", title: "Confidentiality", desc: "Your case information is strictly confidential" },
         { icon: "award", title: "Licensed", desc: "Licensed by relevant UAE authorities" },
       ],
@@ -2295,7 +2295,7 @@ const translations: Record<Lang, any> = {
           { icon: "star", title: "Golden Visa", desc: "10-year residency — no sponsor, work permit, family sponsorship", price: "From AED 2M", href: "/uae/golden-visa/", tag: "Popular" },
           { icon: "building2", title: "Company Registration", desc: "100% ownership — Free Zone or Mainland — 7 to 10 days", price: "From AED 11,900", href: "/uae/company-registration/" },
           { icon: "home", title: "Buy Property Dubai", desc: "Property investment with residency — off-plan and ready", price: "From AED 750,000", href: "/uae/buy-property/" },
-          { icon: "plane", title: "Tourist Visa", desc: "30 to 90 day entry — easy extension", price: "From AED 500", href: "/uae/tourist-visa/" },
+          { icon: "plane", title: "Tourist Visa", desc: "30 to 90 day entry — easy extension", price: "From AED 350", href: "/uae/tourist-visa/" },
         ],
         cta: "Learn More",
       },
@@ -2455,10 +2455,10 @@ const translations: Record<Lang, any> = {
       },
       tourist_visa: {
         h1: "UAE Tourist Visa", intro: "30 to 90 day entry — easy extension — ideal for visiting and exploring opportunities.",
-        price: "From AED 500", processing: "1-3 business days", duration: "30-90 days",
+        price: "From AED 350", processing: "1-3 business days", duration: "30-90 days",
         types_title: "Tourist Visa Types",
         types: [
-          { name: "30-Day Visa", desc: "For short-term visits", price: "From AED 500" },
+          { name: "30-Day Visa", desc: "For short-term visits", price: "From AED 350" },
           { name: "60-Day Visa", desc: "Explore opportunities and buy property", price: "From AED 850" },
           { name: "90-Day Visa", desc: "Extended stay with renewal option", price: "From AED 1,200" },
         ],
@@ -2556,7 +2556,7 @@ const translations: Record<Lang, any> = {
       cross_gv_title: "UAE Golden Visa", cross_gv_desc: "10-year residency, no sponsor — from AED 2M",
       cross_company_title: "Company Registration Dubai", cross_company_desc: "100% ownership · Free Zone & Mainland · from AED 21,000",
       cross_property_title: "Buy Property Dubai", cross_property_desc: "6-8% yield · Zero tax · Golden Visa path",
-      cross_tourist_title: "Tourist Visa", cross_tourist_desc: "30 to 90-day visa — from AED 500",
+      cross_tourist_title: "Tourist Visa", cross_tourist_desc: "30 to 90-day visa — from AED 350",
     },
     // === p003 — Company Registration UAE ===
     cr: {
@@ -3435,7 +3435,7 @@ const translations: Record<Lang, any> = {
     },
     stats: [
       { num: "+٣٩٠", label: "حالة ناجحة" },
-      { num: "١٢ عاماً", label: "من الخبرة" },
+      { num: "منذ ٢٠١٨", label: "من الخبرة" },
       { num: "٣ دول", label: "الإمارات، عمان، تركيا" },
       { num: "٤ لغات", label: "دعم متعدد" },
     ],
@@ -3452,7 +3452,7 @@ const translations: Record<Lang, any> = {
             { name: "الإقامة الذهبية", href: "/ar/uae/golden-visa/", price: "من ٢ مليون درهم" },
             { name: "تأسيس شركة", href: "/ar/uae/company-registration/", price: "من ١١,٩٠٠ درهم" },
             { name: "شراء عقار", href: "/ar/uae/buy-property/", price: "من ٧٥٠,٠٠٠ درهم" },
-            { name: "تأشيرة سياحية", href: "/ar/uae/tourist-visa/", price: "من ٥٠٠ درهم" },
+            { name: "تأشيرة سياحية", href: "/ar/uae/tourist-visa/", price: "من ٣٥٠ درهم" },
           ],
         },
         {
@@ -3494,7 +3494,7 @@ const translations: Record<Lang, any> = {
             { icon: "star", name: "الإقامة الذهبية", desc: "إقامة ذاتية ١٠ سنوات", price: "من ٢ مليون درهم", href: "/ar/uae/golden-visa/", tag: "الأكثر طلباً" },
             { icon: "building2", name: "تأسيس شركة دبي", desc: "ملكية ١٠٠٪ · ٧-١٠ أيام", price: "من ١١,٩٠٠ درهم", href: "/ar/uae/company-registration/" },
             { icon: "home", name: "شراء عقار دبي", desc: "تأشيرة من ٧٥٠K درهم", price: "من ٧٥٠,٠٠٠ درهم", href: "/ar/uae/buy-property/" },
-            { icon: "plane", name: "تأشيرة سياحية", desc: "٣٠ إلى ٩٠ يوماً", price: "من ٥٠٠ درهم", href: "/ar/uae/tourist-visa/" },
+            { icon: "plane", name: "تأشيرة سياحية", desc: "٣٠ إلى ٩٠ يوماً", price: "من ٣٥٠ درهم", href: "/ar/uae/tourist-visa/" },
           ],
         },
         {
@@ -3636,7 +3636,7 @@ const translations: Record<Lang, any> = {
         { icon: "shield", title: "شفافية كاملة", desc: "تكاليف حقيقية بدون رسوم خفية" },
         { icon: "check-circle", title: "مصادر رسمية", desc: "معلومات مرتبطة بمصادر حكومية رسمية" },
         { icon: "users", title: "فريق محلي", desc: "فريقنا في دبي ومسقط وإسطنبول" },
-        { icon: "clock", title: "١٢ سنة سجل", desc: "نشطون في المنطقة منذ ٢٠١٣" },
+        { icon: "clock", title: "منذ ٢٠١٨", desc: "نشطون في المنطقة منذ ٢٠١٨" },
         { icon: "lock", title: "سرية تامة", desc: "معلومات ملفك سرية تماماً" },
         { icon: "award", title: "مرخصون", desc: "مرخصون من الجهات المختصة" },
       ],
@@ -3810,7 +3810,7 @@ const translations: Record<Lang, any> = {
           { icon: "star", title: "التأشيرة الذهبية", desc: "إقامة ١٠ سنوات — بدون كفيل، مع تصريح عمل وكفالة عائلية", price: "من ٢ مليون درهم", href: "/ar/uae/golden-visa/", tag: "الأكثر طلباً" },
           { icon: "building2", title: "تسجيل شركة في دبي", desc: "ملكية ١٠٠٪ — منطقة حرة أو البر الرئيسي — ٧ إلى ١٠ أيام", price: "من ١١,٩٠٠ درهم", href: "/ar/uae/company-registration/" },
           { icon: "home", title: "شراء عقار في دبي", desc: "استثمار عقاري مع إقامة — على الخارطة وجاهز", price: "من ٧٥٠,٠٠٠ درهم", href: "/ar/uae/buy-property/" },
-          { icon: "plane", title: "تأشيرة سياحية", desc: "دخول ٣٠ إلى ٩٠ يوماً — تمديد سهل", price: "من ٥٠٠ درهم", href: "/ar/uae/tourist-visa/" },
+          { icon: "plane", title: "تأشيرة سياحية", desc: "دخول ٣٠ إلى ٩٠ يوماً — تمديد سهل", price: "من ٣٥٠ درهم", href: "/ar/uae/tourist-visa/" },
         ],
         cta: "المزيد من المعلومات",
       },
@@ -3970,10 +3970,10 @@ const translations: Record<Lang, any> = {
       },
       tourist_visa: {
         h1: "تأشيرة سياحية للإمارات", intro: "دخول ٣٠ إلى ٩٠ يوماً — تمديد سهل — مثالية للزيارة واستكشاف الفرص.",
-        price: "من ٥٠٠ درهم", processing: "١-٣ أيام عمل", duration: "٣٠-٩٠ يوماً",
+        price: "من ٣٥٠ درهم", processing: "١-٣ أيام عمل", duration: "٣٠-٩٠ يوماً",
         types_title: "أنواع التأشيرة السياحية",
         types: [
-          { name: "تأشيرة ٣٠ يوماً", desc: "للزيارات القصيرة", price: "من ٥٠٠ درهم" },
+          { name: "تأشيرة ٣٠ يوماً", desc: "للزيارات القصيرة", price: "من ٣٥٠ درهم" },
           { name: "تأشيرة ٦٠ يوماً", desc: "استكشاف الفرص وشراء العقارات", price: "من ٨٥٠ درهم" },
           { name: "تأشيرة ٩٠ يوماً", desc: "إقامة أطول مع إمكانية التجديد", price: "من ١,٢٠٠ درهم" },
         ],
@@ -4071,7 +4071,7 @@ const translations: Record<Lang, any> = {
       cross_gv_title: "الإقامة الذهبية", cross_gv_desc: "إقامة ١٠ سنوات بدون كفيل — من ٢ مليون درهم",
       cross_company_title: "تأسيس شركة في دبي", cross_company_desc: "ملكية ١٠٠٪ · منطقة حرة وبر رئيسي · من ٢١,٠٠٠ درهم",
       cross_property_title: "شراء عقار في دبي", cross_property_desc: "عائد ٦-٨٪ · صفر ضريبة · مسار التأشيرة الذهبية",
-      cross_tourist_title: "تأشيرة سياحية", cross_tourist_desc: "تأشيرة ٣٠ إلى ٩٠ يوماً — من ٥٠٠ درهم",
+      cross_tourist_title: "تأشيرة سياحية", cross_tourist_desc: "تأشيرة ٣٠ إلى ٩٠ يوماً — من ٣٥٠ درهم",
     },
     // === p003 — Company Registration UAE ===
     cr: {
@@ -4950,7 +4950,7 @@ const translations: Record<Lang, any> = {
     },
     stats: [
       { num: "390+", label: "Успешных кейсов" },
-      { num: "12 лет", label: "Опыта" },
+      { num: "С 2018", label: "Опыта" },
       { num: "3 страны", label: "ОАЭ, Оман, Турция" },
       { num: "4 языка", label: "Поддержки" },
     ],
@@ -4967,7 +4967,7 @@ const translations: Record<Lang, any> = {
             { name: "Золотая виза", href: "/ru/uae/golden-visa/", price: "от 2 млн AED" },
             { name: "Регистрация компании", href: "/ru/uae/company-registration/", price: "от 11 900 AED" },
             { name: "Недвижимость", href: "/ru/uae/buy-property/", price: "от 750 000 AED" },
-            { name: "Туристическая виза", href: "/ru/uae/tourist-visa/", price: "от 500 AED" },
+            { name: "Туристическая виза", href: "/ru/uae/tourist-visa/", price: "от 350 AED" },
           ],
         },
         {
@@ -5009,7 +5009,7 @@ const translations: Record<Lang, any> = {
             { icon: "star", name: "Золотая виза", desc: "ВНЖ на 10 лет без спонсора", price: "от 2 млн AED", href: "/ru/uae/golden-visa/", tag: "Популярное" },
             { icon: "building2", name: "Компания Дубай", desc: "100% владение · 7-10 дней", price: "от 11 900 AED", href: "/ru/uae/company-registration/" },
             { icon: "home", name: "Недвижимость Дубай", desc: "Виза от 750K AED", price: "от 750 000 AED", href: "/ru/uae/buy-property/" },
-            { icon: "plane", name: "Туристическая виза", desc: "30-90 дней", price: "от 500 AED", href: "/ru/uae/tourist-visa/" },
+            { icon: "plane", name: "Туристическая виза", desc: "30-90 дней", price: "от 350 AED", href: "/ru/uae/tourist-visa/" },
           ],
         },
         {
@@ -5151,7 +5151,7 @@ const translations: Record<Lang, any> = {
         { icon: "shield", title: "Полная прозрачность цен", desc: "Реальные расходы без скрытых платежей" },
         { icon: "check-circle", title: "Официальные источники", desc: "Вся информация со ссылками на госисточники" },
         { icon: "users", title: "Местная команда", desc: "Мы в Дубае, Маскате и Стамбуле" },
-        { icon: "clock", title: "12 лет опыта", desc: "Работаем в регионе с 2013 года" },
+        { icon: "clock", title: "С 2018 года", desc: "Работаем в регионе с 2018 года" },
         { icon: "lock", title: "Конфиденциальность", desc: "Информация вашего дела строго конфиденциальна" },
         { icon: "award", title: "Лицензия", desc: "Лицензированы компетентными органами ОАЭ" },
       ],
@@ -5325,7 +5325,7 @@ const translations: Record<Lang, any> = {
           { icon: "star", title: "Золотая виза", desc: "ВНЖ на 10 лет — без спонсора, разрешение на работу, спонсорство семьи", price: "От 2 млн AED", href: "/ru/uae/golden-visa/", tag: "Популярное" },
           { icon: "building2", title: "Регистрация компании", desc: "100% владение — Free Zone или Mainland — 7-10 дней", price: "От 11 900 д��рхамов", href: "/ru/uae/company-registration/" },
           { icon: "home", title: "Покупка недвижимости", desc: "Инвестиции в недвижимость с ВНЖ — off-plan и готовые", price: "От 750 000 дирхамов", href: "/ru/uae/buy-property/" },
-          { icon: "plane", title: "Туристическая виза", desc: "Въезд на 30-90 дней — лёгкое продление", price: "От 500 дирхамов", href: "/ru/uae/tourist-visa/" },
+          { icon: "plane", title: "Туристическая виза", desc: "Въезд на 30-90 дней — лёгкое продление", price: "От 350 дирхамов", href: "/ru/uae/tourist-visa/" },
         ],
         cta: "Подробнее",
       },
@@ -5485,7 +5485,7 @@ const translations: Record<Lang, any> = {
       },
       tourist_visa: {
         h1: "Туристическая виза ОАЭ", intro: "Въезд на 30-90 дней — лёгкое продление — для посещения и изучения возможностей.",
-        price: "От 500 AED", processing: "1-3 рабочих дня", duration: "30-90 дней",
+        price: "От 350 AED", processing: "1-3 рабочих дня", duration: "30-90 дней",
         types_title: "Типы туристических виз",
         types: [
           { name: "Виза на 30 дней", desc: "Для краткосрочных визитов", price: "От 500 AED" },
@@ -5586,7 +5586,7 @@ const translations: Record<Lang, any> = {
       cross_gv_title: "Золотая виза ОАЭ", cross_gv_desc: "ВНЖ на 10 лет без спонсора — от 2 млн AED",
       cross_company_title: "Регистрация компании Дубай", cross_company_desc: "100% владение · Фризона и материк · от 21 000 AED",
       cross_property_title: "Купить недвижимость Дубай", cross_property_desc: "Доходность 6-8% · 0% налог · путь к Золотой визе",
-      cross_tourist_title: "Туристическая виза", cross_tourist_desc: "Виза на 30-90 дней — от 500 AED",
+      cross_tourist_title: "Туристическая виза", cross_tourist_desc: "Виза на 30-90 дней — от 350 AED",
     },
     // === p003 — Company Registration UAE ===
     cr: {
