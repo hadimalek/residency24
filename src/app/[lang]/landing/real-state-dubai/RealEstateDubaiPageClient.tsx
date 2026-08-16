@@ -417,7 +417,21 @@ export default function RealEstateDubaiPageClient() {
         </div>
       </motion.section>
 
-      {/* 14 — FAQ */}
+      {/* 14 — FAQ (+ FAQPage schema generated from the visible questions) */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: C.faq.items.map((f) => ({
+              "@type": "Question",
+              name: f.question,
+              acceptedAnswer: { "@type": "Answer", text: f.answer },
+            })),
+          }),
+        }}
+      />
       <SharedFAQ title={C.faq.h2} items={C.faq.items.map((f) => ({ question: f.question, answer: f.answer }))} />
 
       {/* 15 — Final CTA + form */}

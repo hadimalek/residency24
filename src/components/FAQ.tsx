@@ -4,12 +4,24 @@ import { useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { motion } from 'framer-motion';
 
-// NOTE: no FAQPage JSON-LD here — the [lang] layout already injects
-// getFaqSchema(lang) server-side for every page, in the correct language.
+// FAQPage JSON-LD is emitted HERE, from the exact questions rendered below, so
+// the structured data always matches the visible FAQ (Google's requirement).
+// The global layout no longer injects a generic FAQ schema.
 
 const FAQ = () => {
   const { t } = useLanguage();
   const [openIndex, setOpenIndex] = useState(0);
+
+  const items = (t.faq.items as { q: string; a: string }[]) || [];
+  const faqSchema = items.length > 0 ? {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: { "@type": "Answer", text: item.a },
+    })),
+  } : null;
 
   return (
     <motion.section
@@ -18,6 +30,9 @@ const FAQ = () => {
       viewport={{ once: true, amount: 0.15 }}
       className="py-20 bg-surface"
     >
+      {faqSchema && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      )}
       <div className="max-w-[760px] mx-auto px-4">
         <div className="text-center mb-10">
           <span className="inline-block text-xs font-semibold text-gold tracking-[0.12em] uppercase mb-3">{t.faq.badge}</span>

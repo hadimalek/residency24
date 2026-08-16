@@ -119,6 +119,10 @@ const SUFFIX_REDIRECTS: Record<string, string> = {
   "compare/uae-vs-oman": "compare/uae-vs-oman-vs-turkey",
   "international-company-registration": "uae/company-registration",
   "property-purchase": "uae/buy-property",
+  // Legacy UAE alias pages → the canonical service pages (dedupes cannibalizing
+  // duplicates; the alias folders were removed and dropped from the sitemap).
+  "uae/register-company": "uae/company-registration",
+  "uae/property-purchase": "uae/buy-property",
   "residence": "uae",
   "team": "about",
   "trust": "about",

@@ -77,18 +77,18 @@ const TRUST_BAR = [
 ];
 
 const QUICK_ROUTES: CardLink[] = [
-  { title: "Открыть компанию", desc: "Регистрация в ОАЭ или Омане — структура, лицензия, сопровождение.", href: "/ru/uae/register-company/", icon: Building2 },
+  { title: "Открыть компанию", desc: "Регистрация в ОАЭ или Омане — структура, лицензия, сопровождение.", href: "/ru/uae/company-registration", icon: Building2 },
   { title: "Получить резидентство", desc: "Резидентская виза через компанию, инвестиции или другие маршруты.", href: "/ru/uae/golden-visa/", icon: ScrollText },
-  { title: "Купить недвижимость", desc: "Объекты в Дубае и Омане — для жизни, аренды или резидентства.", href: "/ru/uae/property-purchase/", icon: Home },
+  { title: "Купить недвижимость", desc: "Объекты в Дубае и Омане — для жизни, аренды или резидентства.", href: "/ru/uae/buy-property", icon: Home },
   { title: "Перевезти семью", desc: "Семейные визы для супруги/супруга и детей с подготовкой документов.", href: CONSULT, icon: Users },
   { title: "Открыть банковский счёт", desc: "Корпоративный счёт после оценки compliance.", href: CONTACT, icon: CreditCard },
   { title: "Сравнить страны", desc: "ОАЭ, Оман или Турция — что подходит вам по бизнесу, бюджету и семье.", href: COMPARE_UAE_OMAN, icon: GitCompare },
 ];
 
 const UAE_SERVICES: CardLink[] = [
-  { title: "Открытие компании в ОАЭ", desc: "Free zone или mainland — подбор структуры под цель.", href: "/ru/uae/register-company/", icon: Building2 },
+  { title: "Открытие компании в ОАЭ", desc: "Free zone или mainland — подбор структуры под цель.", href: "/ru/uae/company-registration", icon: Building2 },
   { title: "Резидентская виза ОАЭ", desc: "Маршруты через компанию, работу или инвестиции.", href: "/ru/uae/golden-visa/", icon: ScrollText },
-  { title: "Недвижимость в Дубае", desc: "Готовые и off-plan объекты с прозрачным сопровождением.", href: "/ru/uae/property-purchase/", icon: Home },
+  { title: "Недвижимость в Дубае", desc: "Готовые и off-plan объекты с прозрачным сопровождением.", href: "/ru/uae/buy-property", icon: Home },
   { title: "Golden Visa ОАЭ", desc: "Долгосрочная виза для инвесторов и предпринимателей.", href: "/ru/uae/golden-visa/", icon: Trophy, badge: "Популярно" },
   { title: "Туристическая виза ОАЭ", desc: "Для бизнес-визитов и подготовки к релокации.", href: "/ru/uae/tourist-visa/", icon: Plane },
   { title: "Семейная виза ОАЭ", desc: "Резидентство для супруги/супруга и детей.", href: CONSULT, icon: Users },
@@ -906,6 +906,20 @@ export default function RuHomePageClient({ h1, blogPosts }: { h1: string; blogPo
 
       {/* FAQ */}
       <section className="py-16 md:py-20 bg-surface">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              mainEntity: FAQS.map((f) => ({
+                "@type": "Question",
+                name: f.q,
+                acceptedAnswer: { "@type": "Answer", text: f.a },
+              })),
+            }),
+          }}
+        />
         <div className="max-w-3xl mx-auto px-4">
           <SectionHead eyebrow="FAQ" title="Частые вопросы" subtitle="Коротко о главном — без обещаний и громких слов." />
           <div className="space-y-3">

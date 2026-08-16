@@ -55,9 +55,9 @@ const COMPARE_COMPANY_PROPERTY = "#consultation-form";
 const CONTACT = "/ru/contact/";
 const BLOG = "/ru/blog/";
 
-const UAE_REGISTER = "/ru/uae/register-company/";
+const UAE_REGISTER = "/ru/uae/company-registration";
 const UAE_RESIDENCY = "/ru/uae/golden-visa/";
-const UAE_PROPERTY = "/ru/uae/property-purchase/";
+const UAE_PROPERTY = "/ru/uae/buy-property";
 const UAE_GOLDEN = "/ru/uae/golden-visa/";
 const UAE_GREEN = "/ru/uae/green-visa/";
 const UAE_TOURIST = "/ru/uae/tourist-visa/";

@@ -41,9 +41,8 @@ export const STATIC_ROUTES: SitemapRoute[] = [
   { path: "uae/company-registration", priority: 0.8, changeFrequency: "monthly" },
   { path: "uae/buy-property", priority: 0.8, changeFrequency: "monthly" },
   { path: "uae/tourist-visa", priority: 0.7, changeFrequency: "monthly" },
-  // Legacy aliases — kept for backlinks but lower priority
-  { path: "uae/register-company", priority: 0.4, changeFrequency: "yearly" },
-  { path: "uae/property-purchase", priority: 0.4, changeFrequency: "yearly" },
+  // (Legacy aliases uae/register-company & uae/property-purchase removed —
+  //  they now 301 to company-registration / buy-property via src/proxy.ts.)
 
   // Oman
   { path: "oman", priority: 0.9, changeFrequency: "weekly" },
