@@ -208,17 +208,17 @@ export default function RealEstateDubaiPageClient({ lang = "en" }: { lang?: stri
             <div className="grid lg:grid-cols-2 gap-10 items-center">
               <div>
                 <span className="inline-flex items-center gap-2 text-xs font-bold text-gold uppercase tracking-wider mb-3">
-                  <Target className="w-3.5 h-3.5" /> Подбор под вас
+                  <Target className="w-3.5 h-3.5" /> {C.finder.pill}
                 </span>
-                <h2 className="text-[26px] md:text-[30px] font-bold mb-3">Не уверены, что подходит именно вам?</h2>
-                <p className="text-white/70 leading-relaxed mb-6">Ответьте на несколько вопросов о цели, формате покупки и бюджете — пришлём персональную подборку объектов. «Бюджет пока не определён» — тоже вариант.</p>
+                <h2 className="text-[26px] md:text-[30px] font-bold mb-3">{C.finder.h2}</h2>
+                <p className="text-white/70 leading-relaxed mb-6">{C.finder.p}</p>
                 <button onClick={openLead} className="inline-flex items-center gap-2 bg-[#FBF6E8] text-navy font-bold px-6 py-3.5 rounded-xl text-sm hover:-translate-y-0.5 transition-transform">
-                  Получить персональную подборку <ArrowRight className="w-4 h-4" />
+                  {C.finder.cta} <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
               <div>
                 <div className="flex">
-                  {["Цель", "Тип", "Район", "Бюджет", "Контакт"].map((label, i) => {
+                  {C.finder.steps.map((label, i) => {
                     const Icon = [Target, Home, MapPin, Calculator, MessageCircle][i];
                     return (
                       <div key={i} className="flex flex-col items-center gap-2 flex-1">
@@ -231,7 +231,7 @@ export default function RealEstateDubaiPageClient({ lang = "en" }: { lang?: stri
                   })}
                 </div>
                 <div className="bg-white/[0.08] border border-white/15 rounded-xl p-4 text-[12.5px] text-white/75 leading-relaxed mt-5">
-                  Это предварительная подборка. Итоговые варианты зависят от актуального наличия, застройщика и условий на момент сделки.
+                  {C.finder.note}
                 </div>
               </div>
             </div>

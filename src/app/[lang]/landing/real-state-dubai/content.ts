@@ -93,6 +93,15 @@ const en = {
     ],
   },
 
+  finder: {
+    pill: "Matched to you",
+    h2: "Not sure what fits you?",
+    p: "Answer a few questions about your goal, purchase format and budget — we'll send a personalized shortlist. «Budget not decided yet» is a valid answer too.",
+    cta: "Get a personalized shortlist",
+    steps: ["Goal", "Type", "Area", "Budget", "Contact"],
+    note: "This is a preliminary shortlist. Final options depend on current availability, the developer and terms at the time of the deal.",
+  },
+
   areas: {
     tag: "Areas",
     h2: "Where to look in the UAE",
@@ -286,6 +295,15 @@ const ru: typeof en = {
       { title: "Рассчитать расходы", desc: "Сравните объекты по цене за м², расходам и ориентировочной доходности.", cta: "Подробнее" },
       { title: "Личное проживание", desc: "Объект под ваш образ жизни и бюджет — для себя, а не под аренду.", cta: "Подробнее" },
     ],
+  },
+
+  finder: {
+    pill: "Подбор под вас",
+    h2: "Не уверены, что подходит именно вам?",
+    p: "Ответьте на несколько вопросов о цели, формате покупки и бюджете — пришлём персональную подборку объектов. «Бюджет пока не определён» — тоже вариант.",
+    cta: "Получить персональную подборку",
+    steps: ["Цель", "Тип", "Район", "Бюджет", "Контакт"],
+    note: "Это предварительная подборка. Итоговые варианты зависят от актуального наличия, застройщика и условий на момент сделки.",
   },
 
   areas: {
