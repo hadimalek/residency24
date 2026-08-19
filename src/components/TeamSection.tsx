@@ -94,7 +94,7 @@ const TeamSection = ({ hideMeetMore = false }: { hideMeetMore?: boolean }) => {
         {!hideMeetMore && t.team.meet_more && (
           <div className="text-center">
             <a
-              href={`/${lang}/about/`}
+              href={`/${lang}/about`}
               className="text-sm text-gold hover:underline font-medium"
             >
               {t.team.meet_more} →

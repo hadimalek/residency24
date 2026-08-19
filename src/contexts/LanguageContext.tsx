@@ -41,7 +41,7 @@ export const LanguageProvider: React.FC<{
       const bare = currentPath.replace(langPattern, '/');
       const target = newLang === 'en'
         ? (bare === '/' ? '/' : bare)
-        : (bare === '/' ? `/${newLang}/` : `/${newLang}${bare}`);
+        : (bare === '/' ? `/${newLang}` : `/${newLang}${bare}`);
       window.location.href = target;
     }
   };

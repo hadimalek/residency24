@@ -86,8 +86,8 @@ function getBreadcrumbSchema(lang: Lang) {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: n.home, item: `${langPathPrefix(lang)}/` },
-      { "@type": "ListItem", position: 2, name: n.uae, item: `${langPathPrefix(lang)}/uae/` },
+      { "@type": "ListItem", position: 1, name: n.home, item: `${langPathPrefix(lang)}` },
+      { "@type": "ListItem", position: 2, name: n.uae, item: `${langPathPrefix(lang)}/uae` },
       { "@type": "ListItem", position: 3, name: n.tv, item: getPageUrl(lang) },
     ],
   };

@@ -496,7 +496,7 @@ export default function TurkeyCitizenshipClient() {
   const { lang } = useLanguage();
   const c = CONTENT[lang];
   const homeHref = lang === "en" ? "/" : `/${lang}/`;
-  const turkeyHref = lang === "en" ? "/turkey/" : `/${lang}/turkey/`;
+  const turkeyHref = lang === "en" ? "/turkey" : `/${lang}/turkey/`;
   const linkPath = (path: string) => (lang === "en" ? `/${path}` : `/${lang}/${path}`);
 
   const breadcrumbItems = [

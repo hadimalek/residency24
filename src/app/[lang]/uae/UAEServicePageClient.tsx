@@ -17,9 +17,9 @@ export default function UAEServicePageClient({ service }: { service: ServicePage
   if (!p) return null;
 
   const crossSellItems: CrossSellItem[] = [
-    { title: p.cross_gv_title, description: p.cross_gv_desc, icon: Shield, href: `/${lang}/uae/golden-visa/`, isHighlighted: true },
-    { title: p.cross_company_title, description: p.cross_company_desc, icon: Building2, href: `/${lang}/uae/company-registration/` },
-    { title: p.cross_property_title, description: p.cross_property_desc, icon: Home, href: `/${lang}/uae/buy-property/` },
+    { title: p.cross_gv_title, description: p.cross_gv_desc, icon: Shield, href: `/${lang}/uae/golden-visa`, isHighlighted: true },
+    { title: p.cross_company_title, description: p.cross_company_desc, icon: Building2, href: `/${lang}/uae/company-registration` },
+    { title: p.cross_property_title, description: p.cross_property_desc, icon: Home, href: `/${lang}/uae/buy-property` },
   ];
 
   return (

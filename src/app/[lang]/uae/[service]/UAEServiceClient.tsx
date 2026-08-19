@@ -24,7 +24,7 @@ export default function UAEServiceClient({ serviceId }: { serviceId: string }) {
         <Navbar />
         <div className="py-20 text-center">
           <h1 className="text-2xl font-bold">404</h1>
-          <a href={`/${lang}/uae/`} className="text-blue-600 underline mt-4 inline-block">
+          <a href={`/${lang}/uae`} className="text-blue-600 underline mt-4 inline-block">
             {page?.title || "UAE"}
           </a>
         </div>

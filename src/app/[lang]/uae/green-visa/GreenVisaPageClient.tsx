@@ -41,8 +41,8 @@ export default function GreenVisaPageClient() {
   };
 
   const breadcrumbItems = [
-    { label: p.breadcrumb[0], href: `/${lang}/` },
-    { label: p.breadcrumb[1], href: `/${lang}/uae/` },
+    { label: p.breadcrumb[0], href: `/${lang}` },
+    { label: p.breadcrumb[1], href: `/${lang}/uae` },
     { label: p.breadcrumb[2] },
   ];
 
@@ -54,9 +54,9 @@ export default function GreenVisaPageClient() {
   }));
 
   const crossSellItems: CrossSellItem[] = [
-    { ...p.crossSell.items[0], icon: Shield, href: `/${lang}/uae/golden-visa/`, isHighlighted: true },
-    { ...p.crossSell.items[1], icon: Building2, href: `/${lang}/uae/company-registration/` },
-    { ...p.crossSell.items[2], icon: Home, href: `/${lang}/uae/buy-property/` },
+    { ...p.crossSell.items[0], icon: Shield, href: `/${lang}/uae/golden-visa`, isHighlighted: true },
+    { ...p.crossSell.items[1], icon: Building2, href: `/${lang}/uae/company-registration` },
+    { ...p.crossSell.items[2], icon: Home, href: `/${lang}/uae/buy-property` },
   ];
 
   return (

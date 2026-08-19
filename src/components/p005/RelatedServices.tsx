@@ -14,14 +14,14 @@ const RelatedServices = () => {
       icon: Shield,
       title: bp.related_visa_title,
       desc: bp.related_visa_desc,
-      href: `/${lang}/uae/golden-visa/`,
+      href: `/${lang}/uae/golden-visa`,
       cta: bp.related_visa_title,
     },
     {
       icon: Building2,
       title: bp.related_company_title,
       desc: bp.related_company_desc,
-      href: `/${lang}/uae/company-registration/`,
+      href: `/${lang}/uae/company-registration`,
       cta: bp.related_company_title,
     },
   ];

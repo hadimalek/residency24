@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>گزارش توسعه Residency24</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#F7F6F2;--surface:#FFFFFF;--surface-2:#F2F1EC;
+    --ink:#161C2B;--muted:#535A6C;--faint:#868C9C;
+    --border:#E4E2DA;--border-strong:#D3D0C6;
+    --navy:#0C2C6B;--navy-soft:#1C46A8;--gold:#A9822B;--gold-soft:#C79A3A;
+    --feat-bg:#EAF0FB;--feat-fg:#153C86;--fix-bg:#F6EEDD;--fix-fg:#8A6A18;
+    --win-bg:#EAF4EC;--win-fg:#2C6B45;--win-bd:#CBE2D2;
+    --shadow:0 1px 2px rgba(16,22,40,.04),0 12px 34px rgba(16,22,40,.07);
+  }
+  :root:not([data-theme="light"]){ @media (prefers-color-scheme: dark){
+    --bg:#0B0F1A;--surface:#121826;--surface-2:#0F1420;
+    --ink:#EAECF2;--muted:#AEB5C7;--faint:#767E92;
+    --border:#232B3D;--border-strong:#2E3750;
+    --navy:#9FBEFF;--navy-soft:#7EA2F0;--gold:#D9B25A;--gold-soft:#E3C070;
+    --feat-bg:#16233F;--feat-fg:#A9C4FF;--fix-bg:#2A2312;--fix-fg:#E0BE6B;
+    --win-bg:#12251A;--win-fg:#7FD3A0;--win-bd:#23402E;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 14px 40px rgba(0,0,0,.5);
+  }}
+  :root[data-theme="dark"]{
+    --bg:#0B0F1A;--surface:#121826;--surface-2:#0F1420;
+    --ink:#EAECF2;--muted:#AEB5C7;--faint:#767E92;
+    --border:#232B3D;--border-strong:#2E3750;
+    --navy:#9FBEFF;--navy-soft:#7EA2F0;--gold:#D9B25A;--gold-soft:#E3C070;
+    --feat-bg:#16233F;--feat-fg:#A9C4FF;--fix-bg:#2A2312;--fix-fg:#E0BE6B;
+    --win-bg:#12251A;--win-fg:#7FD3A0;--win-bd:#23402E;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 14px 40px rgba(0,0,0,.5);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Vazirmatn",system-ui,sans-serif;line-height:1.8;font-size:16px;
+    padding:clamp(20px,4vw,56px) 16px;}
+  .wrap{max-width:960px;margin:0 auto}
+  .latin{font-family:"Outfit","Vazirmatn",sans-serif;font-variant-numeric:tabular-nums}
+  h1,h2,h3{text-wrap:balance;margin:0}
+  a{color:var(--navy);text-decoration:none}
+
+  .mast{background:var(--surface);border:1px solid var(--border);border-radius:20px;
+    box-shadow:var(--shadow);padding:clamp(22px,3.5vw,40px);position:relative;overflow:hidden}
+  .mast::before{content:"";position:absolute;inset-inline-start:0;inset-block:0;width:5px;
+    background:linear-gradient(var(--navy),var(--gold))}
+  .brandrow{display:flex;align-items:center;gap:10px;color:var(--gold);font-weight:700;font-size:13px;margin-bottom:18px}
+  .brandrow .mark{display:grid;place-items:center;width:30px;height:30px;border-radius:8px;
+    background:var(--navy);color:#fff;font-family:"Outfit",sans-serif;font-weight:800;font-size:13px}
+  .brandrow .mark span{transform:translateY(1px)}
+  h1{font-size:clamp(26px,4.6vw,40px);font-weight:800;line-height:1.2;color:var(--ink);letter-spacing:-.01em}
+  .lede{color:var(--muted);font-size:clamp(15px,1.8vw,17px);margin-top:12px;max-width:64ch}
+  .period{display:inline-flex;align-items:center;gap:8px;margin-top:18px;padding:7px 13px;
+    border:1px solid var(--border-strong);border-radius:999px;background:var(--surface-2);
+    color:var(--ink);font-size:13px;font-weight:600}
+  .period .dot{width:7px;height:7px;border-radius:50%;background:var(--gold)}
+
+  .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+  .kpi{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow)}
+  .kpi .n{font-family:"Outfit",sans-serif;font-weight:800;font-variant-numeric:tabular-nums;
+    font-size:clamp(23px,3.2vw,31px);line-height:1;color:var(--navy)}
+  .kpi .n.gold{color:var(--gold)}
+  .kpi .l{color:var(--muted);font-size:12.5px;margin-top:7px;font-weight:500}
+
+  .exec{background:var(--surface);border:1px solid var(--border);border-radius:16px;
+    box-shadow:var(--shadow);padding:clamp(20px,3vw,30px);margin-top:16px}
+  .exec h2{font-size:19px;font-weight:700;margin-bottom:10px;color:var(--ink)}
+  .exec p{margin:0 0 12px;color:var(--muted);font-size:15px}
+  .exec ul{margin:0;padding:0;list-style:none;display:grid;gap:9px}
+  .exec li{position:relative;padding-inline-start:20px;color:var(--ink);font-size:14.5px}
+  .exec li::before{content:"";position:absolute;inset-inline-start:0;top:12px;width:7px;height:7px;
+    border-radius:2px;background:var(--gold)}
+  .exec li b{color:var(--ink);font-weight:700}
+
+  section{margin-top:34px}
+  .sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+  .sec-idx{font-family:"Outfit",sans-serif;font-weight:800;font-size:15px;color:var(--gold);
+    background:var(--fix-bg);border-radius:7px;padding:3px 9px;line-height:1.4}
+  .sec-head h2{font-size:clamp(18px,2.4vw,22px);font-weight:700;color:var(--ink)}
+  .sec-head .cnt{margin-inline-start:auto;color:var(--faint);font-size:12px;font-weight:500;white-space:nowrap}
+
+  .task{padding:16px 2px;border-bottom:1px solid var(--border)}
+  .task:last-child{border-bottom:0}
+  .task .when{color:var(--faint);font-size:12.5px;font-weight:600;padding-top:3px;line-height:1.5}
+  .task .t{font-weight:700;color:var(--ink);font-size:16px}
+  .task .d{color:var(--muted);font-size:14.5px;margin-top:5px}
+  .task .impact{margin-top:9px;display:flex;gap:8px;align-items:flex-start;
+    background:var(--win-bg);border:1px solid var(--win-bd);border-radius:9px;padding:8px 11px;
+    color:var(--win-fg);font-size:13px;font-weight:600;line-height:1.6}
+  .task .impact b{font-weight:800}
+  .tag{display:inline-block;font-family:"Outfit",sans-serif;font-size:10.5px;font-weight:700;
+    letter-spacing:.04em;text-transform:uppercase;padding:2px 7px;border-radius:5px;margin-inline-start:8px;transform:translateY(-2px)}
+  .tag.feat{background:var(--feat-bg);color:var(--feat-fg)}
+  .tag.fix{background:var(--fix-bg);color:var(--fix-fg)}
+
+  .tl{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:22px;box-shadow:var(--shadow)}
+  .tl-track{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:6px}
+  .phase{border:1px solid var(--border);border-radius:12px;padding:14px;background:var(--surface-2)}
+  .phase .bar{height:6px;border-radius:4px;margin-bottom:11px}
+  .phase h3{font-size:14px;font-weight:700;color:var(--ink)}
+  .phase .rng{font-family:"Outfit",sans-serif;font-size:11px;color:var(--faint);margin-top:2px}
+  .phase p{margin:8px 0 0;font-size:12.5px;color:var(--muted);line-height:1.65}
+
+  footer{margin-top:34px;color:var(--faint);font-size:12px;text-align:center;line-height:1.9}
+  footer .rule{height:1px;background:var(--border);margin-bottom:16px}
+
+  @media(max-width:640px){.kpis{grid-template-columns:repeat(2,1fr)}.tl-track{grid-template-columns:1fr 1fr}
+    .task{grid-template-columns:1fr;gap:5px}.task .when{padding-top:0}}
+  @media print{body{background:#fff;padding:0}.mast,.kpi,.tl,.exec{box-shadow:none}
+    section,.task,.phase{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="mast">
+    <div class="brandrow"><span class="mark"><span>R24</span></span> Residency24 · گزارش توسعه‌ی محصول</div>
+    <h1>گزارش توسعه‌ی محصول</h1>
+    <p class="lede">جمع‌بندی کارهای انجام‌شده روی وب‌سایت residency24.com، همراه با شرح مسئله، اقدام انجام‌شده و ارزش کسب‌وکاری هر مورد — گروه‌بندی‌شده در ۸ حوزه‌ی کاری.</p>
+
+    <div class="kpis">
+      <div class="kpi"><div class="n latin">58</div><div class="l">نسخه‌ی ثبت‌شده (کامیت)</div></div>
+      <div class="kpi"><div class="n latin">17</div><div class="l">قابلیت جدید (feature)</div></div>
+      <div class="kpi"><div class="n gold latin">19</div><div class="l">رفع اشکال و بهبود (fix)</div></div>
+      <div class="kpi"><div class="n latin">121</div><div class="l">فایل تغییریافته</div></div>
+      <div class="kpi"><div class="n latin">+8,462</div><div class="l">خط کد افزوده</div></div>
+      <div class="kpi"><div class="n gold latin">−2,322</div><div class="l">خط کد حذف‌شده</div></div>
+    </div>
+  </header>
+
+  <div class="exec">
+    <h2>چکیده‌ی مدیریتی</h2>
+    <p>در این دوره تمرکز روی سه محور اصلی بود: <b>جذب مشتری از کمپین‌های تبلیغاتی</b> (ساخت چند صفحه‌ی فرود چندزبانه)، <b>سلامت و بازیابی سئو</b> پس از مهاجرت از وردپرس، و <b>صداقت و یکدستی محتوا</b> در سراسر سایت و هر ۴ زبان.</p>
+    <ul>
+      <li><b>بازیابی سئو:</b> ریشه‌ی افت رتبه‌ی سایت پس از مهاجرت شناسایی و رفع شد (آدرس‌های نقشه‌ی سایت و صفحات تکراری)، که مسیر بازگشت جایگاه در گوگل را آغاز کرد.</li>
+      <li><b>صفحات فرود کمپین:</b> چند لندینگ اختصاصی و چندزبانه (املاک دبی، ویزای سبز، زندگی در امارات) با تمرکز بر نرخ تبدیل ساخته شد.</li>
+      <li><b>صداقت داده‌ها:</b> ادعاهای اغراق‌شده (مثل «۵٬۰۰۰ پرونده») به اعداد واقعی («۳۹۰») و قیمت‌های درست اصلاح شد — مهم برای اعتماد در حوزه‌ی حساس مهاجرت.</li>
+      <li><b>زیرساخت:</b> سیستم پشتیبان‌گیری خودکار اضافه شد تا هیچ داده‌ای هنگام به‌روزرسانی از دست نرود.</li>
+      <li><b>خودکارسازی:</b> یک API برای انتشار خودکار مقالات توسط هوش مصنوعی ساخته شد.</li>
+    </ul>
+  </div>
+
+  <!-- 1 -->
+  <section>
+    <div class="sec-head"><span class="sec-idx latin">01</span><h2>لندینگ‌ها و صفحات جذب مشتری (Google Ads)</h2><span class="cnt">۸ تسک</span></div>
+
+    <div class="task"><div><div class="t">لندینگ داینامیک «خرید ملک در دبی» <span class="tag feat">feat</span></div>
+      <div class="d">ساخت صفحه‌ی فرود اختصاصی برای کمپین‌های تبلیغاتی گوگل، با محتوای جداگانه در هر ۴ زبان (فارسی، انگلیسی، عربی، روسی). پیام صفحه با عبارت جست‌وجوی کاربر هماهنگ است (Message Match) تا نرخ تبدیل بالا برود.</div>
+      <div class="impact"><b>ارزش:</b> کانال مستقیم تبدیل ترافیک تبلیغات به لید فروش املاک.</div></div></div>
+
+    <div class="task"><div><div class="t">لندینگ «زندگی در امارات» (uae-life) <span class="tag feat">feat</span></div>
+      <div class="d">صفحه‌ی مستقل تبلیغاتی برای کلیدواژه‌های مرتبط با مهاجرت و زندگی در امارات، در ۴ زبان. با تنظیم noindex ساخته شد تا در نتایج ارگانیک با صفحات اصلی سایت رقابت نکند.</div></div></div>
+
+    <div class="task"><div><div class="t">ساخت کامل لندینگ «ویزای سبز» (در ۷ فاز) <span class="tag feat">feat</span></div>
+      <div class="d">طراحی و پیاده‌سازی صفحه‌ی سرویس ویزای سبز از صفر: محتوای فارسی، تصاویر، مسیر اختصاصی، و بخش‌های قیمت، مقایسه با گلدن‌ویزا، فرآیند مرحله‌به‌مرحله و سؤالات متداول — به‌همراه بهینه‌سازی کامل سئو (داده‌ی ساختاریافته JSON-LD و لینک‌سازی داخلی).</div></div></div>
+
+    <div class="task"><div><div class="t">جذب لید از طریق فرم + کارت مشاور هوش مصنوعی <span class="tag feat">feat</span></div>
+      <div class="d">مسیر تبدیل صفحه از «گفت‌وگوی چت» به «فرم لید» تغییر کرد که اطلاعات ساختارمند و قابل‌پیگیری تیم فروش می‌دهد؛ و چت‌بات بخش هیرو به دستیار هوش مصنوعی واقعی متصل شد.</div></div></div>
+
+    <div class="task"><div><div class="t">تنظیم noindex روی همه‌ی صفحات تبلیغاتی <span class="tag fix">fix</span></div>
+      <div class="d">جلوگیری از ایندکس‌شدن صفحات کمپین در گوگل، تا کیفیت سئوی سایت اصلی رقیق نشود و بودجه‌ی خزش موتور جست‌وجو هدر نرود.</div></div></div>
+
+    <div class="task"><div><div class="t">بازسازی لندینگ املاک به نسخه‌ی روسی (CRO/UX) <span class="tag feat">feat</span></div>
+      <div class="d">بازطراحی کامل صفحه بر اساس اصول بهینه‌سازی نرخ تبدیل (CRO) و تجربه‌ی کاربری، مخصوص مخاطب روس‌زبان (بازار پرتقاضای روسیه).</div></div></div>
+
+    <div class="task"><div><div class="t">افزودن ۶ پروژه‌ی واقعی املاک به لندینگ <span class="tag feat">feat</span></div>
+      <div class="d">استخراج داده و تصاویر معماری از بروشورهای رسمی سازندگان معتبر (DAMAC، Emaar، Beyond) و ساخت کارت پروژه‌های واقعی (Islands 2، District، Lavita، Palmiera، Kanyon، Soulever) — جایگزین داده‌های نمونه.</div>
+      <div class="impact"><b>ارزش:</b> اعتبار و اعتماد بیشتر با نمایش پروژه‌های واقعیِ سازندگان نام‌آشنا.</div></div></div>
+
+    <div class="task"><div><div class="t">دوزبانه‌کردن لندینگ املاک <span class="tag fix">fix</span></div>
+      <div class="d">رفع باگی که نسخه‌ی انگلیسی صفحه را به زبان روسی نمایش می‌داد. اکنون آدرس انگلیسی محتوای انگلیسی و آدرس روسی محتوای روسی دارد — دو کمپین کاملاً مجزا.</div></div></div>
+  </section>
+
+  <!-- 2 -->
+  <section>
+    <div class="sec-head"><span class="sec-idx latin">02</span><h2>بازطراحی و اورهال سئو</h2><span class="cnt">۴ تسک بزرگ</span></div>
+
+    <div class="task"><div><div class="t">اصلاح آدرس‌های canonical / نقشه‌ی سایت + ری‌دایرکت‌ها <span class="tag fix">fix</span></div>
+      <div class="d">شناسایی و رفع ریشه‌ای‌ترین مشکل سئو پس از مهاجرت از وردپرس: آدرس‌های داخل نقشه‌ی سایت به نسخه‌های «ری‌دایرکت‌شونده» اشاره می‌کردند و همین باعث سردرگمی گوگل و افت رتبه شده بود. همچنین برای ~۲۰۰ آدرس قدیمی وردپرس ری‌دایرکت ۳۰۱ اضافه شد و تصاویر مقالات با تأخیر بارگذاری (lazy-load) شدند تا سرعت موبایل بهتر شود.</div>
+      <div class="impact"><b>ارزش:</b> توقف افت رتبه و آغاز مسیر بازیابی جایگاه سایت در گوگل.</div></div></div>
+
+    <div class="task"><div><div class="t">اصلاح زبان/جهت صفحه + canonical صفحات UAE <span class="tag fix">fix</span></div>
+      <div class="d">تنظیم درستِ زبان و جهت هر صفحه (راست‌به‌چپ برای فارسی/عربی) که برای موتور جست‌وجو و دسترس‌پذیری مهم است، اصلاح آدرس canonical صفحات پول‌ساز امارات، و افزودن داده‌ی ساختاریافته و تصاویر اشتراک‌گذاری اجتماعی (OG).</div></div></div>
+
+    <div class="task"><div><div class="t">حذف صفحات خطای پنهان (soft-404) و اصلاح breadcrumb/تصاویر <span class="tag fix">fix</span></div>
+      <div class="d">بستن مسیری که برای هر آدرس اشتباهی یک صفحه‌ی سالم (۲۰۰) می‌ساخت و باعث «آلودگی خزش» می‌شد؛ رفع باگ آدرس‌دهی مسیر راهنما (breadcrumb) و رفع خطای ۴۰۴ لوگو و تصاویر اشتراک‌گذاری.</div></div></div>
+
+    <div class="task"><div><div class="t">ری‌دایرکت صفحات تکراری + اسکیمای FAQ اختصاصی <span class="tag fix">fix</span></div>
+      <div class="d">ری‌دایرکت صفحات تکراری (که با صفحات اصلی بر سر کلیدواژه رقابت می‌کردند) به نسخه‌ی اصلی و حذف آن‌ها از نقشه‌ی سایت؛ و تولید داده‌ی ساختاریافته‌ی سؤالات متداول از روی سؤالات واقعیِ هر صفحه (مطابق سیاست گوگل، به‌جای یک اسکیمای عمومیِ نامرتبط).</div></div></div>
+  </section>
+
+  <!-- 3 -->
+  <section>
+    <div class="sec-head"><span class="sec-idx latin">03</span><h2>خودکارسازی: API محتوا برای هوش مصنوعی</h2><span class="cnt">۱ تسک بزرگ</span></div>
+    <div class="task"><div><div class="t">API برنامه‌نویسیِ اختصاصی مقالات <span class="tag feat">feat</span></div>
+      <div class="d">ساخت یک رابط برنامه‌نویسی امن با احراز هویت کلیدی که به سیستم هوش مصنوعی بیرونی اجازه می‌دهد به‌صورت خودکار مقاله منتشر کند، تصویر بگذارد (با فایل یا آدرس)، لینک‌سازی داخلی و متادیتای سئو انجام دهد. دسترسی این کلید فقط محدود به «مقالات» است و به بخش‌های حساس (کاربران، لیدها) دسترسی ندارد.</div>
+      <div class="impact"><b>ارزش:</b> امکان تولید و انتشار خودکار محتوای سئو در مقیاس، بدون کار دستی.</div></div></div>
+  </section>
+
+  <!-- 4 -->
+  <section>
+    <div class="sec-head"><span class="sec-idx latin">04</span><h2>بلاگ و پنل مدیریت</h2><span class="cnt">۴ تسک</span></div>
+    <div class="task"><div><div class="t">فهرست مطالب (TOC) شماره‌دار و جمع‌شونده <span class="tag feat">feat</span></div>
+      <div class="d">افزودن ناوبری داخل مقاله برای پیمایش آسان‌تر مقالات بلند و بهبود تجربه‌ی مطالعه.</div></div></div>
+    <div class="task"><div><div class="t">نوار کناری چسبان یکپارچه (فهرست + خدمات) <span class="tag fix">fix</span></div>
+      <div class="d">تثبیت فهرست مطالب و کارت‌های خدمات به‌صورت یک واحد چسبان هنگام اسکرول، برای دسترسی دائم به لینک خدمات.</div></div></div>
+    <div class="task"><div><div class="t">تثبیت نوار ابزار ویرایشگر زیر هدر <span class="tag fix">fix</span></div>
+      <div class="d">رفع همپوشانی نوار ابزار ویرایشگر مقاله با هدر چسبان در پنل مدیریت.</div></div></div>
+    <div class="task"><div><div class="t">بازگردانی بخش دسته‌بندی‌ها <span class="tag fix">fix</span></div>
+      <div class="d">افزودن دوباره‌ی مدل دسته‌بندی بلاگ (BlogCategory) و رابط برنامه‌نویسی مربوطه که در جریان کار حذف شده بود.</div></div></div>
+  </section>
+
+  <!-- 5 -->
+  <section>
+    <div class="sec-head"><span class="sec-idx latin">05</span><h2>صحت و یکدستی محتوا و داده‌ها</h2><span class="cnt">۳ تسک</span></div>
+    <div class="task"><div><div class="t">اصلاح تعداد پرونده‌ها: ۵٬۰۰۰ ← ۳۹۰ <span class="tag fix">fix</span></div>
+      <div class="d">جایگزینی ادعای اغراق‌شده‌ی «۵٬۰۰۰ پرونده/مشتری» با عدد واقعی «۳۹۰» در سراسر سایت و هر ۴ زبان (بخش هیرو، آمار، نظرات مشتریان و متن درباره‌ی ما).</div>
+      <div class="impact"><b>ارزش:</b> صداقت و افزایش اعتماد — حیاتی در حوزه‌ی حساس مهاجرت/حقوقی که گوگل به آن سخت‌گیر است.</div></div></div>
+    <div class="task"><div><div class="t">اصلاح قیمت گلدن‌ویزا + حذف بخش آمار تکراری <span class="tag fix">fix</span></div>
+      <div class="d">قیمت گلدن‌ویزا از رقم گمراه‌کننده به «از ۲ میلیون درهم» (آستانه‌ی واقعی سرمایه‌گذاری) اصلاح شد، بخش آمار متناقض حذف و تعداد نظرات یکدست شد.</div></div></div>
+    <div class="task"><div><div class="t">یکدست‌کردن سابقه و قیمت ویزای توریستی <span class="tag fix">fix</span></div>
+      <div class="d">یکسان‌سازی سابقه‌ی شرکت به «از ۲۰۱۸» در همه‌ی صفحات و زبان‌ها (رفع تناقض ۱۲ سال / ۲۰۱۳ / ۲۰۱۸)، و اصلاح قیمت ویزای توریستی به «از ۳۵۰ درهم» مطابق صفحه‌ی جزئیات.</div></div></div>
+  </section>
+
+  <!-- 6 -->
+  <section>
+    <div class="sec-head"><span class="sec-idx latin">06</span><h2>چت‌بات هوش مصنوعی</h2><span class="cnt">۱ تسک</span></div>
+    <div class="task"><div><div class="t">چندزبانه‌کردن پیام‌های خطا + مدیریت اتمام اعتبار <span class="tag fix">fix</span></div>
+      <div class="d">پیام‌های خطای چت‌بات اکنون به زبان همان صفحه نمایش داده می‌شوند (به‌جای فارسیِ ثابت)، و حالت «اتمام اعتبار سرویس هوش مصنوعی» به‌درستی مدیریت شده و کاربر را به واتساپ هدایت می‌کند.</div></div></div>
+  </section>
+
+  <!-- 7 -->
+  <section>
+    <div class="sec-head"><span class="sec-idx latin">07</span><h2>زیرساخت، استقرار و کارایی</h2><span class="cnt">۴ تسک</span></div>
+    <div class="task"><div><div class="t">رفع خطای ۴۰۴ فایل‌های استاتیک پس از استقرار <span class="tag fix">fix</span></div>
+      <div class="d">حل مشکلی که پس از هر به‌روزرسانی، برخی فایل‌های صفحه (اسکریپت/استایل) بارگذاری نمی‌شدند — در لایه‌ی سرور nginx.</div></div></div>
+    <div class="task"><div><div class="t">سیستم پشتیبان‌گیری/بازیابی + استقرار امن دیتابیس <span class="tag feat">feat</span></div>
+      <div class="d">افزودن پشتیبان‌گیری خودکار از دیتابیس و تصاویر پیش از هر استقرار، و تغییر روش به‌روزرسانی دیتابیس به روش امن (migrate deploy) که هرگز داده‌ای را حذف نمی‌کند.</div>
+      <div class="impact"><b>ارزش:</b> حذف ریسک از دست رفتن داده هنگام به‌روزرسانی سایت.</div></div></div>
+    <div class="task"><div><div class="t">حذف ارسال بلوک ترجمه‌ی ۴ زبانه به مرورگر <span class="tag feat">feat</span></div>
+      <div class="d">جلوگیری از ارسال کل داده‌ی ترجمه‌ی چهار زبان به مرورگر هر بازدیدکننده — کاهش حجم دانلود و افزایش سرعت بارگذاری.</div></div></div>
+    <div class="task"><div><div class="t">هدر/فوتر بدون لینک در لندینگ + بهبود کارایی <span class="tag fix">fix</span></div>
+      <div class="d">حذف لینک‌های حواس‌پرت‌کن از هدر و فوتر صفحات کمپین تا کاربر روی اقدام اصلی (فرم) متمرکز بماند.</div></div></div>
+  </section>
+
+  <!-- 8 -->
+  <section>
+    <div class="sec-head"><span class="sec-idx latin">08</span><h2>رسانه و اعتبارسازی (درباره‌ما / تماس)</h2><span class="cnt">۴ تسک</span></div>
+    <div class="task"><div><div class="t">صفحه‌ی تماس با فرم، نقشه و کانال‌های ارتباطی <span class="tag feat">feat</span></div>
+      <div class="d">ساخت صفحه‌ی تماس کامل با فرم تماس، نقشه‌ی موقعیت و راه‌های ارتباطی.</div></div></div>
+    <div class="task"><div><div class="t">افزودن رسانه‌ی اعتبارساز به صفحات درباره‌ما/تماس <span class="tag feat">feat</span></div>
+      <div class="d">افزودن ویدیوی معرفی و عکس‌های واقعی دفتر و تیم برای افزایش اعتماد بازدیدکننده.</div></div></div>
+    <div class="task"><div><div class="t">پخش‌کننده‌ی مقاوم ویدیو (کلیک برای پخش) <span class="tag fix">fix</span></div>
+      <div class="d">پیاده‌سازی پخش‌کننده‌ی سبک با جایگزین یوتیوب و رفع خطای نمایش ویدیو.</div></div></div>
+    <div class="task"><div><div class="t">اتصال عکس‌های دفتر و تغییر مدیا به حالت پرتره <span class="tag fix">fix</span></div>
+      <div class="d">جایگزینی تصاویر نمونه با عکس‌های واقعیِ آپلودشده‌ی دفتر و تیم.</div></div></div>
+  </section>
+
+  <footer>
+    <div class="rule"></div>
+    منبع: تاریخچه‌ی نسخه‌ی مخزن کد (Git)<br/>
+    residency24.com — گزارش توسعه‌ی محصول
+  </footer>
+
+</div>
+</body>
+</html>

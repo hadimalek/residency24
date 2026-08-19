@@ -138,7 +138,7 @@ export async function listHomePagePreviewArticles(
         slug: a.slug,
         title: t.title,
         excerpt: t.excerpt ?? "",
-        href: `/${locale}/blog/${a.slug}/`,
+        href: `/${locale}/blog/${a.slug}`,
         img,
         alt: t.title,
         tag: a.category ?? "",

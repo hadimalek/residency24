@@ -85,8 +85,8 @@ function buildSchemas(lang: Lang, bp: any) {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: homeLabel[lang], item: `${langPrefix}/` },
-      { "@type": "ListItem", position: 2, name: bp.breadcrumb_uae, item: `${langPrefix}/uae/` },
+      { "@type": "ListItem", position: 1, name: homeLabel[lang], item: `${langPrefix}` },
+      { "@type": "ListItem", position: 2, name: bp.breadcrumb_uae, item: `${langPrefix}/uae` },
       { "@type": "ListItem", position: 3, name: bp.breadcrumb_property, item: pageUrl },
     ],
   };
@@ -145,14 +145,14 @@ export default function BuyPropertyClient({ h1 }: { h1: string }) {
   }));
 
   const crossSellItems: CrossSellItem[] = [
-    { title: s.cs_golden_visa, description: s.cs_golden_via_prop_desc, icon: Trophy, href: `/${lang}/uae/golden-visa/`, isHighlighted: true, badge: s.cs_badge_unlock },
-    { title: s.cs_company_reg, description: s.cs_company_reg_desc, icon: Building2, href: `/${lang}/uae/company-registration/` },
-    { title: s.cs_oman_prop, description: s.cs_oman_prop_desc, icon: Globe, href: `/${lang}/oman/buy-property/` },
+    { title: s.cs_golden_visa, description: s.cs_golden_via_prop_desc, icon: Trophy, href: `/${lang}/uae/golden-visa`, isHighlighted: true, badge: s.cs_badge_unlock },
+    { title: s.cs_company_reg, description: s.cs_company_reg_desc, icon: Building2, href: `/${lang}/uae/company-registration` },
+    { title: s.cs_oman_prop, description: s.cs_oman_prop_desc, icon: Globe, href: `/${lang}/oman/buy-property` },
   ];
 
   const breadcrumbItems = [
-    { label: "Residency24", href: `/${lang}/` },
-    { label: bp.breadcrumb_uae, href: `/${lang}/uae/` },
+    { label: "Residency24", href: `/${lang}` },
+    { label: bp.breadcrumb_uae, href: `/${lang}/uae` },
     { label: bp.breadcrumb_property },
   ];
 

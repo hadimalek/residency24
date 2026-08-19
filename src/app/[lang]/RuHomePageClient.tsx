@@ -46,8 +46,8 @@ const WA = "https://wa.me/971562009131?text=Здравствуйте,+нужна
 const CONSULT = "#consultation-form";
 const ELIGIBILITY = CONSULT;
 const COST = CONSULT;
-const CONTACT = "/ru/contact/";
-const COMPARE_UAE_OMAN = "/ru/compare/uae-vs-oman-vs-turkey/";
+const CONTACT = "/ru/contact";
+const COMPARE_UAE_OMAN = "/ru/compare/uae-vs-oman-vs-turkey";
 const IMG = "/images/ru";
 
 // AI advisor shown in the hero — opens the chat modal.
@@ -78,7 +78,7 @@ const TRUST_BAR = [
 
 const QUICK_ROUTES: CardLink[] = [
   { title: "Открыть компанию", desc: "Регистрация в ОАЭ или Омане — структура, лицензия, сопровождение.", href: "/ru/uae/company-registration", icon: Building2 },
-  { title: "Получить резидентство", desc: "Резидентская виза через компанию, инвестиции или другие маршруты.", href: "/ru/uae/golden-visa/", icon: ScrollText },
+  { title: "Получить резидентство", desc: "Резидентская виза через компанию, инвестиции или другие маршруты.", href: "/ru/uae/golden-visa", icon: ScrollText },
   { title: "Купить недвижимость", desc: "Объекты в Дубае и Омане — для жизни, аренды или резидентства.", href: "/ru/uae/buy-property", icon: Home },
   { title: "Перевезти семью", desc: "Семейные визы для супруги/супруга и детей с подготовкой документов.", href: CONSULT, icon: Users },
   { title: "Открыть банковский счёт", desc: "Корпоративный счёт после оценки compliance.", href: CONTACT, icon: CreditCard },
@@ -87,18 +87,18 @@ const QUICK_ROUTES: CardLink[] = [
 
 const UAE_SERVICES: CardLink[] = [
   { title: "Открытие компании в ОАЭ", desc: "Free zone или mainland — подбор структуры под цель.", href: "/ru/uae/company-registration", icon: Building2 },
-  { title: "Резидентская виза ОАЭ", desc: "Маршруты через компанию, работу или инвестиции.", href: "/ru/uae/golden-visa/", icon: ScrollText },
+  { title: "Резидентская виза ОАЭ", desc: "Маршруты через компанию, работу или инвестиции.", href: "/ru/uae/golden-visa", icon: ScrollText },
   { title: "Недвижимость в Дубае", desc: "Готовые и off-plan объекты с прозрачным сопровождением.", href: "/ru/uae/buy-property", icon: Home },
-  { title: "Golden Visa ОАЭ", desc: "Долгосрочная виза для инвесторов и предпринимателей.", href: "/ru/uae/golden-visa/", icon: Trophy, badge: "Популярно" },
-  { title: "Туристическая виза ОАЭ", desc: "Для бизнес-визитов и подготовки к релокации.", href: "/ru/uae/tourist-visa/", icon: Plane },
+  { title: "Golden Visa ОАЭ", desc: "Долгосрочная виза для инвесторов и предпринимателей.", href: "/ru/uae/golden-visa", icon: Trophy, badge: "Популярно" },
+  { title: "Туристическая виза ОАЭ", desc: "Для бизнес-визитов и подготовки к релокации.", href: "/ru/uae/tourist-visa", icon: Plane },
   { title: "Семейная виза ОАЭ", desc: "Резидентство для супруги/супруга и детей.", href: CONSULT, icon: Users },
 ];
 
 const OMAN_SERVICES: CardLink[] = [
-  { title: "Открытие компании в Омане", desc: "Подбор формы и юрисдикции под бизнес-задачу.", href: "/ru/oman/company-registration/", icon: Building2 },
-  { title: "Резидентство в Омане", desc: "Маршруты для предпринимателей и инвесторов.", href: "/ru/oman/residency-visa/", icon: ScrollText },
-  { title: "Недвижимость в Омане", desc: "Объекты в зонах, открытых для иностранцев.", href: "/ru/oman/buy-property/", icon: Home },
-  { title: "Туристическая виза", desc: "eVisa для визита и оценки рынка.", href: "/ru/oman/tourist-visa/", icon: Landmark },
+  { title: "Открытие компании в Омане", desc: "Подбор формы и юрисдикции под бизнес-задачу.", href: "/ru/oman/company-registration", icon: Building2 },
+  { title: "Резидентство в Омане", desc: "Маршруты для предпринимателей и инвесторов.", href: "/ru/oman/residency-visa", icon: ScrollText },
+  { title: "Недвижимость в Омане", desc: "Объекты в зонах, открытых для иностранцев.", href: "/ru/oman/buy-property", icon: Home },
+  { title: "Туристическая виза", desc: "eVisa для визита и оценки рынка.", href: "/ru/oman/tourist-visa", icon: Landmark },
 ];
 
 const COMPARE_ROWS = [
@@ -489,7 +489,7 @@ export default function RuHomePageClient({ h1, blogPosts }: { h1: string; blogPo
                     <li key={x} className="flex items-center gap-2"><Check className="w-4 h-4 text-gold-dk" /> {x}</li>
                   ))}
                 </ul>
-                <a href="/ru/uae/" className="mt-6 inline-flex items-center justify-center gap-2 bg-navy text-white font-semibold px-5 py-3 rounded-xl hover:bg-navy-lt transition-colors">
+                <a href="/ru/uae" className="mt-6 inline-flex items-center justify-center gap-2 bg-navy text-white font-semibold px-5 py-3 rounded-xl hover:bg-navy-lt transition-colors">
                   Смотреть ОАЭ <ArrowRight className="w-4 h-4" />
                 </a>
               </div>
@@ -510,7 +510,7 @@ export default function RuHomePageClient({ h1, blogPosts }: { h1: string; blogPo
                     <li key={x} className="flex items-center gap-2"><Check className="w-4 h-4 text-gold-dk" /> {x}</li>
                   ))}
                 </ul>
-                <a href="/ru/oman/" className="mt-6 inline-flex items-center justify-center gap-2 bg-navy text-white font-semibold px-5 py-3 rounded-xl hover:bg-navy-lt transition-colors">
+                <a href="/ru/oman" className="mt-6 inline-flex items-center justify-center gap-2 bg-navy text-white font-semibold px-5 py-3 rounded-xl hover:bg-navy-lt transition-colors">
                   Смотреть Оман <ArrowRight className="w-4 h-4" />
                 </a>
               </div>

@@ -5,10 +5,10 @@ import { Home, Building2, MapPin, BarChart3 } from "lucide-react";
 import { motion } from "framer-motion";
 
 const CARDS = [
-  { icon: Home, titleKey: "cross_property_title", descKey: "cross_property_desc", href: "/uae/buy-property/", featured: true, gaKey: "buy_property" },
-  { icon: Building2, titleKey: "cross_company_title", descKey: "cross_company_desc", href: "/uae/company-registration/", featured: false, gaKey: "company_reg" },
-  { icon: MapPin, titleKey: "cross_oman_title", descKey: "cross_oman_desc", href: "/oman/", featured: false, gaKey: "oman" },
-  { icon: BarChart3, titleKey: "cross_compare_title", descKey: "cross_compare_desc", href: "/compare/uae-vs-oman-vs-turkey/", featured: false, gaKey: "compare" },
+  { icon: Home, titleKey: "cross_property_title", descKey: "cross_property_desc", href: "/uae/buy-property", featured: true, gaKey: "buy_property" },
+  { icon: Building2, titleKey: "cross_company_title", descKey: "cross_company_desc", href: "/uae/company-registration", featured: false, gaKey: "company_reg" },
+  { icon: MapPin, titleKey: "cross_oman_title", descKey: "cross_oman_desc", href: "/oman", featured: false, gaKey: "oman" },
+  { icon: BarChart3, titleKey: "cross_compare_title", descKey: "cross_compare_desc", href: "/compare/uae-vs-oman-vs-turkey", featured: false, gaKey: "compare" },
 ];
 
 export default function GoldenVisaCrossSell() {

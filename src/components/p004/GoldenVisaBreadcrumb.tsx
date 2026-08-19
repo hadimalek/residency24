@@ -8,8 +8,8 @@ export default function GoldenVisaBreadcrumb() {
   const Chevron = isRTL ? ChevronLeft : ChevronRight;
 
   const crumbs = [
-    { label: lang === "fa" ? "خانه" : lang === "ar" ? "الرئيسية" : lang === "ru" ? "Главная" : "Home", href: `/${lang}/` },
-    { label: t.p004.breadcrumb_uae, href: `/${lang}/uae/` },
+    { label: lang === "fa" ? "خانه" : lang === "ar" ? "الرئيسية" : lang === "ru" ? "Главная" : "Home", href: `/${lang}` },
+    { label: t.p004.breadcrumb_uae, href: `/${lang}/uae` },
     { label: t.p004.breadcrumb_gv },
   ];
 

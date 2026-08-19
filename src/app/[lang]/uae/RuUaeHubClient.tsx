@@ -50,19 +50,19 @@ const WA = "https://wa.me/971562009131?text=Здравствуйте,+нужна
 const ELIGIBILITY = "#consultation-form";
 const COST = "#consultation-form";
 const DOCS = "#consultation-form";
-const COMPARE_UAE_OMAN = "/ru/compare/uae-vs-oman-vs-turkey/";
+const COMPARE_UAE_OMAN = "/ru/compare/uae-vs-oman-vs-turkey";
 const COMPARE_COMPANY_PROPERTY = "#consultation-form";
-const CONTACT = "/ru/contact/";
-const BLOG = "/ru/blog/";
+const CONTACT = "/ru/contact";
+const BLOG = "/ru/blog";
 
 const UAE_REGISTER = "/ru/uae/company-registration";
-const UAE_RESIDENCY = "/ru/uae/golden-visa/";
+const UAE_RESIDENCY = "/ru/uae/golden-visa";
 const UAE_PROPERTY = "/ru/uae/buy-property";
-const UAE_GOLDEN = "/ru/uae/golden-visa/";
-const UAE_GREEN = "/ru/uae/green-visa/";
-const UAE_TOURIST = "/ru/uae/tourist-visa/";
+const UAE_GOLDEN = "/ru/uae/golden-visa";
+const UAE_GREEN = "/ru/uae/green-visa";
+const UAE_TOURIST = "/ru/uae/tourist-visa";
 const UAE_FAMILY = "#consultation-form";
-const UAE_VISA = "/ru/uae/tourist-visa/";
+const UAE_VISA = "/ru/uae/tourist-visa";
 
 type CardLink = { title: string; desc: string; href: string; icon: any; badge?: string };
 
@@ -830,9 +830,9 @@ export default function RuUaeHubClient({ h1 }: { h1: string }) {
           </div>
 
           <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
-            <a href="/ru/" className="text-white/70 hover:text-gold transition-colors inline-flex items-center gap-1"><Phone className="w-3.5 h-3.5" /> Главная</a>
+            <a href="/ru" className="text-white/70 hover:text-gold transition-colors inline-flex items-center gap-1"><Phone className="w-3.5 h-3.5" /> Главная</a>
             <a href={CONTACT} className="text-white/70 hover:text-gold transition-colors inline-flex items-center gap-1"><MessageCircle className="w-3.5 h-3.5" /> Контакты</a>
-            <a href="/ru/oman/" className="text-white/70 hover:text-gold transition-colors inline-flex items-center gap-1"><Globe2 className="w-3.5 h-3.5" /> Оман</a>
+            <a href="/ru/oman" className="text-white/70 hover:text-gold transition-colors inline-flex items-center gap-1"><Globe2 className="w-3.5 h-3.5" /> Оман</a>
             <a href={BLOG} className="text-white/70 hover:text-gold transition-colors inline-flex items-center gap-1"><BookOpen className="w-3.5 h-3.5" /> Блог</a>
           </div>
         </div>

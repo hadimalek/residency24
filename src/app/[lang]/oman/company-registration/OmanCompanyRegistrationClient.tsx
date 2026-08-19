@@ -476,7 +476,7 @@ export default function OmanCompanyRegistrationClient() {
   const { lang } = useLanguage();
   const c = CONTENT[lang];
   const homeHref = lang === "en" ? "/" : `/${lang}/`;
-  const omanHref = lang === "en" ? "/oman/" : `/${lang}/oman/`;
+  const omanHref = lang === "en" ? "/oman" : `/${lang}/oman/`;
   const linkPath = (path: string) => (lang === "en" ? `/${path}` : `/${lang}/${path}`);
 
   const breadcrumbItems = [

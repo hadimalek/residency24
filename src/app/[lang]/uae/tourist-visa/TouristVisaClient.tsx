@@ -37,8 +37,8 @@ export default function TouristVisaClient() {
 
   // S01 — Breadcrumb
   const breadcrumbItems = [
-    { label: "Residency24", href: `/${lang}/` },
-    { label: p.breadcrumb_uae || "UAE", href: `/${lang}/uae/` },
+    { label: "Residency24", href: `/${lang}` },
+    { label: p.breadcrumb_uae || "UAE", href: `/${lang}/uae` },
     { label: p.breadcrumb_tv || p.h1 },
   ];
 
@@ -226,7 +226,7 @@ export default function TouristVisaClient() {
       title: s.cs_golden_visa,
       description: s.cs_golden_visa_desc,
       icon: Trophy,
-      href: `/${lang}/uae/golden-visa/`,
+      href: `/${lang}/uae/golden-visa`,
       isHighlighted: true,
       badge: s.cs_badge_popular,
     },
@@ -234,19 +234,19 @@ export default function TouristVisaClient() {
       title: s.cs_company_reg,
       description: s.cs_company_reg_desc,
       icon: Building2,
-      href: `/${lang}/uae/company-registration/`,
+      href: `/${lang}/uae/company-registration`,
     },
     {
       title: s.cs_property,
       description: s.cs_property_desc,
       icon: Building,
-      href: `/${lang}/uae/buy-property/`,
+      href: `/${lang}/uae/buy-property`,
     },
     {
       title: s.cs_oman_visa,
       description: s.cs_oman_visa_desc,
       icon: Globe,
-      href: `/${lang}/visa/oman/`,
+      href: `/${lang}/visa/oman`,
     },
   ];
 

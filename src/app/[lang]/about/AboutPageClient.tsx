@@ -17,10 +17,10 @@ export default function AboutPageClient() {
   const a = t.about;
 
   const crossSellItems: CrossSellItem[] = [
-    { title: a.cross_gv_title, description: a.cross_gv_desc, icon: Shield, href: `/${lang}/uae/golden-visa/`, isHighlighted: true },
-    { title: a.cross_company_title, description: a.cross_company_desc, icon: Building2, href: `/${lang}/uae/company-registration/` },
-    { title: a.cross_property_title, description: a.cross_property_desc, icon: Home, href: `/${lang}/uae/buy-property/` },
-    { title: a.cross_tourist_title, description: a.cross_tourist_desc, icon: Plane, href: `/${lang}/uae/tourist-visa/` },
+    { title: a.cross_gv_title, description: a.cross_gv_desc, icon: Shield, href: `/${lang}/uae/golden-visa`, isHighlighted: true },
+    { title: a.cross_company_title, description: a.cross_company_desc, icon: Building2, href: `/${lang}/uae/company-registration` },
+    { title: a.cross_property_title, description: a.cross_property_desc, icon: Home, href: `/${lang}/uae/buy-property` },
+    { title: a.cross_tourist_title, description: a.cross_tourist_desc, icon: Plane, href: `/${lang}/uae/tourist-visa` },
   ];
 
   return (
@@ -30,7 +30,7 @@ export default function AboutPageClient() {
       {/* Breadcrumb */}
       <div className="bg-white border-b border-border" style={{ direction: isRTL ? "rtl" : "ltr" }}>
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center gap-2 text-sm text-muted-foreground">
-          <a href={`/${lang}/`} className="hover:text-navy transition-colors">{a.breadcrumb_home}</a>
+          <a href={`/${lang}`} className="hover:text-navy transition-colors">{a.breadcrumb_home}</a>
           <ChevronRight size={14} className={isRTL ? "rotate-180" : ""} />
           <span className="text-navy font-medium">{a.hero.h1.split("—")[0].trim()}</span>
         </div>
@@ -68,7 +68,7 @@ export default function AboutPageClient() {
           <p className="text-[15px] text-muted-foreground leading-relaxed">
             {a.story.p2.split(a.story.link_text)[0]}
             <a
-              href={`/${lang}/uae/company-registration/`}
+              href={`/${lang}/uae/company-registration`}
               className="text-navy font-medium underline hover:text-gold transition-colors"
             >
               {a.story.link_text}
@@ -237,7 +237,7 @@ export default function AboutPageClient() {
                     </a>
                     {i === 0 && a.offices.oman_services_label && (
                       <a
-                        href={`/${lang}/oman/`}
+                        href={`/${lang}/oman`}
                         className="inline-flex items-center gap-1 text-sm font-medium text-navy bg-navy/5 hover:bg-navy/10 rounded-lg px-3 py-1.5 transition-colors"
                       >
                         {a.offices.oman_services_label}
@@ -336,7 +336,7 @@ export default function AboutPageClient() {
           <h2 className="text-[36px] font-bold text-white mb-4">{a.cta.h2}</h2>
           <p className="text-[16px] text-white/80 mb-8">{a.cta.p}</p>
           <a
-            href={`/${lang}/contact/`}
+            href={`/${lang}/contact`}
             className="inline-block bg-gold text-navy font-semibold rounded-xl px-8 py-3.5 text-base hover:opacity-90 transition-opacity"
           >
             {a.cta.btn}

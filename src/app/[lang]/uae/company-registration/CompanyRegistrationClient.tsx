@@ -36,8 +36,8 @@ export default function CompanyRegistrationClient({ lang }: { lang: Lang }) {
   }));
 
   const breadcrumbItems = [
-    { label: "Residency24", href: `/${lang}/` },
-    { label: cr.breadcrumb_uae || "UAE", href: `/${lang}/uae/` },
+    { label: "Residency24", href: `/${lang}` },
+    { label: cr.breadcrumb_uae || "UAE", href: `/${lang}/uae` },
     { label: cr.breadcrumb_cr || cr.seo_title?.split("|")[0] || "Company Registration" },
   ];
 
@@ -57,9 +57,9 @@ export default function CompanyRegistrationClient({ lang }: { lang: Lang }) {
   ];
 
   const crossSellItems: CrossSellItem[] = [
-    { title: s.cs_golden_visa, description: s.cs_golden_visa_comp_desc, icon: Trophy, href: `/${lang}/uae/golden-visa/`, isHighlighted: true },
-    { title: s.cs_property, description: s.cs_property_comp_desc, icon: Building, href: `/${lang}/uae/buy-property/` },
-    { title: s.cs_oman_comp, description: s.cs_oman_comp_desc, icon: Globe, href: `/${lang}/oman/company-registration/` },
+    { title: s.cs_golden_visa, description: s.cs_golden_visa_comp_desc, icon: Trophy, href: `/${lang}/uae/golden-visa`, isHighlighted: true },
+    { title: s.cs_property, description: s.cs_property_comp_desc, icon: Building, href: `/${lang}/uae/buy-property` },
+    { title: s.cs_oman_comp, description: s.cs_oman_comp_desc, icon: Globe, href: `/${lang}/oman/company-registration` },
   ];
 
   return (
@@ -156,9 +156,9 @@ export default function CompanyRegistrationClient({ lang }: { lang: Lang }) {
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Home", item: `https://residency24.com/${lang}/` },
-              { "@type": "ListItem", position: 2, name: "UAE", item: `https://residency24.com/${lang}/uae/` },
-              { "@type": "ListItem", position: 3, name: "Company Registration", item: `https://residency24.com/${lang}/uae/company-registration/` },
+              { "@type": "ListItem", position: 1, name: "Home", item: lang === "en" ? `https://residency24.com` : `https://residency24.com/${lang}` },
+              { "@type": "ListItem", position: 2, name: "UAE", item: lang === "en" ? `https://residency24.com/uae` : `https://residency24.com/${lang}/uae` },
+              { "@type": "ListItem", position: 3, name: "Company Registration", item: lang === "en" ? `https://residency24.com/uae/company-registration` : `https://residency24.com/${lang}/uae/company-registration` },
             ],
           }),
         }}

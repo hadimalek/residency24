@@ -31,7 +31,7 @@ export default function CrossSell() {
             </h3>
             <p className="text-white/80 text-sm mb-6">{cr.cross_gv_desc}</p>
             <Link
-              href={`/${lang}/uae/golden-visa/`}
+              href={`/${lang}/uae/golden-visa`}
               className="inline-block border-2 border-gold text-gold font-bold px-5 py-2.5 rounded-xl hover:bg-gold hover:text-navy transition"
             >
               {cr.cross_gv_cta}
@@ -48,7 +48,7 @@ export default function CrossSell() {
               {cr.cross_prop_desc}
             </p>
             <Link
-              href={`/${lang}/uae/buy-property/`}
+              href={`/${lang}/uae/buy-property`}
               className="inline-block bg-navy text-gold font-bold px-5 py-2.5 rounded-xl hover:bg-navy-lt transition"
             >
               {cr.cross_prop_cta}

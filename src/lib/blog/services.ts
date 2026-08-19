@@ -15,39 +15,39 @@ export interface ServiceCard {
 }
 
 const FA_SERVICES: ServiceCard[] = [
-  { id: "uae-company",    title: "ثبت شرکت در دبی",     subtitle: "۵ روزه و غیرحضوری",        href: "/fa/uae/company-registration/" },
-  { id: "uae-property",   title: "خرید ملک در امارات",  subtitle: "اقساط بدون بهره!",          href: "/fa/uae/buy-property/" },
-  { id: "uae-residency",  title: "اقامت امارات",         subtitle: "۱ تا ۱۰ ساله!",             href: "/fa/uae/golden-visa/" },
-  { id: "oman-company",   title: "ثبت شرکت در عمان",     subtitle: "فرصت حضور در بازار بین‌الملل", href: "/fa/oman/company-registration/" },
-  { id: "oman-property",  title: "خرید ملک در عمان",     subtitle: "مالکیت ۱۰۰٪",                href: "/fa/oman/buy-property/" },
-  { id: "oman-residency", title: "اقامت عمان",            subtitle: "زندگی آرام و امن",          href: "/fa/oman/residency-visa/" },
+  { id: "uae-company",    title: "ثبت شرکت در دبی",     subtitle: "۵ روزه و غیرحضوری",        href: "/fa/uae/company-registration" },
+  { id: "uae-property",   title: "خرید ملک در امارات",  subtitle: "اقساط بدون بهره!",          href: "/fa/uae/buy-property" },
+  { id: "uae-residency",  title: "اقامت امارات",         subtitle: "۱ تا ۱۰ ساله!",             href: "/fa/uae/golden-visa" },
+  { id: "oman-company",   title: "ثبت شرکت در عمان",     subtitle: "فرصت حضور در بازار بین‌الملل", href: "/fa/oman/company-registration" },
+  { id: "oman-property",  title: "خرید ملک در عمان",     subtitle: "مالکیت ۱۰۰٪",                href: "/fa/oman/buy-property" },
+  { id: "oman-residency", title: "اقامت عمان",            subtitle: "زندگی آرام و امن",          href: "/fa/oman/residency-visa" },
 ];
 
 const EN_SERVICES: ServiceCard[] = [
-  { id: "uae-company",    title: "UAE Company Setup",      subtitle: "5 days, fully remote",      href: "/uae/company-registration/" },
-  { id: "uae-property",   title: "Property in UAE",         subtitle: "Interest-free instalments", href: "/uae/buy-property/" },
-  { id: "uae-residency",  title: "UAE Residency",           subtitle: "2 to 10 years",             href: "/uae/golden-visa/" },
-  { id: "oman-company",   title: "Oman Company Setup",      subtitle: "Access to GCC markets",     href: "/oman/company-registration/" },
-  { id: "oman-property",  title: "Property in Oman",        subtitle: "100% ownership",            href: "/oman/buy-property/" },
-  { id: "oman-residency", title: "Oman Residency",          subtitle: "Calm, family-friendly",     href: "/oman/residency-visa/" },
+  { id: "uae-company",    title: "UAE Company Setup",      subtitle: "5 days, fully remote",      href: "/uae/company-registration" },
+  { id: "uae-property",   title: "Property in UAE",         subtitle: "Interest-free instalments", href: "/uae/buy-property" },
+  { id: "uae-residency",  title: "UAE Residency",           subtitle: "2 to 10 years",             href: "/uae/golden-visa" },
+  { id: "oman-company",   title: "Oman Company Setup",      subtitle: "Access to GCC markets",     href: "/oman/company-registration" },
+  { id: "oman-property",  title: "Property in Oman",        subtitle: "100% ownership",            href: "/oman/buy-property" },
+  { id: "oman-residency", title: "Oman Residency",          subtitle: "Calm, family-friendly",     href: "/oman/residency-visa" },
 ];
 
 const RU_SERVICES: ServiceCard[] = [
-  { id: "uae-company",    title: "Регистрация компании в Дубае", subtitle: "5 дней, удалённо",           href: "/ru/uae/company-registration/" },
-  { id: "uae-property",   title: "Недвижимость в ОАЭ",            subtitle: "Беспроцентная рассрочка",     href: "/ru/uae/buy-property/" },
-  { id: "uae-residency",  title: "Резидентство ОАЭ",               subtitle: "От 2 до 10 лет",              href: "/ru/uae/golden-visa/" },
-  { id: "oman-company",   title: "Регистрация компании в Омане",   subtitle: "Выход на рынки Залива",       href: "/ru/oman/company-registration/" },
-  { id: "oman-property",  title: "Недвижимость в Омане",           subtitle: "100 % собственность",         href: "/ru/oman/buy-property/" },
-  { id: "oman-residency", title: "Резидентство Омана",              subtitle: "Спокойная жизнь",             href: "/ru/oman/residency-visa/" },
+  { id: "uae-company",    title: "Регистрация компании в Дубае", subtitle: "5 дней, удалённо",           href: "/ru/uae/company-registration" },
+  { id: "uae-property",   title: "Недвижимость в ОАЭ",            subtitle: "Беспроцентная рассрочка",     href: "/ru/uae/buy-property" },
+  { id: "uae-residency",  title: "Резидентство ОАЭ",               subtitle: "От 2 до 10 лет",              href: "/ru/uae/golden-visa" },
+  { id: "oman-company",   title: "Регистрация компании в Омане",   subtitle: "Выход на рынки Залива",       href: "/ru/oman/company-registration" },
+  { id: "oman-property",  title: "Недвижимость в Омане",           subtitle: "100 % собственность",         href: "/ru/oman/buy-property" },
+  { id: "oman-residency", title: "Резидентство Омана",              subtitle: "Спокойная жизнь",             href: "/ru/oman/residency-visa" },
 ];
 
 const AR_SERVICES: ServiceCard[] = [
-  { id: "uae-company",    title: "تأسيس شركة في دبي",     subtitle: "خلال ٥ أيام عن بُعد",         href: "/ar/uae/company-registration/" },
-  { id: "uae-property",   title: "شراء عقار في الإمارات", subtitle: "تقسيط بدون فوائد",            href: "/ar/uae/buy-property/" },
-  { id: "uae-residency",  title: "إقامة الإمارات",          subtitle: "من سنتين إلى عشر سنوات",     href: "/ar/uae/golden-visa/" },
-  { id: "oman-company",   title: "تأسيس شركة في عُمان",   subtitle: "بوابة لأسواق الخليج",         href: "/ar/oman/company-registration/" },
-  { id: "oman-property",  title: "شراء عقار في عُمان",     subtitle: "ملكية 100٪",                  href: "/ar/oman/buy-property/" },
-  { id: "oman-residency", title: "إقامة عُمان",              subtitle: "حياة هادئة وآمنة",            href: "/ar/oman/residency-visa/" },
+  { id: "uae-company",    title: "تأسيس شركة في دبي",     subtitle: "خلال ٥ أيام عن بُعد",         href: "/ar/uae/company-registration" },
+  { id: "uae-property",   title: "شراء عقار في الإمارات", subtitle: "تقسيط بدون فوائد",            href: "/ar/uae/buy-property" },
+  { id: "uae-residency",  title: "إقامة الإمارات",          subtitle: "من سنتين إلى عشر سنوات",     href: "/ar/uae/golden-visa" },
+  { id: "oman-company",   title: "تأسيس شركة في عُمان",   subtitle: "بوابة لأسواق الخليج",         href: "/ar/oman/company-registration" },
+  { id: "oman-property",  title: "شراء عقار في عُمان",     subtitle: "ملكية 100٪",                  href: "/ar/oman/buy-property" },
+  { id: "oman-residency", title: "إقامة عُمان",              subtitle: "حياة هادئة وآمنة",            href: "/ar/oman/residency-visa" },
 ];
 
 const ALL_SERVICES: Record<string, ServiceCard[]> = {
