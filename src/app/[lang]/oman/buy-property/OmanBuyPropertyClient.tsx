@@ -498,9 +498,13 @@ const CONTENT: Record<Lang, Content> = {
 export default function OmanBuyPropertyClient() {
   const { lang } = useLanguage();
   const c = CONTENT[lang];
-  const homeHref = lang === "en" ? "/" : `/${lang}/`;
-  const omanHref = lang === "en" ? "/oman" : `/${lang}/oman/`;
-  const linkPath = (path: string) => (lang === "en" ? `/${path}` : `/${lang}/${path}`);
+  const homeHref = lang === "en" ? "/" : `/${lang}`;
+  const omanHref = lang === "en" ? "/oman" : `/${lang}/oman`;
+  const linkPath = (path: string) => {
+    const p = path.replace(/^\/+/, "").replace(/\/+$/, "");
+    if (lang === "en") return p ? `/${p}` : "/";
+    return p ? `/${lang}/${p}` : `/${lang}`;
+  };
 
   const breadcrumbItems = [
     { label: "Residency24", href: homeHref },

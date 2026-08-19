@@ -20,7 +20,11 @@ const Navbar = () => {
   const services = useHoverIntent();
   const countries = useHoverIntent();
   // English is served at root (no /en prefix). Other locales use /<lang>/.
-  const lp = (path: string) => (lang === "en" ? `/${path}` : `/${lang}/${path}`);
+  const lp = (path: string) => {
+    const p = path.replace(/^\/+/, "").replace(/\/+$/, "");
+    if (lang === "en") return p ? `/${p}` : "/";
+    return p ? `/${lang}/${p}` : `/${lang}`;
+  };
 
   return (
     <motion.nav

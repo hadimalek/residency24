@@ -624,14 +624,18 @@ export default function OmanHubClient() {
   const { lang, isRTL } = useLanguage();
   const c = CONTENT[lang];
   const Arrow = isRTL ? ChevronLeft : ChevronRight;
-  const homeHref = lang === "en" ? "/" : `/${lang}/`;
+  const homeHref = lang === "en" ? "/" : `/${lang}`;
 
   const breadcrumbItems = [
     { label: "Residency24", href: homeHref },
     { label: c.breadcrumb },
   ];
 
-  const otherServiceLink = (path: string) => (lang === "en" ? `/${path}` : `/${lang}/${path}`);
+  const otherServiceLink = (path: string) => {
+    const p = path.replace(/^\/+/, "").replace(/\/+$/, "");
+    if (lang === "en") return p ? `/${p}` : "/";
+    return p ? `/${lang}/${p}` : `/${lang}`;
+  };
 
   const crossSellItems: CrossSellItem[] = [
     {

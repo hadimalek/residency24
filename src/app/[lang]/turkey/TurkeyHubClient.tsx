@@ -864,8 +864,12 @@ export default function TurkeyHubClient() {
   const { lang, isRTL } = useLanguage();
   const c = CONTENT[lang];
   const Arrow = isRTL ? ChevronLeft : ChevronRight;
-  const homeHref = lang === "en" ? "/" : `/${lang}/`;
-  const linkPath = (path: string) => (lang === "en" ? `/${path}` : `/${lang}/${path}`);
+  const homeHref = lang === "en" ? "/" : `/${lang}`;
+  const linkPath = (path: string) => {
+    const p = path.replace(/^\/+/, "").replace(/\/+$/, "");
+    if (lang === "en") return p ? `/${p}` : "/";
+    return p ? `/${lang}/${p}` : `/${lang}`;
+  };
 
   const breadcrumbItems = [
     { label: "Residency24", href: homeHref },

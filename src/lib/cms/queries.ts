@@ -26,7 +26,7 @@ function blogIndexUrl(lang: string): string {
 }
 
 function homeUrl(lang: string): string {
-  return lang === "en" ? `/` : `/${lang}/`;
+  return lang === "en" ? "/" : `/${lang}`;
 }
 
 /**

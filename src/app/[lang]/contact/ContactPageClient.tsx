@@ -229,7 +229,7 @@ const CONTENT: Record<Lang, Content> = {
 export default function ContactPageClient() {
   const { lang, isRTL } = useLanguage();
   const c = CONTENT[lang];
-  const homeHref = lang === "en" ? "/" : `/${lang}/`;
+  const homeHref = lang === "en" ? "/" : `/${lang}`;
 
   const [form, setForm] = useState({ name: "", email: "", phone: "", subject: c.f_subject_options[0], message: "" });
   const [sent, setSent] = useState(false);
