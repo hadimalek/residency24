@@ -138,17 +138,42 @@ const OLD_CATS = new Set([
   "investment-guide", "property-buying-guide", "travel-and-entertainment",
   "work-immigration-guide", "immigration-documents",
   // Persian legacy category slugs (matched decoded — pathname is percent-encoded)
-  "ثبت-شرکت", "دسته‌بندی-نشده", "دستهبندی-نشده",
+  "ثبت-شرکت", "دسته‌بندی-نشده", "دستهبندی-نشده", "دسته-بندی-نشده",
 ]);
+
+// Commercial-intent legacy category archives → the matching money page (keeps the
+// intent + link equity instead of dumping the slug on the generic blog index).
+const CAT_TO_PAGE: Record<string, string> = {
+  "ثبت-شرکت": "uae/company-registration",
+};
+
+// Normalize Persian slugs so ZWNJ (U+200C), spaces and hyphens between the same
+// words all compare equal — WP exported "دسته‌بندی نشده" several inconsistent ways.
+function normCat(s: string): string {
+  return s.replace(/[‌\s]+/g, "-").replace(/-+/g, "-");
+}
+const OLD_CATS_NORM = new Set([...OLD_CATS].map(normCat));
+const CAT_TO_PAGE_NORM: Record<string, string> = Object.fromEntries(
+  Object.entries(CAT_TO_PAGE).map(([k, v]) => [normCat(k), v]),
+);
 
 /** A path segment may arrive percent-encoded (non-ASCII slugs); match both forms. */
 function isOldCat(seg: string): boolean {
-  if (OLD_CATS.has(seg)) return true;
-  try {
-    return OLD_CATS.has(decodeURIComponent(seg));
-  } catch {
-    return false;
+  const candidates = [seg];
+  try { candidates.push(decodeURIComponent(seg)); } catch { /* keep raw */ }
+  return candidates.some((c) => OLD_CATS.has(c) || OLD_CATS_NORM.has(normCat(c)));
+}
+
+/** Commercial legacy category → money page, tolerant of encoding/ZWNJ. Else null. */
+function catToPage(seg: string): string | null {
+  const candidates = [seg];
+  try { candidates.push(decodeURIComponent(seg)); } catch { /* keep raw */ }
+  for (const c of candidates) {
+    if (CAT_TO_PAGE[c]) return CAT_TO_PAGE[c];
+    const n = CAT_TO_PAGE_NORM[normCat(c)];
+    if (n) return n;
   }
+  return null;
 }
 const CAT_LANDINGS = new Set([
   "immigration", "immigration-documents", "migration-destinations", "country-guides",
@@ -187,12 +212,21 @@ function legacyRedirect(pathname: string): string | null {
   if (rest.length === 5 && rest[0] === "blog" && rest[1] === "category" && rest[3] === "page" && /^\d+$/.test(rest[4])) {
     return isOldCat(rest[2]) ? withLocale(locale, "blog") : withLocale(locale, `blog/category/${rest[2]}`);
   }
-  // Old WP blog categories → blog index
-  if (rest.length === 3 && rest[0] === "blog" && rest[1] === "category" && isOldCat(rest[2])) {
-    return withLocale(locale, "blog");
+  // Old WP blog categories → money page (commercial slugs) or blog index
+  if (rest.length === 3 && rest[0] === "blog" && rest[1] === "category") {
+    const cp = catToPage(rest[2]);
+    if (cp) return withLocale(locale, cp);
+    if (isOldCat(rest[2])) return withLocale(locale, "blog");
   }
   // Author archives → blog index
   if (rest[0] === "author") return withLocale(locale, "blog");
+  // Bare legacy category archives (single segment) → money page or blog index.
+  // WP served Persian taxonomy at /{locale}/{cat} with no /blog/category prefix.
+  if (rest.length === 1) {
+    const cp = catToPage(rest[0]);
+    if (cp) return withLocale(locale, cp);
+    if (isOldCat(rest[0])) return withLocale(locale, "blog");
+  }
   // Old WP landing pages (single segment, and their pagination) → blog index
   if (rest.length === 1 && CAT_LANDINGS.has(rest[0])) return withLocale(locale, "blog");
   if (rest.length === 3 && rest[1] === "page" && /^\d+$/.test(rest[2]) && CAT_LANDINGS.has(rest[0])) {
