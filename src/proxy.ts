@@ -185,6 +185,33 @@ const BLOG_SLUG_REDIRECTS: Record<string, string> = {
   "dubai-stock-shoes": "dubai-stock-shoes-market",
 };
 
+// Deleted blog posts with no live article (confirmed via GSC "Not found" export
+// + live probes). Destination is a MONEY PAGE where search intent matches,
+// otherwise the blog index. Targets must be locale-agnostic — money pages and the
+// blog index exist in every locale, whereas a specific article may exist in fa but
+// 404 in ar/ru, so we never point a dead post at another article slug.
+const DELETED_BLOG_POSTS: Record<string, string> = {
+  "uae-golden-visa-complete-guide-2026": "uae/golden-visa",
+  "dubai-free-zones-comparison": "uae/company-registration",
+  "jebel_ali_free_zone_company_setup": "uae/company-registration",
+  "oman-vs-dubai-residency": "compare/uae-vs-oman-vs-turkey",
+  "oman-vs-dubai-real-estate-market-2": "compare/uae-vs-oman-vs-turkey",
+  "best-areas-dubai-for-buying-property": "uae/buy-property",
+  "ubai-best-areas-buy-property-2026": "uae/buy-property",
+  "impact-new-dubai-visa-laws-real-estate-market": "uae/buy-property",
+  "best-european-countries-to-register-a-company": "blog",
+  "burj-al-arab-dubai-guide": "blog",
+  "sheikh-zayed-road-in-dubai": "blog",
+  "al-sufouh-beach-dubai-guide": "blog",
+  "best-dubai-amusement-parks-guide": "blog",
+  "mercato-mall-dubai-guide": "blog",
+  "roaming-activate-in-dubai": "blog",
+  "advantages-and-disadvantages-of-living-in-dubai": "blog",
+  "radiology-technician-salary-in-dubai": "blog",
+  "programmer-salary-in-dubai": "blog",
+  "cost-of-living-in-dubai-2": "blog",
+};
+
 function withLocale(locale: string, suffix: string): string {
   if (!suffix) return locale ? `/${locale}` : "/";
   return locale ? `/${locale}/${suffix}` : `/${suffix}`;
@@ -198,6 +225,17 @@ function legacyRedirect(pathname: string): string | null {
   const locale = hasLocale ? segs[0] : "";
   const rest = hasLocale ? segs.slice(1) : segs;
   const suffix = rest.join("/");
+
+  // Deleted blog posts (and their /feed) → closest live destination. Runs first so
+  // a dead post's feed skips the generic feed→post hop that would 404 again.
+  if (rest[0] === "blog") {
+    const bare = rest.length === 2;
+    const bareFeed = rest.length === 3 && rest[2] === "feed";
+    if (bare || bareFeed) {
+      const slug = rest[1];
+      if (DELETED_BLOG_POSTS[slug]) return withLocale(locale, DELETED_BLOG_POSTS[slug]);
+    }
+  }
 
   // WP RSS feeds → the post/page itself
   if (rest.length >= 3 && rest[0] === "blog" && rest[rest.length - 1] === "feed") {
