@@ -210,6 +210,8 @@ const DELETED_BLOG_POSTS: Record<string, string> = {
   "radiology-technician-salary-in-dubai": "blog",
   "programmer-salary-in-dubai": "blog",
   "cost-of-living-in-dubai-2": "blog",
+  // GSC "Soft 404" export — deleted post whose /feed still resolved to a dead post.
+  "free_birthday_activities_in_dubai": "blog",
 };
 
 function withLocale(locale: string, suffix: string): string {
