@@ -1,8 +1,13 @@
 import type { Lang } from "@/translations";
+import { localizedPath } from "@/lib/locale-path";
 
 const BASE_URL = "https://residency24.com";
 
-export const LANGS: Lang[] = ["fa", "en", "ar", "ru"];
+// Re-exported so Server Components can keep importing everything SEO-related
+// from "@/lib/seo", while Client Components import the tiny "@/lib/locale-path"
+// module directly instead of pulling BLOG_SEO + the JSON-LD builders into the
+// browser bundle. One implementation, two entry points.
+export { LANGS, localizedPath, stripLocale } from "@/lib/locale-path";
 
 export const LANG_CONFIG: Record<Lang, { dir: "rtl" | "ltr"; locale: string; hreflang: string }> = {
   fa: { dir: "rtl", locale: "fa_IR", hreflang: "fa" },
@@ -100,20 +105,10 @@ export const ABOUT_SEO: Record<Lang, { title: string; description: string; h1: s
   },
 };
 
-// English is served at root (no /en prefix). Other locales keep the prefix.
-//
-// The site canonicalises to NO trailing slash (Next `trailingSlash: false`):
-// any `/path/` 308-redirects to `/path`. So every URL we emit (canonicals,
-// sitemap <loc>, hreflang alternates) MUST be trailing-slash-free, otherwise
-// we hand Google redirecting URLs — which is exactly what tanked indexing
-// (GSC "Page with redirect"). We strip both leading AND trailing slashes here
-// so callers can keep passing "about/" or "blog/slug/" without breaking it.
-export function localizedPath(lang: Lang, path: string = "") {
-  const normalized = path.replace(/^\/+/, "").replace(/\/+$/, "");
-  if (lang === "en") return normalized ? `/${normalized}` : "/";
-  return normalized ? `/${lang}/${normalized}` : `/${lang}`;
-}
-
+// Absolute-URL wrapper around localizedPath(). Every URL we emit (canonicals,
+// sitemap <loc>, hreflang alternates) goes through here so it is guaranteed
+// prefix-correct and trailing-slash-free — handing Google redirecting URLs is
+// exactly what tanked indexing before (GSC "Page with redirect").
 export function getPageUrl(lang: Lang, path: string = "") {
   return `${BASE_URL}${localizedPath(lang, path)}`;
 }

@@ -32,6 +32,14 @@ export const LanguageProvider: React.FC<{
 
   // When language changes, navigate to the new URL.
   // English lives on root paths (no /en prefix); fa/ar/ru keep their prefix.
+  //
+  // NOTE: nothing calls this any more, and nothing should. Driving the language
+  // switch from JS is what orphaned three quarters of the site: a <button> that
+  // sets window.location leaves no <a href> for a crawler to follow, so /fa,
+  // /ar and /ru had zero inbound internal links and a full-site crawl reached
+  // only 43 of 477 URLs. The switcher in src/components/Footer.tsx renders real
+  // anchors instead. If you need a language control somewhere else, render
+  // links there too — do not reach for this.
   const handleSetLang = (newLang: Lang) => {
     setLang(newLang);
     if (typeof window !== 'undefined') {
