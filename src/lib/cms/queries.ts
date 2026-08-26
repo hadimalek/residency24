@@ -155,16 +155,74 @@ export async function listPosts(opts: ListPostsOpts) {
 // LIST CATEGORIES
 // ─────────────────────────────────────────────────────────────────────
 
+/** "work-immigration-guide" → "Work Immigration Guide" */
+function prettifySlug(slug: string): string {
+  return slug
+    .split(/[-_]+/)
+    .filter(Boolean)
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ");
+}
+
+/**
+ * Categories that published posts in `lang` actually use.
+ *
+ * Derived from `Article.category` rather than read straight out of the
+ * `BlogCategory` table: that table is an OPTIONAL editorial overlay (managed via
+ * /admin/categories) and it is normally empty, while `Article.category` carries
+ * the real slugs inherited from the WordPress import. Reading only the overlay
+ * meant this returned [] for every locale — so the blog index rendered no
+ * category chips and /blog/category/<slug> 404'd through notFound(), removing an
+ * entire discovery path for hundreds of posts.
+ *
+ * A BlogCategory row for the same (locale, slug) still wins for display name,
+ * description and ordering, which is how you give a Persian category a Persian
+ * label instead of the prettified latin slug.
+ */
 export async function listCategories(lang: string) {
-  const cats = await prisma.blogCategory.findMany({
-    where: { locale: lang },
-    orderBy: [{ sortOrder: "asc" }, { name: "asc" }],
+  // Deliberately findMany + count in JS rather than a SQL groupBy: this is the
+  // exact query shape listSitemapArticles() already uses (same relation filter,
+  // one selected column), and a single column over a few hundred published rows
+  // is nothing. Counts only decide chip ordering.
+  const rows = await prisma.article.findMany({
+    where: {
+      status: "PUBLISHED",
+      category: { not: null },
+      translations: { some: { locale: lang } },
+    },
+    select: { category: true },
   });
-  return cats.map((c) => ({
-    name: c.name,
-    slug: c.slug,
-    description: c.description ?? null,
-  }));
+
+  const counts = new Map<string, number>();
+  for (const r of rows) {
+    const slug = r.category?.trim();
+    if (slug) counts.set(slug, (counts.get(slug) ?? 0) + 1);
+  }
+  if (counts.size === 0) return [];
+
+  const managed = await prisma.blogCategory.findMany({
+    where: { locale: lang, slug: { in: [...counts.keys()] } },
+  });
+  const overrides = new Map(managed.map((c) => [c.slug, c]));
+
+  return [...counts.entries()]
+    .map(([slug, count]) => {
+      const o = overrides.get(slug);
+      return {
+        name: o?.name ?? prettifySlug(slug),
+        slug,
+        description: o?.description ?? null,
+        sortOrder: o?.sortOrder ?? 0,
+        count,
+      };
+    })
+    .sort(
+      (a, b) =>
+        a.sortOrder - b.sortOrder ||
+        b.count - a.count ||
+        a.name.localeCompare(b.name)
+    )
+    .map(({ name, slug, description }) => ({ name, slug, description }));
 }
 
 // ─────────────────────────────────────────────────────────────────────

@@ -157,6 +157,42 @@ const CAT_TO_PAGE_NORM: Record<string, string> = Object.fromEntries(
   Object.entries(CAT_TO_PAGE).map(([k, v]) => [normCat(k), v]),
 );
 
+// Category archives that are NOT dead: these slugs still carry published articles
+// (248 of the 287 Persian posts live in them), so /{locale}/blog/category/{slug}
+// renders a real hub and must never be redirected away. They appear in OLD_CATS
+// below because that hub used to 404 — listCategories() read the always-empty
+// BlogCategory table instead of the articles' own category field. With that fixed
+// the hubs work, and the legacy WP archive URLs should land on them.
+//
+// Per-locale because the sets genuinely differ: ru has one category, en and ar
+// have none. Middleware cannot query the DB, so this is a static table — to
+// regenerate it, paginate GET /api/cms/posts?lang={l}&per_page=50 and collect the
+// distinct category.slug values.
+//
+// "دسته‌بندی-نشده" (uncategorized) is deliberately excluded despite having one
+// post: it is a WordPress import artifact, not a hub worth indexing, so it keeps
+// redirecting to the blog index via OLD_CATS.
+const LIVE_CATS: Record<string, Set<string>> = {
+  fa: new Set([
+    "travel-and-entertainment", "immigration", "work-immigration-guide",
+    "country-guides", "investment-guide", "migration-destinations",
+    "property-buying-guide", "immigration-documents", "study-immigration-guide",
+  ]),
+  ru: new Set(["immigration"]),
+  en: new Set(),
+  ar: new Set(),
+};
+
+/** Does `seg` name a category hub with live articles in this locale? */
+function isLiveCat(locale: string, seg: string | undefined): boolean {
+  if (!seg) return false;
+  const set = LIVE_CATS[locale || "en"];
+  if (!set || set.size === 0) return false;
+  const candidates = [seg];
+  try { candidates.push(decodeURIComponent(seg)); } catch { /* keep raw */ }
+  return candidates.some((c) => set.has(c) || set.has(normCat(c)));
+}
+
 /** A path segment may arrive percent-encoded (non-ASCII slugs); match both forms. */
 function isOldCat(seg: string): boolean {
   const candidates = [seg];
@@ -248,6 +284,22 @@ function legacyRedirect(pathname: string): string | null {
   if (rest.length === 3 && rest[0] === "blog" && rest[1] === "page" && /^\d+$/.test(rest[2])) {
     return withLocale(locale, "blog");
   }
+  // Live category hubs come first: they must survive the legacy rules below, which
+  // exist for the locales and slugs where the archive really is dead.
+  if (rest[0] === "blog" && rest[1] === "category" && isLiveCat(locale, rest[2])) {
+    // WP category pagination /blog/category/{cat}/page/N → ?page=N (same content,
+    // not the generic blog index)
+    if (rest.length === 5 && rest[3] === "page" && /^\d+$/.test(rest[4])) {
+      const n = Number(rest[4]);
+      const base = withLocale(locale, `blog/category/${rest[2]}`);
+      return n > 1 ? `${base}?page=${n}` : base;
+    }
+    if (rest.length === 3) return null; // pass through — the hub renders
+  }
+  // Bare WP archive /{locale}/{cat} for a live category → its hub, not the index
+  if (rest.length === 1 && isLiveCat(locale, rest[0])) {
+    return withLocale(locale, `blog/category/${rest[0]}`);
+  }
   // Category pagination → category base (or blog for old cats)
   if (rest.length === 5 && rest[0] === "blog" && rest[1] === "category" && rest[3] === "page" && /^\d+$/.test(rest[4])) {
     return isOldCat(rest[2]) ? withLocale(locale, "blog") : withLocale(locale, `blog/category/${rest[2]}`);
@@ -303,8 +355,11 @@ export async function proxy(req: NextRequest) {
   const legacy = legacyRedirect(pathname);
   if (legacy && legacy !== pathname) {
     const url = req.nextUrl.clone();
-    url.pathname = legacy;
-    url.search = "";
+    // A destination may carry a query (WP category pagination maps /page/N to
+    // ?page=N); otherwise the incoming query is dropped as before.
+    const q = legacy.indexOf("?");
+    url.pathname = q === -1 ? legacy : legacy.slice(0, q);
+    url.search = q === -1 ? "" : legacy.slice(q);
     return NextResponse.redirect(url, 301);
   }
 

@@ -1,6 +1,7 @@
 import { LANGS, LANG_CONFIG, getPageUrl } from "@/lib/seo";
 import { getIndexableStaticRoutes } from "@/lib/seo/routes";
 import { listSitemapArticles } from "@/lib/cms/articles";
+import { listCategories } from "@/lib/cms/queries";
 import type { Lang } from "@/translations";
 
 const BASE_URL = "https://residency24.com";
@@ -56,7 +57,18 @@ export async function buildLanguageSitemap(lang: Lang): Promise<string> {
     ),
   }));
 
-  return renderUrlset([...staticEntries, ...articleEntries]);
+  // Category hubs. Which categories exist is per-locale (they come from the
+  // articles themselves), so these carry no hreflang alternates — there is no
+  // guaranteed cross-language twin to advertise.
+  const categories = await listCategories(lang).catch(() => []);
+  const categoryEntries: SitemapEntry[] = categories.map((c) => ({
+    loc: getPageUrl(lang, `blog/category/${encodeURIComponent(c.slug)}`),
+    changefreq: "weekly",
+    priority: 0.6,
+    alternates: {},
+  }));
+
+  return renderUrlset([...staticEntries, ...categoryEntries, ...articleEntries]);
 }
 
 /**
