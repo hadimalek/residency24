@@ -27,6 +27,9 @@ export default function robots(): MetadataRoute.Robots {
       `${BASE_URL}/sitemap-ar.xml`,
       `${BASE_URL}/sitemap-ru.xml`,
     ],
-    host: BASE_URL,
+    // No `host:`. It emits the non-standard `Host:` directive, which Search
+    // Console reports as "Rule ignored by Googlebot" — it was only ever a Yandex
+    // extension, and Yandex itself dropped it in 2018 in favour of redirects and
+    // rel=canonical. The canonical host is declared by those instead.
   };
 }

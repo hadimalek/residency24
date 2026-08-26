@@ -302,12 +302,8 @@ export function getFaqSchema(lang: Lang) {
   };
 }
 
-export function getBreadcrumbSchema(lang: Lang) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: BREADCRUMB_HOME[lang], item: getPageUrl(lang) },
-    ],
-  };
-}
+// Removed: a BreadcrumbList holding only the homepage. It was injected from
+// src/app/[lang]/layout.tsx, so EVERY page carried it on top of its own real
+// breadcrumb — Search Console reported two BreadcrumbList items per URL, one of
+// them a trail that goes nowhere. Each page emits its own multi-level trail;
+// pages with no hierarchy (the locale homepage) correctly emit none.
