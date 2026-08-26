@@ -2,6 +2,19 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { slugify, tiptapJsonToHtml } from "@/lib/cms/admin-queries";
 
+/**
+ * Parse a date coming from the admin form. Accepts an ISO string or a
+ * `datetime-local` value ("2026-08-26T14:30"), returns undefined for absent /
+ * unparseable input so the caller can tell "leave alone" from "clear".
+ */
+function parseDate(v: unknown): Date | null | undefined {
+  if (v === undefined) return undefined;
+  if (v === null || v === "") return null;
+  if (typeof v !== "string") return undefined;
+  const d = new Date(v);
+  return Number.isNaN(d.getTime()) ? undefined : d;
+}
+
 export const dynamic = "force-dynamic";
 
 // GET /api/admin/posts/[id] — fetch single post (with all translations + relations)
@@ -86,14 +99,23 @@ export async function PATCH(
         ? body.status
         : article.status;
 
-    // Set publishedAt the first time we go to PUBLISHED.
+    // Publish date. An explicit value from the form always wins — editors need
+    // to backdate imported posts and correct wrong dates. Otherwise fall back to
+    // stamping "now" the first time an article goes to PUBLISHED, and never
+    // discard an existing timestamp on un-publish.
+    const publishedAtInput = parseDate(body.publishedAt);
     let publishedAt = article.publishedAt;
-    if (status === "PUBLISHED" && !article.publishedAt) {
+    if (publishedAtInput !== undefined) {
+      publishedAt = publishedAtInput;
+    } else if (status === "PUBLISHED" && !article.publishedAt) {
       publishedAt = new Date();
     }
-    if (status !== "PUBLISHED") {
-      publishedAt = article.publishedAt; // preserve original published timestamp on un-publish
-    }
+
+    // Update date. `Article.updatedAt` is @updatedAt, so Prisma stamps it on
+    // every write unless we pass a value explicitly — which is exactly what an
+    // editor setting this field wants, since this timestamp is what the sitemap
+    // publishes as <lastmod>. Omitting it keeps the automatic behaviour.
+    const updatedAtInput = parseDate(body.updatedAt);
 
     // category: undefined → leave unchanged; null/"" → clear; string → set slug
     let nextCategory: string | null | undefined = undefined;
@@ -114,6 +136,7 @@ export async function PATCH(
           featuredImageId:
             body.featuredImageId === undefined ? article.featuredImageId : body.featuredImageId,
           category: nextCategory === undefined ? article.category : nextCategory,
+          ...(updatedAtInput ? { updatedAt: updatedAtInput } : {}),
         },
       });
 

@@ -29,6 +29,8 @@ export default function AdminPostEditPage() {
           status: article.status,
           primaryLocale: article.primaryLocale,
           category: article.category ?? null,
+          publishedAt: article.publishedAt ?? null,
+          updatedAt: article.updatedAt ?? null,
           featuredImage: article.featuredImage,
           translations: article.translations ?? [],
         });

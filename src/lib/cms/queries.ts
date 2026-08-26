@@ -175,14 +175,14 @@ function normCategory(s: string): string {
 }
 
 /** Is this slug a real, linkable category hub? Narrows away null/empty. */
-function isHubCategory(slug: string | null | undefined): slug is string {
+export function isHubCategory(slug: string | null | undefined): slug is string {
   const s = slug?.trim();
   if (!s) return false;
   return !NON_HUB_CATEGORIES.has(normCategory(s));
 }
 
 /** "work-immigration-guide" → "Work Immigration Guide" */
-function prettifySlug(slug: string): string {
+export function prettifySlug(slug: string): string {
   return slug
     .split(/[-_]+/)
     .filter(Boolean)
@@ -205,11 +205,18 @@ function prettifySlug(slug: string): string {
  * description and ordering, which is how you give a Persian category a Persian
  * label instead of the prettified latin slug.
  */
-export async function listCategories(lang: string) {
-  // Deliberately findMany + count in JS rather than a SQL groupBy: this is the
-  // exact query shape listSitemapArticles() already uses (same relation filter,
-  // one selected column), and a single column over a few hundred published rows
-  // is nothing. Counts only decide chip ordering.
+/**
+ * Every category slug that published articles in `lang` actually use, with post
+ * counts — including non-hub ones. This is the single source of truth for "which
+ * categories exist"; `BlogCategory` is only a naming overlay on top of it.
+ * Shared by the public listCategories() and by /api/admin/categories.
+ *
+ * Deliberately findMany + count in JS rather than a SQL groupBy: this is the
+ * exact query shape listSitemapArticles() already uses (same relation filter,
+ * one selected column), and a single column over a few hundred published rows
+ * is nothing.
+ */
+export async function articleCategoryCounts(lang: string): Promise<Map<string, number>> {
   const rows = await prisma.article.findMany({
     where: {
       status: "PUBLISHED",
@@ -222,9 +229,14 @@ export async function listCategories(lang: string) {
   const counts = new Map<string, number>();
   for (const r of rows) {
     const slug = r.category?.trim();
-    if (!isHubCategory(slug)) continue;
-    counts.set(slug, (counts.get(slug) ?? 0) + 1);
+    if (slug) counts.set(slug, (counts.get(slug) ?? 0) + 1);
   }
+  return counts;
+}
+
+export async function listCategories(lang: string) {
+  const all = await articleCategoryCounts(lang);
+  const counts = new Map([...all].filter(([slug]) => isHubCategory(slug)));
   if (counts.size === 0) return [];
 
   const managed = await prisma.blogCategory.findMany({

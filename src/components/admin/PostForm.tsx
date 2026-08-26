@@ -77,6 +77,8 @@ export interface PostFormInitial {
   status?: string;
   primaryLocale?: string | null;
   category?: string | null;
+  publishedAt?: string | null;
+  updatedAt?: string | null;
   featuredImage?: MediaRow | null;
   translations?: Array<{
     locale: string;
@@ -93,6 +95,26 @@ export interface PostFormInitial {
 export interface PostFormProps {
   mode: "new" | "edit";
   initial?: PostFormInitial;
+}
+
+/**
+ * ISO timestamp -> the "YYYY-MM-DDTHH:mm" a datetime-local input needs, in the
+ * editor's own timezone (so the value shown matches the value they typed).
+ * Returns "" for null so the field renders empty rather than 1970.
+ */
+function toLocalInput(iso: string | null | undefined): string {
+  if (!iso) return "";
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return "";
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
+/** datetime-local value -> ISO, or null when cleared. */
+function fromLocalInput(v: string): string | null {
+  if (!v) return null;
+  const d = new Date(v);
+  return Number.isNaN(d.getTime()) ? null : d.toISOString();
 }
 
 export default function PostForm({ mode, initial }: PostFormProps) {
@@ -115,6 +137,8 @@ export default function PostForm({ mode, initial }: PostFormProps) {
 
   const [faqs, setFaqs] = useState<FaqItem[]>(initialTrans?.faqs ?? []);
   const [category, setCategory] = useState<string>(initial?.category ?? "");
+  const [publishedAt, setPublishedAt] = useState<string>(toLocalInput(initial?.publishedAt));
+  const [updatedAt, setUpdatedAt] = useState<string>(toLocalInput(initial?.updatedAt));
   const [categories, setCategories] = useState<CategoryOption[]>([]);
 
   const [saving, setSaving] = useState(false);
@@ -147,10 +171,11 @@ export default function PostForm({ mode, initial }: PostFormProps) {
         if (!res.ok) return;
         const json = await res.json();
         if (cancelled) return;
-        const list: CategoryOption[] = (json.data ?? []).map((c: any) => ({
-          slug: c.slug,
-          name: c.name,
-        }));
+        const list: CategoryOption[] = (json.data ?? [])
+          // Hide slugs the site does not link or index (WP "uncategorized") so
+          // nobody files a new post into one.
+          .filter((c: { hub?: boolean }) => c.hub !== false)
+          .map((c: { slug: string; name: string }) => ({ slug: c.slug, name: c.name }));
         setCategories(list);
       } catch {
         /* non-fatal: category selector just stays empty */
@@ -204,6 +229,10 @@ export default function PostForm({ mode, initial }: PostFormProps) {
         slug: slug || undefined,
         status,
         category: category || null,
+        publishedAt: fromLocalInput(publishedAt),
+        // Only send when the editor actually set one — an empty field must keep
+        // Prisma's automatic @updatedAt behaviour rather than clearing it.
+        ...(updatedAt ? { updatedAt: fromLocalInput(updatedAt) } : {}),
         featuredImageId: featuredImage?.id ?? null,
         excerpt: excerpt || null,
         contentJson,
@@ -446,6 +475,35 @@ export default function PostForm({ mode, initial }: PostFormProps) {
                     ))}
                   </SelectContent>
                 </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="publishedAt">تاریخ انتشار</Label>
+                <Input
+                  id="publishedAt"
+                  type="datetime-local"
+                  value={publishedAt}
+                  onChange={(e) => setPublishedAt(e.target.value)}
+                  dir="ltr"
+                  className="text-sm"
+                />
+                <p className="text-[11px] text-gray-500">
+                  خالی بگذارید تا هنگام انتشار خودکار پر شود.
+                </p>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="updatedAt">تاریخ آخرین به‌روزرسانی</Label>
+                <Input
+                  id="updatedAt"
+                  type="datetime-local"
+                  value={updatedAt}
+                  onChange={(e) => setUpdatedAt(e.target.value)}
+                  dir="ltr"
+                  className="text-sm"
+                />
+                <p className="text-[11px] text-gray-500">
+                  همین تاریخ به‌عنوان lastmod در sitemap به گوگل اعلام می‌شود. اگر
+                  دست نزنید، با هر ذخیره خودکار روی زمان حال تنظیم می‌شود.
+                </p>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="category">دسته‌بندی</Label>

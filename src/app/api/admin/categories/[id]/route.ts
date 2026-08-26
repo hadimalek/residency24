@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
-import { slugify } from "@/lib/cms/admin-queries";
 
 export const dynamic = "force-dynamic";
 
@@ -15,29 +14,23 @@ export async function PATCH(
     const existing = await prisma.blogCategory.findUnique({ where: { id } });
     if (!existing) return NextResponse.json({ message: "Not found" }, { status: 404 });
 
-    const data: any = {};
+    const data: Record<string, unknown> = {};
     if (typeof body.name === "string") data.name = body.name.trim().slice(0, 255);
     if (typeof body.description === "string") data.description = body.description || null;
     if (typeof body.sortOrder === "number") data.sortOrder = body.sortOrder;
 
-    if (typeof body.slug === "string" && body.slug.trim()) {
-      const newSlug = slugify(body.slug);
-      if (newSlug !== existing.slug) {
-        const conflict = await prisma.blogCategory.findUnique({
-          where: { locale_slug: { locale: existing.locale, slug: newSlug } },
-        });
-        if (conflict && conflict.id !== id) {
-          return NextResponse.json({ message: "Slug already exists in this locale" }, { status: 409 });
-        }
-        data.slug = newSlug;
-      }
-    }
+    // `slug` is intentionally NOT editable here. Articles join to a category by
+    // the `Article.category` slug STRING, so renaming it on the overlay row
+    // alone would silently orphan every post in that category — and break the
+    // live /blog/category/<slug> URL along with it. Renaming a category means
+    // rewriting Article.category too; that is a separate operation, not a field
+    // edit. The UI shows the slug read-only when editing.
 
     const updated = await prisma.blogCategory.update({ where: { id }, data });
     return NextResponse.json(updated);
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("[/api/admin/categories/[id]] PATCH error:", err);
-    return NextResponse.json({ message: err?.message ?? "Server error" }, { status: 500 });
+    return NextResponse.json({ message: err instanceof Error ? err.message : "Server error" }, { status: 500 });
   }
 }
 

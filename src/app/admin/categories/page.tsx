@@ -35,13 +35,19 @@ import { Plus, Edit, Trash2, Save } from "lucide-react";
 import { toast } from "sonner";
 
 interface CategoryRow {
-  id: string;
+  /** null = the category exists because articles use its slug, but it has no
+   *  BlogCategory row yet, so its name is still the prettified latin slug. */
+  id: string | null;
   locale: string;
   slug: string;
   name: string;
   description: string | null;
   sortOrder: number;
   postCount: number;
+  /** false for slugs the site deliberately does not link or index. */
+  hub: boolean;
+  /** true once a localised name has been saved for it. */
+  named: boolean;
 }
 
 const LANGS = [
@@ -80,6 +86,10 @@ export default function AdminCategoriesPage() {
     load();
   }, []);
 
+  // Derived categories still showing a prettified latin slug instead of a real
+  // localised name — the thing an editor actually needs to act on.
+  const unnamed = rows.filter((r) => !r.named).length;
+
   const openCreate = () => {
     setEditing(null);
     setName("");
@@ -105,9 +115,16 @@ export default function AdminCategoriesPage() {
     }
     setSaving(true);
     try {
-      const payload = { name, slug: slug || undefined, locale, description: description || null };
-      const url = editing ? `/api/admin/categories/${editing.id}` : "/api/admin/categories";
-      const method = editing ? "PATCH" : "POST";
+      // A row with no id has no BlogCategory record yet — saving it creates one
+      // for the slug the articles already use, which is how a derived category
+      // gets its localised name. Only an existing record is PATCHed, and its
+      // slug is never sent: articles join on that string.
+      const isOverlay = Boolean(editing?.id);
+      const payload = isOverlay
+        ? { name, description: description || null }
+        : { name, slug: slug || undefined, locale, description: description || null };
+      const url = isOverlay ? `/api/admin/categories/${editing!.id}` : "/api/admin/categories";
+      const method = isOverlay ? "PATCH" : "POST";
       const res = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
@@ -117,7 +134,7 @@ export default function AdminCategoriesPage() {
         const err = await res.json().catch(() => ({}));
         throw new Error(err.message || `HTTP ${res.status}`);
       }
-      toast.success(editing ? "دسته‌بندی به‌روزرسانی شد" : "دسته‌بندی ایجاد شد");
+      toast.success(isOverlay ? "دسته‌بندی به‌روزرسانی شد" : "نام دسته‌بندی ذخیره شد");
       setCreating(false);
       load();
     } catch (err: any) {
@@ -128,7 +145,7 @@ export default function AdminCategoriesPage() {
   };
 
   const handleDelete = async () => {
-    if (!deleteTarget) return;
+    if (!deleteTarget?.id) return;
     try {
       const res = await fetch(`/api/admin/categories/${deleteTarget.id}`, { method: "DELETE" });
       if (!res.ok) throw new Error("خطا در حذف");
@@ -145,7 +162,10 @@ export default function AdminCategoriesPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-xl font-bold">دسته‌بندی‌ها</h1>
-          <p className="text-sm text-gray-500 mt-1">{rows.length.toLocaleString("fa-IR")} دسته</p>
+          <p className="text-sm text-gray-500 mt-1">
+            {rows.length.toLocaleString("fa-IR")} دسته
+            {unnamed > 0 && ` — ${unnamed.toLocaleString("fa-IR")} مورد هنوز نام بومی ندارد`}
+          </p>
         </div>
         <Button onClick={openCreate} className="gap-2" style={{ backgroundColor: "#001E6E" }}>
           <Plus className="h-4 w-4" />
@@ -162,6 +182,7 @@ export default function AdminCategoriesPage() {
                 <TableHead className="text-right">slug</TableHead>
                 <TableHead className="text-right">زبان</TableHead>
                 <TableHead className="text-right">پست‌ها</TableHead>
+                <TableHead className="text-right">وضعیت</TableHead>
                 <TableHead className="text-right w-24"></TableHead>
               </TableRow>
             </TableHeader>
@@ -169,21 +190,26 @@ export default function AdminCategoriesPage() {
               {loading ? (
                 Array.from({ length: 4 }).map((_, i) => (
                   <TableRow key={`sk-${i}`}>
-                    <TableCell colSpan={5}>
+                    <TableCell colSpan={6}>
                       <Skeleton className="h-8 w-full" />
                     </TableCell>
                   </TableRow>
                 ))
               ) : rows.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={5} className="text-center text-gray-400 py-12">
+                  <TableCell colSpan={6} className="text-center text-gray-400 py-12">
                     دسته‌بندی‌ای وجود ندارد
                   </TableCell>
                 </TableRow>
               ) : (
                 rows.map((c) => (
-                  <TableRow key={c.id}>
-                    <TableCell className="font-medium">{c.name}</TableCell>
+                  <TableRow key={`${c.locale}/${c.slug}`}>
+                    <TableCell className="font-medium">
+                      {c.name}
+                      {!c.named && (
+                        <span className="ms-2 text-[11px] text-amber-600">(نام خودکار)</span>
+                      )}
+                    </TableCell>
                     <TableCell className="text-sm text-gray-600 font-mono" dir="ltr">
                       {c.slug}
                     </TableCell>
@@ -196,6 +222,17 @@ export default function AdminCategoriesPage() {
                       {c.postCount.toLocaleString("fa-IR")}
                     </TableCell>
                     <TableCell>
+                      {c.hub ? (
+                        <Badge variant="outline" className="text-emerald-700 border-emerald-200">
+                          فعال
+                        </Badge>
+                      ) : (
+                        <Badge variant="outline" className="text-gray-500">
+                          نمایش داده نمی‌شود
+                        </Badge>
+                      )}
+                    </TableCell>
+                    <TableCell>
                       <div className="flex items-center gap-1">
                         <Button
                           variant="ghost"
@@ -205,14 +242,17 @@ export default function AdminCategoriesPage() {
                         >
                           <Edit className="h-4 w-4" />
                         </Button>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="h-8 w-8 p-0 text-red-600 hover:text-red-700 hover:bg-red-50"
-                          onClick={() => setDeleteTarget(c)}
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
+                        {c.id && (
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="h-8 w-8 p-0 text-red-600 hover:text-red-700 hover:bg-red-50"
+                            onClick={() => setDeleteTarget(c)}
+                            title="حذف نام بومی (دسته خودش باقی می‌ماند)"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        )}
                       </div>
                     </TableCell>
                   </TableRow>
@@ -243,7 +283,14 @@ export default function AdminCategoriesPage() {
                 placeholder="(خالی = از نام تولید می‌شود)"
                 dir="ltr"
                 className="font-mono text-sm"
+                disabled={!!editing}
               />
+              {editing && (
+                <p className="text-[11px] text-gray-500">
+                  slug قابل تغییر نیست — مقالات با همین رشته به دسته وصل‌اند و آدرس
+                  /blog/category/{slug} روی آن ساخته شده است.
+                </p>
+              )}
             </div>
             <div className="space-y-2">
               <Label htmlFor="cat-locale">زبان</Label>
@@ -286,9 +333,11 @@ export default function AdminCategoriesPage() {
       <Dialog open={!!deleteTarget} onOpenChange={(o) => !o && setDeleteTarget(null)}>
         <DialogContent dir="rtl">
           <DialogHeader>
-            <DialogTitle>حذف دسته</DialogTitle>
+            <DialogTitle>حذف نام بومی</DialogTitle>
             <DialogDescription>
-              دسته «{deleteTarget?.name}» حذف می‌شود. پست‌های موجود در این دسته بدون دسته‌بندی می‌مانند.
+              نام بومی «{deleteTarget?.name}» حذف می‌شود و دسته به نام خودکار برمی‌گردد.
+              خود دسته و پست‌هایش دست‌نخورده می‌مانند — تا وقتی مقاله‌ای با این slug
+              وجود دارد، دسته هم وجود دارد.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="gap-2 sm:gap-0">

@@ -111,7 +111,18 @@ export async function POST(request: NextRequest) {
     const metaDescription = body.metaDescription ?? null;
     const faqs = body.faqs ?? null;
 
-    const publishedAt = status === "PUBLISHED" ? new Date() : null;
+    // Honour an explicit publish date (backdating an imported post), else stamp
+    // now when publishing straight away.
+    const publishedAtInput =
+      typeof body.publishedAt === "string" && body.publishedAt
+        ? new Date(body.publishedAt)
+        : null;
+    const publishedAt =
+      publishedAtInput && !Number.isNaN(publishedAtInput.getTime())
+        ? publishedAtInput
+        : status === "PUBLISHED"
+          ? new Date()
+          : null;
 
     const article = await prisma.article.create({
       data: {
