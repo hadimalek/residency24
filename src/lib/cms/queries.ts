@@ -155,6 +155,25 @@ export async function listPosts(opts: ListPostsOpts) {
 // LIST CATEGORIES
 // ─────────────────────────────────────────────────────────────────────
 
+// Slugs that exist in the data but are not hubs worth linking or indexing:
+// WordPress's "uncategorized" bucket (in the several spellings the import
+// produced, with and without ZWNJ) and the commercial "company registration"
+// taxonomy that belongs on the money page. src/proxy.ts 301s all of these, so
+// returning one here would render a category chip — and emit a sitemap entry —
+// pointing at a URL that redirects. Keep this in agreement with OLD_CATS /
+// CAT_TO_PAGE in src/proxy.ts.
+const NON_HUB_CATEGORIES = new Set([
+  "دسته-بندی-نشده",
+  "دستهبندی-نشده",
+  "ثبت-شرکت",
+]);
+
+/** Mirrors normCat() in src/proxy.ts: ZWNJ, spaces and runs of hyphens all fold
+ *  to a single hyphen so the inconsistent WP exports compare equal. */
+function normCategory(s: string): string {
+  return s.replace(/[‌\s]+/g, "-").replace(/-+/g, "-");
+}
+
 /** "work-immigration-guide" → "Work Immigration Guide" */
 function prettifySlug(slug: string): string {
   return slug
@@ -196,7 +215,8 @@ export async function listCategories(lang: string) {
   const counts = new Map<string, number>();
   for (const r of rows) {
     const slug = r.category?.trim();
-    if (slug) counts.set(slug, (counts.get(slug) ?? 0) + 1);
+    if (!slug || NON_HUB_CATEGORIES.has(normCategory(slug))) continue;
+    counts.set(slug, (counts.get(slug) ?? 0) + 1);
   }
   if (counts.size === 0) return [];
 
