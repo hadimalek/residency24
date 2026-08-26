@@ -174,6 +174,13 @@ function normCategory(s: string): string {
   return s.replace(/[‌\s]+/g, "-").replace(/-+/g, "-");
 }
 
+/** Is this slug a real, linkable category hub? Narrows away null/empty. */
+function isHubCategory(slug: string | null | undefined): slug is string {
+  const s = slug?.trim();
+  if (!s) return false;
+  return !NON_HUB_CATEGORIES.has(normCategory(s));
+}
+
 /** "work-immigration-guide" → "Work Immigration Guide" */
 function prettifySlug(slug: string): string {
   return slug
@@ -215,7 +222,7 @@ export async function listCategories(lang: string) {
   const counts = new Map<string, number>();
   for (const r of rows) {
     const slug = r.category?.trim();
-    if (!slug || NON_HUB_CATEGORIES.has(normCategory(slug))) continue;
+    if (!isHubCategory(slug)) continue;
     counts.set(slug, (counts.get(slug) ?? 0) + 1);
   }
   if (counts.size === 0) return [];
@@ -282,7 +289,11 @@ export async function getPostDetail(lang: string, slug: string) {
     published_at: article.publishedAt?.toISOString() ?? null,
     updated_at: article.updatedAt.toISOString(),
     author: null,
-    category: article.category ? { name: article.category, slug: article.category } : null,
+    // Only expose a category the reader can actually follow — PostMeta renders
+    // this as a link to /blog/category/<slug>, and a non-hub slug 301s.
+    category: isHubCategory(article.category)
+      ? { name: article.category, slug: article.category }
+      : null,
     tags: [] as { name: string; slug: string }[],
     featured_image: featured,
   };

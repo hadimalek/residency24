@@ -250,6 +250,30 @@ const DELETED_BLOG_POSTS: Record<string, string> = {
   "free_birthday_activities_in_dubai": "blog",
 };
 
+// Six DELETED_BLOG_POSTS slugs are NOT dead in every locale: the Persian article
+// is published and sits in sitemap-fa.xml, while en/ar/ru really are gone. The
+// table came from GSC's "Not found" export, which reports the unprefixed
+// (English) URLs — so redirecting all four locales pulled six LIVE articles out
+// of the index and made the fa sitemap advertise URLs that 301. Those posts are
+// also linked from the blog listing and category hubs, which now that pagination
+// is crawlable means real internal links pointing at redirects.
+//
+// Verified per locale with GET /api/cms/posts/{lang}/{slug}; re-check that way
+// before adding or removing an entry. The other 15 entries are dead everywhere.
+const DELETED_POST_LIVE_IN: Record<string, Set<string>> = {
+  "impact-new-dubai-visa-laws-real-estate-market": new Set(["fa"]),
+  "best-european-countries-to-register-a-company": new Set(["fa"]),
+  "burj-al-arab-dubai-guide": new Set(["fa"]),
+  "sheikh-zayed-road-in-dubai": new Set(["fa"]),
+  "roaming-activate-in-dubai": new Set(["fa"]),
+  "radiology-technician-salary-in-dubai": new Set(["fa"]),
+};
+
+/** Is a slug listed in DELETED_BLOG_POSTS still published in THIS locale? */
+function postStillLive(locale: string, slug: string): boolean {
+  return DELETED_POST_LIVE_IN[slug]?.has(locale || "en") ?? false;
+}
+
 function withLocale(locale: string, suffix: string): string {
   if (!suffix) return locale ? `/${locale}` : "/";
   return locale ? `/${locale}/${suffix}` : `/${suffix}`;
@@ -271,7 +295,9 @@ function legacyRedirect(pathname: string): string | null {
     const bareFeed = rest.length === 3 && rest[2] === "feed";
     if (bare || bareFeed) {
       const slug = rest[1];
-      if (DELETED_BLOG_POSTS[slug]) return withLocale(locale, DELETED_BLOG_POSTS[slug]);
+      if (DELETED_BLOG_POSTS[slug] && !postStillLive(locale, slug)) {
+        return withLocale(locale, DELETED_BLOG_POSTS[slug]);
+      }
     }
   }
 
