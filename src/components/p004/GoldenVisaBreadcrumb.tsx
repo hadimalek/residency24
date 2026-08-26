@@ -2,14 +2,15 @@
 
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ChevronRight, ChevronLeft } from "lucide-react";
+import { localizedPath } from "@/lib/locale-path";
 
 export default function GoldenVisaBreadcrumb() {
   const { t, lang, isRTL } = useLanguage();
   const Chevron = isRTL ? ChevronLeft : ChevronRight;
 
   const crumbs = [
-    { label: lang === "fa" ? "خانه" : lang === "ar" ? "الرئيسية" : lang === "ru" ? "Главная" : "Home", href: `/${lang}` },
-    { label: t.p004.breadcrumb_uae, href: `/${lang}/uae` },
+    { label: lang === "fa" ? "خانه" : lang === "ar" ? "الرئيسية" : lang === "ru" ? "Главная" : "Home", href: localizedPath(lang) },
+    { label: t.p004.breadcrumb_uae, href: localizedPath(lang, "uae") },
     { label: t.p004.breadcrumb_gv },
   ];
 

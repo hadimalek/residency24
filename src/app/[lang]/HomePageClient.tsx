@@ -22,15 +22,16 @@ import WhatsAppFloat from "@/components/WhatsAppFloat";
 import { Trophy, Building2, Building, Plane } from "lucide-react";
 import type { CrossSellItem } from "@/components/shared/SharedCrossSell";
 import type { HomePostPreview } from "@/lib/cms/articles";
+import { localizedPath } from "@/lib/locale-path";
 
 export default function HomePageClient({ h1, blogPosts }: { h1: string; blogPosts?: HomePostPreview[] }) {
   const { t, lang } = useLanguage();
   const s = t.shared;
 
   const crossSellItems: CrossSellItem[] = [
-    { title: s.cs_golden_visa, description: s.cs_golden_visa_desc, icon: Trophy, href: `/${lang}/uae/golden-visa`, isHighlighted: true, badge: s.cs_badge_popular },
-    { title: s.cs_company_reg, description: s.cs_company_reg_desc, icon: Building2, href: `/${lang}/uae/company-registration` },
-    { title: s.cs_property, description: s.cs_property_desc, icon: Building, href: `/${lang}/uae/buy-property` },
+    { title: s.cs_golden_visa, description: s.cs_golden_visa_desc, icon: Trophy, href: localizedPath(lang, 'uae/golden-visa'), isHighlighted: true, badge: s.cs_badge_popular },
+    { title: s.cs_company_reg, description: s.cs_company_reg_desc, icon: Building2, href: localizedPath(lang, 'uae/company-registration') },
+    { title: s.cs_property, description: s.cs_property_desc, icon: Building, href: localizedPath(lang, 'uae/buy-property') },
   ];
 
   return (

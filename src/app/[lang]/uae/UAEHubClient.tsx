@@ -23,22 +23,23 @@ import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import { Trophy, Building2, Building, Globe, Leaf } from "lucide-react";
 import type { CrossSellItem } from "@/components/shared/SharedCrossSell";
+import { localizedPath } from "@/lib/locale-path";
 
 export default function UAEHubClient({ h1 }: { h1: string }) {
   const { t, lang } = useLanguage();
   const s = t.shared;
 
   const breadcrumbItems = [
-    { label: "Residency24", href: `/${lang}` },
+    { label: "Residency24", href: localizedPath(lang) },
     { label: "UAE" },
   ];
 
   const crossSellItems: CrossSellItem[] = [
-    { title: s.cs_golden_visa, description: s.cs_golden_visa_desc, icon: Trophy, href: `/${lang}/uae/golden-visa`, isHighlighted: true, badge: s.cs_badge_popular },
-    { title: s.cs_green_visa, description: s.cs_green_visa_desc, icon: Leaf, href: `/${lang}/uae/green-visa` },
-    { title: s.cs_company_reg, description: s.cs_company_reg_desc, icon: Building2, href: `/${lang}/uae/company-registration` },
-    { title: s.cs_property, description: s.cs_property_desc, icon: Building, href: `/${lang}/uae/buy-property` },
-    { title: s.cs_oman, description: s.cs_oman_desc, icon: Globe, href: `/${lang}/oman` },
+    { title: s.cs_golden_visa, description: s.cs_golden_visa_desc, icon: Trophy, href: localizedPath(lang, "uae/golden-visa"), isHighlighted: true, badge: s.cs_badge_popular },
+    { title: s.cs_green_visa, description: s.cs_green_visa_desc, icon: Leaf, href: localizedPath(lang, "uae/green-visa") },
+    { title: s.cs_company_reg, description: s.cs_company_reg_desc, icon: Building2, href: localizedPath(lang, "uae/company-registration") },
+    { title: s.cs_property, description: s.cs_property_desc, icon: Building, href: localizedPath(lang, "uae/buy-property") },
+    { title: s.cs_oman, description: s.cs_oman_desc, icon: Globe, href: localizedPath(lang, "oman") },
   ];
 
   return (

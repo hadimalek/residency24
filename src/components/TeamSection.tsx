@@ -3,6 +3,7 @@
 import { useLanguage } from '@/contexts/LanguageContext';
 import { motion } from 'framer-motion';
 import { MapPin, Briefcase } from 'lucide-react';
+import { localizedPath } from "@/lib/locale-path";
 
 /** hideMeetMore: ad landings must not link out — hides the "/about" link. */
 const TeamSection = ({ hideMeetMore = false }: { hideMeetMore?: boolean }) => {
@@ -94,7 +95,7 @@ const TeamSection = ({ hideMeetMore = false }: { hideMeetMore?: boolean }) => {
         {!hideMeetMore && t.team.meet_more && (
           <div className="text-center">
             <a
-              href={`/${lang}/about`}
+              href={localizedPath(lang, 'about')}
               className="text-sm text-gold hover:underline font-medium"
             >
               {t.team.meet_more} →

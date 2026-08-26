@@ -4,6 +4,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { motion } from "framer-motion";
 import { Shield, Building2 } from "lucide-react";
 import Link from "next/link";
+import { localizedPath } from "@/lib/locale-path";
 
 const RelatedServices = () => {
   const { t, lang } = useLanguage();
@@ -14,14 +15,14 @@ const RelatedServices = () => {
       icon: Shield,
       title: bp.related_visa_title,
       desc: bp.related_visa_desc,
-      href: `/${lang}/uae/golden-visa`,
+      href: localizedPath(lang, "uae/golden-visa"),
       cta: bp.related_visa_title,
     },
     {
       icon: Building2,
       title: bp.related_company_title,
       desc: bp.related_company_desc,
-      href: `/${lang}/uae/company-registration`,
+      href: localizedPath(lang, "uae/company-registration"),
       cta: bp.related_company_title,
     },
   ];

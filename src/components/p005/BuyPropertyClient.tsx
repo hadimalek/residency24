@@ -27,6 +27,7 @@ import type { FAQItem } from "@/components/shared/SharedFAQ";
 import type { CrossSellItem } from "@/components/shared/SharedCrossSell";
 import type { Stat } from "@/components/shared/SharedStatsStrip";
 import type { PricingRow } from "@/components/shared/SharedPricingTable";
+import { localizedPath } from "@/lib/locale-path";
 
 const BASE_URL = "https://residency24.com";
 
@@ -145,14 +146,14 @@ export default function BuyPropertyClient({ h1 }: { h1: string }) {
   }));
 
   const crossSellItems: CrossSellItem[] = [
-    { title: s.cs_golden_visa, description: s.cs_golden_via_prop_desc, icon: Trophy, href: `/${lang}/uae/golden-visa`, isHighlighted: true, badge: s.cs_badge_unlock },
-    { title: s.cs_company_reg, description: s.cs_company_reg_desc, icon: Building2, href: `/${lang}/uae/company-registration` },
-    { title: s.cs_oman_prop, description: s.cs_oman_prop_desc, icon: Globe, href: `/${lang}/oman/buy-property` },
+    { title: s.cs_golden_visa, description: s.cs_golden_via_prop_desc, icon: Trophy, href: localizedPath(lang, "uae/golden-visa"), isHighlighted: true, badge: s.cs_badge_unlock },
+    { title: s.cs_company_reg, description: s.cs_company_reg_desc, icon: Building2, href: localizedPath(lang, "uae/company-registration") },
+    { title: s.cs_oman_prop, description: s.cs_oman_prop_desc, icon: Globe, href: localizedPath(lang, "oman/buy-property") },
   ];
 
   const breadcrumbItems = [
-    { label: "Residency24", href: `/${lang}` },
-    { label: bp.breadcrumb_uae, href: `/${lang}/uae` },
+    { label: "Residency24", href: localizedPath(lang) },
+    { label: bp.breadcrumb_uae, href: localizedPath(lang, "uae") },
     { label: bp.breadcrumb_property },
   ];
 

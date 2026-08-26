@@ -24,6 +24,7 @@ import EligibilityCheck from "@/components/p037/EligibilityCheck";
 import WhyGreenVisa from "@/components/p037/WhyGreenVisa";
 import PathwayTabs from "@/components/p037/PathwayTabs";
 import GreenVisaComparison from "@/components/p037/GreenVisaComparison";
+import { localizedPath } from "@/lib/locale-path";
 
 const WA = "https://wa.me/971562009131";
 const HOW_ICONS = [ClipboardCheck, FileText, Send, Stethoscope, BadgeCheck];
@@ -41,8 +42,8 @@ export default function GreenVisaPageClient() {
   };
 
   const breadcrumbItems = [
-    { label: p.breadcrumb[0], href: `/${lang}` },
-    { label: p.breadcrumb[1], href: `/${lang}/uae` },
+    { label: p.breadcrumb[0], href: localizedPath(lang) },
+    { label: p.breadcrumb[1], href: localizedPath(lang, "uae") },
     { label: p.breadcrumb[2] },
   ];
 
@@ -54,9 +55,9 @@ export default function GreenVisaPageClient() {
   }));
 
   const crossSellItems: CrossSellItem[] = [
-    { ...p.crossSell.items[0], icon: Shield, href: `/${lang}/uae/golden-visa`, isHighlighted: true },
-    { ...p.crossSell.items[1], icon: Building2, href: `/${lang}/uae/company-registration` },
-    { ...p.crossSell.items[2], icon: Home, href: `/${lang}/uae/buy-property` },
+    { ...p.crossSell.items[0], icon: Shield, href: localizedPath(lang, "uae/golden-visa"), isHighlighted: true },
+    { ...p.crossSell.items[1], icon: Building2, href: localizedPath(lang, "uae/company-registration") },
+    { ...p.crossSell.items[2], icon: Home, href: localizedPath(lang, "uae/buy-property") },
   ];
 
   return (

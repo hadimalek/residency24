@@ -25,6 +25,7 @@ import type { Stat } from "@/components/shared/SharedStatsStrip";
 import type { Testimonial } from "@/components/shared/SharedTestimonials";
 import type { FAQItem } from "@/components/shared/SharedFAQ";
 import type { CrossSellItem } from "@/components/shared/SharedCrossSell";
+import { localizedPath } from "@/lib/locale-path";
 
 export default function CompanyRegistrationClient({ lang }: { lang: Lang }) {
   const { t } = useLanguage();
@@ -36,8 +37,8 @@ export default function CompanyRegistrationClient({ lang }: { lang: Lang }) {
   }));
 
   const breadcrumbItems = [
-    { label: "Residency24", href: `/${lang}` },
-    { label: cr.breadcrumb_uae || "UAE", href: `/${lang}/uae` },
+    { label: "Residency24", href: localizedPath(lang) },
+    { label: cr.breadcrumb_uae || "UAE", href: localizedPath(lang, "uae") },
     { label: cr.breadcrumb_cr || cr.seo_title?.split("|")[0] || "Company Registration" },
   ];
 
@@ -57,9 +58,9 @@ export default function CompanyRegistrationClient({ lang }: { lang: Lang }) {
   ];
 
   const crossSellItems: CrossSellItem[] = [
-    { title: s.cs_golden_visa, description: s.cs_golden_visa_comp_desc, icon: Trophy, href: `/${lang}/uae/golden-visa`, isHighlighted: true },
-    { title: s.cs_property, description: s.cs_property_comp_desc, icon: Building, href: `/${lang}/uae/buy-property` },
-    { title: s.cs_oman_comp, description: s.cs_oman_comp_desc, icon: Globe, href: `/${lang}/oman/company-registration` },
+    { title: s.cs_golden_visa, description: s.cs_golden_visa_comp_desc, icon: Trophy, href: localizedPath(lang, "uae/golden-visa"), isHighlighted: true },
+    { title: s.cs_property, description: s.cs_property_comp_desc, icon: Building, href: localizedPath(lang, "uae/buy-property") },
+    { title: s.cs_oman_comp, description: s.cs_oman_comp_desc, icon: Globe, href: localizedPath(lang, "oman/company-registration") },
   ];
 
   return (

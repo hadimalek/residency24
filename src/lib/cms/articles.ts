@@ -1,5 +1,10 @@
 import { prisma } from "@/lib/prisma";
 import type { Locale } from "@/i18n/routing";
+import type { Lang } from "@/translations";
+// English is served at root: a hardcoded `/${locale}/...` emits "/en/blog/x",
+// which 301s to "/blog/x" (src/proxy.ts). The homepage's post cards were the
+// site's highest-authority links and every one of them was a redirect hop.
+import { localizedPath } from "@/lib/locale-path";
 
 export async function getArticleBySlug(slug: string, locale: Locale) {
   const article = await prisma.article.findUnique({
@@ -138,7 +143,7 @@ export async function listHomePagePreviewArticles(
         slug: a.slug,
         title: t.title,
         excerpt: t.excerpt ?? "",
-        href: `/${locale}/blog/${a.slug}`,
+        href: localizedPath(locale as Lang, `blog/${a.slug}`),
         img,
         alt: t.title,
         tag: a.category ?? "",

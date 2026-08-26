@@ -4,6 +4,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { Check } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { localizedPath } from "@/lib/locale-path";
 
 export default function PricingTable() {
   const { t, lang } = useLanguage();
@@ -87,7 +88,7 @@ export default function PricingTable() {
 
         <div className="text-center mt-8">
           <Link
-            href={`/${lang}/uae/company-registration/#cr-s14`}
+            href={`${localizedPath(lang, 'uae/company-registration')}#cr-s14`}
             className="inline-block bg-navy text-gold font-bold px-8 py-3 rounded-xl hover:bg-navy-lt transition"
           >
             {cr.price_cta}

@@ -7,6 +7,7 @@ import WhatsAppFloat from "@/components/WhatsAppFloat";
 import SharedCrossSell from "@/components/shared/SharedCrossSell";
 import { CheckCircle, Clock, DollarSign, Calendar, Shield, Building2, Home } from "lucide-react";
 import type { CrossSellItem } from "@/components/shared/SharedCrossSell";
+import { localizedPath } from "@/lib/locale-path";
 
 type ServicePageType = "golden_visa" | "company_registration" | "buy_property" | "tourist_visa";
 
@@ -17,9 +18,9 @@ export default function UAEServicePageClient({ service }: { service: ServicePage
   if (!p) return null;
 
   const crossSellItems: CrossSellItem[] = [
-    { title: p.cross_gv_title, description: p.cross_gv_desc, icon: Shield, href: `/${lang}/uae/golden-visa`, isHighlighted: true },
-    { title: p.cross_company_title, description: p.cross_company_desc, icon: Building2, href: `/${lang}/uae/company-registration` },
-    { title: p.cross_property_title, description: p.cross_property_desc, icon: Home, href: `/${lang}/uae/buy-property` },
+    { title: p.cross_gv_title, description: p.cross_gv_desc, icon: Shield, href: localizedPath(lang, "uae/golden-visa"), isHighlighted: true },
+    { title: p.cross_company_title, description: p.cross_company_desc, icon: Building2, href: localizedPath(lang, "uae/company-registration") },
+    { title: p.cross_property_title, description: p.cross_property_desc, icon: Home, href: localizedPath(lang, "uae/buy-property") },
   ];
 
   return (

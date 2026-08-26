@@ -3,6 +3,7 @@
 import { useLanguage } from "@/contexts/LanguageContext";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { localizedPath } from "@/lib/locale-path";
 
 const PropertyVisaTable = () => {
   const { t, lang } = useLanguage();
@@ -15,7 +16,7 @@ const PropertyVisaTable = () => {
       duration: bp.visa_taskeen_duration,
       condition: bp.visa_taskeen_condition,
       cta: bp.visa_taskeen_cta,
-      href: `/${lang}/uae/golden-visa/?ref=p005-visa-table`,
+      href: `${localizedPath(lang, "uae/golden-visa")}?ref=p005-visa-table`,
       highlight: false,
     },
     {
@@ -24,7 +25,7 @@ const PropertyVisaTable = () => {
       duration: bp.visa_golden_duration,
       condition: bp.visa_golden_condition,
       cta: bp.visa_golden_cta,
-      href: `/${lang}/uae/golden-visa/?ref=p005-visa-table`,
+      href: `${localizedPath(lang, "uae/golden-visa")}?ref=p005-visa-table`,
       highlight: true,
     },
     {
@@ -33,7 +34,7 @@ const PropertyVisaTable = () => {
       duration: bp.visa_retirement_duration,
       condition: bp.visa_retirement_condition,
       cta: bp.visa_retirement_cta,
-      href: `/${lang}/uae/golden-visa/?ref=p005-visa-table`,
+      href: `${localizedPath(lang, "uae/golden-visa")}?ref=p005-visa-table`,
       highlight: false,
     },
   ];

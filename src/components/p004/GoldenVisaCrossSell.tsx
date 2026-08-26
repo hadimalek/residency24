@@ -3,6 +3,7 @@
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Home, Building2, MapPin, BarChart3 } from "lucide-react";
 import { motion } from "framer-motion";
+import { localizedPath } from "@/lib/locale-path";
 
 const CARDS = [
   { icon: Home, titleKey: "cross_property_title", descKey: "cross_property_desc", href: "/uae/buy-property", featured: true, gaKey: "buy_property" },
@@ -32,7 +33,7 @@ export default function GoldenVisaCrossSell() {
             return (
               <motion.a
                 key={card.titleKey}
-                href={`/${lang}${card.href}`}
+                href={localizedPath(lang, card.href)}
                 onClick={() => handleClick(card.gaKey)}
                 initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}

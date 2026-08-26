@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { motion } from "framer-motion";
 import { Check, Loader2 } from "lucide-react";
+import { localizedPath } from "@/lib/locale-path";
 
 interface LandingLeadFormProps {
   /** "hero" = on a dark navy background; "cta" = same, slightly different copy slot. */
@@ -46,7 +47,7 @@ export default function LandingLeadForm({ sourceSlug, strings }: LandingLeadForm
         body: JSON.stringify({
           name: n,
           phone: p,
-          sourcePage: `/${lang}/${sourceSlug}`,
+          sourcePage: localizedPath(lang, sourceSlug),
           website,
         }),
       });
