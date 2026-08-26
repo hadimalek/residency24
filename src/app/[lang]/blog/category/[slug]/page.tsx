@@ -20,28 +20,40 @@ import BlogPagination from "@/components/blog/BlogPagination";
 
 export const dynamic = "force-dynamic";
 
-const PER_PAGE = 9;
+// Matches the blog index — see the note on PER_PAGE there.
+const PER_PAGE = 24;
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: {
   params: Promise<{ lang: string; slug: string }>;
+  searchParams: Promise<{ q?: string; page?: string }>;
 }): Promise<Metadata> {
   const { lang: rawLang, slug } = await params;
+  const sp = await searchParams;
   const lang = (LANGS.includes(rawLang as Lang) ? rawLang : "en") as Lang;
   const seo = BLOG_SEO[lang];
   const config = LANG_CONFIG[lang];
   const decodedSlug = decodeURIComponent(slug);
 
+  const page = Math.max(1, Number(sp.page ?? 1) || 1);
+  const q = sp.q ?? "";
+
   const cats = await fetchBlogCategories(lang);
   const cat = cats.find((c) => c.slug === decodedSlug);
-  const title = cat ? `${cat.name} — ${seo.title}` : seo.title;
+  const baseTitle = cat ? `${cat.name} — ${seo.title}` : seo.title;
+  const title = page > 1 ? `${baseTitle} — ${page}` : baseTitle;
   const description = cat?.description ?? seo.description;
-  const pageUrl = `${getBlogPageUrl(lang).replace(/\/$/, "")}/category/${slug}`;
+  // Self-canonicalise each paginated slice; see the note in ../../page.tsx.
+  const pageUrl =
+    `${getBlogPageUrl(lang).replace(/\/$/, "")}/category/${slug}` +
+    (page > 1 ? `?page=${page}` : "");
 
   return {
     title,
     description,
+    ...(q ? { robots: { index: false, follow: true } } : {}),
     alternates: { canonical: pageUrl },
     openGraph: {
       type: "website",
