@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "residency24-gsc": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "C:/Users/Mostafa Bakhshian/Desktop/residency24/tools/gsc-mcp/server.mjs"
+      ],
+      "env": {}
+    }
+  }
+}

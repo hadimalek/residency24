@@ -1,0 +1,5 @@
+node_modules/
+# Never commit credentials or tokens. Both live outside the repo by default;
+# this is a guard in case someone points GSC_TOKEN_FILE in here.
+.gsc-token.json
+client_secret*.json

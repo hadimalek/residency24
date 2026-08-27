@@ -1,0 +1,18 @@
+{
+  "name": "residency24-gsc-mcp",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Local MCP server exposing Google Search Console for residency24.com",
+  "bin": {
+    "residency24-gsc-mcp": "./server.mjs"
+  },
+  "scripts": {
+    "auth": "node auth.mjs",
+    "start": "node server.mjs",
+    "check": "node auth.mjs --check"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0"
+  }
+}
