@@ -265,8 +265,10 @@ export interface CmsAuthorProfile {
     x: string | null;
   };
   post_count: number;
-  /** Locales the profile is written in — used to emit honest hreflang. */
+  /** Locales the profile is written in. */
   locales: string[];
+  /** Locales the author has actually published in — drives hreflang + indexing. */
+  post_locales: string[];
 }
 
 export async function fetchAuthor(

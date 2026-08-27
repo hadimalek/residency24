@@ -132,6 +132,18 @@ export async function getAuthor(lang: string, slug: string) {
   const detail = authorToDetail(author, lang);
   if (!detail) return null;
 
+  // Which locales this author has actually published in. This — not which
+  // locales their bio is translated into — decides whether a locale's profile
+  // page is worth indexing: someone who writes only in English has nothing to
+  // show on /fa/blog/author/…, and a page listing zero articles is thin content
+  // Google should never have been offered.
+  const postRows = await prisma.article.findMany({
+    where: { authorId: author.id, status: "PUBLISHED" },
+    select: { translations: { select: { locale: true } } },
+  });
+  const postLocales = new Set<string>();
+  for (const r of postRows) for (const t of r.translations) postLocales.add(t.locale);
+
   const postCount = await prisma.article.count({
     where: {
       authorId: author.id,
@@ -145,8 +157,10 @@ export async function getAuthor(lang: string, slug: string) {
     url: authorUrl(lang, author.slug),
     links: authorLinks(author),
     post_count: postCount,
-    /** Locales this profile is actually written in — drives hreflang. */
+    /** Locales this profile is written in. */
     locales: author.translations.map((t) => t.locale),
+    /** Locales the author has published articles in — drives hreflang + indexing. */
+    post_locales: [...postLocales],
   };
 }
 

@@ -76,12 +76,19 @@ export async function generateMetadata({
   const description =
     author.bio?.slice(0, 300) ?? `${COPY[lang].postsBy(author.name)} — Residency24`;
 
-  // hreflang only for the locales this profile is actually written in, and only
-  // on page 1 — post counts differ per locale so "page 3 in Arabic" may not exist.
+  // A profile is only worth indexing in a locale the author has actually
+  // published in. Someone who writes only in English has an empty page at
+  // /fa/blog/author/… — thin content that should never enter the index. `follow`
+  // keeps the outbound links alive for the rare human who lands there.
+  const hasPostsHere = author.post_locales.includes(lang);
+
+  // hreflang across exactly the locales with content, so the cluster every page
+  // advertises is mutually consistent and contains no indexable-empty members.
+  // Page 1 only: post counts differ per locale, so "page 3 in Arabic" may not exist.
   const languages: Record<string, string> = {};
-  if (page === 1) {
+  if (page === 1 && hasPostsHere) {
     for (const l of LANGS) {
-      if (author.locales.includes(l)) {
+      if (author.post_locales.includes(l)) {
         languages[LANG_CONFIG[l].hreflang] = `https://residency24.com${authorPath(l, author.slug)}`;
       }
     }
@@ -90,6 +97,7 @@ export async function generateMetadata({
   return {
     title,
     description,
+    ...(hasPostsHere ? {} : { robots: { index: false, follow: true } }),
     alternates: {
       canonical: pageUrl,
       ...(Object.keys(languages).length > 1 ? { languages } : {}),
@@ -138,6 +146,10 @@ export default async function AuthorPage({
   const personSchema = {
     "@context": "https://schema.org",
     "@type": "Person",
+    // One identifier for the person across all four locales. Without it each
+    // localised page looks like a different Person; with it they consolidate
+    // into a single entity, which is the whole point of author markup.
+    "@id": `https://residency24.com/blog/author/${encodeURIComponent(author.slug)}#person`,
     name: author.name,
     url: profileUrl,
     ...(author.title ? { jobTitle: author.title } : {}),
