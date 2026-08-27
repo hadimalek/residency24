@@ -264,7 +264,14 @@ export default function PostForm({ mode, initial }: PostFormProps) {
         slug: slug || undefined,
         status,
         category: category || null,
-        authorId: authorId || null,
+        // Only sent when the editor actually changed it. The API treats an
+        // absent authorId as "leave alone" and null as "clear the byline", so
+        // always sending it means a form that opened with stale state — an
+        // older bundle, or before the author list loaded — silently strips the
+        // author on save. That already happened to one article.
+        ...(authorId !== (initial?.authorId ?? "")
+          ? { authorId: authorId || null }
+          : {}),
         publishedAt: fromLocalInput(publishedAt),
         // Only send when the editor actually set one — an empty field must keep
         // Prisma's automatic @updatedAt behaviour rather than clearing it.
