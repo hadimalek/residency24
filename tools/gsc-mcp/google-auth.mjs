@@ -99,6 +99,41 @@ export function buildConsentUrl(client, state) {
   return `${client.authUri}?${p}`;
 }
 
+/**
+ * Ask Google whether REDIRECT_URI is registered for this client, instead of
+ * trusting the redirect_uris in the downloaded client_secret json — that file is
+ * a snapshot and does NOT change when a URI is added in Cloud Console, so
+ * trusting it would keep blocking a setup that is actually fine.
+ *
+ * Google answers a bad redirect with a 302 to /signin/oauth/error carrying a
+ * base64 `authError` blob; the reason string is inside it.
+ */
+export async function probeRedirectUri(client) {
+  const url = buildConsentUrl(client, "probe");
+  let res;
+  try {
+    res = await fetch(url, { redirect: "manual" });
+  } catch (e) {
+    return { ok: false, reason: `could not reach Google: ${e.message}` };
+  }
+  const location = res.headers.get("location") ?? "";
+  const authError = new URL(location, "https://accounts.google.com").searchParams.get("authError");
+  if (!authError) {
+    // No error payload -> Google is willing to show the consent/sign-in screen.
+    return { ok: true, reason: null };
+  }
+  let decoded = "";
+  try {
+    decoded = Buffer.from(authError, "base64").toString("utf8");
+  } catch {
+    decoded = authError;
+  }
+  const reason = /redirect_uri_mismatch/.test(decoded)
+    ? "redirect_uri_mismatch"
+    : (decoded.match(/^[ -~]+/) ?? ["unknown OAuth error"])[0];
+  return { ok: false, reason };
+}
+
 export async function exchangeCode(client, code) {
   const res = await fetch(client.tokenUri, {
     method: "POST",

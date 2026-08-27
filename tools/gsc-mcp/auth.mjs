@@ -13,6 +13,7 @@ import { randomBytes } from "node:crypto";
 import {
   loadClient,
   buildConsentUrl,
+  probeRedirectUri,
   exchangeCode,
   saveRefreshToken,
   loadRefreshToken,
@@ -59,13 +60,18 @@ async function check() {
 async function authorise() {
   const client = await loadClient();
 
-  if (client.kind === "web" && !client.registeredRedirects.includes(REDIRECT_URI)) {
+  // Ask Google rather than reading redirect_uris out of the downloaded json:
+  // that file is a snapshot and does not change when a URI is added in Cloud
+  // Console, so trusting it would keep blocking a setup that is already fixed.
+  const probe = await probeRedirectUri(client);
+  if (!probe.ok) {
     console.error(line);
-    console.error("This OAuth client cannot be used for a LOCAL server yet.");
+    console.error(`Google rejected the loopback redirect: ${probe.reason}`);
     console.error(line);
-    console.error(`It is a "Web application" client and its registered redirect URIs are:`);
+    console.error(`This is a "${client.kind}" client. The redirect URIs in the`);
+    console.error(`downloaded json (possibly out of date) are:`);
     for (const u of client.registeredRedirects) console.error(`    ${u}`);
-    console.error(`\nA local MCP server needs this one, which is not registered:`);
+    console.error(`\nA local MCP server needs this one:`);
     console.error(`    ${REDIRECT_URI}`);
     console.error(`\nAdd it once in Google Cloud Console:`);
     console.error(`  console.cloud.google.com/apis/credentials?project=${client.projectId}`);
