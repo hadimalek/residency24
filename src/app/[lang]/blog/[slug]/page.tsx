@@ -21,6 +21,18 @@ import ServicesSidebar from "@/components/blog/ServicesSidebar";
 
 export const dynamicParams = true;
 
+// Without this the route is prerendered at build time and then frozen: the build
+// output showed `●` with an empty Revalidate column, so every article page kept
+// serving whatever the DB said at deploy time. Nothing an editor changed in the
+// admin panel — title, body, category, publish/update date, author — ever
+// reached the live page until somebody happened to redeploy.
+//
+// The inner fetch already asks for 60s (cmsGet(..., 60)), but that never became
+// the route's revalidate period because /api/cms/posts/[lang]/[slug] is
+// force-dynamic and answers no-store, which makes the fetch uncacheable. So the
+// period has to be declared here.
+export const revalidate = 60;
+
 export async function generateStaticParams() {
   const pairs = await fetchBlogPostParams();
   return pairs.map(({ lang, slug }) => ({ lang, slug }));
