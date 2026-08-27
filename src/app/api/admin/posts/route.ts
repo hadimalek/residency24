@@ -103,6 +103,8 @@ export async function POST(request: NextRequest) {
     const excerpt = body.excerpt ?? null;
     const status = body.status === "PUBLISHED" ? "PUBLISHED" : "DRAFT";
     const featuredImageId = body.featuredImageId ?? null;
+    const authorId =
+      typeof body.authorId === "string" && body.authorId.trim() ? body.authorId.trim() : null;
     const category =
       typeof body.category === "string" && body.category.trim()
         ? body.category.trim().slice(0, 64)
@@ -131,6 +133,7 @@ export async function POST(request: NextRequest) {
         publishedAt,
         featuredImageId,
         category,
+        authorId,
         translations: {
           create: {
             locale: lang,

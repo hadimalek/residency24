@@ -18,6 +18,9 @@ model User {
   name         String   @db.VarChar(255)
   role         String   @default("ADMIN") @db.VarChar(32) // ADMIN | EDITOR
   createdAt    DateTime @default(now())
+
+  /// Public writer profile, if this account writes for the blog.
+  author Author?
 }
 
 model Session {
@@ -443,6 +446,9 @@ model Article {
   country   Country? @relation(fields: [countryId], references: [id], onDelete: SetNull)
   category  String?  @db.VarChar(64)
 
+  authorId String? @db.VarChar(30)
+  author   Author? @relation(fields: [authorId], references: [id], onDelete: SetNull)
+
   // robots meta — null/empty means default (indexable). Use values like
   // "index,follow", "noindex,nofollow", "noindex,follow". The sitemap
   // generator excludes anything that matches /noindex/i.
@@ -456,6 +462,7 @@ model Article {
   @@index([status, publishedAt])
   @@index([countryId, status])
   @@index([category])
+  @@index([authorId])
 }
 
 model ArticleTranslation {
@@ -715,6 +722,7 @@ model Media {
   visaHeroFor        VisaType[] @relation("VisaTypeHeroImage")
   serviceHeroFor     Service[]  @relation("ServiceHeroImage")
   articleFeaturedFor Article[]  @relation("ArticleFeaturedImage")
+  authorAvatarFor    Author[]   @relation("AuthorAvatar")
 
   createdAt DateTime @default(now())
 
@@ -732,6 +740,60 @@ model MediaTranslation {
   caption String? @db.Text
 
   @@unique([mediaId, locale])
+  @@index([locale])
+}
+
+// ============================================================
+// AUTHORS
+// ============================================================
+
+model Author {
+  id   String @id @default(cuid()) @db.VarChar(30)
+  /// Public URL segment: /{locale}/blog/author/{slug}. Latin, stable — changing
+  /// it changes a live indexed URL.
+  slug String @unique @db.VarChar(128)
+
+  /// The admin account this profile belongs to. Nullable on purpose: a guest
+  /// writer can have a public profile with no login, and removing someone's
+  /// account must not erase the byline on everything they published.
+  userId Int?  @unique
+  user   User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  avatarId String? @db.VarChar(30)
+  avatar   Media?  @relation("AuthorAvatar", fields: [avatarId], references: [id], onDelete: SetNull)
+
+  websiteUrl   String? @db.VarChar(512)
+  instagramUrl String? @db.VarChar(512)
+  linkedinUrl  String? @db.VarChar(512)
+  telegramUrl  String? @db.VarChar(512)
+  xUrl         String? @db.VarChar(512)
+
+  /// false hides the profile page and the byline without deleting anything.
+  isActive  Boolean @default(true)
+  sortOrder Int     @default(0)
+
+  translations AuthorTranslation[]
+  articles     Article[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([isActive])
+}
+
+/// Name, role and bio per language — the same pattern as ArticleTranslation, so
+/// a Persian reader gets a Persian byline and an English reader an English one.
+model AuthorTranslation {
+  id       String @id @default(cuid())
+  authorId String @db.VarChar(30)
+  author   Author @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  locale   String @db.VarChar(8)
+
+  name  String  @db.VarChar(255)
+  title String? @db.VarChar(255)
+  bio   String? @db.Text
+
+  @@unique([authorId, locale])
   @@index([locale])
 }
 

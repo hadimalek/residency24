@@ -14,6 +14,7 @@ import {
   X,
   ChevronRight,
   UserCog,
+  Feather,
   BookOpen,
   Tags,
 } from "lucide-react";
@@ -34,7 +35,8 @@ const adminNavItems = [
   { label: "دسته‌بندی‌ها", icon: Tags, href: "/admin/categories" },
   { label: "پرامت‌ها", icon: FileText, href: "/admin/prompts" },
   { label: "تامین‌کننده‌ها", icon: Cpu, href: "/admin/providers" },
-  { label: "نویسنده‌ها", icon: UserCog, href: "/admin/authors" },
+  { label: "نویسندگان", icon: Feather, href: "/admin/authors" },
+  { label: "کاربران و دسترسی‌ها", icon: UserCog, href: "/admin/users" },
   { label: "تنظیمات", icon: Settings, href: "/admin/settings" },
 ];
 

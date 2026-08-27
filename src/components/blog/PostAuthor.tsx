@@ -1,6 +1,6 @@
 import type { CmsAuthorDetail } from "@/lib/cms/api";
 import type { Lang } from "@/translations";
-import { LANG_CONFIG } from "@/lib/seo";
+import { LANG_CONFIG, localizedPath } from "@/lib/seo";
 
 interface PostAuthorProps {
   author: CmsAuthorDetail;
@@ -44,7 +44,12 @@ export default function PostAuthor({ author, lang }: PostAuthorProps) {
         <p className="text-xs font-bold text-navy/50 uppercase tracking-widest mb-1">
           {authorLabel[lang] ?? authorLabel.en}
         </p>
-        <p className="font-bold text-navy text-base">{author.name}</p>
+        <a
+          href={localizedPath(lang, `blog/author/${encodeURIComponent(author.slug)}`)}
+          className="font-bold text-navy text-base hover:text-gold-dk transition-colors"
+        >
+          {author.name}
+        </a>
         {author.title && (
           <p className="text-sm text-gold-dk font-medium mt-0.5">{author.title}</p>
         )}

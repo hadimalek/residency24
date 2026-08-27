@@ -117,6 +117,13 @@ export async function PATCH(
     // publishes as <lastmod>. Omitting it keeps the automatic behaviour.
     const updatedAtInput = parseDate(body.updatedAt);
 
+    // authorId: undefined → leave unchanged; null/"" → clear the byline
+    let nextAuthorId: string | null | undefined = undefined;
+    if (body.authorId !== undefined) {
+      nextAuthorId =
+        typeof body.authorId === "string" && body.authorId.trim() ? body.authorId.trim() : null;
+    }
+
     // category: undefined → leave unchanged; null/"" → clear; string → set slug
     let nextCategory: string | null | undefined = undefined;
     if (body.category !== undefined) {
@@ -136,6 +143,7 @@ export async function PATCH(
           featuredImageId:
             body.featuredImageId === undefined ? article.featuredImageId : body.featuredImageId,
           category: nextCategory === undefined ? article.category : nextCategory,
+          authorId: nextAuthorId === undefined ? article.authorId : nextAuthorId,
           ...(updatedAtInput ? { updatedAt: updatedAtInput } : {}),
         },
       });

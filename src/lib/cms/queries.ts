@@ -25,6 +25,11 @@ function blogIndexUrl(lang: string): string {
   return lang === "en" ? `/blog` : `/${lang}/blog`;
 }
 
+function authorUrl(lang: string, slug: string): string {
+  const s = encodeURIComponent(slug);
+  return lang === "en" ? `/blog/author/${s}` : `/${lang}/blog/author/${s}`;
+}
+
 function homeUrl(lang: string): string {
   return lang === "en" ? "/" : `/${lang}`;
 }
@@ -58,6 +63,112 @@ function mediaToCms(media: MediaWithTrans | null | undefined) {
 }
 
 // ─────────────────────────────────────────────────────────────────────
+// AUTHORS
+// ─────────────────────────────────────────────────────────────────────
+
+/** Include clause that gives an author its translations and avatar. */
+const authorInclude = {
+  translations: true,
+  avatar: { include: { translations: true } },
+} as const;
+
+type AuthorRow = Prisma.AuthorGetPayload<{ include: typeof authorInclude }>;
+
+/**
+ * Pick the best translation for `lang`: the exact locale, else English, else
+ * whatever exists. A byline is better shown in the wrong language than dropped —
+ * an article with no author is indistinguishable from an unattributed one.
+ */
+function pickAuthorTranslation(author: AuthorRow, lang: string) {
+  return (
+    author.translations.find((t) => t.locale === lang) ??
+    author.translations.find((t) => t.locale === "en") ??
+    author.translations[0] ??
+    null
+  );
+}
+
+function authorToBrief(author: AuthorRow | null | undefined, lang: string) {
+  if (!author || !author.isActive) return null;
+  const t = pickAuthorTranslation(author, lang);
+  if (!t) return null;
+  return { name: t.name, slug: author.slug };
+}
+
+function authorToDetail(author: AuthorRow | null | undefined, lang: string) {
+  if (!author || !author.isActive) return null;
+  const t = pickAuthorTranslation(author, lang);
+  if (!t) return null;
+  return {
+    name: t.name,
+    slug: author.slug,
+    title: t.title ?? null,
+    bio: t.bio ?? null,
+    avatar: mediaToCms(author.avatar),
+  };
+}
+
+/** Social links, in the order the profile page renders them. */
+function authorLinks(author: AuthorRow) {
+  return {
+    website: author.websiteUrl ?? null,
+    linkedin: author.linkedinUrl ?? null,
+    instagram: author.instagramUrl ?? null,
+    telegram: author.telegramUrl ?? null,
+    x: author.xUrl ?? null,
+  };
+}
+
+/**
+ * One author's public profile, or null when the slug is unknown, the profile is
+ * hidden, or it has no translation at all.
+ */
+export async function getAuthor(lang: string, slug: string) {
+  const author = await prisma.author.findUnique({
+    where: { slug },
+    include: authorInclude,
+  });
+  if (!author || !author.isActive) return null;
+  const detail = authorToDetail(author, lang);
+  if (!detail) return null;
+
+  const postCount = await prisma.article.count({
+    where: {
+      authorId: author.id,
+      status: "PUBLISHED",
+      translations: { some: { locale: lang } },
+    },
+  });
+
+  return {
+    ...detail,
+    url: authorUrl(lang, author.slug),
+    links: authorLinks(author),
+    post_count: postCount,
+    /** Locales this profile is actually written in — drives hreflang. */
+    locales: author.translations.map((t) => t.locale),
+  };
+}
+
+/** Active authors that have at least one published article in `lang`. */
+export async function listAuthorsWithPosts(lang: string) {
+  const authors = await prisma.author.findMany({
+    where: {
+      isActive: true,
+      articles: { some: { status: "PUBLISHED", translations: { some: { locale: lang } } } },
+    },
+    include: authorInclude,
+    orderBy: [{ sortOrder: "asc" }, { createdAt: "asc" }],
+  });
+  return authors
+    .map((a) => {
+      const t = pickAuthorTranslation(a, lang);
+      return t ? { slug: a.slug, name: t.name, updatedAt: a.updatedAt } : null;
+    })
+    .filter((a): a is { slug: string; name: string; updatedAt: Date } => a !== null);
+}
+
+// ─────────────────────────────────────────────────────────────────────
 // LIST POSTS
 // ─────────────────────────────────────────────────────────────────────
 
@@ -70,15 +181,18 @@ export interface ListPostsOpts {
   page: number;
   perPage: number;
   slugs?: string[];
+  /** Author slug — powers the article list on an author's profile page. */
+  author?: string;
 }
 
 export async function listPosts(opts: ListPostsOpts) {
-  const { lang, category, q, page, perPage, slugs } = opts;
+  const { lang, category, q, page, perPage, slugs, author } = opts;
 
   const where: Prisma.ArticleWhereInput = {
     status: "PUBLISHED",
     translations: { some: { locale: lang } },
     ...(category ? { category } : {}),
+    ...(author ? { author: { slug: author, isActive: true } } : {}),
     ...(slugs && slugs.length > 0 ? { slug: { in: slugs } } : {}),
     ...(q
       ? {
@@ -105,6 +219,7 @@ export async function listPosts(opts: ListPostsOpts) {
       include: {
         translations: { where: { locale: lang } },
         featuredImage: { include: { translations: { where: { locale: lang } } } },
+        author: { include: authorInclude },
       },
     }),
   ]);
@@ -122,7 +237,7 @@ export async function listPosts(opts: ListPostsOpts) {
       reading_time_minutes: null as number | null,
       published_at: a.publishedAt?.toISOString() ?? null,
       updated_at: a.updatedAt.toISOString(),
-      author: null,
+      author: authorToBrief(a.author, lang),
       category: a.category ? { name: a.category, slug: a.category } : null,
       tags: [] as { name: string; slug: string }[],
       featured_image: mediaToCms(a.featuredImage),
@@ -278,6 +393,7 @@ export async function getPostDetail(lang: string, slug: string) {
     include: {
       translations: { where: { locale: lang } },
       featuredImage: { include: { translations: { where: { locale: lang } } } },
+      author: { include: authorInclude },
     },
   });
   if (!article) return null;
@@ -300,7 +416,7 @@ export async function getPostDetail(lang: string, slug: string) {
     reading_time_minutes: null as number | null,
     published_at: article.publishedAt?.toISOString() ?? null,
     updated_at: article.updatedAt.toISOString(),
-    author: null,
+    author: authorToDetail(article.author, lang),
     // Only expose a category the reader can actually follow — PostMeta renders
     // this as a link to /blog/category/<slug>, and a non-hub slug 301s.
     category: isHubCategory(article.category)

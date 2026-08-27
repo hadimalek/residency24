@@ -8,6 +8,7 @@ export async function GET(request: NextRequest) {
 
   const lang = searchParams.get("lang") ?? "en";
   const category = searchParams.get("category") || undefined;
+  const author = searchParams.get("author") || undefined;
   const tag = searchParams.get("tag") || undefined;
   const q = searchParams.get("q") || undefined;
   const type = searchParams.get("type") || undefined;
@@ -17,7 +18,7 @@ export async function GET(request: NextRequest) {
   const slugs = slugsParam ? slugsParam.split(",").map((s) => s.trim()).filter(Boolean) : undefined;
 
   try {
-    const result = await listPosts({ lang, category, tag, q, type, page, perPage, slugs });
+    const result = await listPosts({ lang, category, tag, q, type, page, perPage, slugs, author });
     return NextResponse.json(result);
   } catch (err) {
     console.error("[/api/cms/posts] error:", err);

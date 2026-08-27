@@ -62,6 +62,8 @@ interface CategoryOption {
   name: string;
 }
 
+const NO_AUTHOR = "__no_author";
+
 // Radix Select cannot use an empty string as an item value, so "no category"
 // is represented by this sentinel and mapped back to null on save.
 const NO_CATEGORY = "__none__";
@@ -77,6 +79,7 @@ export interface PostFormInitial {
   status?: string;
   primaryLocale?: string | null;
   category?: string | null;
+  authorId?: string | null;
   publishedAt?: string | null;
   updatedAt?: string | null;
   featuredImage?: MediaRow | null;
@@ -140,6 +143,8 @@ export default function PostForm({ mode, initial }: PostFormProps) {
   const [publishedAt, setPublishedAt] = useState<string>(toLocalInput(initial?.publishedAt));
   const [updatedAt, setUpdatedAt] = useState<string>(toLocalInput(initial?.updatedAt));
   const [categories, setCategories] = useState<CategoryOption[]>([]);
+  const [authorId, setAuthorId] = useState<string>(initial?.authorId ?? "");
+  const [authors, setAuthors] = useState<Array<{ id: string; name: string }>>([]);
 
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -160,6 +165,36 @@ export default function PostForm({ mode, initial }: PostFormProps) {
       setSlug(auto);
     }
   }, [title, slugTouched]);
+
+  // Author profiles, for the byline selector. The author is on the Article, not
+  // the translation, so this list is language-independent — the public page
+  // picks the right localised name at render time.
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch("/api/admin/authors");
+        if (!res.ok) return;
+        const json = await res.json();
+        if (cancelled) return;
+        setAuthors(
+          (json.data ?? []).map((a: { id: string; translations: Array<{ locale: string; name: string }>; slug: string }) => ({
+            id: a.id,
+            name:
+              a.translations.find((t) => t.locale === "fa")?.name ??
+              a.translations.find((t) => t.locale === "en")?.name ??
+              a.translations[0]?.name ??
+              a.slug,
+          }))
+        );
+      } catch {
+        /* non-fatal: the selector just stays empty */
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   // Load the managed categories for the selected language so the article can
   // be assigned one (stored as the category slug on the Article).
@@ -229,6 +264,7 @@ export default function PostForm({ mode, initial }: PostFormProps) {
         slug: slug || undefined,
         status,
         category: category || null,
+        authorId: authorId || null,
         publishedAt: fromLocalInput(publishedAt),
         // Only send when the editor actually set one — an empty field must keep
         // Prisma's automatic @updatedAt behaviour rather than clearing it.
@@ -475,6 +511,28 @@ export default function PostForm({ mode, initial }: PostFormProps) {
                     ))}
                   </SelectContent>
                 </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="author">نویسنده</Label>
+                <Select
+                  value={authorId || NO_AUTHOR}
+                  onValueChange={(v) => setAuthorId(v === NO_AUTHOR ? "" : v)}
+                >
+                  <SelectTrigger id="author">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value={NO_AUTHOR}>بدون نویسنده</SelectItem>
+                    {authors.map((a) => (
+                      <SelectItem key={a.id} value={a.id}>
+                        {a.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <p className="text-[11px] text-gray-500">
+                  نام نویسنده زیر عنوان مقاله و در باکس «درباره نویسنده» نمایش داده می‌شود.
+                </p>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="publishedAt">تاریخ انتشار</Label>

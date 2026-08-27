@@ -1,7 +1,7 @@
 import { LANGS, LANG_CONFIG, getPageUrl } from "@/lib/seo";
 import { getIndexableStaticRoutes } from "@/lib/seo/routes";
 import { listSitemapArticles } from "@/lib/cms/articles";
-import { listCategories } from "@/lib/cms/queries";
+import { listCategories, listAuthorsWithPosts } from "@/lib/cms/queries";
 import type { Lang } from "@/translations";
 
 const BASE_URL = "https://residency24.com";
@@ -68,7 +68,24 @@ export async function buildLanguageSitemap(lang: Lang): Promise<string> {
     alternates: {},
   }));
 
-  return renderUrlset([...staticEntries, ...categoryEntries, ...articleEntries]);
+  // Author profiles. Only authors who actually have published articles in this
+  // locale, so we never advertise an empty page. No hreflang: a profile exists
+  // per locale only if it has a translation there, which the page itself checks.
+  const authors = await listAuthorsWithPosts(lang).catch(() => []);
+  const authorEntries: SitemapEntry[] = authors.map((a) => ({
+    loc: getPageUrl(lang, `blog/author/${encodeURIComponent(a.slug)}`),
+    lastmod: toSitemapDate(a.updatedAt),
+    changefreq: "weekly",
+    priority: 0.5,
+    alternates: {},
+  }));
+
+  return renderUrlset([
+    ...staticEntries,
+    ...categoryEntries,
+    ...authorEntries,
+    ...articleEntries,
+  ]);
 }
 
 /**

@@ -14,7 +14,8 @@ const pageTitles: Record<string, string> = {
   "/admin/posts": "مقالات بلاگ",
   "/admin/posts/new": "پست جدید",
   "/admin/categories": "دسته‌بندی‌ها",
-  "/admin/authors": "مدیریت نویسنده‌ها",
+  "/admin/users": "کاربران و دسترسی‌ها",
+  "/admin/authors": "نویسندگان",
   "/admin/login": "ورود",
 };
 
@@ -24,6 +25,7 @@ const adminOnlyPaths = [
   "/admin/leads",
   "/admin/prompts",
   "/admin/providers",
+  "/admin/users",
   "/admin/authors",
   "/admin/settings",
 ];

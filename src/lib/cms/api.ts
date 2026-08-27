@@ -207,10 +207,13 @@ export async function fetchBlogPosts(
     per_page?: number;
     type?: string;
     slugs?: string[];
+    /** Author slug — the article list on an author's profile page. */
+    author?: string;
   } = {}
 ): Promise<CmsPostListResponse> {
   const qs = new URLSearchParams({ lang });
   if (opts.type)     qs.set("type", opts.type);
+  if (opts.author)   qs.set("author", opts.author);
   if (opts.category) qs.set("category", opts.category);
   if (opts.tag)      qs.set("tag", opts.tag);
   if (opts.q)        qs.set("q", opts.q);
@@ -245,6 +248,36 @@ export async function fetchRelatedPosts(
   // preserve the order specified in `related[]`
   const bySlug = new Map(res.data.map((p) => [p.slug, p]));
   return slugs.map((s) => bySlug.get(s)).filter((p): p is CmsPostListItem => Boolean(p));
+}
+
+export interface CmsAuthorProfile {
+  name: string;
+  slug: string;
+  title: string | null;
+  bio: string | null;
+  avatar: CmsMedia | null;
+  url: string;
+  links: {
+    website: string | null;
+    linkedin: string | null;
+    instagram: string | null;
+    telegram: string | null;
+    x: string | null;
+  };
+  post_count: number;
+  /** Locales the profile is written in — used to emit honest hreflang. */
+  locales: string[];
+}
+
+export async function fetchAuthor(
+  lang: string,
+  slug: string
+): Promise<CmsAuthorProfile | null> {
+  const result = await cmsGet<{ data: CmsAuthorProfile }>(
+    `/api/cms/authors/${lang}/${encodeURIComponent(slug)}`,
+    300
+  );
+  return result?.data ?? null;
 }
 
 export async function fetchBlogCategories(lang: string): Promise<CmsCategory[]> {

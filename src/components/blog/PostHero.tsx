@@ -1,6 +1,6 @@
 import type { CmsPostDetail } from "@/lib/cms/api";
 import type { Lang } from "@/translations";
-import { LANG_CONFIG, BLOG_SEO } from "@/lib/seo";
+import { LANG_CONFIG, BLOG_SEO, localizedPath } from "@/lib/seo";
 
 interface PostHeroProps {
   post: CmsPostDetail;
@@ -60,8 +60,14 @@ export default function PostHero({ post, lang }: PostHeroProps) {
           {/* Author / date / reading time */}
           <div className="flex flex-wrap items-center gap-4 text-white/75 text-sm">
             {post.author && (
-              <span className="flex items-center gap-1.5">
+              /* Links to the author's profile — the byline is where readers look
+                 for it, and it is what gives those pages internal inlinks. */
+              <a
+                href={localizedPath(lang, `blog/author/${encodeURIComponent(post.author.slug)}`)}
+                className="flex items-center gap-1.5 hover:text-white transition-colors"
+              >
                 {post.author.avatar ? (
+                  // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={post.author.avatar.url}
                     alt={post.author.name}
@@ -75,7 +81,7 @@ export default function PostHero({ post, lang }: PostHeroProps) {
                   </span>
                 )}
                 {post.author.name}
-              </span>
+              </a>
             )}
             {post.published_at && (
               <span className="flex items-center gap-1">

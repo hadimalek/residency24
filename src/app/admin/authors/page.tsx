@@ -1,24 +1,28 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
-import { useRouter } from "next/navigation";
-import {
-  UserCog,
-  Plus,
-  Pencil,
-  Trash2,
-  X,
-  Check,
-  Eye,
-  EyeOff,
-  ShieldCheck,
-  Feather,
-} from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useCallback, useEffect, useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import {
   Table,
   TableBody,
@@ -27,524 +31,591 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@/components/ui/dialog";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Plus, Edit, Trash2, Save, Upload, ExternalLink } from "lucide-react";
 import { toast } from "sonner";
 import { useAdminAuth } from "@/context/AdminAuthContext";
 
-interface User {
+const LANGS = [
+  { code: "fa", label: "فارسی" },
+  { code: "en", label: "English" },
+  { code: "ar", label: "العربية" },
+  { code: "ru", label: "Русский" },
+] as const;
+
+const SOCIAL_FIELDS = [
+  { key: "website", label: "وب‌سایت", placeholder: "https://example.com" },
+  { key: "linkedin", label: "لینکدین", placeholder: "https://www.linkedin.com/in/…" },
+  { key: "instagram", label: "اینستاگرام", placeholder: "https://www.instagram.com/…" },
+  { key: "telegram", label: "تلگرام", placeholder: "https://t.me/…" },
+  { key: "x", label: "X (توییتر)", placeholder: "https://x.com/…" },
+] as const;
+
+type SocialKey = (typeof SOCIAL_FIELDS)[number]["key"];
+type Links = Record<SocialKey, string | null>;
+
+interface Translation {
+  locale: string;
+  name: string;
+  title: string | null;
+  bio: string | null;
+}
+
+interface AuthorRow {
+  id: string;
+  slug: string;
+  userId: number | null;
+  user: { id: number; name: string; email: string; role: string } | null;
+  isActive: boolean;
+  sortOrder: number;
+  links: Links;
+  avatar: { id: string; filePath: string | null } | null;
+  translations: Translation[];
+  articleCount: number;
+}
+
+interface UserOption {
   id: number;
   name: string;
   email: string;
   role: string;
-  createdAt: string;
+  hasProfile: boolean;
 }
 
-interface FormState {
-  name: string;
-  email: string;
-  password: string;
-  role: string;
+const NO_USER = "__none";
+const emptyLinks: Links = { website: "", linkedin: "", instagram: "", telegram: "", x: "" };
+
+/** The name to show in the table: Persian first, else English, else anything. */
+function displayName(a: AuthorRow): string {
+  return (
+    a.translations.find((t) => t.locale === "fa")?.name ??
+    a.translations.find((t) => t.locale === "en")?.name ??
+    a.translations[0]?.name ??
+    a.slug
+  );
 }
 
-const emptyForm: FormState = { name: "", email: "", password: "", role: "EDITOR" };
-
-export default function AuthorsPage() {
-  const router = useRouter();
+export default function AdminAuthorsPage() {
   const { user: currentUser, loading: authLoading } = useAdminAuth();
 
-  const [users, setUsers] = useState<User[]>([]);
+  const [rows, setRows] = useState<AuthorRow[]>([]);
+  const [users, setUsers] = useState<UserOption[]>([]);
   const [loading, setLoading] = useState(true);
-
-  // dialogs
-  const [createOpen, setCreateOpen] = useState(false);
-  const [editUser, setEditUser] = useState<User | null>(null);
-  const [deleteUser, setDeleteUser] = useState<User | null>(null);
-
-  const [form, setForm] = useState<FormState>(emptyForm);
-  const [showPassword, setShowPassword] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [editing, setEditing] = useState<AuthorRow | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<AuthorRow | null>(null);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
-  // Redirect non-admins
-  useEffect(() => {
-    if (!authLoading && currentUser && currentUser.role !== "ADMIN") {
-      router.replace("/admin");
-    }
-  }, [authLoading, currentUser, router]);
+  // Form state
+  const [slug, setSlug] = useState("");
+  const [userId, setUserId] = useState<string>(NO_USER);
+  const [isActive, setIsActive] = useState(true);
+  const [links, setLinks] = useState<Links>({ ...emptyLinks });
+  const [avatar, setAvatar] = useState<{ id: string; filePath: string | null } | null>(null);
+  const [trans, setTrans] = useState<Record<string, { name: string; title: string; bio: string }>>({});
+  const [activeLang, setActiveLang] = useState<string>("fa");
 
-  const fetchUsers = useCallback(async () => {
+  const load = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/admin/users");
-      if (!res.ok) throw new Error();
-      const data = await res.json();
-      setUsers(data.users);
-    } catch {
-      toast.error("خطا در دریافت لیست کاربران");
+      const res = await fetch("/api/admin/authors");
+      const json = await res.json();
+      setRows(json.data ?? []);
+      setUsers(json.users ?? []);
     } finally {
       setLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    if (!authLoading && currentUser?.role === "ADMIN") {
-      fetchUsers();
-    }
-  }, [authLoading, currentUser, fetchUsers]);
+    if (!authLoading && currentUser?.role === "ADMIN") load();
+  }, [authLoading, currentUser, load]);
+
+  const resetForm = () => {
+    setSlug("");
+    setUserId(NO_USER);
+    setIsActive(true);
+    setLinks({ ...emptyLinks });
+    setAvatar(null);
+    setTrans({});
+    setActiveLang("fa");
+  };
 
   const openCreate = () => {
-    setForm(emptyForm);
-    setShowPassword(false);
-    setCreateOpen(true);
+    setEditing(null);
+    resetForm();
+    setDialogOpen(true);
   };
 
-  const openEdit = (u: User) => {
-    setForm({ name: u.name, email: u.email, password: "", role: u.role });
-    setShowPassword(false);
-    setEditUser(u);
+  const openEdit = (a: AuthorRow) => {
+    setEditing(a);
+    setSlug(a.slug);
+    setUserId(a.userId != null ? String(a.userId) : NO_USER);
+    setIsActive(a.isActive);
+    setLinks({
+      website: a.links.website ?? "",
+      linkedin: a.links.linkedin ?? "",
+      instagram: a.links.instagram ?? "",
+      telegram: a.links.telegram ?? "",
+      x: a.links.x ?? "",
+    });
+    setAvatar(a.avatar);
+    const t: Record<string, { name: string; title: string; bio: string }> = {};
+    for (const tr of a.translations) {
+      t[tr.locale] = { name: tr.name, title: tr.title ?? "", bio: tr.bio ?? "" };
+    }
+    setTrans(t);
+    setActiveLang(a.translations[0]?.locale ?? "fa");
+    setDialogOpen(true);
   };
 
-  const handleCreate = async () => {
-    if (!form.name.trim() || !form.email.trim() || !form.password.trim()) {
-      toast.error("نام، ایمیل و رمز عبور الزامی است");
+  const setField = (locale: string, field: "name" | "title" | "bio", value: string) => {
+    setTrans((prev) => ({
+      ...prev,
+      [locale]: {
+        name: prev[locale]?.name ?? "",
+        title: prev[locale]?.title ?? "",
+        bio: prev[locale]?.bio ?? "",
+        [field]: value,
+      },
+    }));
+  };
+
+  const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const f = e.target.files?.[0];
+    if (!f) return;
+    setUploading(true);
+    try {
+      const fd = new FormData();
+      fd.append("file", f);
+      const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.message || `HTTP ${res.status}`);
+      }
+      const data = await res.json();
+      setAvatar({ id: data.id, filePath: data.url });
+      toast.success("تصویر آپلود شد");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "آپلود ناموفق بود");
+    } finally {
+      setUploading(false);
+      e.target.value = "";
+    }
+  };
+
+  const handleSave = async () => {
+    const translations = Object.entries(trans)
+      .map(([locale, v]) => ({ locale, name: v.name.trim(), title: v.title, bio: v.bio }))
+      .filter((t) => t.name);
+
+    if (translations.length === 0) {
+      toast.error("حداقل نام نویسنده در یک زبان الزامی است");
       return;
     }
-    setSaving(true);
-    try {
-      const res = await fetch("/api/admin/users", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error);
-      toast.success("کاربر با موفقیت ایجاد شد");
-      setCreateOpen(false);
-      fetchUsers();
-    } catch (err: any) {
-      toast.error(err.message || "خطا در ایجاد کاربر");
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  const handleEdit = async () => {
-    if (!editUser) return;
-    const payload: Record<string, string> = {};
-    if (form.name.trim()) payload.name = form.name.trim();
-    if (form.email.trim()) payload.email = form.email.trim();
-    if (form.password.trim()) payload.password = form.password.trim();
-    if (form.role) payload.role = form.role;
 
     setSaving(true);
     try {
-      const res = await fetch(`/api/admin/users/${editUser.id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error);
-      toast.success("اطلاعات کاربر بروزرسانی شد");
-      setEditUser(null);
-      fetchUsers();
-    } catch (err: any) {
-      toast.error(err.message || "خطا در بروزرسانی");
+      const payload: Record<string, unknown> = {
+        userId: userId === NO_USER ? null : Number(userId),
+        isActive,
+        links,
+        avatarId: avatar?.id ?? null,
+        translations,
+      };
+      // slug is only settable on create — it is a live indexed URL afterwards.
+      if (!editing) payload.slug = slug.trim() || undefined;
+
+      const res = await fetch(
+        editing ? `/api/admin/authors/${editing.id}` : "/api/admin/authors",
+        {
+          method: editing ? "PATCH" : "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        }
+      );
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || err.message || `HTTP ${res.status}`);
+      }
+      toast.success(editing ? "پروفایل به‌روزرسانی شد" : "نویسنده ایجاد شد");
+      setDialogOpen(false);
+      load();
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "خطا در ذخیره");
     } finally {
       setSaving(false);
     }
   };
 
   const handleDelete = async () => {
-    if (!deleteUser) return;
-    setSaving(true);
+    if (!deleteTarget) return;
     try {
-      const res = await fetch(`/api/admin/users/${deleteUser.id}`, {
-        method: "DELETE",
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error);
-      toast.success("کاربر حذف شد");
-      setDeleteUser(null);
-      fetchUsers();
-    } catch (err: any) {
-      toast.error(err.message || "خطا در حذف کاربر");
-    } finally {
-      setSaving(false);
+      const res = await fetch(`/api/admin/authors/${deleteTarget.id}`, { method: "DELETE" });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || "خطا در حذف");
+      }
+      toast.success("پروفایل حذف شد");
+      setDeleteTarget(null);
+      load();
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "خطا در حذف");
     }
   };
 
-  if (authLoading || (!authLoading && currentUser?.role !== "ADMIN")) {
-    return (
-      <div className="flex items-center justify-center min-h-[40vh]">
-        <div className="h-8 w-8 border-4 border-[#001E6E] border-t-transparent rounded-full animate-spin" />
-      </div>
-    );
+  if (authLoading || currentUser?.role !== "ADMIN") {
+    return <Skeleton className="h-64 w-full" />;
   }
-
-  const formatDate = (s: string) =>
-    new Date(s).toLocaleDateString("fa-IR", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
 
   return (
     <div className="space-y-6">
-      {/* Page header */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div
-            className="w-10 h-10 rounded-xl flex items-center justify-center"
-            style={{ backgroundColor: "rgba(0,30,110,0.08)" }}
-          >
-            <UserCog className="h-5 w-5" style={{ color: "#001E6E" }} />
-          </div>
-          <div>
-            <h1 className="text-xl font-bold text-gray-900">مدیریت نویسنده‌ها</h1>
-            <p className="text-sm text-gray-500">
-              افزودن و مدیریت کاربران و سطح دسترسی آن‌ها
-            </p>
-          </div>
+        <div>
+          <h1 className="text-xl font-bold">نویسندگان</h1>
+          <p className="text-sm text-gray-500 mt-1">
+            {rows.length.toLocaleString("fa-IR")} پروفایل — نام، بیو و شبکه‌های اجتماعی که در
+            صفحه نویسنده و زیر هر مقاله نمایش داده می‌شود
+          </p>
         </div>
-        <Button
-          onClick={openCreate}
-          className="gap-2 font-semibold"
-          style={{ backgroundColor: "#001E6E", color: "#DCC896" }}
-        >
+        <Button onClick={openCreate} className="gap-2" style={{ backgroundColor: "#001E6E" }}>
           <Plus className="h-4 w-4" />
           نویسنده جدید
         </Button>
       </div>
 
-      {/* Users table */}
-      <Card>
-        <CardHeader className="pb-3">
-          <CardTitle className="text-base font-semibold text-gray-800">
-            لیست کاربران ({users.length})
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="p-0">
-          {loading ? (
-            <div className="p-6 space-y-3">
-              {Array.from({ length: 3 }).map((_, i) => (
-                <Skeleton key={i} className="h-12 w-full rounded-lg" />
-              ))}
-            </div>
-          ) : users.length === 0 ? (
-            <div className="text-center py-16 text-gray-400">
-              هیچ کاربری یافت نشد
-            </div>
-          ) : (
-            <Table>
-              <TableHeader>
-                <TableRow className="bg-gray-50">
-                  <TableHead className="text-right font-semibold text-gray-700">نام</TableHead>
-                  <TableHead className="text-right font-semibold text-gray-700">ایمیل</TableHead>
-                  <TableHead className="text-right font-semibold text-gray-700">نقش</TableHead>
-                  <TableHead className="text-right font-semibold text-gray-700">تاریخ ثبت</TableHead>
-                  <TableHead className="text-right font-semibold text-gray-700">عملیات</TableHead>
+      <Card className="border-0 shadow-sm">
+        <CardContent className="p-4">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="text-right">نویسنده</TableHead>
+                <TableHead className="text-right">slug</TableHead>
+                <TableHead className="text-right">حساب کاربری</TableHead>
+                <TableHead className="text-right">زبان‌ها</TableHead>
+                <TableHead className="text-right">مقالات</TableHead>
+                <TableHead className="text-right">وضعیت</TableHead>
+                <TableHead className="text-right w-28"></TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {loading ? (
+                Array.from({ length: 3 }).map((_, i) => (
+                  <TableRow key={`sk-${i}`}>
+                    <TableCell colSpan={7}>
+                      <Skeleton className="h-9 w-full" />
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : rows.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={7} className="text-center text-gray-400 py-12">
+                    هنوز نویسنده‌ای ثبت نشده است
+                  </TableCell>
                 </TableRow>
-              </TableHeader>
-              <TableBody>
-                {users.map((u) => (
-                  <TableRow key={u.id} className="hover:bg-gray-50/70">
-                    <TableCell className="font-medium text-gray-900">
-                      <div className="flex items-center gap-2">
-                        <div
-                          className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0"
-                          style={{ backgroundColor: u.role === "ADMIN" ? "#001E6E" : "#6B7280" }}
-                        >
-                          {u.name.charAt(0)}
-                        </div>
-                        <span>{u.name}</span>
-                        {u.id === currentUser?.id && (
-                          <Badge variant="outline" className="text-xs py-0">
-                            شما
-                          </Badge>
+              ) : (
+                rows.map((a) => (
+                  <TableRow key={a.id}>
+                    <TableCell className="font-medium">
+                      <div className="flex items-center gap-3">
+                        {a.avatar?.filePath ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={a.avatar.filePath}
+                            alt={displayName(a)}
+                            className="w-9 h-9 rounded-full object-cover"
+                          />
+                        ) : (
+                          <span className="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center text-xs font-bold text-gray-600">
+                            {displayName(a).charAt(0)}
+                          </span>
                         )}
+                        {displayName(a)}
                       </div>
                     </TableCell>
-                    <TableCell className="text-gray-600 font-mono text-sm" dir="ltr">
-                      {u.email}
+                    <TableCell className="text-sm text-gray-600 font-mono" dir="ltr">
+                      <a
+                        href={`/fa/blog/author/${a.slug}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 hover:text-navy"
+                      >
+                        {a.slug}
+                        <ExternalLink className="h-3 w-3" />
+                      </a>
                     </TableCell>
-                    <TableCell>
-                      {u.role === "ADMIN" ? (
-                        <Badge
-                          className="gap-1.5 font-medium"
-                          style={{ backgroundColor: "rgba(0,30,110,0.1)", color: "#001E6E" }}
-                        >
-                          <ShieldCheck className="h-3 w-3" />
-                          مدیر ارشد
-                        </Badge>
+                    <TableCell className="text-sm">
+                      {a.user ? (
+                        <span className="text-gray-700">{a.user.name}</span>
                       ) : (
-                        <Badge
-                          className="gap-1.5 font-medium"
-                          style={{ backgroundColor: "rgba(107,114,128,0.1)", color: "#4B5563" }}
-                        >
-                          <Feather className="h-3 w-3" />
-                          نویسنده
-                        </Badge>
+                        <span className="text-amber-600 text-xs">متصل نیست</span>
                       )}
                     </TableCell>
-                    <TableCell className="text-gray-500 text-sm">
-                      {formatDate(u.createdAt)}
+                    <TableCell className="text-xs text-gray-600 font-mono uppercase" dir="ltr">
+                      {a.translations.map((t) => t.locale).join(" · ")}
+                    </TableCell>
+                    <TableCell className="text-sm text-gray-600">
+                      {a.articleCount.toLocaleString("fa-IR")}
+                    </TableCell>
+                    <TableCell>
+                      {a.isActive ? (
+                        <Badge variant="outline" className="text-emerald-700 border-emerald-200">
+                          فعال
+                        </Badge>
+                      ) : (
+                        <Badge variant="outline" className="text-gray-500">
+                          مخفی
+                        </Badge>
+                      )}
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-1">
                         <Button
                           variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 hover:bg-blue-50 hover:text-blue-600"
-                          onClick={() => openEdit(u)}
-                          title="ویرایش"
+                          size="sm"
+                          className="h-8 w-8 p-0"
+                          onClick={() => openEdit(a)}
                         >
-                          <Pencil className="h-4 w-4" />
+                          <Edit className="h-4 w-4" />
                         </Button>
                         <Button
                           variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 hover:bg-red-50 hover:text-red-600"
-                          onClick={() => setDeleteUser(u)}
-                          disabled={u.id === currentUser?.id}
-                          title="حذف"
+                          size="sm"
+                          className="h-8 w-8 p-0 text-red-600 hover:text-red-700 hover:bg-red-50"
+                          onClick={() => setDeleteTarget(a)}
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
                       </div>
                     </TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          )}
+                ))
+              )}
+            </TableBody>
+          </Table>
         </CardContent>
       </Card>
 
-      {/* Create Dialog */}
-      <Dialog open={createOpen} onOpenChange={setCreateOpen}>
-        <DialogContent className="max-w-md" dir="rtl">
+      {/* Create / edit */}
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <DialogContent dir="rtl" className="max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle className="text-right flex items-center gap-2">
-              <Plus className="h-5 w-5" style={{ color: "#001E6E" }} />
-              افزودن نویسنده جدید
-            </DialogTitle>
+            <DialogTitle>{editing ? "ویرایش نویسنده" : "نویسنده جدید"}</DialogTitle>
           </DialogHeader>
-          <UserForm
-            form={form}
-            setForm={setForm}
-            showPassword={showPassword}
-            setShowPassword={setShowPassword}
-            passwordRequired
-          />
-          <DialogFooter className="flex-row-reverse gap-2 pt-2">
-            <Button
-              onClick={handleCreate}
-              disabled={saving}
-              className="gap-2 font-semibold"
-              style={{ backgroundColor: "#001E6E", color: "#DCC896" }}
-            >
-              {saving ? (
-                <span className="h-4 w-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
-              ) : (
-                <Check className="h-4 w-4" />
-              )}
-              ذخیره
-            </Button>
-            <Button variant="outline" onClick={() => setCreateOpen(false)} disabled={saving}>
-              <X className="h-4 w-4 ml-1" />
+
+          <div className="space-y-5">
+            {/* Avatar */}
+            <div className="space-y-2">
+              <Label>تصویر نویسنده</Label>
+              <div className="flex items-center gap-4">
+                {avatar?.filePath ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={avatar.filePath}
+                    alt=""
+                    className="w-16 h-16 rounded-full object-cover border"
+                  />
+                ) : (
+                  <div className="w-16 h-16 rounded-full bg-gray-100 border flex items-center justify-center text-gray-400 text-xs">
+                    بدون تصویر
+                  </div>
+                )}
+                <label className="cursor-pointer">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handleAvatarUpload}
+                    disabled={uploading}
+                  />
+                  <span className="inline-flex items-center gap-2 text-sm border rounded-lg px-3 py-2 hover:bg-gray-50">
+                    <Upload className="h-4 w-4" />
+                    {uploading ? "در حال آپلود…" : "انتخاب تصویر"}
+                  </span>
+                </label>
+                {avatar && (
+                  <Button variant="ghost" size="sm" onClick={() => setAvatar(null)}>
+                    حذف
+                  </Button>
+                )}
+              </div>
+            </div>
+
+            {/* slug + user binding */}
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="a-slug">slug</Label>
+                <Input
+                  id="a-slug"
+                  value={slug}
+                  onChange={(e) => setSlug(e.target.value)}
+                  placeholder="(خالی = از نام انگلیسی ساخته می‌شود)"
+                  dir="ltr"
+                  className="font-mono text-sm"
+                  disabled={!!editing}
+                />
+                {editing && (
+                  <p className="text-[11px] text-gray-500">
+                    آدرس صفحه‌ی نویسنده روی این slug ساخته شده و قابل تغییر نیست.
+                  </p>
+                )}
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="a-user">حساب کاربری</Label>
+                <Select value={userId} onValueChange={setUserId}>
+                  <SelectTrigger id="a-user">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value={NO_USER}>متصل نیست</SelectItem>
+                    {users
+                      .filter((u) => !u.hasProfile || String(u.id) === userId)
+                      .map((u) => (
+                        <SelectItem key={u.id} value={String(u.id)}>
+                          {u.name} — {u.role}
+                        </SelectItem>
+                      ))}
+                  </SelectContent>
+                </Select>
+                <p className="text-[11px] text-gray-500">
+                  اتصال به حساب پنل. هر حساب فقط یک پروفایل نویسنده دارد.
+                </p>
+              </div>
+            </div>
+
+            {/* Per-language name / title / bio */}
+            <div className="space-y-2">
+              <Label>نام و معرفی (به تفکیک زبان)</Label>
+              <div className="flex gap-1 flex-wrap">
+                {LANGS.map((l) => {
+                  const filled = Boolean(trans[l.code]?.name?.trim());
+                  return (
+                    <button
+                      key={l.code}
+                      type="button"
+                      onClick={() => setActiveLang(l.code)}
+                      className={`px-3 py-1.5 text-xs rounded-lg border transition-colors ${
+                        activeLang === l.code
+                          ? "bg-navy text-white border-navy"
+                          : "hover:bg-gray-50"
+                      }`}
+                      style={activeLang === l.code ? { backgroundColor: "#001E6E" } : undefined}
+                    >
+                      {l.label}
+                      {filled && <span className="ms-1 text-emerald-500">•</span>}
+                    </button>
+                  );
+                })}
+              </div>
+              <div className="space-y-3 border rounded-lg p-3">
+                <div className="space-y-1.5">
+                  <Label htmlFor="a-name" className="text-xs">
+                    نام
+                  </Label>
+                  <Input
+                    id="a-name"
+                    value={trans[activeLang]?.name ?? ""}
+                    onChange={(e) => setField(activeLang, "name", e.target.value)}
+                    dir={activeLang === "fa" || activeLang === "ar" ? "rtl" : "ltr"}
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="a-title" className="text-xs">
+                    سمت / تخصص
+                  </Label>
+                  <Input
+                    id="a-title"
+                    value={trans[activeLang]?.title ?? ""}
+                    onChange={(e) => setField(activeLang, "title", e.target.value)}
+                    dir={activeLang === "fa" || activeLang === "ar" ? "rtl" : "ltr"}
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="a-bio" className="text-xs">
+                    توضیحات
+                  </Label>
+                  <Textarea
+                    id="a-bio"
+                    rows={4}
+                    value={trans[activeLang]?.bio ?? ""}
+                    onChange={(e) => setField(activeLang, "bio", e.target.value)}
+                    dir={activeLang === "fa" || activeLang === "ar" ? "rtl" : "ltr"}
+                  />
+                </div>
+                <p className="text-[11px] text-gray-500">
+                  زبانی که نام نداشته باشد ذخیره نمی‌شود؛ اگر خواننده‌ای به آن زبان بیاید،
+                  نزدیک‌ترین زبان موجود نمایش داده می‌شود.
+                </p>
+              </div>
+            </div>
+
+            {/* Socials */}
+            <div className="space-y-3">
+              <Label>شبکه‌های اجتماعی</Label>
+              {SOCIAL_FIELDS.map((f) => (
+                <div key={f.key} className="grid grid-cols-[7rem_1fr] items-center gap-3">
+                  <span className="text-xs text-gray-600">{f.label}</span>
+                  <Input
+                    value={links[f.key] ?? ""}
+                    onChange={(e) => setLinks((p) => ({ ...p, [f.key]: e.target.value }))}
+                    placeholder={f.placeholder}
+                    dir="ltr"
+                    className="text-sm"
+                  />
+                </div>
+              ))}
+            </div>
+
+            {/* Visibility */}
+            <label className="flex items-center gap-2 text-sm cursor-pointer">
+              <input
+                type="checkbox"
+                checked={isActive}
+                onChange={(e) => setIsActive(e.target.checked)}
+              />
+              پروفایل فعال باشد (اگر خاموش شود، صفحه‌ی نویسنده و نام او زیر مقالات نمایش
+              داده نمی‌شود)
+            </label>
+          </div>
+
+          <DialogFooter className="gap-2 sm:gap-0">
+            <Button variant="outline" onClick={() => setDialogOpen(false)}>
               انصراف
             </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      {/* Edit Dialog */}
-      <Dialog open={!!editUser} onOpenChange={(o) => !o && setEditUser(null)}>
-        <DialogContent className="max-w-md" dir="rtl">
-          <DialogHeader>
-            <DialogTitle className="text-right flex items-center gap-2">
-              <Pencil className="h-5 w-5" style={{ color: "#001E6E" }} />
-              ویرایش کاربر: {editUser?.name}
-            </DialogTitle>
-          </DialogHeader>
-          <UserForm
-            form={form}
-            setForm={setForm}
-            showPassword={showPassword}
-            setShowPassword={setShowPassword}
-            passwordRequired={false}
-          />
-          <DialogFooter className="flex-row-reverse gap-2 pt-2">
             <Button
-              onClick={handleEdit}
-              disabled={saving}
-              className="gap-2 font-semibold"
-              style={{ backgroundColor: "#001E6E", color: "#DCC896" }}
-            >
-              {saving ? (
-                <span className="h-4 w-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
-              ) : (
-                <Check className="h-4 w-4" />
-              )}
-              ذخیره تغییرات
-            </Button>
-            <Button variant="outline" onClick={() => setEditUser(null)} disabled={saving}>
-              <X className="h-4 w-4 ml-1" />
-              انصراف
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      {/* Delete Confirm Dialog */}
-      <Dialog open={!!deleteUser} onOpenChange={(o) => !o && setDeleteUser(null)}>
-        <DialogContent className="max-w-sm" dir="rtl">
-          <DialogHeader>
-            <DialogTitle className="text-right text-red-600 flex items-center gap-2">
-              <Trash2 className="h-5 w-5" />
-              حذف کاربر
-            </DialogTitle>
-          </DialogHeader>
-          <p className="text-sm text-gray-600 text-right">
-            آیا از حذف کاربر <strong>{deleteUser?.name}</strong> اطمینان دارید؟
-            این عمل قابل بازگشت نیست.
-          </p>
-          <DialogFooter className="flex-row-reverse gap-2 pt-2">
-            <Button
-              variant="destructive"
-              onClick={handleDelete}
+              onClick={handleSave}
               disabled={saving}
               className="gap-2"
+              style={{ backgroundColor: "#001E6E" }}
             >
-              {saving ? (
-                <span className="h-4 w-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
-              ) : (
-                <Trash2 className="h-4 w-4" />
-              )}
-              حذف
-            </Button>
-            <Button variant="outline" onClick={() => setDeleteUser(null)} disabled={saving}>
-              انصراف
+              <Save className="h-4 w-4" />
+              {saving ? "در حال ذخیره…" : "ذخیره"}
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </div>
-  );
-}
 
-// ─── Reusable form component ────────────────────────────────────────────────
-function UserForm({
-  form,
-  setForm,
-  showPassword,
-  setShowPassword,
-  passwordRequired,
-}: {
-  form: FormState;
-  setForm: React.Dispatch<React.SetStateAction<FormState>>;
-  showPassword: boolean;
-  setShowPassword: (v: boolean) => void;
-  passwordRequired: boolean;
-}) {
-  return (
-    <div className="space-y-4">
-      <div className="space-y-1.5">
-        <Label htmlFor="name">نام و نام خانوادگی</Label>
-        <Input
-          id="name"
-          value={form.name}
-          onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
-          placeholder="مثلاً علی احمدی"
-        />
-      </div>
-
-      <div className="space-y-1.5">
-        <Label htmlFor="email">ایمیل</Label>
-        <Input
-          id="email"
-          type="email"
-          dir="ltr"
-          value={form.email}
-          onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
-          placeholder="example@residency24.com"
-          className="text-left"
-        />
-      </div>
-
-      <div className="space-y-1.5">
-        <Label htmlFor="password">
-          رمز عبور{" "}
-          {!passwordRequired && (
-            <span className="text-xs text-gray-400 font-normal">
-              (خالی بگذارید تا تغییر نکند)
-            </span>
-          )}
-        </Label>
-        <div className="relative">
-          <Input
-            id="password"
-            type={showPassword ? "text" : "password"}
-            dir="ltr"
-            value={form.password}
-            onChange={(e) => setForm((f) => ({ ...f, password: e.target.value }))}
-            placeholder={passwordRequired ? "حداقل ۸ کاراکتر" : "رمز عبور جدید"}
-            className="text-left pl-10"
-          />
-          <button
-            type="button"
-            onClick={() => setShowPassword(!showPassword)}
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-          >
-            {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-          </button>
-        </div>
-      </div>
-
-      <div className="space-y-1.5">
-        <Label htmlFor="role">سطح دسترسی</Label>
-        <Select
-          value={form.role}
-          onValueChange={(v) => setForm((f) => ({ ...f, role: v }))}
-        >
-          <SelectTrigger id="role">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="EDITOR">
-              <div className="flex items-center gap-2">
-                <Feather className="h-4 w-4 text-gray-500" />
-                نویسنده — فقط انتشار محتوا
-              </div>
-            </SelectItem>
-            <SelectItem value="ADMIN">
-              <div className="flex items-center gap-2">
-                <ShieldCheck className="h-4 w-4 text-[#001E6E]" />
-                مدیر ارشد — دسترسی کامل
-              </div>
-            </SelectItem>
-          </SelectContent>
-        </Select>
-        <p className="text-xs text-gray-400">
-          {form.role === "EDITOR"
-            ? "نویسنده فقط می‌تواند محتوا منتشر کند و به بخش‌های مدیریتی دسترسی ندارد."
-            : "مدیر ارشد به تمام بخش‌های پنل دسترسی کامل دارد."}
-        </p>
-      </div>
+      {/* Delete confirm */}
+      <Dialog open={!!deleteTarget} onOpenChange={(o) => !o && setDeleteTarget(null)}>
+        <DialogContent dir="rtl">
+          <DialogHeader>
+            <DialogTitle>حذف پروفایل نویسنده</DialogTitle>
+            <DialogDescription>
+              پروفایل «{deleteTarget ? displayName(deleteTarget) : ""}» حذف می‌شود. اگر مقاله‌ای
+              به این نویسنده وصل باشد، حذف انجام نمی‌شود — اول نویسنده‌ی مقالات را عوض کنید یا
+              پروفایل را مخفی کنید.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="gap-2 sm:gap-0">
+            <Button variant="outline" onClick={() => setDeleteTarget(null)}>
+              انصراف
+            </Button>
+            <Button variant="destructive" onClick={handleDelete}>
+              بله، حذف شود
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
