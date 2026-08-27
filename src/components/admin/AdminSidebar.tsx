@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import {
   LayoutDashboard,
@@ -45,7 +45,6 @@ const editorNavItems = [
 
 export default function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
   const pathname = usePathname();
-  const router = useRouter();
   const { user } = useAdminAuth();
 
   const isAdmin = user?.role === "ADMIN";
@@ -58,7 +57,10 @@ export default function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
 
   const handleLogout = async () => {
     await fetch("/api/auth/logout", { method: "POST" }).catch(() => {});
-    router.push("/admin/login");
+    // Full page load for the same reason as signing in: AdminAuthContext would
+    // otherwise keep serving the signed-in user after a soft navigation, and the
+    // Router Cache would keep authenticated RSC payloads around.
+    window.location.assign("/admin/login");
   };
 
   return (

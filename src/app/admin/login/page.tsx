@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,8 +8,21 @@ import { Label } from "@/components/ui/label";
 import { Lock, Mail, LogIn, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
 
+/**
+ * Where to land after signing in. src/proxy.ts appends ?redirect=<path> when it
+ * bounces an unauthenticated request, so the editor returns to the page they
+ * were actually going to. Only same-origin /admin paths are accepted — anything
+ * else (a protocol-relative "//evil.com", an absolute URL, a non-admin path)
+ * falls back to the dashboard so this cannot become an open redirect.
+ */
+function safeRedirect(target: string | null): string {
+  if (!target) return "/admin";
+  if (!target.startsWith("/admin")) return "/admin";
+  if (target.startsWith("//")) return "/admin";
+  return target;
+}
+
 export default function AdminLoginPage() {
-  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -35,14 +47,29 @@ export default function AdminLoginPage() {
 
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
-        throw new Error(data.message || "ایمیل یا رمز عبور اشتباه است");
+        // The route replies with { error }, not { message } — reading the wrong
+        // key meant every failure showed the generic "wrong password" text.
+        throw new Error(data.error || data.message || "ایمیل یا رمز عبور اشتباه است");
       }
 
       toast.success("ورود موفقیت‌آمیز بود");
-      router.push("/admin");
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
+
+      // A FULL page load, deliberately — not router.push(). AdminAuthContext
+      // fetches /api/auth once on mount, so after a soft navigation it still
+      // holds the null user from before login, and the admin layout's guard
+      // immediately router.replace()s back to /admin/login — which is exactly
+      // the "login just reloads the login page" symptom. A document load
+      // remounts the provider with the cookie present and also sidesteps any
+      // /admin entry cached in the client Router Cache from before signing in.
+      // Read at click time from the live URL rather than with useSearchParams(),
+      // which would pull this page into a Suspense boundary for a value only
+      // needed here.
+      window.location.assign(
+        safeRedirect(new URLSearchParams(window.location.search).get("redirect"))
+      );
+      return; // keep the button spinning; the document is being replaced
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "خطا در ورود");
       setLoading(false);
     }
   };
