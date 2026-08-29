@@ -3,7 +3,6 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
-import SharedBreadcrumb from "@/components/shared/SharedBreadcrumb";
 import SharedLeadForm from "@/components/shared/SharedLeadForm";
 import SharedFAQ from "@/components/shared/SharedFAQ";
 import SharedCrossSell from "@/components/shared/SharedCrossSell";
@@ -322,19 +321,22 @@ export default function FaCompanyRegistrationClient() {
 
       <Navbar />
 
-      <SharedBreadcrumb
-        items={[
-          { label: BREADCRUMB_HOME[lang], href: localizedPath(lang) },
-          { label: "امارات", href: localizedPath(lang, "uae") },
-          { label: "ثبت شرکت در دبی" },
-        ]}
-      />
-
       {/* ── Hero ─────────────────────────────────────────────────────────
           The shared AI chat hero, same as every other landing page: the
           suggested pills and the send button open ChatModal. H1 and sub are
           overridden with this page's keyword-targeted wording.             */}
-      <HeroChat pageKey="p003" h1={FA.hero.h1} sub={FA.hero.h1sub} />
+      <HeroChat
+        crumbs={[
+          { label: BREADCRUMB_HOME[lang], href: localizedPath(lang) },
+          { label: "امارات", href: localizedPath(lang, "uae") },
+          { label: "ثبت شرکت در دبی" },
+        ]}
+        bgImage={IMG.hero}
+        bgAlt={FA.hero.imgAlt}
+        pageKey="p003"
+        h1={FA.hero.h1}
+        sub={FA.hero.h1sub}
+      />
 
       {/* ── Lead ─────────────────────────────────────────────────────────── */}
       <section className="bg-white border-b border-border">

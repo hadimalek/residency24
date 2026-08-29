@@ -3,7 +3,6 @@
 import { useLanguage } from "@/contexts/LanguageContext";
 import Navbar from "@/components/Navbar";
 import HeroChat from "@/components/HeroChat";
-import SharedBreadcrumb from "@/components/shared/SharedBreadcrumb";
 import GoldenVisaStatsStrip from "@/components/p004/GoldenVisaStatsStrip";
 import EligibilityChecker from "@/components/p004/EligibilityChecker";
 import GoldenVisaComparison from "@/components/p004/GoldenVisaComparison";
@@ -58,11 +57,9 @@ export default function GoldenVisaPageClient() {
     <div className="min-h-screen bg-background" style={{ scrollBehavior: "smooth" }}>
       <Navbar />
 
-      {/* S01 — Breadcrumb */}
-      <SharedBreadcrumb items={breadcrumbItems} />
-
       {/* S02 — Hero + HeroChat (LOCKED) */}
       <HeroChat
+        crumbs={breadcrumbItems}
         pageKey="p004"
         h1={p?.h1}
         sub={p?.hero_sub}

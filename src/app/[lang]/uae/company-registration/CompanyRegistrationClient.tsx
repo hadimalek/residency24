@@ -6,7 +6,6 @@ import Navbar from "@/components/Navbar";
 import HeroChat from "@/components/HeroChat";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
-import SharedBreadcrumb from "@/components/shared/SharedBreadcrumb";
 import WhyDubai from "@/components/p003/WhyDubai";
 import CompanyTypeSelector from "@/components/p003/CompanyTypeSelector";
 import FreeZones from "@/components/p003/FreeZones";
@@ -66,11 +65,9 @@ export default function CompanyRegistrationClient({ lang }: { lang: Lang }) {
     <div className="min-h-screen bg-background">
       <Navbar />
 
-      {/* S01 — Breadcrumb */}
-      <SharedBreadcrumb items={breadcrumbItems} />
-
       {/* S02 — Hero + HeroChat (LOCKED) */}
       <HeroChat
+        crumbs={breadcrumbItems}
         pageKey="p003"
         h1={cr?.hero_headline}
         sub={cr?.hero_sub}

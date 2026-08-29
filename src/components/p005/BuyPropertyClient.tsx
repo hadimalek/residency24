@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Navbar from "@/components/Navbar";
 import HeroChat from "@/components/HeroChat";
-import SharedBreadcrumb from "@/components/shared/SharedBreadcrumb";
 import SharedStatsStrip from "@/components/shared/SharedStatsStrip";
 import ValueProps from "@/components/p005/ValueProps";
 import PropertyVisaTable from "@/components/p005/PropertyVisaTable";
@@ -160,11 +159,9 @@ export default function BuyPropertyClient({ h1 }: { h1: string }) {
     <div className="min-h-screen bg-background">
       <Navbar />
 
-      {/* S01 — Breadcrumb */}
-      <SharedBreadcrumb items={breadcrumbItems} />
-
       {/* S02 — Hero + HeroChat (LOCKED) */}
       <HeroChat
+        crumbs={breadcrumbItems}
         pageKey="p005"
         h1={bp?.hero_headline ?? bp?.seo_h1}
         sub={bp?.hero_sub}

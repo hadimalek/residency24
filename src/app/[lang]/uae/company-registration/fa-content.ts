@@ -23,6 +23,8 @@
  * /api/serve 500s on those.
  */
 export const IMG = {
+  /** Hero background: the Sheikh Zayed Road business corridor. */
+  hero: "/uploads/blog/2026/04/busines-view-dubai.jpg",
   /** Business Bay towers — where these companies are actually registered. */
   city: "/uploads/blog/2026/04/dubai-business-bay.jpg",
   /** Emirati and foreign partners around a table: the licensing meeting. */
@@ -38,6 +40,7 @@ const BLOG = (slug: string) => `/fa/blog/${slug}`;
 export const FA = {
   hero: {
     eyebrow: "راهنمای جامع ۲۰۲۶ · ویژهٔ متقاضیان ایرانی",
+    imgAlt: "برج‌های تجاری خیابان شیخ‌زاید دبی، مرکز اصلی ثبت شرکت در امارات",
     h1: "ثبت شرکت در دبی و امارات",
     h1sub: "از انتخاب ساختار تا لایسنس، اقامت و حساب بانکی",
     lead: "هزینه‌ها، انواع مجوز و شرکت، مراحل، اقامت، مالیات و افتتاح حساب بانکی — همراه با تیم فارسی‌زبان رزیدنسی۲۴ که پرونده‌های ایرانی را از نزدیک می‌شناسد.",

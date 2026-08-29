@@ -3,7 +3,6 @@
 import { useLanguage } from "@/contexts/LanguageContext";
 import Navbar from "@/components/Navbar";
 import HeroChat from "@/components/HeroChat";
-import SharedBreadcrumb from "@/components/shared/SharedBreadcrumb";
 import SharedStatsStrip from "@/components/shared/SharedStatsStrip";
 import SharedHowItWorks from "@/components/shared/SharedHowItWorks";
 import NationalityHooks from "@/components/NationalityHooks";
@@ -254,11 +253,9 @@ export default function TouristVisaClient() {
     <div className="min-h-screen bg-background" style={{ scrollBehavior: "smooth" }}>
       <Navbar />
 
-      {/* S01 — Breadcrumb */}
-      <SharedBreadcrumb items={breadcrumbItems} />
-
       {/* S02 — Hero + HeroChat (LOCKED) */}
       <HeroChat
+        crumbs={breadcrumbItems}
         pageKey="p006"
         h1={p?.hero_h1 ?? p?.h1}
         sub={p?.hero_sub}

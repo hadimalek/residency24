@@ -3,7 +3,6 @@
 import { useLanguage } from "@/contexts/LanguageContext";
 import Navbar from "@/components/Navbar";
 import HeroChat from "@/components/HeroChat";
-import SharedBreadcrumb from "@/components/shared/SharedBreadcrumb";
 import UAEFactsStrip from "@/components/uae/UAEFactsStrip";
 import UAEServicesGrid from "@/components/uae/UAEServicesGrid";
 import WhyUAE from "@/components/uae/WhyUAE";
@@ -45,11 +44,9 @@ export default function UAEHubClient({ h1 }: { h1: string }) {
     <div className="min-h-screen bg-background">
       <Navbar />
       <main>
-        {/* S01 — Breadcrumb */}
-        <SharedBreadcrumb items={breadcrumbItems} />
-
         {/* S02 — Hero + HeroChat */}
         <HeroChat
+        crumbs={breadcrumbItems}
           pageKey="p002"
           h1={h1}
           sub={t.uae_page?.hero_sub ?? t.uae_page?.meta_desc}

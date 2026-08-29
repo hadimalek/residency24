@@ -4,7 +4,6 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { BREADCRUMB_HOME } from "@/lib/locale-path";
 import Navbar from "@/components/Navbar";
 import HeroChat from "@/components/HeroChat";
-import SharedBreadcrumb from "@/components/shared/SharedBreadcrumb";
 import SharedFAQ from "@/components/shared/SharedFAQ";
 import SharedCrossSell from "@/components/shared/SharedCrossSell";
 import SharedLeadForm from "@/components/shared/SharedLeadForm";
@@ -908,9 +907,8 @@ export default function TurkeyHubClient() {
     <div className="min-h-screen bg-background">
       <Navbar />
       <main>
-        <SharedBreadcrumb items={breadcrumbItems} />
-
         <HeroChat
+        crumbs={breadcrumbItems}
           h1={c.hero_h1}
           sub={c.hero_sub}
           badge={c.hero_badge}
