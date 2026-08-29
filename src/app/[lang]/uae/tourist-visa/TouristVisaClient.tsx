@@ -3,7 +3,6 @@
 import { useLanguage } from "@/contexts/LanguageContext";
 import Navbar from "@/components/Navbar";
 import HeroChat from "@/components/HeroChat";
-import TrustBar from "@/components/TrustBar";
 import SharedBreadcrumb from "@/components/shared/SharedBreadcrumb";
 import SharedStatsStrip from "@/components/shared/SharedStatsStrip";
 import SharedHowItWorks from "@/components/shared/SharedHowItWorks";
@@ -266,9 +265,6 @@ export default function TouristVisaClient() {
         badge={p?.hero_badge}
         placeholder={p?.chat_placeholder}
       />
-
-      {/* S03 — TrustBar (LOCKED) */}
-      <TrustBar />
 
       {/* S04 — SharedStatsStrip variant="dark" */}
       <SharedStatsStrip stats={stats} variant="dark" />

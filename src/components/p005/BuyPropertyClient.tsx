@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Navbar from "@/components/Navbar";
 import HeroChat from "@/components/HeroChat";
-import TrustBar from "@/components/TrustBar";
 import SharedBreadcrumb from "@/components/shared/SharedBreadcrumb";
 import SharedStatsStrip from "@/components/shared/SharedStatsStrip";
 import ValueProps from "@/components/p005/ValueProps";
@@ -172,9 +171,6 @@ export default function BuyPropertyClient({ h1 }: { h1: string }) {
         badge={bp?.hero_badge}
         placeholder={bp?.chat_placeholder}
       />
-
-      {/* S03 — TrustBar (LOCKED) */}
-      <TrustBar />
 
       {/* S04 — StatsStrip */}
       <SharedStatsStrip stats={stats} variant="dark" />

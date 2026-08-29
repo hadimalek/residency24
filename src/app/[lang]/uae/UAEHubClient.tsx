@@ -3,7 +3,6 @@
 import { useLanguage } from "@/contexts/LanguageContext";
 import Navbar from "@/components/Navbar";
 import HeroChat from "@/components/HeroChat";
-import TrustBar from "@/components/TrustBar";
 import SharedBreadcrumb from "@/components/shared/SharedBreadcrumb";
 import UAEFactsStrip from "@/components/uae/UAEFactsStrip";
 import UAEServicesGrid from "@/components/uae/UAEServicesGrid";
@@ -57,9 +56,6 @@ export default function UAEHubClient({ h1 }: { h1: string }) {
           badge={t.uae_page?.hero_badge}
           placeholder={t.uae_page?.chat_placeholder}
         />
-
-        {/* S03 — TrustBar (LOCKED) */}
-        <TrustBar />
 
         {/* S04 — StatsStrip */}
         <UAEFactsStrip />

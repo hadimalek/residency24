@@ -4,7 +4,6 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import type { Lang } from "@/translations";
 import Navbar from "@/components/Navbar";
 import HeroChat from "@/components/HeroChat";
-import TrustBar from "@/components/TrustBar";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import SharedBreadcrumb from "@/components/shared/SharedBreadcrumb";
@@ -77,9 +76,6 @@ export default function CompanyRegistrationClient({ lang }: { lang: Lang }) {
         sub={cr?.hero_sub}
         badge={cr?.hero_badge}
       />
-
-      {/* S03 — TrustBar (LOCKED) */}
-      <TrustBar />
 
       {/* S04 — StatsStrip */}
       <SharedStatsStrip stats={stats} variant="dark" />

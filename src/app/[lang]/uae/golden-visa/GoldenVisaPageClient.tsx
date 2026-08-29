@@ -3,7 +3,6 @@
 import { useLanguage } from "@/contexts/LanguageContext";
 import Navbar from "@/components/Navbar";
 import HeroChat from "@/components/HeroChat";
-import TrustBar from "@/components/TrustBar";
 import SharedBreadcrumb from "@/components/shared/SharedBreadcrumb";
 import GoldenVisaStatsStrip from "@/components/p004/GoldenVisaStatsStrip";
 import EligibilityChecker from "@/components/p004/EligibilityChecker";
@@ -71,9 +70,6 @@ export default function GoldenVisaPageClient() {
         badge={p?.hero_badge}
         placeholder={p?.chat_placeholder}
       />
-
-      {/* S03 — TrustBar (LOCKED) */}
-      <TrustBar />
 
       {/* S04 — StatsStrip */}
       <GoldenVisaStatsStrip />

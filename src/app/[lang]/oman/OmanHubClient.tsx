@@ -3,7 +3,6 @@
 import { useLanguage } from "@/contexts/LanguageContext";
 import Navbar from "@/components/Navbar";
 import HeroChat from "@/components/HeroChat";
-import TrustBar from "@/components/TrustBar";
 import SharedBreadcrumb from "@/components/shared/SharedBreadcrumb";
 import SharedFAQ from "@/components/shared/SharedFAQ";
 import SharedCrossSell from "@/components/shared/SharedCrossSell";
@@ -677,8 +676,6 @@ export default function OmanHubClient() {
           badge={c.hero_badge}
           placeholder={c.hero_placeholder}
         />
-
-        <TrustBar />
 
         {/* Stats strip */}
         <section className="py-10 bg-white border-b border-border">

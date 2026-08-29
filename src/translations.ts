@@ -403,12 +403,6 @@ const translations: Record<Lang, any> = {
       cta: "درخواست مشاوره رایگان",
       thanks: "پیام دریافت شد — مشاور ما به زودی تماس می‌گیرد.",
     },
-    stats: [
-      { num: "+۳۹۰", label: "پرونده موفق" },
-      { num: "از ۲۰۱۸", label: "تجربه" },
-      { num: "۳ کشور", label: "امارات، عمان، ترکیه" },
-      { num: "۴ زبان", label: "پشتیبانی" },
-    ],
     countries: {
       badge: "کجا می‌خواهید بروید؟",
       h2: "سه مقصد برتر سرمایه‌گذاری",
@@ -1918,12 +1912,6 @@ const translations: Record<Lang, any> = {
       cta: "Get Free Consultation",
       thanks: "Message received — our advisor will contact you shortly.",
     },
-    stats: [
-      { num: "390+", label: "Successful Cases" },
-      { num: "Since 2018", label: "Experience" },
-      { num: "3 Countries", label: "UAE, Oman, Turkey" },
-      { num: "4 Languages", label: "Support" },
-    ],
     countries: {
       badge: "Where do you want to go?",
       h2: "Top 3 Investment Destinations",
@@ -3433,12 +3421,6 @@ const translations: Record<Lang, any> = {
       cta: "احصل على استشارة مجانية",
       thanks: "تم استلام رسالتك — سيتواصل معك مستشارنا قريباً.",
     },
-    stats: [
-      { num: "+٣٩٠", label: "حالة ناجحة" },
-      { num: "منذ ٢٠١٨", label: "من الخبرة" },
-      { num: "٣ دول", label: "الإمارات، عمان، تركيا" },
-      { num: "٤ لغات", label: "دعم متعدد" },
-    ],
     countries: {
       badge: "إلى أين تريد أن تذهب؟",
       h2: "أفضل ٣ وجهات استثمارية",
@@ -4948,12 +4930,6 @@ const translations: Record<Lang, any> = {
       cta: "Получить бесплатную консультацию",
       thanks: "Сообщение получено — наш консультант свяжется с вами.",
     },
-    stats: [
-      { num: "390+", label: "Успешных кейсов" },
-      { num: "С 2018", label: "Опыта" },
-      { num: "3 страны", label: "ОАЭ, Оман, Турция" },
-      { num: "4 языка", label: "Поддержки" },
-    ],
     countries: {
       badge: "Куда вы хотите?",
       h2: "Топ-3 направления для инвестиций",

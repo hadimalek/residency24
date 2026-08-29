@@ -3,7 +3,7 @@
 import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Send, Sparkles } from 'lucide-react';
+import { Send } from "lucide-react";
 import ChatModal from '@/components/ChatModal';
 
 type HeroChatPage = 'p001' | 'p002' | 'p003' | 'p004' | 'p005' | 'p006'
@@ -18,7 +18,12 @@ interface HeroChatProps {
   pillLabel?: string
 }
 
-const HeroChat = ({ pageKey, h1: h1Override, sub: subOverride, badge: badgeOverride, placeholder: placeholderOverride, pills: pillsOverride, pillLabel: pillLabelOverride }: HeroChatProps = {}) => {
+// `badge` is accepted and ignored. The pill above the H1 was dropped from every
+// page: on the homepage it read "AI Advisor · Free · 4 Languages" and elsewhere
+// it repeated the same "390+ successful cases" claim the page already made
+// below. The prop stays in the signature so the call sites still type-check;
+// remove it from them when one of those pages is next touched.
+const HeroChat = ({ pageKey, h1: h1Override, sub: subOverride, placeholder: placeholderOverride, pills: pillsOverride, pillLabel: pillLabelOverride }: HeroChatProps = {}) => {
   const { t, isRTL } = useLanguage();
 
   // resolve hero content: explicit overrides > page-specific translation key > shared homepage hero
@@ -28,7 +33,6 @@ const HeroChat = ({ pageKey, h1: h1Override, sub: subOverride, badge: badgeOverr
     ...baseHero,
     h1: h1Override ?? baseHero.h1,
     sub: subOverride ?? baseHero.sub,
-    badge: badgeOverride ?? baseHero.badge,
     placeholder: placeholderOverride ?? baseHero.placeholder,
     pills: pillsOverride ?? baseHero.pills,
     pill_label: pillLabelOverride ?? baseHero.pill_label,
@@ -61,17 +65,6 @@ const HeroChat = ({ pageKey, h1: h1Override, sub: subOverride, badge: badgeOverr
     <>
       <section className="min-h-[calc(100vh-64px)] flex flex-col items-center justify-center px-4 py-12 bg-navy">
         <div className="w-full max-w-[760px] flex flex-col items-center">
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="inline-flex items-center gap-2 bg-gold/15 border border-gold/40 rounded-full px-4 py-1.5 mb-6"
-          >
-            <Sparkles size={14} className="text-gold" />
-            <span className="text-xs text-gold tracking-wide">{hero.badge}</span>
-          </motion.div>
-
           {/* H1 */}
           <motion.h1
             initial={{ opacity: 0, y: 16 }}

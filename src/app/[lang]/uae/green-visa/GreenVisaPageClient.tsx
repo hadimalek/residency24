@@ -10,7 +10,6 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import ChatModal from "@/components/ChatModal";
-import TrustBar from "@/components/TrustBar";
 import ContactBar from "@/components/ContactBar";
 import MediaImage from "@/components/MediaImage";
 import SharedBreadcrumb from "@/components/shared/SharedBreadcrumb";
@@ -104,9 +103,7 @@ export default function GreenVisaPageClient() {
       {/* S09 — FAQ */}
       <SharedFAQ items={p.faq.items} title={p.faq.title} />
 
-      {/* S10 — Cross-sell + CTA + TrustBar */}
       <SharedCrossSell items={crossSellItems} title={p.crossSell.title} variant="dark" />
-      <TrustBar />
       <section className="py-16 md:py-20 bg-navy text-white">
         <div className="max-w-3xl mx-auto px-4 text-center">
           <h2 className="text-[28px] md:text-[32px] font-bold text-gold mb-3">{p.finalCta.title}</h2>

@@ -3,7 +3,6 @@
 import { useLanguage } from "@/contexts/LanguageContext";
 import Navbar from "@/components/Navbar";
 import HeroChat from "@/components/HeroChat";
-import TrustBar from "@/components/TrustBar";
 import SharedBreadcrumb from "@/components/shared/SharedBreadcrumb";
 import SharedFAQ from "@/components/shared/SharedFAQ";
 import SharedCrossSell from "@/components/shared/SharedCrossSell";
@@ -409,8 +408,6 @@ export default function OmanTouristVisaClient() {
       <main>
         <SharedBreadcrumb items={breadcrumbItems} />
         <HeroChat h1={c.hero_h1} sub={c.hero_sub} badge={c.hero_badge} placeholder={c.hero_placeholder} />
-        <TrustBar />
-
         <section className="py-10 bg-white border-b border-border">
           <div className="max-w-5xl mx-auto px-4">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">

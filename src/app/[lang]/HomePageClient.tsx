@@ -3,7 +3,6 @@
 import { useLanguage } from "@/contexts/LanguageContext";
 import Navbar from "@/components/Navbar";
 import HeroChat from "@/components/HeroChat";
-import TrustBar from "@/components/TrustBar";
 import CountriesHub from "@/components/CountriesHub";
 import AllServicesGrid from "@/components/AllServicesGrid";
 import VideoSection from "@/components/VideoSection";
@@ -40,9 +39,6 @@ export default function HomePageClient({ h1, blogPosts }: { h1: string; blogPost
 
       {/* S02 — Hero + HeroChat (LOCKED) */}
       <HeroChat pageKey="p001" />
-
-      {/* S03 — TrustBar (LOCKED) */}
-      <TrustBar />
 
       {/* S05–S07 — Unique content */}
       <CountriesHub />
