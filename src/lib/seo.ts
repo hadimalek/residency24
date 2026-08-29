@@ -1,5 +1,5 @@
 import type { Lang } from "@/translations";
-import { localizedPath } from "@/lib/locale-path";
+import { localizedPath, BREADCRUMB_HOME } from "@/lib/locale-path";
 
 const BASE_URL = "https://residency24.com";
 
@@ -7,7 +7,7 @@ const BASE_URL = "https://residency24.com";
 // from "@/lib/seo", while Client Components import the tiny "@/lib/locale-path"
 // module directly instead of pulling BLOG_SEO + the JSON-LD builders into the
 // browser bundle. One implementation, two entry points.
-export { LANGS, localizedPath, stripLocale } from "@/lib/locale-path";
+export { LANGS, localizedPath, stripLocale, BREADCRUMB_HOME } from "@/lib/locale-path";
 
 export const LANG_CONFIG: Record<Lang, { dir: "rtl" | "ltr"; locale: string; hreflang: string }> = {
   fa: { dir: "rtl", locale: "fa_IR", hreflang: "fa" },
@@ -75,12 +75,6 @@ export const FAQ_SCHEMA: Record<Lang, { q: string; a: string }[]> = {
   ],
 };
 
-export const BREADCRUMB_HOME: Record<Lang, string> = {
-  fa: "خانه",
-  en: "Home",
-  ar: "الرئيسية",
-  ru: "Главная",
-};
 
 export const ABOUT_SEO: Record<Lang, { title: string; description: string; h1: string }> = {
   fa: {

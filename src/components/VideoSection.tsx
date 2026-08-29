@@ -1,19 +1,13 @@
 "use client";
 
 import { useLanguage } from '@/contexts/LanguageContext';
-import { motion } from 'framer-motion';
 import { Play } from 'lucide-react';
 
 const VideoSection = () => {
   const { t } = useLanguage();
 
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.12 }}
-      className="py-20 bg-navy"
-    >
+    <section className="py-20 bg-navy">
       <div className="max-w-6xl mx-auto px-4 grid lg:grid-cols-5 gap-12 items-center">
         <div className="lg:col-span-3 relative rounded-2xl overflow-hidden aspect-video">
           <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=900&q=80" alt="Dubai skyline" className="w-full h-full object-cover" loading="lazy" />
@@ -40,7 +34,7 @@ const VideoSection = () => {
           </div>
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 };
 

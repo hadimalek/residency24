@@ -1,18 +1,12 @@
 "use client";
 
 import { useLanguage } from '@/contexts/LanguageContext';
-import { motion } from 'framer-motion';
 
 const UAEFactsStrip = () => {
   const { t } = useLanguage();
 
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
-      className="py-10 border-b border-border bg-white"
-    >
+    <section className="py-10 border-b border-border bg-white">
       <div className="max-w-5xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
         {t.uae_page.facts_strip.items.map((s: { num: string; label: string }, i: number) => (
           <div key={i} className="relative">
@@ -24,7 +18,7 @@ const UAEFactsStrip = () => {
           </div>
         ))}
       </div>
-    </motion.section>
+    </section>
   );
 };
 

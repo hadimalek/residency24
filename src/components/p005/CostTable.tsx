@@ -1,7 +1,6 @@
 "use client";
 
 import { useLanguage } from "@/contexts/LanguageContext";
-import { motion } from "framer-motion";
 import { Info } from "lucide-react";
 
 const CostTable = () => {
@@ -10,12 +9,7 @@ const CostTable = () => {
   const rows: { item: string; value: string }[] = bp.cost_rows;
 
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
-      className="py-16 bg-white"
-    >
+    <section className="py-16 bg-white">
       <div className="max-w-3xl mx-auto px-4">
         <h2 className="text-2xl md:text-3xl font-bold text-navy text-center mb-10">
           {bp.cost_title}
@@ -43,7 +37,7 @@ const CostTable = () => {
           <p className="text-sm text-muted-foreground leading-relaxed">{bp.cost_crypto_note}</p>
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 };
 

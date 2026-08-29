@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
 import {
   Sparkles, Check, ArrowRight, MapPin, Building2, Ruler, Home, Users, Calculator,
   Repeat, ShieldCheck, Languages, ClipboardCheck, Ban, Target, Search, FileText,
@@ -34,12 +33,6 @@ const WHY_ICONS: LucideIcon[] = [Languages, Target, ClipboardCheck, Ban, ShieldC
 const PROCESS_ICONS: LucideIcon[] = [Target, Search, ClipboardCheck, FileText, KeyRound];
 const AREA_ICONS: LucideIcon[] = [Building2, Landmark, MapPin];
 const COST_ICONS: LucideIcon[] = [ScrollText, FileText, BadgeCheck, HandCoins, CreditCard, Wallet];
-
-const fade = {
-  initial: { opacity: 0, y: 24 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, amount: 0.12 },
-};
 
 function SectionHead({ tag, h2, sub, light }: { tag: string; h2: string; sub?: string; light?: boolean }) {
   return (
@@ -164,7 +157,7 @@ export default function RealEstateDubaiPageClient({ lang = "en" }: { lang?: stri
       />
 
       {/* 03 — Selected UAE projects */}
-      <motion.section {...fade} id="projects" className="py-16 md:py-20">
+      <section id="projects" className="py-16 md:py-20">
         <div className="max-w-6xl mx-auto px-4">
           <SectionHead tag={C.projects.tag} h2={C.projects.h2} sub={C.projects.sub} />
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -199,10 +192,10 @@ export default function RealEstateDubaiPageClient({ lang = "en" }: { lang?: stri
           </div>
           <p className="text-center text-[12.5px] text-muted-foreground mt-6 max-w-2xl mx-auto">{C.projects.note}</p>
         </div>
-      </motion.section>
+      </section>
 
       {/* 04 — Property Match finder */}
-      <motion.section {...fade} className="py-12 md:py-16">
+      <section className="py-12 md:py-16">
         <div className="max-w-6xl mx-auto px-4">
           <div className="rounded-3xl p-8 md:p-12 text-white" style={{ background: HERO_BG }}>
             <div className="grid lg:grid-cols-2 gap-10 items-center">
@@ -237,10 +230,10 @@ export default function RealEstateDubaiPageClient({ lang = "en" }: { lang?: stri
             </div>
           </div>
         </div>
-      </motion.section>
+      </section>
 
       {/* 05 — Buy by goal */}
-      <motion.section {...fade} id="goals" className="py-16 md:py-20 bg-white">
+      <section id="goals" className="py-16 md:py-20 bg-white">
         <div className="max-w-6xl mx-auto px-4">
           <SectionHead tag={C.goals.tag} h2={C.goals.h2} sub={C.goals.sub} />
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -259,10 +252,10 @@ export default function RealEstateDubaiPageClient({ lang = "en" }: { lang?: stri
             })}
           </div>
         </div>
-      </motion.section>
+      </section>
 
       {/* 06 — Emirates & areas */}
-      <motion.section {...fade} className="py-16 md:py-20">
+      <section className="py-16 md:py-20">
         <div className="max-w-6xl mx-auto px-4">
           <SectionHead tag={C.areas.tag} h2={C.areas.h2} sub={C.areas.sub} />
           <div className="grid md:grid-cols-3 gap-5">
@@ -278,10 +271,10 @@ export default function RealEstateDubaiPageClient({ lang = "en" }: { lang?: stri
             })}
           </div>
         </div>
-      </motion.section>
+      </section>
 
       {/* 07 — Ready vs Off-plan */}
-      <motion.section {...fade} className="py-16 md:py-20 bg-white">
+      <section className="py-16 md:py-20 bg-white">
         <div className="max-w-5xl mx-auto px-4">
           <SectionHead tag={C.readyOffplan.tag} h2={C.readyOffplan.h2} sub={C.readyOffplan.sub} />
           <div className="grid md:grid-cols-2 gap-5">
@@ -310,10 +303,10 @@ export default function RealEstateDubaiPageClient({ lang = "en" }: { lang?: stri
             </button>
           </div>
         </div>
-      </motion.section>
+      </section>
 
       {/* 08 — Why us */}
-      <motion.section {...fade} className="py-16 md:py-20">
+      <section className="py-16 md:py-20">
         <div className="max-w-6xl mx-auto px-4">
           <SectionHead tag={C.why.tag} h2={C.why.h2} sub={C.why.sub} />
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -329,7 +322,7 @@ export default function RealEstateDubaiPageClient({ lang = "en" }: { lang?: stri
             })}
           </div>
         </div>
-      </motion.section>
+      </section>
 
       {/* 09 — Advisor / team (real photos) */}
       <TeamSection hideMeetMore />
@@ -354,7 +347,7 @@ export default function RealEstateDubaiPageClient({ lang = "en" }: { lang?: stri
       </div>
 
       {/* 11 — Costs & transparency */}
-      <motion.section {...fade} className="py-16 md:py-20 bg-white">
+      <section className="py-16 md:py-20 bg-white">
         <div className="max-w-5xl mx-auto px-4">
           <SectionHead tag={C.costs.tag} h2={C.costs.h2} sub={C.costs.sub} />
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -378,10 +371,10 @@ export default function RealEstateDubaiPageClient({ lang = "en" }: { lang?: stri
             </button>
           </div>
         </div>
-      </motion.section>
+      </section>
 
       {/* 12 — Case studies */}
-      <motion.section {...fade} className="py-16 md:py-20">
+      <section className="py-16 md:py-20">
         <div className="max-w-6xl mx-auto px-4">
           <SectionHead tag={C.cases.tag} h2={C.cases.h2} sub={C.cases.sub} />
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -399,10 +392,10 @@ export default function RealEstateDubaiPageClient({ lang = "en" }: { lang?: stri
             ))}
           </div>
         </div>
-      </motion.section>
+      </section>
 
       {/* 13 — Residency / Golden Visa */}
-      <motion.section {...fade} className="py-12 md:py-16 bg-white">
+      <section className="py-12 md:py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4">
           <div className="rounded-2xl p-8 md:p-10 text-white flex flex-col md:flex-row md:items-center gap-6" style={{ background: HERO_BG }}>
             <div className="flex-1">
@@ -417,7 +410,7 @@ export default function RealEstateDubaiPageClient({ lang = "en" }: { lang?: stri
             </button>
           </div>
         </div>
-      </motion.section>
+      </section>
 
       {/* 14 — FAQ (+ FAQPage schema generated from the visible questions) */}
       <script
@@ -437,7 +430,7 @@ export default function RealEstateDubaiPageClient({ lang = "en" }: { lang?: stri
       <SharedFAQ title={C.faq.h2} items={C.faq.items.map((f) => ({ question: f.question, answer: f.answer }))} />
 
       {/* 15 — Final CTA + form */}
-      <motion.section {...fade} id="contact" className="py-16 md:py-20" style={{ background: HERO_BG }}>
+      <section id="contact" className="py-16 md:py-20" style={{ background: HERO_BG }}>
         <div className="max-w-3xl mx-auto px-4 text-center">
           <h2 className="text-[28px] md:text-[32px] font-bold text-gold mb-3">{C.form.cta_title}</h2>
           <p className="text-white/75 mb-8 max-w-xl mx-auto">{C.form.cta_sub}</p>
@@ -445,7 +438,7 @@ export default function RealEstateDubaiPageClient({ lang = "en" }: { lang?: stri
             <LandingLeadForm sourceSlug={SOURCE_SLUG} strings={C.form} />
           </div>
         </div>
-      </motion.section>
+      </section>
 
       <WhatsAppFloat />
       <LandingFooter />

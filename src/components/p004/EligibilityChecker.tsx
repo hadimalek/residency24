@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Home, Briefcase, Building2, Star } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
 
 type PathKey = "property" | "professional" | "investor" | "talent";
 
@@ -87,15 +86,8 @@ export default function EligibilityChecker() {
           })}
         </div>
 
-        <AnimatePresence>
           {selected && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
-              className="overflow-hidden"
-            >
+            <div className="overflow-hidden">
               <div className="mt-6 bg-white rounded-xl p-6 border border-border">
                 <h4 className="font-bold text-navy text-sm mb-4">
                   {t.p004[PATHS.find((p) => p.key === selected)!.titleKey]} — {lang === "fa" ? "مدارک مورد نیاز" : lang === "ar" ? "الوثائق المطلوبة" : lang === "ru" ? "Необходимые документы" : "Required Documents"}
@@ -115,9 +107,8 @@ export default function EligibilityChecker() {
                   {t.p004.cta_primary}
                 </a>
               </div>
-            </motion.div>
+            </div>
           )}
-        </AnimatePresence>
       </div>
     </section>
   );

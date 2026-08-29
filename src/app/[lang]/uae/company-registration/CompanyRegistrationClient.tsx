@@ -24,7 +24,7 @@ import type { Stat } from "@/components/shared/SharedStatsStrip";
 import type { Testimonial } from "@/components/shared/SharedTestimonials";
 import type { FAQItem } from "@/components/shared/SharedFAQ";
 import type { CrossSellItem } from "@/components/shared/SharedCrossSell";
-import { localizedPath } from "@/lib/locale-path";
+import { localizedPath, BREADCRUMB_HOME } from "@/lib/locale-path";
 
 export default function CompanyRegistrationClient({ lang }: { lang: Lang }) {
   const { t } = useLanguage();
@@ -36,7 +36,7 @@ export default function CompanyRegistrationClient({ lang }: { lang: Lang }) {
   }));
 
   const breadcrumbItems = [
-    { label: "Residency24", href: localizedPath(lang) },
+    { label: BREADCRUMB_HOME[lang], href: localizedPath(lang) },
     { label: cr.breadcrumb_uae || "UAE", href: localizedPath(lang, "uae") },
     { label: cr.breadcrumb_cr || cr.seo_title?.split("|")[0] || "Company Registration" },
   ];

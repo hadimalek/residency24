@@ -1,7 +1,6 @@
 "use client";
 
 import { useLanguage } from "@/contexts/LanguageContext";
-import { motion } from "framer-motion";
 
 const STEPS = [
   { titleKey: "step1_title", descKey: "step1_desc", badgeKey: "step1_badge" },
@@ -21,14 +20,7 @@ export default function GoldenVisaProcess() {
         <h2 className="text-2xl font-bold text-navy text-center mb-10">{p.process_title}</h2>
         <div className={`relative ${isRTL ? "border-r-2" : "border-l-2"} border-gold/30`}>
           {STEPS.map((step, i) => (
-            <motion.div
-              key={step.titleKey}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="flex gap-4 relative"
-            >
+            <div key={step.titleKey} className="flex gap-4 relative">
               <div
                 className={`w-8 h-8 bg-navy rounded-full flex items-center justify-center text-gold text-xs font-bold flex-shrink-0 ${
                   isRTL ? "-mr-[17px]" : "-ml-[17px]"
@@ -43,7 +35,7 @@ export default function GoldenVisaProcess() {
                   {p[step.badgeKey]}
                 </span>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

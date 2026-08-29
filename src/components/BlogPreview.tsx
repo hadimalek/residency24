@@ -1,7 +1,6 @@
 "use client";
 
 import { useLanguage } from '@/contexts/LanguageContext';
-import { motion } from 'framer-motion';
 import type { HomePostPreview } from '@/lib/cms/articles';
 
 interface BlogPreviewProps {
@@ -14,12 +13,7 @@ const BlogPreview = ({ posts }: BlogPreviewProps = {}) => {
   if (!posts || posts.length === 0) return null;
 
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.12 }}
-      className="py-20 bg-white"
-    >
+    <section className="py-20 bg-white">
       <div className="max-w-6xl mx-auto px-4">
         <div className="text-center mb-12">
           <span className="inline-block text-xs font-semibold text-gold tracking-[0.12em] uppercase mb-3">{t.blog.badge}</span>
@@ -62,7 +56,7 @@ const BlogPreview = ({ posts }: BlogPreviewProps = {}) => {
           </a>
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 };
 

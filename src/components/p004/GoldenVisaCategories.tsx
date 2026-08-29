@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Home, Briefcase, Building2, Rocket, FlaskConical, Stethoscope, Palette, Smartphone, GraduationCap } from "lucide-react";
-import { motion } from "framer-motion";
 
 const CATEGORIES = [
   { icon: Home, titleKey: "cat_property", reqKey: "cat_property_req", durationKey: "cat_duration" },
@@ -32,12 +31,8 @@ export default function GoldenVisaCategories() {
           {visible.map((cat, i) => {
             const Icon = cat.icon;
             return (
-              <motion.div
+              <div
                 key={cat.titleKey}
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.05 }}
                 className="bg-white/5 border border-white/10 rounded-xl p-4 text-center hover:bg-white/10 hover:border-gold/50 transition-all cursor-pointer"
               >
                 <Icon size={24} className="text-gold mb-2 mx-auto" />
@@ -46,7 +41,7 @@ export default function GoldenVisaCategories() {
                 <span className="text-xs bg-gold/20 text-gold rounded-full px-2 py-0.5 mt-2 inline-block">
                   {p[cat.durationKey]}
                 </span>
-              </motion.div>
+              </div>
             );
           })}
         </div>

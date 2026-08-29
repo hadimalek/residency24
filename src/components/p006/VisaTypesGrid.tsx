@@ -1,7 +1,6 @@
 "use client";
 
 import { useLanguage } from "@/contexts/LanguageContext";
-import { motion } from "framer-motion";
 import { Calendar, CalendarDays, CalendarRange, RefreshCw, Plane, Clock } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -97,12 +96,8 @@ const VisaTypesGrid = () => {
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {visaTypes.map((visa, i) => (
-            <motion.div
+            <div
               key={i}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.1 }}
-              transition={{ duration: 0.3, delay: i * 0.05 }}
               className="bg-navy rounded-xl p-5 text-center flex flex-col items-center gap-2 relative"
             >
               {visa.popular && (
@@ -129,7 +124,7 @@ const VisaTypesGrid = () => {
               >
                 {applyLabel}
               </a>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

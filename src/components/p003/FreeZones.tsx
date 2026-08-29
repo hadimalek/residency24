@@ -2,7 +2,6 @@
 
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Building2, Landmark, Plane, TrendingUp, Globe } from "lucide-react";
-import { motion } from "framer-motion";
 
 const ZONES = [
   { name: "DMCC", icon: Landmark, price: "AED 14,500", visas: "6", bestKey: "zone_dmcc_best", badgeKey: "zone_dmcc_badge" },
@@ -17,13 +16,7 @@ export default function FreeZones() {
   const cr = t.cr;
 
   return (
-    <motion.section
-      id="cr-s6"
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
-      className="py-16 bg-surface"
-    >
+    <section id="cr-s6" className="py-16 bg-surface">
       <div className="max-w-7xl mx-auto px-6">
         <h2 className="text-2xl font-bold text-navy text-center mb-3">
           {cr.zones_title}
@@ -59,6 +52,6 @@ export default function FreeZones() {
           ))}
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 }

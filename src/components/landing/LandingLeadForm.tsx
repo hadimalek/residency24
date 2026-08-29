@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { motion } from "framer-motion";
 import { Check, Loader2 } from "lucide-react";
 import { localizedPath } from "@/lib/locale-path";
 
@@ -64,14 +63,10 @@ export default function LandingLeadForm({ sourceSlug, strings }: LandingLeadForm
 
   if (status === "sent") {
     return (
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="bg-white/10 rounded-2xl p-8 text-center max-w-md mx-auto"
-      >
+      <div className="bg-white/10 rounded-2xl p-8 text-center max-w-md mx-auto">
         <Check className="w-12 h-12 text-green-500 mx-auto mb-3" />
         <p className="text-white font-semibold">{f.thankYou}</p>
-      </motion.div>
+      </div>
     );
   }
 

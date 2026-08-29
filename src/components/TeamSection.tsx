@@ -1,7 +1,6 @@
 "use client";
 
 import { useLanguage } from '@/contexts/LanguageContext';
-import { motion } from 'framer-motion';
 import { MapPin, Briefcase } from 'lucide-react';
 import { localizedPath } from "@/lib/locale-path";
 
@@ -10,14 +9,7 @@ const TeamSection = ({ hideMeetMore = false }: { hideMeetMore?: boolean }) => {
   const { t, isRTL, lang } = useLanguage();
 
   return (
-    <motion.section
-      id="team"
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.12 }}
-      className="py-24 bg-background"
-      style={{ direction: isRTL ? 'rtl' : 'ltr' }}
-    >
+    <section id="team" className="py-24 bg-background" style={{ direction: isRTL ? 'rtl' : 'ltr' }}>
       <div className="max-w-6xl mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-16">
@@ -31,12 +23,8 @@ const TeamSection = ({ hideMeetMore = false }: { hideMeetMore?: boolean }) => {
         {/* Members grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-14">
           {t.team.members.map((m: any, i: number) => (
-            <motion.div
+            <div
               key={i}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.12 }}
               className="group relative bg-card rounded-2xl overflow-hidden border border-border hover:border-navy/40 hover:shadow-xl transition-all duration-300"
             >
               {/* Large photo area */}
@@ -75,7 +63,7 @@ const TeamSection = ({ hideMeetMore = false }: { hideMeetMore?: boolean }) => {
                   <MapPin size={12} /> {m.location}
                 </p>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
 
@@ -103,7 +91,7 @@ const TeamSection = ({ hideMeetMore = false }: { hideMeetMore?: boolean }) => {
           </div>
         )}
       </div>
-    </motion.section>
+    </section>
   );
 };
 

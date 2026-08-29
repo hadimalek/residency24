@@ -1527,7 +1527,7 @@ const translations: Record<Lang, any> = {
         description: "[TRANSLATE: EN]",
         canonical: "https://residency24.com/uae/green-visa/",
       },
-      breadcrumb: ["[TRANSLATE: EN]", "[TRANSLATE: EN]", "[TRANSLATE: EN]"],
+      breadcrumb: ["Home", "UAE", "Green Visa"],
       eligibility: {
         title: "[TRANSLATE: EN]",
         subtitle: "[TRANSLATE: EN]",
@@ -3036,7 +3036,7 @@ const translations: Record<Lang, any> = {
         description: "[TRANSLATE: AR]",
         canonical: "https://residency24.com/ar/uae/green-visa/",
       },
-      breadcrumb: ["[TRANSLATE: AR]", "[TRANSLATE: AR]", "[TRANSLATE: AR]"],
+      breadcrumb: ["الرئيسية", "الإمارات", "التأشيرة الخضراء"],
       eligibility: {
         title: "[TRANSLATE: AR]",
         subtitle: "[TRANSLATE: AR]",
@@ -4545,7 +4545,7 @@ const translations: Record<Lang, any> = {
         description: "[TRANSLATE: RU]",
         canonical: "https://residency24.com/ru/uae/green-visa/",
       },
-      breadcrumb: ["[TRANSLATE: RU]", "[TRANSLATE: RU]", "[TRANSLATE: RU]"],
+      breadcrumb: ["Главная", "ОАЭ", "Зелёная виза"],
       eligibility: {
         title: "[TRANSLATE: RU]",
         subtitle: "[TRANSLATE: RU]",

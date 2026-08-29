@@ -1,7 +1,6 @@
 "use client";
 
 import { useLanguage } from "@/contexts/LanguageContext";
-import { motion } from "framer-motion";
 import { Target, Users, CreditCard, Search, FileSignature, CheckCircle, Landmark, Building, Key, Star } from "lucide-react";
 
 const STEP_ICONS = [Target, Users, CreditCard, Search, FileSignature, CheckCircle, Landmark, Building, Key, Star];
@@ -22,14 +21,7 @@ const HowToBuy = () => {
           {steps.map((step, i) => {
             const Icon = STEP_ICONS[i];
             return (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.1 }}
-                transition={{ duration: 0.3, delay: i * 0.05 }}
-                className="flex gap-4 items-start bg-white rounded-xl p-5"
-              >
+              <div key={i} className="flex gap-4 items-start bg-white rounded-xl p-5">
                 <div className="flex items-center gap-3 shrink-0">
                   <span className="flex items-center justify-center w-8 h-8 rounded-full bg-navy text-gold font-bold text-sm">
                     {i + 1}
@@ -43,7 +35,7 @@ const HowToBuy = () => {
                     {step.time}
                   </span>
                 </div>
-              </motion.div>
+              </div>
             );
           })}
         </div>

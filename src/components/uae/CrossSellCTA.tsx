@@ -1,7 +1,6 @@
 "use client";
 
 import { useLanguage } from '@/contexts/LanguageContext';
-import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 
 const CrossSellCTA = () => {
@@ -9,12 +8,7 @@ const CrossSellCTA = () => {
   const data = t.uae_page.cross_sell;
 
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
-      className="py-20 bg-white"
-    >
+    <section className="py-20 bg-white">
       <div className="max-w-5xl mx-auto px-4">
         <div className="text-center mb-10">
           <span className="inline-block text-xs font-semibold text-gold tracking-[0.12em] uppercase mb-3">{data.badge}</span>
@@ -47,7 +41,7 @@ const CrossSellCTA = () => {
           </a>
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 };
 

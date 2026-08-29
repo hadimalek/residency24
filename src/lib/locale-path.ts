@@ -28,3 +28,30 @@ export function stripLocale(pathname: string): string {
     .replace(/^\/+/, "")
     .replace(/\/+$/, "");
 }
+
+/**
+ * First crumb of every breadcrumb trail, in the page's own language.
+ *
+ * It has to be a translated word rather than the brand name: the visible trail
+ * and the BreadcrumbList JSON-LD must agree, and the JSON-LD has always used
+ * these. A Persian page showing a Latin "Residency24" above Persian crumbs was
+ * both a mismatch Google can flag and simply wrong for the reader.
+ */
+export const BREADCRUMB_HOME: Record<Lang, string> = {
+  fa: "خانه",
+  en: "Home",
+  ar: "الرئيسية",
+  ru: "Главная",
+};
+
+/**
+ * Country crumb for the UAE hub. The Oman and Turkey hubs already carry theirs
+ * in translations.ts; the UAE hub was the one still hardcoding Latin "UAE" for
+ * every language.
+ */
+export const BREADCRUMB_UAE: Record<Lang, string> = {
+  fa: "امارات",
+  en: "UAE",
+  ar: "الإمارات",
+  ru: "ОАЭ",
+};

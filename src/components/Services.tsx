@@ -1,7 +1,6 @@
 "use client";
 
 import { useLanguage } from '@/contexts/LanguageContext';
-import { motion } from 'framer-motion';
 import { Star, Building2, KeyRound, Laptop } from 'lucide-react';
 
 const iconMap: Record<string, React.ReactNode> = {
@@ -15,12 +14,7 @@ const Services = () => {
   const { t } = useLanguage();
 
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.12 }}
-      className="py-20 bg-white"
-    >
+    <section className="py-20 bg-white">
       <div className="max-w-6xl mx-auto px-4">
         <h2 className="text-[32px] font-bold text-navy text-center mb-12">{t.services.h2}</h2>
 
@@ -40,7 +34,7 @@ const Services = () => {
           ))}
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 };
 

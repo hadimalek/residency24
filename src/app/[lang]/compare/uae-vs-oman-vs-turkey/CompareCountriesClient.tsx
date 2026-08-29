@@ -1,6 +1,7 @@
 "use client";
 
 import { useLanguage } from "@/contexts/LanguageContext";
+import { BREADCRUMB_HOME } from "@/lib/locale-path";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
@@ -11,7 +12,6 @@ import SharedLeadForm from "@/components/shared/SharedLeadForm";
 import type { CrossSellItem } from "@/components/shared/SharedCrossSell";
 import type { FAQItem } from "@/components/shared/SharedFAQ";
 import type { Lang } from "@/translations";
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { Fragment } from "react";
 import {
@@ -707,7 +707,7 @@ export default function CompareCountriesClient() {
   const Arrow = ArrowRight;
 
   const breadcrumbItems = [
-    { label: "Residency24", href: homeHref },
+    { label: BREADCRUMB_HOME[lang], href: homeHref },
     { label: c.breadcrumb },
   ];
 
@@ -804,12 +804,8 @@ export default function CompareCountriesClient() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               {c.countries.map((country, i) => (
-                <motion.div
+                <div
                   key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.2 }}
-                  transition={{ delay: i * 0.08 }}
                   className="flex flex-col bg-surface border border-border rounded-2xl p-6 hover:shadow-md transition-shadow"
                 >
                   <div
@@ -835,7 +831,7 @@ export default function CompareCountriesClient() {
                     {country.cta}
                     <Arrow className={`w-4 h-4 ${isRTL ? "rotate-180" : ""}`} />
                   </Link>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>

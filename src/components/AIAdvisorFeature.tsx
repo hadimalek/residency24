@@ -1,7 +1,6 @@
 "use client";
 
 import { useLanguage } from '@/contexts/LanguageContext';
-import { motion } from 'framer-motion';
 import { Zap, Globe, Shield, Users } from 'lucide-react';
 
 const featureIcons: Record<string, React.ReactNode> = {
@@ -20,12 +19,7 @@ const AIAdvisorFeature = () => {
   };
 
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.12 }}
-      className="py-20 bg-navy"
-    >
+    <section className="py-20 bg-navy">
       <div className="max-w-6xl mx-auto px-4 grid lg:grid-cols-2 gap-12 items-center">
         {/* Left — Features */}
         <div>
@@ -70,7 +64,7 @@ const AIAdvisorFeature = () => {
           </button>
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 };
 

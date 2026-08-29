@@ -1,7 +1,6 @@
 "use client";
 
 import { useLanguage } from '@/contexts/LanguageContext';
-import { motion } from 'framer-motion';
 import { Star } from 'lucide-react';
 
 const UAETestimonials = () => {
@@ -9,12 +8,7 @@ const UAETestimonials = () => {
   const data = t.uae_page.testimonials;
 
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
-      className="py-20 bg-navy"
-    >
+    <section className="py-20 bg-navy">
       <div className="max-w-5xl mx-auto px-4">
         <div className="text-center mb-10">
           <span className="inline-block text-xs font-semibold text-gold tracking-[0.12em] uppercase mb-3">{data.badge}</span>
@@ -38,7 +32,7 @@ const UAETestimonials = () => {
           ))}
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 };
 

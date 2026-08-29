@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { motion } from 'framer-motion';
 
 // FAQPage JSON-LD is emitted HERE, from the exact questions rendered below, so
 // the structured data always matches the visible FAQ (Google's requirement).
@@ -24,12 +23,7 @@ const FAQ = () => {
   } : null;
 
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
-      className="py-20 bg-surface"
-    >
+    <section className="py-20 bg-surface">
       {faqSchema && (
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       )}
@@ -48,16 +42,16 @@ const FAQ = () => {
                   <span className="text-[22px] text-gold flex-shrink-0">{isOpen ? '−' : '+'}</span>
                 </button>
                 {isOpen && (
-                  <motion.p initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} transition={{ duration: 0.25 }} className="text-[15px] text-ink leading-[1.7] pt-3">
+                  <p className="text-[15px] text-ink leading-[1.7] pt-3">
                     {item.a}
-                  </motion.p>
+                  </p>
                 )}
               </div>
             );
           })}
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 };
 

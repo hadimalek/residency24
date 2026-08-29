@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { motion } from 'framer-motion';
 import { ChevronUp, ChevronDown, Check } from 'lucide-react';
 
 const NationalityHooks = () => {
@@ -22,12 +21,7 @@ const NationalityHooks = () => {
   };
 
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
-      className="py-20 bg-surface"
-    >
+    <section className="py-20 bg-surface">
       <div className="max-w-[860px] mx-auto px-4">
         <div className="text-center mb-10">
           <span className="inline-block text-xs font-semibold text-gold tracking-[0.12em] uppercase mb-3">{t.nationalities.badge}</span>
@@ -53,12 +47,7 @@ const NationalityHooks = () => {
                   {isOpen ? <ChevronUp size={20} className="text-gold" /> : <ChevronDown size={20} className="text-muted-foreground" />}
                 </button>
                 {isOpen && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    transition={{ duration: 0.25 }}
-                    className="px-5 pb-5"
-                  >
+                  <div className="px-5 pb-5">
                     <p className="text-[15px] text-ink leading-[1.7] mb-4">{panel.desc}</p>
                     {panel.points && (
                       <ul className="space-y-2 mb-4">
@@ -75,14 +64,14 @@ const NationalityHooks = () => {
                     >
                       → {panel.ask}
                     </button>
-                  </motion.div>
+                  </div>
                 )}
               </div>
             );
           })}
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 };
 

@@ -2,7 +2,6 @@
 
 import { useLanguage } from "@/contexts/LanguageContext";
 import { CheckCircle2 } from "lucide-react";
-import { motion } from "framer-motion";
 
 const CARDS = [
   {
@@ -50,12 +49,8 @@ export default function GoldenVisaNationalityNotes() {
           {sorted.map((card, i) => {
             const isHighlighted = card.highlightLang === lang;
             return (
-              <motion.div
+              <div
                 key={card.titleKey}
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
                 className={`${card.bg} border rounded-xl p-5 ${isHighlighted ? "ring-2 ring-navy" : ""}`}
               >
                 <h3 className="font-bold text-navy text-sm mb-3">
@@ -69,7 +64,7 @@ export default function GoldenVisaNationalityNotes() {
                     </li>
                   ))}
                 </ul>
-              </motion.div>
+              </div>
             );
           })}
         </div>

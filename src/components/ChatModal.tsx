@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
 import { X, Send, ArrowLeft, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import ReactMarkdown from 'react-markdown';
@@ -184,13 +183,7 @@ const LeadCaptureFullPage = ({
   const BackArrow = isRTL ? ArrowRight : ArrowLeft;
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.2 }}
-      className="absolute inset-0 z-[1001] flex flex-col bg-white overflow-hidden"
-    >
+    <div className="absolute inset-0 z-[1001] flex flex-col bg-white overflow-hidden">
       {/* Header — same style as chat header */}
       <div
         className="flex items-center gap-3 px-4 flex-shrink-0"
@@ -210,15 +203,11 @@ const LeadCaptureFullPage = ({
       {/* Form body */}
       <div className="flex-1 overflow-y-auto px-5 py-6" style={{ background: '#F0EDE8' }}>
         {submitted ? (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="flex flex-col items-center justify-center h-full text-center"
-          >
+          <div className="flex flex-col items-center justify-center h-full text-center">
             <div className="text-5xl mb-4">✅</div>
             <p className="text-lg font-semibold" style={{ color: '#001E6E' }}>{lt.success_title}</p>
             <p className="text-sm mt-2" style={{ color: '#6E7B8B' }}>{lt.success_msg}</p>
-          </motion.div>
+          </div>
         ) : (
           <div className="max-w-sm mx-auto">
             <div className="flex items-center gap-3 mb-5">
@@ -244,7 +233,7 @@ const LeadCaptureFullPage = ({
           </div>
         )}
       </div>
-    </motion.div>
+    </div>
   );
 };
 
@@ -427,23 +416,12 @@ const ChatModal = ({ isOpen, onClose, initialMessage = '' }: { isOpen: boolean; 
   if (!isOpen) return null;
 
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          key="overlay"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
+    <div
           className="fixed inset-0 z-[1000] flex items-center justify-center"
           style={{ background: 'rgba(0,20,60,0.55)', backdropFilter: 'blur(6px)' }}
           onClick={e => e.target === e.currentTarget && onClose()}
         >
-          <motion.div
-            initial={{ opacity: 0, y: 24, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 24, scale: 0.95 }}
-            transition={{ duration: 0.28, type: 'spring', damping: 20, stiffness: 300 }}
+          <div
             className="relative flex flex-col overflow-hidden w-[420px] max-w-[calc(100vw-32px)] h-[620px] max-h-[calc(100vh-48px)] rounded-[20px] bg-white shadow-[0_32px_80px_rgba(0,0,0,0.25),0_8px_24px_rgba(0,30,110,0.2)] max-[480px]:fixed max-[480px]:inset-0 max-[480px]:w-full max-[480px]:h-[100dvh] max-[480px]:max-w-full max-[480px]:max-h-[100dvh] max-[480px]:rounded-none max-[480px]:shadow-none"
           >
             {/* ── HEADER — Logo + online dot + close only ── */}
@@ -623,8 +601,7 @@ const ChatModal = ({ isOpen, onClose, initialMessage = '' }: { isOpen: boolean; 
             </div>
 
             {/* Lead form overlay — replaces chat in place */}
-            <AnimatePresence>
-              {showLead && !leadDone && (
+            {showLead && !leadDone && (
                 <LeadCaptureFullPage
                   t={t}
                   sessionId={sessionId}
@@ -633,12 +610,9 @@ const ChatModal = ({ isOpen, onClose, initialMessage = '' }: { isOpen: boolean; 
                   onDone={handleLeadDone}
                   onBack={() => { setShowLead(false); setLeadDone(true); }}
                 />
-              )}
-            </AnimatePresence>
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+            )}
+          </div>
+        </div>
   );
 };
 

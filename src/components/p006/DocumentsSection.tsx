@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { motion } from "framer-motion";
 import { FileText, AlertCircle } from "lucide-react";
 
 interface DocItem {
@@ -78,12 +77,7 @@ const DocumentsSection = () => {
   const optionalLabel = l("اختیاری", "Optional", "اختياري", "Необязательно");
 
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
-      className="py-16 px-4 bg-surface"
-    >
+    <section className="py-16 px-4 bg-surface">
       <div className="max-w-3xl mx-auto">
         <h2 className="text-2xl md:text-3xl font-bold text-navy text-center mb-8">
           {l("مدارک لازم برای ویزای توریستی امارات", "Required Documents for UAE Tourist Visa", "الوثائق المطلوبة للتأشيرة السياحية", "Необходимые документы для визы ОАЭ")}
@@ -152,7 +146,7 @@ const DocumentsSection = () => {
           </div>
         )}
       </div>
-    </motion.section>
+    </section>
   );
 };
 

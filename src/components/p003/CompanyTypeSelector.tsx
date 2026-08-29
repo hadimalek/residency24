@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Building2, Factory, Globe, Check } from "lucide-react";
-import { motion } from "framer-motion";
 
 const TYPES = [
   {
@@ -44,13 +43,7 @@ export default function CompanyTypeSelector() {
   const [active, setActive] = useState("mainland");
 
   return (
-    <motion.section
-      id="cr-s5"
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
-      className="py-16"
-    >
+    <section id="cr-s5" className="py-16">
       <div className="max-w-7xl mx-auto px-6">
         <h2 className="text-2xl font-bold text-navy text-center mb-10">
           {cr.types_title}
@@ -103,6 +96,6 @@ export default function CompanyTypeSelector() {
           )}
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 }

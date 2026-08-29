@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import { motion } from "framer-motion";
 
 export default function FAQP003() {
   const { t } = useLanguage();
@@ -12,13 +11,7 @@ export default function FAQP003() {
   const [openIndex, setOpenIndex] = useState(0);
 
   return (
-    <motion.section
-      id="cr-s13"
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
-      className="py-16 bg-surface"
-    >
+    <section id="cr-s13" className="py-16 bg-surface">
       <div className="max-w-[760px] mx-auto px-6">
         <h2 className="text-2xl font-bold text-navy text-center mb-10">
           {cr.faq_title}
@@ -42,20 +35,15 @@ export default function FAQP003() {
                   )}
                 </button>
                 {isOpen && (
-                  <motion.p
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    transition={{ duration: 0.25 }}
-                    className="text-sm text-muted-foreground leading-relaxed pt-3"
-                  >
+                  <p className="text-sm text-muted-foreground leading-relaxed pt-3">
                     {item.a}
-                  </motion.p>
+                  </p>
                 )}
               </div>
             );
           })}
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 }

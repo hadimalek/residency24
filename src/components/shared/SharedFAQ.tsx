@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { motion } from "framer-motion";
 
 export interface FAQItem {
   question: string;
@@ -20,12 +19,7 @@ const SharedFAQ = ({ items, title }: SharedFAQProps) => {
   const [openIndex, setOpenIndex] = useState(0);
 
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
-      className="py-16 bg-surface"
-    >
+    <section className="py-16 bg-surface">
       <div className="max-w-[760px] mx-auto px-4">
         <h2 className="text-2xl md:text-[32px] font-bold text-navy text-center mb-10">
           {title || s.faq_title}
@@ -46,21 +40,16 @@ const SharedFAQ = ({ items, title }: SharedFAQProps) => {
                   </span>
                 </button>
                 {isOpen && (
-                  <motion.p
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    transition={{ duration: 0.2 }}
-                    className="text-sm text-muted-foreground leading-relaxed pt-3 pb-1"
-                  >
+                  <p className="text-sm text-muted-foreground leading-relaxed pt-3 pb-1">
                     {item.answer}
-                  </motion.p>
+                  </p>
                 )}
               </div>
             );
           })}
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 };
 

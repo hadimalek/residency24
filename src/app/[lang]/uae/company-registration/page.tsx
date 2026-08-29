@@ -56,7 +56,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
       siteName: "Residency24",
       // The Persian page leads with a real photograph; giving OG an image makes
       // the share card match what the page actually looks like.
-      ...(lang === "fa" ? { images: [{ url: `${BASE_URL}${IMG.hero}` }] } : {}),
+      ...(lang === "fa" ? { images: [{ url: `${BASE_URL}${IMG.city}` }] } : {}),
     },
     twitter: {
       card: lang === "fa" ? "summary_large_image" : "summary",

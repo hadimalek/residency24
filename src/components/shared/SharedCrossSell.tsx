@@ -1,7 +1,6 @@
 "use client";
 
 import { useLanguage } from "@/contexts/LanguageContext";
-import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import type { LucideIcon } from "lucide-react";
@@ -38,13 +37,7 @@ const SharedCrossSell = ({ items, title, variant = "light" }: SharedCrossSellPro
           {items.map((item, i) => {
             const Icon = item.icon;
             return (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.1 }}
-                transition={{ duration: 0.3, delay: i * 0.05 }}
-              >
+              <div key={i}>
                 <Link
                   href={item.href}
                   className={`block border rounded-xl p-4 flex flex-col hover:-translate-y-0.5 transition-all h-full ${
@@ -73,7 +66,7 @@ const SharedCrossSell = ({ items, title, variant = "light" }: SharedCrossSellPro
                     {s.crosssell_view} <Arrow className="w-4 h-4" />
                   </span>
                 </Link>
-              </motion.div>
+              </div>
             );
           })}
         </div>

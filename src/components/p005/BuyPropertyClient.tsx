@@ -26,7 +26,7 @@ import type { FAQItem } from "@/components/shared/SharedFAQ";
 import type { CrossSellItem } from "@/components/shared/SharedCrossSell";
 import type { Stat } from "@/components/shared/SharedStatsStrip";
 import type { PricingRow } from "@/components/shared/SharedPricingTable";
-import { localizedPath } from "@/lib/locale-path";
+import { localizedPath, BREADCRUMB_HOME } from "@/lib/locale-path";
 
 const BASE_URL = "https://residency24.com";
 
@@ -151,7 +151,7 @@ export default function BuyPropertyClient({ h1 }: { h1: string }) {
   ];
 
   const breadcrumbItems = [
-    { label: "Residency24", href: localizedPath(lang) },
+    { label: BREADCRUMB_HOME[lang], href: localizedPath(lang) },
     { label: bp.breadcrumb_uae, href: localizedPath(lang, "uae") },
     { label: bp.breadcrumb_property },
   ];

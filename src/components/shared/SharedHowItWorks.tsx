@@ -1,7 +1,6 @@
 "use client";
 
 import { useLanguage } from "@/contexts/LanguageContext";
-import { motion } from "framer-motion";
 import type { LucideIcon } from "lucide-react";
 
 export interface Step {
@@ -38,12 +37,8 @@ const SharedHowItWorks = ({ steps, title, subtitle, variant = "numbered" }: Shar
             {steps.map((step, i) => {
               const Icon = step.icon;
               return (
-                <motion.div
+                <div
                   key={i}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.1 }}
-                  transition={{ duration: 0.3, delay: i * 0.05 }}
                   className={`bg-white border rounded-2xl p-5 text-center flex flex-col items-center hover:shadow-md transition-shadow ${
                     step.isHighlighted ? "border-2 border-gold" : "border-border"
                   }`}
@@ -57,7 +52,7 @@ const SharedHowItWorks = ({ steps, title, subtitle, variant = "numbered" }: Shar
                   {step.duration && (
                     <span className="text-xs font-bold text-gold mt-2">{step.duration}</span>
                   )}
-                </motion.div>
+                </div>
               );
             })}
           </div>
@@ -66,12 +61,8 @@ const SharedHowItWorks = ({ steps, title, subtitle, variant = "numbered" }: Shar
             {steps.map((step, i) => {
               const Icon = step.icon;
               return (
-                <motion.div
+                <div
                   key={i}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.1 }}
-                  transition={{ duration: 0.3, delay: i * 0.05 }}
                   className={`flex gap-4 items-start bg-white border rounded-xl p-5 ${
                     step.isHighlighted ? "border-2 border-gold" : "border-border"
                   }`}
@@ -91,7 +82,7 @@ const SharedHowItWorks = ({ steps, title, subtitle, variant = "numbered" }: Shar
                       </span>
                     )}
                   </div>
-                </motion.div>
+                </div>
               );
             })}
           </div>

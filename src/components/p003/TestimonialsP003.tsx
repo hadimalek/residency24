@@ -2,7 +2,6 @@
 
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Quote, Star } from "lucide-react";
-import { motion } from "framer-motion";
 
 const TESTIMONIALS = [
   { nameKey: "t1_name", typeKey: "t1_type", quoteKey: "t1_quote" },
@@ -15,13 +14,7 @@ export default function TestimonialsP003() {
   const cr = t.cr;
 
   return (
-    <motion.section
-      id="cr-s12"
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
-      className="py-16"
-    >
+    <section id="cr-s12" className="py-16">
       <div className="max-w-5xl mx-auto px-6">
         <h2 className="text-2xl font-bold text-navy text-center mb-10">
           {cr.testi_title}
@@ -55,6 +48,6 @@ export default function TestimonialsP003() {
           ))}
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 }

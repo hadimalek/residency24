@@ -286,7 +286,7 @@ export default function RuUaeHubClient({ h1 }: { h1: string }) {
     <div className="min-h-screen bg-background">
       <Navbar />
 
-      <SharedBreadcrumb items={[{ label: "ОАЭ" }]} />
+      <SharedBreadcrumb items={[{ label: "Главная", href: "/ru" }, { label: "ОАЭ" }]} />
 
       {/* HERO */}
       <section className="relative overflow-hidden bg-navy text-white">

@@ -22,15 +22,14 @@ import { Building, Building2, Globe, Plane, Leaf } from "lucide-react";
 import type { Testimonial } from "@/components/shared/SharedTestimonials";
 import type { FAQItem } from "@/components/shared/SharedFAQ";
 import type { CrossSellItem } from "@/components/shared/SharedCrossSell";
-import { localizedPath } from "@/lib/locale-path";
+import { localizedPath, BREADCRUMB_HOME } from "@/lib/locale-path";
 
 export default function GoldenVisaPageClient() {
   const { t, lang, isRTL } = useLanguage();
   const p = t.p004;
 
-  const homeLabels: Record<string, string> = { fa: "خانه", en: "Home", ar: "الرئيسية", ru: "Главная" };
   const breadcrumbItems = [
-    { label: "Residency24", href: localizedPath(lang) },
+    { label: BREADCRUMB_HOME[lang], href: localizedPath(lang) },
     { label: p.breadcrumb_uae, href: localizedPath(lang, "uae") },
     { label: p.breadcrumb_gv },
   ];

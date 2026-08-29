@@ -2,7 +2,6 @@
 
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Users, Globe } from "lucide-react";
-import { motion } from "framer-motion";
 
 export default function NationalityHooksP003() {
   const { t, lang } = useLanguage();
@@ -13,13 +12,7 @@ export default function NationalityHooksP003() {
   const Icon = lang === "en" ? Globe : Users;
 
   return (
-    <motion.section
-      id="cr-s10"
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
-      className="py-16"
-    >
+    <section id="cr-s10" className="py-16">
       <div className="max-w-3xl mx-auto px-6">
         <div
           className={[
@@ -63,6 +56,6 @@ export default function NationalityHooksP003() {
           </div>
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 }

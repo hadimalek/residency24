@@ -2,7 +2,6 @@
 
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Trophy, Building2 } from "lucide-react";
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { localizedPath } from "@/lib/locale-path";
 
@@ -11,13 +10,7 @@ export default function CrossSell() {
   const cr = t.cr;
 
   return (
-    <motion.section
-      id="cr-s11"
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
-      className="py-16 bg-surface"
-    >
+    <section id="cr-s11" className="py-16 bg-surface">
       <div className="max-w-5xl mx-auto px-6">
         <h2 className="text-2xl font-bold text-navy text-center mb-10">
           {cr.cross_title}
@@ -57,6 +50,6 @@ export default function CrossSell() {
           </div>
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 }

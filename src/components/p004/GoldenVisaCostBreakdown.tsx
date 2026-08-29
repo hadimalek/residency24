@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { motion } from "framer-motion";
 import { AlertTriangle } from "lucide-react";
 
 type Tab = "property" | "professional" | "investor";
@@ -33,12 +32,7 @@ export default function GoldenVisaCostBreakdown() {
   const [activeTab, setActiveTab] = useState<Tab>("property");
 
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
-      className="bg-surface py-16 px-6"
-    >
+    <section className="bg-surface py-16 px-6">
       <div className="max-w-5xl mx-auto">
         <h2 className="text-2xl font-bold text-navy text-center mb-8">{p.cost_title}</h2>
 
@@ -132,6 +126,6 @@ export default function GoldenVisaCostBreakdown() {
           </div>
         )}
       </div>
-    </motion.section>
+    </section>
   );
 }

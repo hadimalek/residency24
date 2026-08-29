@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { motion } from "framer-motion";
 
 export interface PricingRow {
   label: string;
@@ -42,12 +41,7 @@ const SharedPricingTable = ({ title, tabs, rows, showCTA, ctaText, ctaHref }: Sh
   };
 
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
-      className="py-16 bg-white"
-    >
+    <section className="py-16 bg-white">
       <div className="max-w-3xl mx-auto px-4">
         <h2 className="text-2xl font-bold text-navy text-center mb-6">
           {title || s.pricing_title}
@@ -114,7 +108,7 @@ const SharedPricingTable = ({ title, tabs, rows, showCTA, ctaText, ctaHref }: Sh
           </div>
         )}
       </div>
-    </motion.section>
+    </section>
   );
 };
 

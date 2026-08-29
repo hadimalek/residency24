@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { ClipboardList, MessageCircle } from "lucide-react";
-import { motion } from "framer-motion";
 
 const INDIVIDUAL_DOCS = [
   { key: "doc1", noteKey: "doc1n", required: true },
@@ -19,13 +18,7 @@ export default function DocumentsChecklist() {
   const [tab, setTab] = useState<"ind" | "corp">("ind");
 
   return (
-    <motion.section
-      id="cr-s9"
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
-      className="py-16 bg-surface"
-    >
+    <section id="cr-s9" className="py-16 bg-surface">
       <div className="max-w-3xl mx-auto px-6">
         <h2 className="text-2xl font-bold text-navy text-center mb-8">
           {cr.docs_title}
@@ -107,6 +100,6 @@ export default function DocumentsChecklist() {
           {cr.docs_note}
         </p>
       </div>
-    </motion.section>
+    </section>
   );
 }

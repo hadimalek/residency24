@@ -1,19 +1,13 @@
 "use client";
 
 import { useLanguage } from '@/contexts/LanguageContext';
-import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
 
 const CountriesHub = () => {
   const { t } = useLanguage();
 
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.12 }}
-      className="py-20 bg-surface"
-    >
+    <section className="py-20 bg-surface">
       <div className="max-w-6xl mx-auto px-4">
         <div className="text-center mb-12">
           <span className="inline-block text-xs font-semibold text-gold tracking-[0.12em] uppercase mb-3">{t.countries.badge}</span>
@@ -22,12 +16,8 @@ const CountriesHub = () => {
 
         <div className="grid md:grid-cols-3 gap-6">
           {t.countries.items.map((country: any, i: number) => (
-            <motion.div
+            <div
               key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
               className="bg-white rounded-xl border border-border overflow-hidden hover:-translate-y-1 hover:shadow-lg transition-all duration-200 group"
             >
               {/* Image */}
@@ -71,11 +61,11 @@ const CountriesHub = () => {
                   {country.cta}
                 </a>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 };
 

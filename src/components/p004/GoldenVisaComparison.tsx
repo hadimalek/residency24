@@ -1,7 +1,6 @@
 "use client";
 
 import { useLanguage } from "@/contexts/LanguageContext";
-import { motion } from "framer-motion";
 
 export default function GoldenVisaComparison() {
   const { t } = useLanguage();
@@ -19,12 +18,7 @@ export default function GoldenVisaComparison() {
   ];
 
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
-      className="bg-white py-16 px-6"
-    >
+    <section className="bg-white py-16 px-6">
       <div className="max-w-5xl mx-auto">
         <h2 className="text-2xl font-bold text-navy text-center mb-8">{p.comparison_title}</h2>
         <div className="overflow-x-auto">
@@ -54,6 +48,6 @@ export default function GoldenVisaComparison() {
           </table>
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 }

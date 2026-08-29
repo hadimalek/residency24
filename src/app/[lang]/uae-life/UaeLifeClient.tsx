@@ -1,7 +1,6 @@
 "use client";
 
 import { useLanguage } from "@/contexts/LanguageContext";
-import { motion } from "framer-motion";
 import {
   Shield,
   Briefcase,
@@ -51,11 +50,8 @@ export default function UaeLifeClient() {
 
       {/* Info sections */}
       {sections.map(({ key, data, icon: Icon }, i) => (
-        <motion.section
+        <section
           key={key}
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.15 }}
           className={i % 2 === 0 ? "py-16 md:py-20 bg-white" : "py-16 md:py-20 bg-surface"}
           style={{ direction: dir }}
         >
@@ -78,17 +74,11 @@ export default function UaeLifeClient() {
               ))}
             </ul>
           </div>
-        </motion.section>
+        </section>
       ))}
 
       {/* Trust strip */}
-      <motion.section
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.15 }}
-        className="py-12 bg-navy"
-        style={{ direction: dir }}
-      >
+      <section className="py-12 bg-navy" style={{ direction: dir }}>
         <div className="max-w-5xl mx-auto px-4 flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
           {u.trust.items.map((item: string, i: number) => (
             <span key={i} className="flex items-center gap-2 text-sm text-white/80">
@@ -97,13 +87,10 @@ export default function UaeLifeClient() {
             </span>
           ))}
         </div>
-      </motion.section>
+      </section>
 
       {/* Final CTA + form */}
-      <motion.section
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.15 }}
+      <section
         className="py-16 md:py-20 bg-gradient-to-b from-navy to-navy-lt"
         style={{ direction: dir }}
       >
@@ -114,7 +101,7 @@ export default function UaeLifeClient() {
             <LandingLeadForm variant="cta" sourceSlug="uae-life" />
           </div>
         </div>
-      </motion.section>
+      </section>
 
       {/* Minimal bottom line (no nav) */}
       <div className="py-6 text-center text-xs text-muted-foreground border-t border-border bg-white">

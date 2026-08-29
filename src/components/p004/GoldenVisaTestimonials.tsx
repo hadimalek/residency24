@@ -1,7 +1,6 @@
 "use client";
 
 import { useLanguage } from "@/contexts/LanguageContext";
-import { motion } from "framer-motion";
 
 const TESTIMONIALS = [
   { avatarKey: "testimonial1_name", quoteKey: "testimonial1_quote", nameKey: "testimonial1_name", typeKey: "testimonial1_type" },
@@ -14,12 +13,7 @@ export default function GoldenVisaTestimonials() {
   const p = t.p004;
 
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
-      className="bg-white py-16 px-6"
-    >
+    <section className="bg-white py-16 px-6">
       <div className="max-w-5xl mx-auto">
         <h2 className="text-2xl font-bold text-navy text-center mb-8">{p.testimonials_title}</h2>
         <div className="flex lg:grid lg:grid-cols-3 gap-4 overflow-x-auto snap-x snap-mandatory pb-2">
@@ -49,6 +43,6 @@ export default function GoldenVisaTestimonials() {
           })}
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 }

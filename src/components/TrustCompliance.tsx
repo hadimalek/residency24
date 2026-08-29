@@ -1,7 +1,6 @@
 "use client";
 
 import { useLanguage } from '@/contexts/LanguageContext';
-import { motion } from 'framer-motion';
 import { Shield, CheckCircle, Users, Clock, Lock, Award } from 'lucide-react';
 
 const trustIcons: Record<string, React.ReactNode> = {
@@ -17,12 +16,7 @@ const TrustCompliance = () => {
   const { t } = useLanguage();
 
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.12 }}
-      className="py-16 bg-surface"
-    >
+    <section className="py-16 bg-surface">
       <div className="max-w-5xl mx-auto px-4">
         <div className="text-center mb-10">
           <span className="inline-block text-xs font-semibold text-gold tracking-[0.12em] uppercase mb-3">{t.trust.badge}</span>
@@ -52,7 +46,7 @@ const TrustCompliance = () => {
           <a href={t.trust.href} className="text-sm text-navy font-medium hover:underline">{t.trust.cta} →</a>
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 };
 

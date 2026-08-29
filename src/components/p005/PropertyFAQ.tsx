@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { motion } from "framer-motion";
 
 const PropertyFAQ = () => {
   const { t } = useLanguage();
@@ -11,12 +10,7 @@ const PropertyFAQ = () => {
   const [openIndex, setOpenIndex] = useState(0);
 
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
-      className="py-20 bg-surface"
-    >
+    <section className="py-20 bg-surface">
       <div className="max-w-[760px] mx-auto px-4">
         <div className="text-center mb-10">
           <span className="inline-block text-xs font-semibold text-gold tracking-[0.12em] uppercase mb-3">
@@ -37,21 +31,16 @@ const PropertyFAQ = () => {
                   <span className="text-[22px] text-gold flex-shrink-0">{isOpen ? "\u2212" : "+"}</span>
                 </button>
                 {isOpen && (
-                  <motion.p
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    transition={{ duration: 0.25 }}
-                    className="text-[15px] text-ink leading-[1.7] pt-3"
-                  >
+                  <p className="text-[15px] text-ink leading-[1.7] pt-3">
                     {item.a}
-                  </motion.p>
+                  </p>
                 )}
               </div>
             );
           })}
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 };
 

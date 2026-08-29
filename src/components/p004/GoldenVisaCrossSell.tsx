@@ -2,7 +2,6 @@
 
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Home, Building2, MapPin, BarChart3 } from "lucide-react";
-import { motion } from "framer-motion";
 import { localizedPath } from "@/lib/locale-path";
 
 const CARDS = [
@@ -31,14 +30,10 @@ export default function GoldenVisaCrossSell() {
           {CARDS.map((card, i) => {
             const Icon = card.icon;
             return (
-              <motion.a
+              <a
                 key={card.titleKey}
                 href={localizedPath(lang, card.href)}
                 onClick={() => handleClick(card.gaKey)}
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
                 className={`rounded-xl p-5 block transition-all hover:scale-[1.02] ${
                   card.featured
                     ? "bg-white/10 border-2 border-gold/40"
@@ -57,7 +52,7 @@ export default function GoldenVisaCrossSell() {
                 >
                   {p.cta_secondary}
                 </span>
-              </motion.a>
+              </a>
             );
           })}
         </div>

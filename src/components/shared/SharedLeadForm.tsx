@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { motion } from "framer-motion";
 import { Check, MessageCircle } from "lucide-react";
 
 interface SharedLeadFormProps {
@@ -49,14 +48,10 @@ const SharedLeadForm = ({ title, subtitle, serviceContext = "general" }: SharedL
         </div>
 
         {submitted ? (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="bg-white/10 rounded-2xl p-8 text-center max-w-md mx-auto"
-          >
+          <div className="bg-white/10 rounded-2xl p-8 text-center max-w-md mx-auto">
             <Check className="w-12 h-12 text-green-500 mx-auto mb-3" />
             <p className="text-white font-semibold">{s.lead_trust2}</p>
-          </motion.div>
+          </div>
         ) : (
           <div className="max-w-lg mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">

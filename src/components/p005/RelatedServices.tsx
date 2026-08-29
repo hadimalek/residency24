@@ -1,7 +1,6 @@
 "use client";
 
 import { useLanguage } from "@/contexts/LanguageContext";
-import { motion } from "framer-motion";
 import { Shield, Building2 } from "lucide-react";
 import Link from "next/link";
 import { localizedPath } from "@/lib/locale-path";
@@ -36,12 +35,8 @@ const RelatedServices = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {cards.map((card, i) => (
-            <motion.div
+            <div
               key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.15 }}
-              transition={{ duration: 0.3, delay: i * 0.1 }}
               className="border border-gold/30 rounded-2xl p-6 bg-white/5 hover:bg-white/10 transition-colors"
             >
               <card.icon className="w-8 h-8 text-gold mb-4" />
@@ -53,7 +48,7 @@ const RelatedServices = () => {
               >
                 &rarr; {card.cta}
               </Link>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

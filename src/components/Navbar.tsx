@@ -3,7 +3,6 @@
 import { useState, useRef, useCallback } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { MessageCircle, Send, Menu, X, ChevronDown } from 'lucide-react';
-import { motion } from 'framer-motion';
 const logo = '/residency24-logo-white.svg';
 
 const useHoverIntent = (delay = 150) => {
@@ -27,9 +26,7 @@ const Navbar = () => {
   };
 
   return (
-    <motion.nav
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
+    <nav
       className="sticky top-0 z-50 h-16 bg-navy flex items-center justify-between px-4 md:px-8"
       style={{ direction: 'ltr' }}
     >
@@ -135,7 +132,7 @@ const Navbar = () => {
           </div>
         </div>
       )}
-    </motion.nav>
+    </nav>
   );
 };
 

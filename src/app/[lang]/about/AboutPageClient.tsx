@@ -8,7 +8,6 @@ import MediaImage from "@/components/MediaImage";
 import YouTubeFacade from "@/components/YouTubeFacade";
 import SharedCrossSell from "@/components/shared/SharedCrossSell";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { motion } from "framer-motion";
 import { Briefcase, MapPin, Phone, Mail, CheckCircle, Globe, Building2, Handshake, ChevronRight, Shield, Home, Plane } from "lucide-react";
 import type { CrossSellItem } from "@/components/shared/SharedCrossSell";
 import { localizedPath } from "@/lib/locale-path";
@@ -38,13 +37,7 @@ export default function AboutPageClient() {
       </div>
 
       {/* 1. Hero Section */}
-      <motion.section
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="py-20 bg-navy"
-        style={{ direction: isRTL ? "rtl" : "ltr" }}
-      >
+      <section className="py-20 bg-navy" style={{ direction: isRTL ? "rtl" : "ltr" }}>
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h1 className="text-[clamp(28px,5.5vw,48px)] font-bold text-white leading-tight mb-6">
             {a.hero.h1}
@@ -53,16 +46,10 @@ export default function AboutPageClient() {
             {a.hero.p}
           </p>
         </div>
-      </motion.section>
+      </section>
 
       {/* 2. Our Story */}
-      <motion.section
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.12 }}
-        className="py-20 bg-white"
-        style={{ direction: isRTL ? "rtl" : "ltr" }}
-      >
+      <section className="py-20 bg-white" style={{ direction: isRTL ? "rtl" : "ltr" }}>
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-[36px] font-bold text-navy mb-6 text-center">{a.story.h2}</h2>
           <p className="text-[15px] text-muted-foreground leading-relaxed mb-4">{a.story.p1}</p>
@@ -77,13 +64,10 @@ export default function AboutPageClient() {
             {a.story.p2.split(a.story.link_text)[1] || ""}
           </p>
         </div>
-      </motion.section>
+      </section>
 
       {/* 2b. Intro video */}
-      <motion.section
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.12 }}
+      <section
         className="py-20 bg-surface border-y border-border"
         style={{ direction: isRTL ? "rtl" : "ltr" }}
       >
@@ -103,13 +87,10 @@ export default function AboutPageClient() {
             {a.media.video_watch}
           </a>
         </div>
-      </motion.section>
+      </section>
 
       {/* 3. Stats */}
-      <motion.section
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.12 }}
+      <section
         className="py-16 bg-surface border-y border-border"
         style={{ direction: isRTL ? "rtl" : "ltr" }}
       >
@@ -127,26 +108,16 @@ export default function AboutPageClient() {
             ))}
           </div>
         </div>
-      </motion.section>
+      </section>
 
       {/* 4. Team */}
-      <motion.section
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.12 }}
-        className="py-20 bg-background"
-        style={{ direction: isRTL ? "rtl" : "ltr" }}
-      >
+      <section className="py-20 bg-background" style={{ direction: isRTL ? "rtl" : "ltr" }}>
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-[36px] font-bold text-navy mb-12 text-center">{a.team.h2}</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {a.team.members.map((m: any, i: number) => (
-              <motion.div
+              <div
                 key={i}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.12 }}
                 className="group relative bg-card rounded-2xl overflow-hidden border border-border hover:border-navy/40 hover:shadow-xl transition-all duration-300"
               >
                 <div className="relative w-full aspect-[3/4] bg-navy overflow-hidden">
@@ -177,20 +148,14 @@ export default function AboutPageClient() {
                   </p>
                   <p className="text-[13px] text-muted-foreground mt-3 leading-relaxed">{m.bio}</p>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
-      </motion.section>
+      </section>
 
       {/* 5. Offices */}
-      <motion.section
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.12 }}
-        className="py-20 bg-white"
-        style={{ direction: isRTL ? "rtl" : "ltr" }}
-      >
+      <section className="py-20 bg-white" style={{ direction: isRTL ? "rtl" : "ltr" }}>
         <div className="max-w-5xl mx-auto px-4">
           <h2 className="text-[36px] font-bold text-navy mb-12 text-center">{a.offices.h2}</h2>
           <div className="grid md:grid-cols-2 gap-8">
@@ -251,16 +216,10 @@ export default function AboutPageClient() {
             ))}
           </div>
         </div>
-      </motion.section>
+      </section>
 
       {/* 5b. Office & team gallery */}
-      <motion.section
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.12 }}
-        className="py-20 bg-surface"
-        style={{ direction: isRTL ? "rtl" : "ltr" }}
-      >
+      <section className="py-20 bg-surface" style={{ direction: isRTL ? "rtl" : "ltr" }}>
         <div className="max-w-5xl mx-auto px-4">
           <div className="text-center mb-10">
             <h2 className="text-[32px] font-bold text-navy mb-3">{a.media.gallery_h2}</h2>
@@ -275,7 +234,7 @@ export default function AboutPageClient() {
             ))}
           </div>
         </div>
-      </motion.section>
+      </section>
 
       {/* LICENSES SECTION — PLACEHOLDER */}
       {/* این بخش را وقتی اسکن مجوز DED دبی آماده شد فعال کنید */}
@@ -287,25 +246,15 @@ export default function AboutPageClient() {
       </section> */}
 
       {/* 6. Why Us */}
-      <motion.section
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.12 }}
-        className="py-20 bg-surface"
-        style={{ direction: isRTL ? "rtl" : "ltr" }}
-      >
+      <section className="py-20 bg-surface" style={{ direction: isRTL ? "rtl" : "ltr" }}>
         <div className="max-w-5xl mx-auto px-4">
           <h2 className="text-[36px] font-bold text-navy mb-12 text-center">{a.why.h2}</h2>
           <div className="grid sm:grid-cols-2 gap-6">
             {a.why.items.map((item: any, i: number) => {
               const Icon = item.icon === "check" ? CheckCircle : item.icon === "globe" ? Globe : item.icon === "building" ? Building2 : Handshake;
               return (
-                <motion.div
+                <div
                   key={i}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: i * 0.1 }}
                   className="bg-white rounded-2xl border border-border p-6 hover:shadow-lg transition-shadow"
                 >
                   <div className="w-10 h-10 rounded-xl bg-navy/5 flex items-center justify-center mb-4">
@@ -313,12 +262,12 @@ export default function AboutPageClient() {
                   </div>
                   <h3 className="text-lg font-bold text-navy mb-2">{item.title}</h3>
                   <p className="text-[14px] text-muted-foreground leading-relaxed">{item.desc}</p>
-                </motion.div>
+                </div>
               );
             })}
           </div>
         </div>
-      </motion.section>
+      </section>
 
       {/* 7. Related Services */}
       {a.cross_sell_title && (
@@ -326,13 +275,7 @@ export default function AboutPageClient() {
       )}
 
       {/* 8. CTA Final */}
-      <motion.section
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.15 }}
-        className="py-20 bg-navy"
-        style={{ direction: isRTL ? "rtl" : "ltr" }}
-      >
+      <section className="py-20 bg-navy" style={{ direction: isRTL ? "rtl" : "ltr" }}>
         <div className="max-w-3xl mx-auto px-4 text-center">
           <h2 className="text-[36px] font-bold text-white mb-4">{a.cta.h2}</h2>
           <p className="text-[16px] text-white/80 mb-8">{a.cta.p}</p>
@@ -343,7 +286,7 @@ export default function AboutPageClient() {
             {a.cta.btn}
           </a>
         </div>
-      </motion.section>
+      </section>
 
       <ContactBar />
       <Footer />

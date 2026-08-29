@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { motion } from "framer-motion";
 import { MessageCircle } from "lucide-react";
 import type { Lang } from "@/translations";
 
@@ -39,11 +38,7 @@ const PropertyLeadForm = () => {
     <section id="property-lead-form" className="py-16 bg-navy">
       <div className="max-w-5xl mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.15 }}
-          >
+          <div>
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-8">
               {bp.form_title}
             </h2>
@@ -109,14 +104,9 @@ const PropertyLeadForm = () => {
                 <p className="text-white/60 text-sm text-center">{bp.form_trust}</p>
               </div>
             )}
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.15 }}
-            className="flex flex-col justify-center"
-          >
+          <div className="flex flex-col justify-center">
             <p className="text-white/80 text-lg mb-6">{bp.form_or_contact}</p>
             <a
               href="https://wa.me/971562009131?text=P005-BuyProperty"
@@ -127,7 +117,7 @@ const PropertyLeadForm = () => {
               <MessageCircle className="w-5 h-5" />
               {bp.form_whatsapp}
             </a>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

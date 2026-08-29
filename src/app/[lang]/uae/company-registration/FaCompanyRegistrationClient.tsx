@@ -9,7 +9,8 @@ import SharedFAQ from "@/components/shared/SharedFAQ";
 import SharedCrossSell from "@/components/shared/SharedCrossSell";
 import type { CrossSellItem } from "@/components/shared/SharedCrossSell";
 import { Trophy, Building, Globe, Check, X, ArrowLeft } from "lucide-react";
-import { localizedPath } from "@/lib/locale-path";
+import HeroChat from "@/components/HeroChat";
+import { localizedPath, BREADCRUMB_HOME } from "@/lib/locale-path";
 import { FA, IMG } from "./fa-content";
 
 /* ── layout primitives ─────────────────────────────────────────────────────
@@ -302,7 +303,7 @@ export default function FaCompanyRegistrationClient() {
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: "رزیدنسی۲۴", item: `${site}/fa` },
+        { "@type": "ListItem", position: 1, name: BREADCRUMB_HOME[lang], item: `${site}/fa` },
         { "@type": "ListItem", position: 2, name: "امارات", item: `${site}/fa/uae` },
         { "@type": "ListItem", position: 3, name: "ثبت شرکت در دبی", item: pageUrl },
       ],
@@ -323,54 +324,38 @@ export default function FaCompanyRegistrationClient() {
 
       <SharedBreadcrumb
         items={[
-          { label: "رزیدنسی۲۴", href: localizedPath(lang) },
+          { label: BREADCRUMB_HOME[lang], href: localizedPath(lang) },
           { label: "امارات", href: localizedPath(lang, "uae") },
           { label: "ثبت شرکت در دبی" },
         ]}
       />
 
-      {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <section className="bg-navy">
-        <div className="max-w-5xl mx-auto px-4 py-14 md:py-20">
-          <div className="grid lg:grid-cols-[1.1fr_1fr] gap-10 items-center">
-            <div>
-              <span className="inline-block text-xs font-bold text-gold tracking-[0.12em] mb-4">
-                {FA.hero.eyebrow}
-              </span>
-              <h1 className="text-[30px] md:text-[44px] font-bold text-white leading-[1.15]">
-                {FA.hero.h1}
-              </h1>
-              <p className="text-[17px] md:text-[19px] text-gold-lt mt-3 font-medium">
-                {FA.hero.h1sub}
-              </p>
-              <p className="text-[15px] text-white/75 leading-[2] mt-5">{FA.hero.lead}</p>
-              <div className="flex flex-wrap gap-3 mt-7">
-                <a
-                  href="#cta"
-                  className="rounded-xl bg-gold text-navy px-6 py-3 text-sm font-bold hover:opacity-90 transition-opacity"
-                >
-                  {FA.hero.ctaPrimary}
-                </a>
-                <a
-                  href="#cost"
-                  className="rounded-xl border border-white/30 text-white px-6 py-3 text-sm font-bold hover:bg-white/10 transition-colors"
-                >
-                  {FA.hero.ctaSecondary}
-                </a>
-              </div>
-            </div>
-            <div className="rounded-2xl overflow-hidden border border-white/15">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={IMG.hero}
-                alt={FA.hero.imgAlt}
-                width={1200}
-                height={800}
-                fetchPriority="high"
-                decoding="async"
-                className="w-full h-full object-cover max-h-[320px]"
-              />
-            </div>
+      {/* ── Hero ─────────────────────────────────────────────────────────
+          The shared AI chat hero, same as every other landing page: the
+          suggested pills and the send button open ChatModal. H1 and sub are
+          overridden with this page's keyword-targeted wording.             */}
+      <HeroChat pageKey="p003" h1={FA.hero.h1} sub={FA.hero.h1sub} />
+
+      {/* ── Lead ─────────────────────────────────────────────────────────── */}
+      <section className="bg-white border-b border-border">
+        <div className="max-w-5xl mx-auto px-4 py-8">
+          <p className="text-xs font-bold text-gold-dk tracking-[0.12em] mb-3">
+            {FA.hero.eyebrow}
+          </p>
+          <p className="text-[15px] md:text-base text-ink leading-[2.1]">{FA.hero.lead}</p>
+          <div className="flex flex-wrap gap-3 mt-6">
+            <a
+              href="#cta"
+              className="rounded-xl bg-gold text-navy px-6 py-3 text-sm font-bold hover:opacity-90 transition-opacity"
+            >
+              {FA.hero.ctaPrimary}
+            </a>
+            <a
+              href="#cost"
+              className="rounded-xl border border-border text-navy px-6 py-3 text-sm font-bold hover:bg-surface transition-colors"
+            >
+              {FA.hero.ctaSecondary}
+            </a>
           </div>
         </div>
       </section>
@@ -403,7 +388,7 @@ export default function FaCompanyRegistrationClient() {
       {/* ── Types ────────────────────────────────────────────────────────── */}
       <Band tone="sand" id="types">
         <Head eyebrow={FA.types.eyebrow} h2={FA.types.h2} lead={FA.types.lead} tone="sand" />
-        <Figure src={IMG.types} alt={FA.types.imgAlt} />
+        <Figure src={IMG.city} alt={FA.types.imgAlt} />
         <Prose text={FA.types.body} />
         <div className="mb-8">
           <CardGrid items={FA.types.cards} cols={3} />
@@ -446,7 +431,6 @@ export default function FaCompanyRegistrationClient() {
       {/* ── Extra costs ──────────────────────────────────────────────────── */}
       <Band tone="sand">
         <Head eyebrow={FA.extraCosts.eyebrow} h2={FA.extraCosts.h2} lead={FA.extraCosts.lead} tone="sand" />
-        <Figure src={IMG.cost} alt="هزینه‌های جانبی و تمدید شرکت در امارات" />
         <CardGrid items={FA.extraCosts.cards} />
         <div className="mt-6">
           <InlineLink {...FA.extraCosts.link} />
@@ -472,7 +456,6 @@ export default function FaCompanyRegistrationClient() {
       {/* ── Residency ────────────────────────────────────────────────────── */}
       <Band tone="ink" id="residency">
         <Head eyebrow={FA.residency.eyebrow} h2={FA.residency.h2} lead={FA.residency.lead} tone="ink" />
-        <Figure src={IMG.residency} alt={FA.residency.imgAlt} />
         <Prose text={FA.residency.body} tone="ink" />
         <a
           href={FA.residency.link.href}
@@ -559,7 +542,6 @@ export default function FaCompanyRegistrationClient() {
       {/* ── Documents ────────────────────────────────────────────────────── */}
       <Band tone="white">
         <Head eyebrow={FA.documents.eyebrow} h2={FA.documents.h2} lead={FA.documents.lead} />
-        <Figure src={IMG.documents} alt={FA.documents.imgAlt} />
         <CardGrid items={FA.documents.cards} cols={3} />
       </Band>
 
@@ -619,7 +601,6 @@ export default function FaCompanyRegistrationClient() {
       {/* ── Bank ─────────────────────────────────────────────────────────── */}
       <Band tone="white" id="bank">
         <Head eyebrow={FA.bank.eyebrow} h2={FA.bank.h2} lead={FA.bank.lead} />
-        <Figure src={IMG.bank} alt={FA.bank.imgAlt} />
         <Prose text={FA.bank.body} />
         <CardGrid items={FA.bank.warnings} cols={2} />
       </Band>
@@ -653,7 +634,6 @@ export default function FaCompanyRegistrationClient() {
       {/* ── Tax ──────────────────────────────────────────────────────────── */}
       <Band tone="white" id="tax">
         <Head eyebrow={FA.tax.eyebrow} h2={FA.tax.h2} lead={FA.tax.lead} />
-        <Figure src={IMG.tax} alt={FA.tax.imgAlt} />
         <Prose text={FA.tax.body} />
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {FA.tax.stats.map((s) => (

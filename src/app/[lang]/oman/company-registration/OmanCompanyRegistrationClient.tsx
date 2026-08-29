@@ -1,6 +1,7 @@
 "use client";
 
 import { useLanguage } from "@/contexts/LanguageContext";
+import { BREADCRUMB_HOME } from "@/lib/locale-path";
 import Navbar from "@/components/Navbar";
 import HeroChat from "@/components/HeroChat";
 import SharedBreadcrumb from "@/components/shared/SharedBreadcrumb";
@@ -483,7 +484,7 @@ export default function OmanCompanyRegistrationClient() {
   };
 
   const breadcrumbItems = [
-    { label: "Residency24", href: homeHref },
+    { label: BREADCRUMB_HOME[lang], href: homeHref },
     { label: c.breadcrumb_oman, href: omanHref },
     { label: c.breadcrumb_self },
   ];

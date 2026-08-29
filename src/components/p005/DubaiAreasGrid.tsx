@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { motion } from "framer-motion";
 import type { Lang } from "@/translations";
 
 type Segment = "Luxury" | "Mid-Range" | "Affordable";
@@ -70,12 +69,8 @@ const DubaiAreasGrid = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filtered.map((area, i) => (
-            <motion.div
+            <div
               key={area.key}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.1 }}
-              transition={{ duration: 0.3, delay: i * 0.05 }}
               className="bg-white rounded-2xl p-6 border-2 border-transparent hover:border-gold hover:-translate-y-1 transition-all duration-200"
             >
               <div className="flex items-center justify-between mb-3">
@@ -107,7 +102,7 @@ const DubaiAreasGrid = () => {
               >
                 {bp.areas_inquire}
               </button>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

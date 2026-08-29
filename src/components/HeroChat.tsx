@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef } from 'react';
-import { motion } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Send } from "lucide-react";
 import ChatModal from '@/components/ChatModal';
@@ -66,32 +65,19 @@ const HeroChat = ({ pageKey, h1: h1Override, sub: subOverride, placeholder: plac
       <section className="min-h-[calc(100vh-64px)] flex flex-col items-center justify-center px-4 py-12 bg-navy">
         <div className="w-full max-w-[760px] flex flex-col items-center">
           {/* H1 */}
-          <motion.h1
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
+          <h1
             className="text-[clamp(28px,5.5vw,56px)] font-bold text-white leading-[1.08] max-w-[700px] mb-4 text-center"
           >
             {hero.h1}
-          </motion.h1>
+          </h1>
 
           {/* Sub */}
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="text-lg text-white/70 text-center mb-8"
-          >
+          <p className="text-lg text-white/70 text-center mb-8">
             {hero.sub}
-          </motion.p>
+          </p>
 
           {/* ChatGPT-style input box */}
-          <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.97 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ delay: 0.4, duration: 0.35 }}
-            className="w-full max-w-[680px]"
-          >
+          <div className="w-full max-w-[680px]">
             <div
               className="bg-white rounded-2xl shadow-[0_8px_40px_rgba(0,0,0,0.25)] transition-shadow focus-within:shadow-[0_8px_48px_rgba(0,0,0,0.35)]"
               style={{ border: '1.5px solid rgba(255,255,255,0.15)' }}
@@ -138,31 +124,23 @@ const HeroChat = ({ pageKey, h1: h1Override, sub: subOverride, placeholder: plac
                 )}
               </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* Suggested pills */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-            className="mt-5 w-full max-w-[680px]"
-          >
+          <div className="mt-5 w-full max-w-[680px]">
             <p className="text-[12px] text-white/40 mb-2.5 text-center">{hero.pill_label}</p>
             <div className="flex flex-wrap justify-center gap-2">
               {(hero.pills as string[]).map((pill: string, i: number) => (
-                <motion.button
+                <button
                   key={i}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.65 + i * 0.05 }}
                   onClick={() => openWithMessage(pill)}
                   className="px-3.5 py-2 text-[13px] rounded-full bg-white/10 text-white/80 border border-white/15 backdrop-blur-sm transition-all hover:bg-white/20 hover:text-white hover:border-white/30"
                 >
                   {pill}
-                </motion.button>
+                </button>
               ))}
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 

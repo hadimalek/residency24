@@ -1,7 +1,6 @@
 "use client";
 
 import { useLanguage } from "@/contexts/LanguageContext";
-import { motion } from "framer-motion";
 import { Star } from "lucide-react";
 
 export interface Testimonial {
@@ -40,12 +39,8 @@ const SharedTestimonials = ({ testimonials, title, subtitle }: SharedTestimonial
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {testimonials.map((item, i) => (
-            <motion.div
+            <div
               key={item.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.1 }}
-              transition={{ duration: 0.3, delay: i * 0.1 }}
               className="bg-white border border-border border-t-4 border-t-gold rounded-2xl p-6 shadow-sm flex flex-col"
             >
               <div className="flex gap-0.5 mb-3">
@@ -78,7 +73,7 @@ const SharedTestimonials = ({ testimonials, title, subtitle }: SharedTestimonial
                   {item.service}
                 </span>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

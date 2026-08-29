@@ -2,7 +2,6 @@
 
 import { useLanguage } from "@/contexts/LanguageContext";
 import { BadgeDollarSign, Globe, Building2, Zap, Check } from "lucide-react";
-import { motion } from "framer-motion";
 
 const STATS = [
   { icon: BadgeDollarSign, num: "0%", keyLabel: "stat_tax" },
@@ -17,13 +16,7 @@ export default function WhyDubai() {
   const bullets = cr.why_bullets?.split("|") ?? [];
 
   return (
-    <motion.section
-      id="cr-s4"
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
-      className="py-16 bg-surface"
-    >
+    <section id="cr-s4" className="py-16 bg-surface">
       <div className="max-w-7xl mx-auto px-6">
         <h2 className="text-2xl font-bold text-navy text-center mb-3">
           {cr.why_title}
@@ -53,6 +46,6 @@ export default function WhyDubai() {
           ))}
         </ul>
       </div>
-    </motion.section>
+    </section>
   );
 }

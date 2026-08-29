@@ -9,7 +9,6 @@ import {
   Landmark,
   ShieldCheck,
 } from "lucide-react";
-import { motion } from "framer-motion";
 
 const STEPS = [
   { icon: MessageCircle, titleKey: "step1_t", descKey: "step1_d", dayKey: "step1_day" },
@@ -25,13 +24,7 @@ export default function HowItWorksP003() {
   const cr = t.cr;
 
   return (
-    <motion.section
-      id="cr-s7"
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
-      className="py-16 bg-background"
-    >
+    <section id="cr-s7" className="py-16 bg-background">
       <div className="max-w-4xl mx-auto px-6">
         <h2 className="text-2xl font-bold text-navy text-center mb-12">
           {cr.how_title}
@@ -43,14 +36,7 @@ export default function HowItWorksP003() {
 
           <div className="space-y-6">
             {STEPS.map(({ icon: Icon, titleKey, descKey, dayKey }, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="flex gap-4 items-start"
-              >
+              <div key={i} className="flex gap-4 items-start">
                 <div className="w-10 h-10 rounded-full bg-navy text-gold text-sm font-bold flex items-center justify-center shrink-0 relative z-10">
                   {i + 1}
                 </div>
@@ -64,11 +50,11 @@ export default function HowItWorksP003() {
                   </div>
                   <p className="text-sm text-muted-foreground">{cr[descKey]}</p>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 }

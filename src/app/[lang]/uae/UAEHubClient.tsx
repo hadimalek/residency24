@@ -22,15 +22,15 @@ import Footer from "@/components/Footer";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import { Trophy, Building2, Building, Globe, Leaf } from "lucide-react";
 import type { CrossSellItem } from "@/components/shared/SharedCrossSell";
-import { localizedPath } from "@/lib/locale-path";
+import { localizedPath, BREADCRUMB_HOME, BREADCRUMB_UAE } from "@/lib/locale-path";
 
 export default function UAEHubClient({ h1 }: { h1: string }) {
   const { t, lang } = useLanguage();
   const s = t.shared;
 
   const breadcrumbItems = [
-    { label: "Residency24", href: localizedPath(lang) },
-    { label: "UAE" },
+    { label: BREADCRUMB_HOME[lang], href: localizedPath(lang) },
+    { label: BREADCRUMB_UAE[lang] },
   ];
 
   const crossSellItems: CrossSellItem[] = [
