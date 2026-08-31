@@ -9,7 +9,7 @@
  * Only the refresh token is persisted. Access tokens are short-lived and kept in
  * memory, refreshed on demand.
  */
-import { readFile, writeFile, mkdir } from "node:fs/promises";
+import { readFile, writeFile, mkdir, readdir, stat } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { homedir } from "node:os";
 
@@ -19,25 +19,47 @@ export const SCOPES = ["https://www.googleapis.com/auth/webmasters.readonly"];
 export const REDIRECT_PORT = Number(process.env.GSC_OAUTH_PORT ?? 8765);
 export const REDIRECT_URI = `http://localhost:${REDIRECT_PORT}/oauth2callback`;
 
-const DEFAULT_SECRET_FILE = join(
-  homedir(),
-  "Desktop",
-  "residency file",
-  "client_secret_553917233521-9j1h7pbmk23v75dh8a84pfknlve378b4.apps.googleusercontent.com.json"
-);
+const CREDENTIAL_DIR = join(homedir(), "Desktop", "residency file");
 
-export function clientSecretPath() {
-  return process.env.GSC_CLIENT_SECRET_FILE || DEFAULT_SECRET_FILE;
+/**
+ * Where the OAuth client file lives.
+ *
+ * Rather than naming one client id, this picks the most recently written
+ * `client_secret_*.json` in the credential directory: creating a new client in
+ * Cloud Console and dropping its download in there is then all that is needed,
+ * with no code change. GSC_CLIENT_SECRET_FILE still wins if set.
+ */
+export async function clientSecretPath() {
+  if (process.env.GSC_CLIENT_SECRET_FILE) return process.env.GSC_CLIENT_SECRET_FILE;
+  let names;
+  try {
+    names = (await readdir(CREDENTIAL_DIR)).filter(
+      (n) => n.startsWith("client_secret") && n.endsWith(".json")
+    );
+  } catch {
+    names = [];
+  }
+  if (!names.length) return join(CREDENTIAL_DIR, "client_secret_<from-cloud-console>.json");
+  const withTimes = await Promise.all(
+    names.map(async (n) => {
+      const full = join(CREDENTIAL_DIR, n);
+      return { full, mtime: (await stat(full)).mtimeMs };
+    })
+  );
+  withTimes.sort((a, b) => b.mtime - a.mtime);
+  return withTimes[0].full;
 }
 
 export function tokenPath() {
   if (process.env.GSC_TOKEN_FILE) return process.env.GSC_TOKEN_FILE;
-  // Beside the client secret, i.e. outside the repo.
-  return join(dirname(clientSecretPath()), ".gsc-token.json");
+  // Beside the client secrets, i.e. outside the repo. Deliberately not keyed to
+  // a client id: one authorised account is what matters, not which client was
+  // used to authorise it.
+  return join(CREDENTIAL_DIR, ".gsc-token.json");
 }
 
 export async function loadClient() {
-  const path = clientSecretPath();
+  const path = await clientSecretPath();
   let raw;
   try {
     raw = await readFile(path, "utf8");
@@ -83,10 +105,10 @@ export async function loadRefreshToken() {
   }
 }
 
-export function buildConsentUrl(client, state) {
+export function buildConsentUrl(client, state, redirectUri = REDIRECT_URI) {
   const p = new URLSearchParams({
     client_id: client.clientId,
-    redirect_uri: REDIRECT_URI,
+    redirect_uri: redirectUri,
     response_type: "code",
     scope: SCOPES.join(" "),
     // offline + consent is what actually returns a refresh_token; without
@@ -108,8 +130,8 @@ export function buildConsentUrl(client, state) {
  * Google answers a bad redirect with a 302 to /signin/oauth/error carrying a
  * base64 `authError` blob; the reason string is inside it.
  */
-export async function probeRedirectUri(client) {
-  const url = buildConsentUrl(client, "probe");
+export async function probeRedirectUri(client, redirectUri = REDIRECT_URI) {
+  const url = buildConsentUrl(client, "probe", redirectUri);
   let res;
   try {
     res = await fetch(url, { redirect: "manual" });
@@ -134,7 +156,49 @@ export async function probeRedirectUri(client) {
   return { ok: false, reason };
 }
 
-export async function exchangeCode(client, code) {
+/**
+ * Decide which redirect URI to use.
+ *
+ * The loopback gives a hands-off flow — a local listener catches the code — but
+ * Google only allows it if it has been registered for the client. When it has
+ * not, fall back to whichever URI the client *does* have registered and hand
+ * the code over by paste instead. That keeps the setup working without anyone
+ * having to edit the client in Cloud Console.
+ */
+export async function pickRedirect(client) {
+  const probe = await probeRedirectUri(client, REDIRECT_URI);
+  if (probe.ok) return { uri: REDIRECT_URI, mode: "loopback", reason: null };
+
+  const registered = client.registeredRedirects.filter((u) => /^https?:\/\//.test(u));
+  for (const uri of registered) {
+    const p = await probeRedirectUri(client, uri);
+    if (p.ok) return { uri, mode: "paste", reason: probe.reason };
+  }
+  return { uri: null, mode: "none", reason: probe.reason };
+}
+
+/**
+ * Accepts either a bare authorisation code or the whole URL the browser was
+ * redirected to — pasting the address bar is easier to get right than picking
+ * the code out of it, and the code contains characters (`/`) that make people
+ * think they have selected too much.
+ */
+export function extractCode(input) {
+  const raw = String(input).trim().replace(/^["']|["']$/g, "");
+  if (!/^https?:\/\//.test(raw)) return { code: raw, state: null };
+  const u = new URL(raw);
+  const err = u.searchParams.get("error");
+  if (err) throw new Error(`Google reported "${err}" instead of a code.`);
+  const code = u.searchParams.get("code");
+  if (!code) {
+    throw new Error(
+      "That URL has no ?code= in it. Copy the address bar *after* granting access."
+    );
+  }
+  return { code, state: u.searchParams.get("state") };
+}
+
+export async function exchangeCode(client, code, redirectUri = REDIRECT_URI) {
   const res = await fetch(client.tokenUri, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -142,7 +206,7 @@ export async function exchangeCode(client, code) {
       code,
       client_id: client.clientId,
       client_secret: client.clientSecret,
-      redirect_uri: REDIRECT_URI,
+      redirect_uri: redirectUri,
       grant_type: "authorization_code",
     }),
   });

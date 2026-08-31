@@ -2,18 +2,28 @@
 /**
  * One-time Google consent for the Search Console MCP server.
  *
- *   node auth.mjs           run the consent flow
- *   node auth.mjs --check    don't authorise, just report whether it works
+ *   node auth.mjs                 start the flow
+ *   node auth.mjs --url           just print the consent URL
+ *   node auth.mjs --code <value>  finish it: <value> is the redirected URL, or
+ *                                 the bare code out of it
+ *   node auth.mjs --check         report whether it works, without authorising
  *
- * Starts a loopback listener, prints the URL to open, catches the redirect, and
- * saves the refresh token. After this the MCP server runs unattended.
+ * Two flows, chosen by what the OAuth client has registered. If the loopback
+ * URI is registered this runs a local listener and the whole thing is hands
+ * off. If not — the usual case for a client created for a hosted connector —
+ * it uses whichever https URI *is* registered and the code comes back by
+ * paste, so the setup works without editing the client in Cloud Console.
  */
 import { createServer } from "node:http";
 import { randomBytes } from "node:crypto";
+import { readFile, writeFile } from "node:fs/promises";
+import { join } from "node:path";
+import { tmpdir } from "node:os";
 import {
   loadClient,
   buildConsentUrl,
-  probeRedirectUri,
+  pickRedirect,
+  extractCode,
   exchangeCode,
   saveRefreshToken,
   loadRefreshToken,
@@ -27,18 +37,21 @@ import {
 } from "./google-auth.mjs";
 
 const line = "─".repeat(72);
+// Remembered between `--url` and `--code`, which run as separate processes.
+const statePath = join(tmpdir(), "gsc-mcp-oauth-state.json");
 
 async function check() {
   console.log(line);
   console.log("Search Console MCP — connection check");
   console.log(line);
   const client = await loadClient();
-  console.log(`client file   ${clientSecretPath()}`);
+  console.log(`client file   ${await clientSecretPath()}`);
   console.log(`client type   ${client.kind}   project ${client.projectId}`);
   console.log(`token file    ${tokenPath()}`);
-  console.log(`refresh token ${(await loadRefreshToken()) ? "present" : "MISSING — run: npm run auth"}`);
+  const have = await loadRefreshToken();
+  console.log(`refresh token ${have ? "present" : "MISSING — run: npm run auth"}`);
 
-  if (!(await loadRefreshToken())) process.exit(1);
+  if (!have) process.exit(1);
 
   await getAccessToken({ force: true });
   console.log("access token  obtained OK");
@@ -57,39 +70,92 @@ async function check() {
   );
 }
 
-async function authorise() {
-  const client = await loadClient();
+async function noUsableRedirect(client, reason) {
+  console.error(line);
+  console.error(`Google will not accept any redirect this client has: ${reason}`);
+  console.error(line);
+  console.error(`This is a "${client.kind}" client. Registered URIs:`);
+  for (const u of client.registeredRedirects) console.error(`    ${u}`);
+  console.error(`\nRegister one of these in Cloud Console and run this again:`);
+  console.error(`    ${REDIRECT_URI}          (gives the hands-off local flow)`);
+  console.error(`  console.cloud.google.com/apis/credentials?project=${client.projectId}`);
+  console.error(
+    `  -> the OAuth 2.0 Client ID starting ${client.clientId.split(".")[0].slice(0, 26)}…`
+  );
+  process.exit(2);
+}
 
-  // Ask Google rather than reading redirect_uris out of the downloaded json:
-  // that file is a snapshot and does not change when a URI is added in Cloud
-  // Console, so trusting it would keep blocking a setup that is already fixed.
-  const probe = await probeRedirectUri(client);
-  if (!probe.ok) {
-    console.error(line);
-    console.error(`Google rejected the loopback redirect: ${probe.reason}`);
-    console.error(line);
-    console.error(`This is a "${client.kind}" client. The redirect URIs in the`);
-    console.error(`downloaded json (possibly out of date) are:`);
-    for (const u of client.registeredRedirects) console.error(`    ${u}`);
-    console.error(`\nA local MCP server needs this one:`);
-    console.error(`    ${REDIRECT_URI}`);
-    console.error(`\nAdd it once in Google Cloud Console:`);
-    console.error(`  console.cloud.google.com/apis/credentials?project=${client.projectId}`);
-    // The numeric prefix is what identifies the client in the console list;
-    // the ...apps.googleusercontent.com suffix is the same for every client.
-    console.error(`  -> the OAuth 2.0 Client ID starting ${client.clientId.split(".")[0].slice(0, 26)}…`);
-    console.error(`  -> Authorized redirect URIs -> ADD URI -> ${REDIRECT_URI} -> SAVE`);
-    console.error(`\nGoogle allows http://localhost for web clients, so this is fine.`);
-    console.error(`Then run this again. (Or create a "Desktop app" client instead and`);
-    console.error(`point GSC_CLIENT_SECRET_FILE at its JSON — those need no URI.)`);
-    process.exit(2);
-  }
+/** Print the URL to open, remembering the state so --code can verify it. */
+async function printConsentUrl() {
+  const client = await loadClient();
+  const chosen = await pickRedirect(client);
+  if (!chosen.uri) await noUsableRedirect(client, chosen.reason);
 
   const state = randomBytes(16).toString("hex");
-  const url = buildConsentUrl(client, state);
+  await writeFile(
+    statePath,
+    JSON.stringify({ state, redirectUri: chosen.uri, clientId: client.clientId }),
+    { mode: 0o600 }
+  );
 
-  const result = await new Promise((resolve, reject) => {
-    const server = createServer(async (req, res) => {
+  console.log(line);
+  console.log("1. Open this URL and grant access. Sign in with the Google account");
+  console.log("   that has residency24 in Search Console.");
+  console.log(line);
+  console.log(buildConsentUrl(client, state, chosen.uri));
+  console.log(line);
+  if (chosen.mode === "paste") {
+    console.log(`2. Google then sends you to ${chosen.uri} with ?code=... appended.`);
+    console.log(`   It will look like an ordinary page — the code is only in the URL.`);
+    console.log(`   Copy the whole address bar, then run:`);
+    console.log(`\n     node auth.mjs --code "<paste the URL here>"\n`);
+  }
+  return { client, chosen, state };
+}
+
+/** Finish the flow from a pasted URL or bare code. */
+async function finishWithCode(input) {
+  const client = await loadClient();
+  const { code, state } = extractCode(input);
+
+  let expected = null;
+  try {
+    expected = JSON.parse(await readFile(statePath, "utf8"));
+  } catch {
+    /* no remembered flow — fall through and probe instead */
+  }
+  if (expected && state && state !== expected.state) {
+    throw new Error(
+      "The state in that URL is not the one this flow issued. " +
+        "Start over with: node auth.mjs --url"
+    );
+  }
+  // The exchange only succeeds against the same redirect_uri the consent
+  // request used, so prefer the remembered one over probing again.
+  const redirectUri = expected?.redirectUri ?? (await pickRedirect(client)).uri;
+  if (!redirectUri) throw new Error("No usable redirect URI for this client.");
+
+  const tokens = await exchangeCode(client, code, redirectUri);
+  if (!tokens.refresh_token) {
+    throw new Error(
+      "Google returned no refresh_token. Revoke this app at " +
+        "myaccount.google.com/permissions and run the flow again."
+    );
+  }
+  const saved = await saveRefreshToken(tokens.refresh_token, {
+    scopes: SCOPES,
+    client_id: client.clientId,
+    obtained_at: new Date().toISOString(),
+  });
+  console.log(`Refresh token saved to ${saved}`);
+  console.log("Verifying …\n");
+  await check();
+}
+
+/** Loopback flow: we catch the redirect ourselves, nothing to paste. */
+async function authoriseViaLoopback(state) {
+  const code = await new Promise((resolve, reject) => {
+    const server = createServer((req, res) => {
       const u = new URL(req.url, `http://localhost:${REDIRECT_PORT}`);
       if (u.pathname !== "/oauth2callback") {
         res.writeHead(404).end("not here");
@@ -101,54 +167,46 @@ async function authorise() {
           `<html><body style="font:16px system-ui;padding:3rem;text-align:center">${msg}</body></html>`
         );
       };
+      const fail = (shown, thrown) => {
+        send(400, `<h2>${shown}</h2>`);
+        server.close();
+        reject(new Error(thrown));
+      };
       if (u.searchParams.get("state") !== state) {
-        send(400, "<h2>State mismatch — start over.</h2>");
-        server.close();
-        reject(new Error("state mismatch"));
-        return;
+        return fail("State mismatch — start over.", "state mismatch");
       }
-      const err = u.searchParams.get("error");
-      if (err) {
-        send(400, `<h2>Consent refused: ${err}</h2>`);
-        server.close();
-        reject(new Error(`consent refused: ${err}`));
-        return;
-      }
-      const code = u.searchParams.get("code");
+      const e = u.searchParams.get("error");
+      if (e) return fail(`Consent refused: ${e}`, `consent refused: ${e}`);
       send(200, "<h2>Done.</h2><p>You can close this tab and go back to the terminal.</p>");
       server.close();
-      resolve(code);
+      resolve(u.searchParams.get("code"));
     });
     server.on("error", reject);
-    server.listen(REDIRECT_PORT, "127.0.0.1", () => {
-      console.log(line);
-      console.log("Open this URL in your browser and grant access:");
-      console.log(line);
-      console.log(url);
-      console.log(line);
-      console.log(`Waiting for the redirect on ${REDIRECT_URI} …`);
-    });
-  });
-
-  const tokens = await exchangeCode(client, result);
-  if (!tokens.refresh_token) {
-    throw new Error(
-      "Google returned no refresh_token. Revoke this app's access at " +
-        "myaccount.google.com/permissions and run this again."
+    server.listen(REDIRECT_PORT, "127.0.0.1", () =>
+      console.log(`Waiting for the redirect on ${REDIRECT_URI} …`)
     );
-  }
-  const saved = await saveRefreshToken(tokens.refresh_token, {
-    scopes: SCOPES,
-    client_id: client.clientId,
-    obtained_at: new Date().toISOString(),
   });
-  console.log(`\nRefresh token saved to ${saved}`);
-  console.log("Verifying …\n");
-  await check();
+  await finishWithCode(code);
 }
 
-const mode = process.argv.includes("--check") ? check : authorise;
-mode().catch((e) => {
+async function main() {
+  const argv = process.argv.slice(2);
+  if (argv.includes("--check")) return check();
+
+  const codeAt = argv.indexOf("--code");
+  if (codeAt !== -1) {
+    const value = argv[codeAt + 1];
+    if (!value) throw new Error("--code needs the redirected URL, or the code from it.");
+    return finishWithCode(value);
+  }
+
+  const { chosen, state } = await printConsentUrl();
+  if (argv.includes("--url")) return;
+  if (chosen.mode === "loopback") return authoriseViaLoopback(state);
+  // Paste mode cannot continue on its own; step 2 is already printed above.
+}
+
+main().catch((e) => {
   console.error(`\n${e.message}`);
   process.exit(1);
 });

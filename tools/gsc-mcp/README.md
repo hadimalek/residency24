@@ -17,26 +17,15 @@ Scope is `webmasters.readonly`, so nothing here can modify the property.
 
 ## One-time setup
 
-### 1. Register the loopback redirect URI
+### 1. Enable the API
 
-The OAuth client in use (`gtm-claude-mcp-498114`) is a **Web application** client
-created for a hosted claude.ai connector, so its only redirect URI is
-`https://claude.ai/api/mcp/auth_callback`. A local server needs a loopback URI,
-which Google permits for web clients but which must be registered:
-
-1. <https://console.cloud.google.com/apis/credentials?project=gtm-claude-mcp-498114>
-2. Open the OAuth 2.0 Client ID starting `553917233521-9j1h7pbmk23v7…`
-3. **Authorized redirect URIs → ADD URI →** `http://localhost:8765/oauth2callback` → **SAVE**
-
-Alternatively create a **Desktop app** client — those accept loopback redirects
-with no registration — and point `GSC_CLIENT_SECRET_FILE` at its JSON.
-
-### 2. Enable the API
-
-The Search Console API must be on for that project:
+The Search Console API has to be on for the client's Cloud project:
 <https://console.cloud.google.com/apis/library/searchconsole.googleapis.com?project=gtm-claude-mcp-498114>
 
-### 3. Grant consent
+Nothing else here works until it is; requests come back as a 403 carrying the
+enable URL, which `googleFetch` surfaces rather than swallowing.
+
+### 2. Grant consent
 
 ```bash
 cd tools/gsc-mcp
@@ -44,10 +33,33 @@ npm install
 npm run auth
 ```
 
-It prints a URL, waits on the loopback, and saves the refresh token. **Sign in
-with a Google account that has access to the residency24 property in Search
-Console** — the OAuth client's project is unrelated to which properties you can
-read; that comes from the account you pick.
+Which flow runs depends on what the OAuth client has registered, and `auth.mjs`
+asks Google rather than trusting the downloaded json — that file is a snapshot
+and does not change when a URI is added in Cloud Console.
+
+**If `http://localhost:8765/oauth2callback` is registered**, this is hands off:
+it prints a URL, listens on the loopback, catches the code and saves the token.
+
+**Otherwise** it uses whichever https URI *is* registered. The client in use
+registers `https://residency24.com`, so:
+
+1. `npm run auth` prints a consent URL — open it, sign in with an account that
+   has residency24 in Search Console, grant access.
+2. Google sends the browser to `https://residency24.com/?code=…`. That renders
+   as the ordinary homepage; the code is only in the address bar. (Verified: the
+   site answers 200 there and does not redirect, so the query survives.)
+3. Copy the whole address bar and finish:
+
+```bash
+node auth.mjs --code "<the URL you were sent to>"
+```
+
+`--code` also takes the bare code. `--url` prints the consent URL and stops,
+which is useful when the person clicking is not the person at the terminal.
+
+**Sign in with an account that has access to the residency24 property.** The
+OAuth client's project has nothing to do with which properties you can read;
+that comes entirely from the account you pick.
 
 Verify any time without re-authorising:
 
@@ -55,13 +67,23 @@ Verify any time without re-authorising:
 npm run check
 ```
 
+### Which client file is used
+
+The newest `client_secret_*.json` in `~/Desktop/residency file/`. Creating a new
+client in Cloud Console and dropping its download in there is all that is
+needed — no code change. `GSC_CLIENT_SECRET_FILE` overrides it.
+
+The refresh token is stored as `.gsc-token.json` in that same directory, and is
+deliberately *not* keyed to a client id: what matters is which account was
+authorised, not which client did the asking.
+
 ## Where the secrets live
 
 Nothing sensitive is in this repo.
 
 | | Default location | Override |
 |---|---|---|
-| OAuth client id/secret | `~/Desktop/residency file/client_secret_…json` | `GSC_CLIENT_SECRET_FILE` |
+| OAuth client id/secret | newest `~/Desktop/residency file/client_secret_*.json` | `GSC_CLIENT_SECRET_FILE` |
 | Refresh token | `~/Desktop/residency file/.gsc-token.json` (mode 600) | `GSC_TOKEN_FILE` |
 | Default property | `sc-domain:residency24.com` | `GSC_SITE_URL` |
 | Loopback port | `8765` | `GSC_OAUTH_PORT` |
