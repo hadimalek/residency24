@@ -114,8 +114,26 @@ export async function PATCH(
     // Update date. `Article.updatedAt` is @updatedAt, so Prisma stamps it on
     // every write unless we pass a value explicitly — which is exactly what an
     // editor setting this field wants, since this timestamp is what the sitemap
-    // publishes as <lastmod>. Omitting it keeps the automatic behaviour.
+    // publishes as <lastmod> and the article schema as dateModified.
     const updatedAtInput = parseDate(body.updatedAt);
+
+    // ...but only a change a reader would notice should move that date. Fixing a
+    // byline, setting a category, or re-saving identical text is not a
+    // modification of the article, and letting @updatedAt fire on those is how
+    // every article on the site ended up claiming the same handful of dates —
+    // which teaches Google to ignore the site's dates altogether. Anything that
+    // writes articles in bulk must pass `updatedAt` explicitly for the same
+    // reason.
+    const readerVisibleChange =
+      !trans ||
+      contentHtml !== trans.content ||
+      (body.title !== undefined && body.title.slice(0, 255) !== trans.title) ||
+      (body.excerpt !== undefined && (body.excerpt ?? null) !== trans.excerpt) ||
+      (body.metaTitle !== undefined && (body.metaTitle ?? null) !== trans.metaTitle) ||
+      (body.metaDescription !== undefined &&
+        (body.metaDescription ?? null) !== trans.metaDescription) ||
+      (body.faqs !== undefined &&
+        JSON.stringify(body.faqs ?? null) !== JSON.stringify((trans as any)?.faqs ?? null));
 
     // authorId: undefined → leave unchanged; null/"" → clear the byline
     let nextAuthorId: string | null | undefined = undefined;
@@ -144,7 +162,11 @@ export async function PATCH(
             body.featuredImageId === undefined ? article.featuredImageId : body.featuredImageId,
           category: nextCategory === undefined ? article.category : nextCategory,
           authorId: nextAuthorId === undefined ? article.authorId : nextAuthorId,
-          ...(updatedAtInput ? { updatedAt: updatedAtInput } : {}),
+          ...(updatedAtInput
+            ? { updatedAt: updatedAtInput }
+            : readerVisibleChange
+              ? {} // let @updatedAt stamp now
+              : { updatedAt: article.updatedAt }), // hold the date steady
         },
       });
 

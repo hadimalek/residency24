@@ -122,6 +122,9 @@ const SUFFIX_REDIRECTS: Record<string, string> = {
   // Legacy UAE alias pages → the canonical service pages (dedupes cannibalizing
   // duplicates; the alias folders were removed and dropped from the sitemap).
   "uae/register-company": "uae/company-registration",
+  // /uae/residency was a WordPress page; there is no such route now, so it fell
+  // through to the [service] catch-all and 404'd while still holding rankings.
+  "uae/residency": "uae/golden-visa",
   "uae/property-purchase": "uae/buy-property",
   "residence": "uae",
   "team": "about",
@@ -376,22 +379,47 @@ export async function proxy(req: NextRequest) {
     return NextResponse.rewrite(url);
   }
 
-  // Legacy WordPress URLs → 301 to the new-site equivalent (before /en handling
-  // and the catch-all rewrite so root-level legacy paths are caught too).
-  const legacy = legacyRedirect(pathname);
-  if (legacy && legacy !== pathname) {
-    const url = req.nextUrl.clone();
-    // A destination may carry a query (WP category pagination maps /page/N to
-    // ?page=N); otherwise the incoming query is dropped as before.
-    const q = legacy.indexOf("?");
-    url.pathname = q === -1 ? legacy : legacy.slice(0, q);
-    url.search = q === -1 ? "" : legacy.slice(q);
-    return NextResponse.redirect(url, 301);
+  // ── One canonical destination, one hop ──────────────────────────────────
+  //
+  // Three separate rules used to fire in sequence — strip the trailing slash,
+  // apply the legacy WordPress map, move /en to the root — and a URL needing
+  // two of them paid two redirects. That matters here more than it usually
+  // would: every legacy URL arrives with a trailing slash, because that is how
+  // WordPress served them, and the whole migration rests on those redirects
+  // passing their rankings through. So resolve all three in memory and emit a
+  // single 301.
+  //
+  // /admin and /api are left out: they are not addressable content, and running
+  // the legacy map over them would be looking for WordPress pages that never
+  // existed at those paths.
+  if (!pathname.startsWith("/admin") && !pathname.startsWith("/api/")) {
+    let target = pathname.length > 1 ? pathname.replace(/\/+$/, "") || "/" : pathname;
+    let search = req.nextUrl.search;
+
+    // /en before the legacy map, so an alias under /en resolves to its final
+    // destination rather than to another alias.
+    if (target === "/en") target = "/";
+    else if (target.startsWith("/en/")) target = target.slice(3) || "/";
+
+    const legacy = legacyRedirect(target);
+    if (legacy && legacy !== target) {
+      // A destination may carry a query (WP category pagination maps /page/N to
+      // ?page=N); otherwise the incoming query is dropped, as before.
+      const q = legacy.indexOf("?");
+      target = q === -1 ? legacy : legacy.slice(0, q);
+      search = q === -1 ? "" : legacy.slice(q);
+    }
+
+    if (target !== pathname || search !== req.nextUrl.search) {
+      // Built from the origin rather than req.nextUrl.clone(): NextURL carries
+      // the incoming trailing slash and puts it back on serialize, which turned
+      // every one of these into a redirect to itself.
+      return NextResponse.redirect(new URL(`${target}${search}`, req.nextUrl.origin), 301);
+    }
   }
 
   if (pathname.startsWith("/admin")) {
-    const isLogin =
-      pathname === "/admin/login" || pathname.startsWith("/admin/login/");
+    const isLogin = pathname === "/admin/login" || pathname.startsWith("/admin/login/");
     if (isLogin) {
       return NextResponse.next();
     }
@@ -427,16 +455,6 @@ export async function proxy(req: NextRequest) {
       }
     }
     return NextResponse.next();
-  }
-
-  if (pathname === "/en" || pathname === "/en/" || pathname.startsWith("/en/")) {
-    const url = req.nextUrl.clone();
-    if (pathname === "/en" || pathname === "/en/") {
-      url.pathname = "/";
-    } else {
-      url.pathname = pathname.slice(3);
-    }
-    return NextResponse.redirect(url, 301);
   }
 
   for (const l of NON_EN) {
