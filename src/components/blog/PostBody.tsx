@@ -1,5 +1,30 @@
 interface PostBodyProps {
   html: string;
+  /** The <h1> the page already renders, so a copy of it in the body can go. */
+  title?: string;
+}
+
+/** Compares heading text to the page title without punctuation or case noise. */
+function sameText(a: string, b: string): boolean {
+  const norm = (x: string) =>
+    x.replace(/<[^>]+>/g, " ").replace(/[\s‌]+/g, " ").replace(/[«»"'`.,:;!?]/g, "").trim().toLowerCase();
+  return norm(a) === norm(b) && norm(a).length > 0;
+}
+
+/**
+ * No <h1> may come from article content — the page template owns the only one.
+ *
+ * The WordPress import left a bare <h1> at the top of 21 Russian posts that
+ * repeated the title word for word, so those pages shipped two identical h1s.
+ * A copy of the title is dropped outright; anything else becomes an h2, which
+ * is what it should have been. Handled at render rather than by editing the
+ * stored HTML so the next import cannot reintroduce it.
+ */
+function demoteStrayH1(html: string, title?: string): string {
+  return html.replace(/<h1([^>]*)>([\s\S]*?)<\/h1>/gi, (_m, attrs, inner) => {
+    if (title && sameText(inner, title)) return "";
+    return `<h2${attrs}>${inner}</h2>`;
+  });
 }
 
 /**
@@ -39,10 +64,11 @@ function deferImages(html: string): string {
   });
 }
 
-export default function PostBody({ html }: PostBodyProps) {
+export default function PostBody({ html, title }: PostBodyProps) {
   if (!html) return null;
 
-  const processedHtml = deferImages(injectHeadingIds(html));
+  // Order matters: demote first so a promoted h2 also gets its anchor id.
+  const processedHtml = deferImages(injectHeadingIds(demoteStrayH1(html, title)));
 
   return (
     <article

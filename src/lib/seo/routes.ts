@@ -38,6 +38,11 @@ export const STATIC_ROUTES: SitemapRoute[] = [
   // UAE
   { path: "uae", priority: 0.9, changeFrequency: "weekly" },
   { path: "uae/golden-visa", priority: 0.9, changeFrequency: "monthly" },
+  // Absent from the sitemaps until now, which is why nobody noticed that its
+  // English, Arabic and Russian copy was still "[TRANSLATE: XX]" placeholders —
+  // Google had indexed all three anyway. The copy is written; the page belongs
+  // in the sitemap.
+  { path: "uae/green-visa", priority: 0.9, changeFrequency: "monthly" },
   { path: "uae/company-registration", priority: 0.8, changeFrequency: "monthly" },
   { path: "uae/buy-property", priority: 0.8, changeFrequency: "monthly" },
   { path: "uae/tourist-visa", priority: 0.7, changeFrequency: "monthly" },

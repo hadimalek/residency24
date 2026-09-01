@@ -175,25 +175,45 @@ const CAT_TO_PAGE_NORM: Record<string, string> = Object.fromEntries(
 // "دسته‌بندی-نشده" (uncategorized) is deliberately excluded despite having one
 // post: it is a WordPress import artifact, not a hub worth indexing, so it keeps
 // redirecting to the blog index via OLD_CATS.
-const LIVE_CATS: Record<string, Set<string>> = {
-  fa: new Set([
-    "travel-and-entertainment", "immigration", "work-immigration-guide",
-    "country-guides", "investment-guide", "migration-destinations",
-    "property-buying-guide", "immigration-documents", "study-immigration-guide",
-  ]),
-  ru: new Set(["immigration"]),
-  en: new Set(),
-  ar: new Set(),
-};
+/**
+ * The blog taxonomy — every slug the site serves a category hub for.
+ *
+ * Deliberately NOT per-locale. It used to be, and the Russian, Arabic and
+ * English entries were nearly empty while the sitemaps advertised ten hubs in
+ * those languages, so the proxy 301'd ten URLs the sitemap was promising. The
+ * question "does this category have articles in this locale?" only the database
+ * can answer, and the route already asks it: listCategories(lang) derives from
+ * the articles and the page 404s a slug that is not among them. So this set
+ * answers the narrower question the proxy can actually own — is this slug part
+ * of the taxonomy at all — and the route decides the rest.
+ *
+ * To re-derive after adding a category, pull the category slugs out of the four
+ * sitemaps — they are generated from the articles, so they are the truth:
+ *   sitemap-fa.xml, sitemap-en.xml, sitemap-ar.xml, sitemap-ru.xml
+ */
+const HUB_CATEGORY_SLUGS = new Set([
+  "citizenship",
+  "company-formation",
+  "cost-of-living",
+  "country-guides",
+  "immigration",
+  "immigration-documents",
+  "investment-guide",
+  "migration-destinations",
+  "property-buying-guide",
+  "study-immigration-guide",
+  "travel-and-entertainment",
+  "visas-and-residency",
+  "work-immigration-guide",
+]);
 
 /** Does `seg` name a category hub with live articles in this locale? */
-function isLiveCat(locale: string, seg: string | undefined): boolean {
+/** Is this segment one of the blog's category slugs? Locale-independent. */
+function isHubCat(seg: string | undefined): boolean {
   if (!seg) return false;
-  const set = LIVE_CATS[locale || "en"];
-  if (!set || set.size === 0) return false;
   const candidates = [seg];
   try { candidates.push(decodeURIComponent(seg)); } catch { /* keep raw */ }
-  return candidates.some((c) => set.has(c) || set.has(normCat(c)));
+  return candidates.some((c) => HUB_CATEGORY_SLUGS.has(c) || HUB_CATEGORY_SLUGS.has(normCat(c)));
 }
 
 /** A path segment may arrive percent-encoded (non-ASCII slugs); match both forms. */
@@ -313,9 +333,10 @@ function legacyRedirect(pathname: string): string | null {
   if (rest.length === 3 && rest[0] === "blog" && rest[1] === "page" && /^\d+$/.test(rest[2])) {
     return withLocale(locale, "blog");
   }
-  // Live category hubs come first: they must survive the legacy rules below, which
-  // exist for the locales and slugs where the archive really is dead.
-  if (rest[0] === "blog" && rest[1] === "category" && isLiveCat(locale, rest[2])) {
+  // Category hubs come first: they must survive the legacy rules below, which
+  // exist for the slugs where the WP archive really is dead. Whether this
+  // particular locale has any articles in the category is the route's call.
+  if (rest[0] === "blog" && rest[1] === "category" && isHubCat(rest[2])) {
     // WP category pagination /blog/category/{cat}/page/N → ?page=N (same content,
     // not the generic blog index)
     if (rest.length === 5 && rest[3] === "page" && /^\d+$/.test(rest[4])) {
@@ -325,8 +346,9 @@ function legacyRedirect(pathname: string): string | null {
     }
     if (rest.length === 3) return null; // pass through — the hub renders
   }
-  // Bare WP archive /{locale}/{cat} for a live category → its hub, not the index
-  if (rest.length === 1 && isLiveCat(locale, rest[0])) {
+  // Bare WP archive /{locale}/{cat} → its hub, not the index. WP served the
+  // taxonomy without the /blog/category prefix.
+  if (rest.length === 1 && isHubCat(rest[0])) {
     return withLocale(locale, `blog/category/${rest[0]}`);
   }
   // Category pagination → category base (or blog for old cats)

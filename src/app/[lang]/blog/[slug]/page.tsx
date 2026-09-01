@@ -201,7 +201,7 @@ export default async function BlogPostPage({
 
             {/* Article body */}
             <main className="flex-1 min-w-0">
-              <PostBody html={post.content_html ?? ""} />
+              <PostBody html={post.content_html ?? ""} title={post.title} />
 
               <PostMeta category={post.category} tags={post.tags} lang={lang} />
 
