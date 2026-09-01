@@ -1,6 +1,7 @@
 import type { Lang } from "@/translations";
 import type { Metadata } from "next";
 import { LANGS, LANG_CONFIG } from "@/lib/seo";
+import LandingReading from "@/components/shared/LandingReading";
 import CompanyRegistrationClient from "./CompanyRegistrationClient";
 import FaCompanyRegistrationClient from "./FaCompanyRegistrationClient";
 import { IMG } from "./fa-content";
@@ -72,7 +73,7 @@ export default async function CompanyRegistrationPage({ params }: { params: Prom
 
   // Persian only: the long-form rebuild. The other three locales keep the
   // original short page until they get the same treatment.
-  if (lang === "fa") return <FaCompanyRegistrationClient />;
+  if (lang === "fa") return <FaCompanyRegistrationClient relatedReading={<LandingReading route="uae/company-registration" lang={lang} />} />;
 
-  return <CompanyRegistrationClient lang={lang} />;
+  return <CompanyRegistrationClient lang={lang} relatedReading={<LandingReading route="uae/company-registration" lang={lang} />} />;
 }

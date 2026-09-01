@@ -25,7 +25,7 @@ import type { FAQItem } from "@/components/shared/SharedFAQ";
 import type { CrossSellItem } from "@/components/shared/SharedCrossSell";
 import { localizedPath, BREADCRUMB_HOME } from "@/lib/locale-path";
 
-export default function CompanyRegistrationClient({ lang }: { lang: Lang }) {
+export default function CompanyRegistrationClient({ lang , relatedReading }: { lang: Lang , relatedReading?: React.ReactNode }) {
   const { t } = useLanguage();
   const cr = t.cr;
   const navItems = cr.nav_items?.split("|") ?? [];
@@ -110,6 +110,9 @@ export default function CompanyRegistrationClient({ lang }: { lang: Lang }) {
       <SharedFAQ items={faqItems} title={cr.faq_title} />
 
       {/* S12 — CrossSell */}
+      {/* Articles on this subject — built on the server in page.tsx */}
+      {relatedReading}
+
       <SharedCrossSell items={crossSellItems} title={s.cs_section_title} />
 
       {/* S13 — LeadForm (always last) */}

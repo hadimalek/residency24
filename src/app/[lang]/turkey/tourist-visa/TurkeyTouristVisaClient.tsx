@@ -363,7 +363,7 @@ const CONTENT: Record<Lang, Content> = {
   },
 };
 
-export default function TurkeyTouristVisaClient() {
+export default function TurkeyTouristVisaClient({ relatedReading }: { relatedReading?: React.ReactNode }) {
   const { lang } = useLanguage();
   const c = CONTENT[lang];
   const homeHref = lang === "en" ? "/" : `/${lang}`;
@@ -497,6 +497,9 @@ export default function TurkeyTouristVisaClient() {
 
         <HowItWorks />
         <SharedFAQ items={c.faq_items} title={c.faq_title} />
+        {/* Articles on this subject — built on the server in page.tsx */}
+        {relatedReading}
+
         <SharedCrossSell items={crossSellItems} title={c.crosssell_title} />
         <SharedLeadForm
           serviceContext="turkey_tourist_visa"

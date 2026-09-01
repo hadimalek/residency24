@@ -1,5 +1,6 @@
 import type { Lang } from "@/translations";
 import { LANGS } from "@/lib/seo";
+import LandingReading from "@/components/shared/LandingReading";
 import GoldenVisaPageClient from "./GoldenVisaPageClient";
 
 export async function generateStaticParams() {
@@ -10,5 +11,5 @@ export default async function GoldenVisaPage({ params }: { params: Promise<{ lan
   const { lang: rawLang } = await params;
   const lang = (LANGS.includes(rawLang as Lang) ? rawLang : "en") as Lang;
 
-  return <GoldenVisaPageClient />;
+  return <GoldenVisaPageClient relatedReading={<LandingReading route="uae/golden-visa" lang={lang} />} />;
 }

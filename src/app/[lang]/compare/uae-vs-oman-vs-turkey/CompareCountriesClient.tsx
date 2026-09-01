@@ -695,7 +695,7 @@ const CONTENT: Record<Lang, Content> = {
   },
 };
 
-export default function CompareCountriesClient() {
+export default function CompareCountriesClient({ relatedReading }: { relatedReading?: React.ReactNode }) {
   const { lang, isRTL } = useLanguage();
   const c = CONTENT[lang];
   const lp = (path: string) => {
@@ -864,6 +864,11 @@ export default function CompareCountriesClient() {
         </section>
 
         <SharedFAQ items={c.faq_items} title={c.faq_title} />
+
+        {/* Articles on this subject — built on the server in page.tsx */}
+
+        {relatedReading}
+
 
         <SharedCrossSell items={crossSellItems} title={c.crosssell_title} />
 

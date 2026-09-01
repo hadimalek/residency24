@@ -1,5 +1,6 @@
 import type { Lang } from "@/translations";
 import { LANGS } from "@/lib/seo";
+import LandingReading from "@/components/shared/LandingReading";
 import { getBreadcrumbSchema, getFaqSchema, getServiceSchema } from "./hub-schema";
 import OmanHubClient from "./OmanHubClient";
 
@@ -21,7 +22,7 @@ export default async function OmanHubPage({ params }: { params: Promise<{ lang: 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
         />
       ))}
-      <OmanHubClient />
+      <OmanHubClient relatedReading={<LandingReading route="oman" lang={lang} />} />
     </>
   );
 }

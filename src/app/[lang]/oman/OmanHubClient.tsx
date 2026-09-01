@@ -619,7 +619,7 @@ const CONTENT: Record<Lang, Content> = {
   },
 };
 
-export default function OmanHubClient() {
+export default function OmanHubClient({ relatedReading }: { relatedReading?: React.ReactNode }) {
   const { lang, isRTL } = useLanguage();
   const c = CONTENT[lang];
   const Arrow = isRTL ? ChevronLeft : ChevronRight;
@@ -782,6 +782,11 @@ export default function OmanHubClient() {
         <HowItWorks />
 
         <SharedFAQ items={c.faq_items} title={c.faq_title} />
+
+        {/* Articles on this subject — built on the server in page.tsx */}
+
+        {relatedReading}
+
 
         <SharedCrossSell items={crossSellItems} title={c.crosssell_title} />
 

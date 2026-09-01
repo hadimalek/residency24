@@ -28,7 +28,7 @@ import { localizedPath } from "@/lib/locale-path";
 const WA = "https://wa.me/971562009131";
 const HOW_ICONS = [ClipboardCheck, FileText, Send, Stethoscope, BadgeCheck];
 
-export default function GreenVisaPageClient() {
+export default function GreenVisaPageClient({ relatedReading }: { relatedReading?: React.ReactNode }) {
   const { t, lang, isRTL } = useLanguage();
   const p = t.page_p037;
   const h = t.hero_p037;
@@ -102,6 +102,11 @@ export default function GreenVisaPageClient() {
 
       {/* S09 — FAQ */}
       <SharedFAQ items={p.faq.items} title={p.faq.title} />
+
+      {/* Articles on this subject — built on the server in page.tsx */}
+
+      {relatedReading}
+
 
       <SharedCrossSell items={crossSellItems} title={p.crossSell.title} variant="dark" />
       <section className="py-16 md:py-20 bg-navy text-white">

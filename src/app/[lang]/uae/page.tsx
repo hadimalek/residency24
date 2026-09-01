@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { Lang } from "@/translations";
 import { LANGS, LANG_CONFIG, BREADCRUMB_HOME } from "@/lib/seo";
+import LandingReading from "@/components/shared/LandingReading";
 import UAEHubClient from "./UAEHubClient";
 import RuUaeHubClient from "./RuUaeHubClient";
 
@@ -198,7 +199,7 @@ export default async function UAEHubPage({ params }: { params: Promise<{ lang: s
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
         />
       ))}
-      {lang === "ru" ? <RuUaeHubClient h1={h1} /> : <UAEHubClient h1={h1} />}
+      {lang === "ru" ? <RuUaeHubClient h1={h1} relatedReading={<LandingReading route="uae" lang={lang} />} /> : <UAEHubClient h1={h1} relatedReading={<LandingReading route="uae" lang={lang} />} />}
     </>
   );
 }

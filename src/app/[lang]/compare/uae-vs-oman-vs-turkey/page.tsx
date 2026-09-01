@@ -1,5 +1,6 @@
 import type { Lang } from "@/translations";
 import { LANGS } from "@/lib/seo";
+import LandingReading from "@/components/shared/LandingReading";
 import CompareCountriesClient from "./CompareCountriesClient";
 
 export async function generateStaticParams() {
@@ -10,5 +11,5 @@ export default async function CompareCountriesPage({ params }: { params: Promise
   const { lang: rawLang } = await params;
   const lang = (LANGS.includes(rawLang as Lang) ? rawLang : "en") as Lang;
 
-  return <CompareCountriesClient key={lang} />;
+  return <CompareCountriesClient key={lang} relatedReading={<LandingReading route="compare/uae-vs-oman-vs-turkey" lang={lang} />} />;
 }

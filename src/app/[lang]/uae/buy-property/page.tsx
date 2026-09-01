@@ -1,5 +1,6 @@
 import type { Lang } from "@/translations";
 import { LANGS } from "@/lib/seo";
+import LandingReading from "@/components/shared/LandingReading";
 import translations from "@/translations";
 import BuyPropertyClient from "@/components/p005/BuyPropertyClient";
 
@@ -12,5 +13,5 @@ export default async function BuyPropertyPage({ params }: { params: Promise<{ la
   const lang = (LANGS.includes(rawLang as Lang) ? rawLang : "en") as Lang;
   const h1 = translations[lang].bp.seo_h1;
 
-  return <BuyPropertyClient h1={h1} />;
+  return <BuyPropertyClient h1={h1} relatedReading={<LandingReading route="uae/buy-property" lang={lang} />} />;
 }

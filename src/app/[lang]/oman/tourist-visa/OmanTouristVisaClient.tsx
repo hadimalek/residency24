@@ -363,7 +363,7 @@ const CONTENT: Record<Lang, Content> = {
   },
 };
 
-export default function OmanTouristVisaClient() {
+export default function OmanTouristVisaClient({ relatedReading }: { relatedReading?: React.ReactNode }) {
   const { lang } = useLanguage();
   const c = CONTENT[lang];
   const homeHref = lang === "en" ? "/" : `/${lang}`;
@@ -497,6 +497,9 @@ export default function OmanTouristVisaClient() {
 
         <HowItWorks />
         <SharedFAQ items={c.faq_items} title={c.faq_title} />
+        {/* Articles on this subject — built on the server in page.tsx */}
+        {relatedReading}
+
         <SharedCrossSell items={crossSellItems} title={c.crosssell_title} />
         <SharedLeadForm
           serviceContext="oman_tourist_visa"

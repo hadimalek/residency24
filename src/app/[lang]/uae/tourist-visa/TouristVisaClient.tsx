@@ -24,7 +24,7 @@ import type { PricingTab } from "@/components/shared/SharedPricingTable";
 import type { Step } from "@/components/shared/SharedHowItWorks";
 import { localizedPath, BREADCRUMB_HOME } from "@/lib/locale-path";
 
-export default function TouristVisaClient() {
+export default function TouristVisaClient({ relatedReading }: { relatedReading?: React.ReactNode }) {
   const { t, lang, isRTL } = useLanguage();
   const p = t.uae_pages?.tourist_visa;
   const s = t.shared;
@@ -297,6 +297,9 @@ export default function TouristVisaClient() {
       <SharedFAQ items={faqItems} title={s.faq_title} />
 
       {/* S12 — SharedCrossSell */}
+      {/* Articles on this subject — built on the server in page.tsx */}
+      {relatedReading}
+
       <SharedCrossSell items={crossSellItems} title={s.cs_section_title} />
 
       {/* S13 — SharedLeadForm (always last section) */}

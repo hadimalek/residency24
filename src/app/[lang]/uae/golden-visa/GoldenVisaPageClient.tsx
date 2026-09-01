@@ -23,7 +23,7 @@ import type { FAQItem } from "@/components/shared/SharedFAQ";
 import type { CrossSellItem } from "@/components/shared/SharedCrossSell";
 import { localizedPath, BREADCRUMB_HOME } from "@/lib/locale-path";
 
-export default function GoldenVisaPageClient() {
+export default function GoldenVisaPageClient({ relatedReading }: { relatedReading?: React.ReactNode }) {
   const { t, lang, isRTL } = useLanguage();
   const p = t.p004;
 
@@ -88,6 +88,9 @@ export default function GoldenVisaPageClient() {
       <SharedFAQ items={faqItems} title={p.faq_title} />
 
       {/* S12 — CrossSell */}
+      {/* Articles on this subject — built on the server in page.tsx */}
+      {relatedReading}
+
       <SharedCrossSell items={crossSellItems} title={s.cs_section_title} />
 
       {/* S13 — LeadForm (always last) */}

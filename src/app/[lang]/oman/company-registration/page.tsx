@@ -1,10 +1,15 @@
+import type { Lang } from "@/translations";
 import { LANGS } from "@/lib/seo";
+import LandingReading from "@/components/shared/LandingReading";
 import OmanCompanyRegistrationClient from "./OmanCompanyRegistrationClient";
 
 export async function generateStaticParams() {
   return LANGS.map((lang) => ({ lang }));
 }
 
-export default function OmanCompanyRegistrationPage() {
-  return <OmanCompanyRegistrationClient />;
+export default async function OmanCompanyRegistrationPage({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang: rawLang } = await params;
+  const lang = (LANGS.includes(rawLang as Lang) ? rawLang : "en") as Lang;
+
+  return <OmanCompanyRegistrationClient relatedReading={<LandingReading route="oman/company-registration" lang={lang} />} />;
 }

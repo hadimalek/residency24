@@ -1,10 +1,15 @@
+import type { Lang } from "@/translations";
 import { LANGS } from "@/lib/seo";
+import LandingReading from "@/components/shared/LandingReading";
 import OmanTouristVisaClient from "./OmanTouristVisaClient";
 
 export async function generateStaticParams() {
   return LANGS.map((lang) => ({ lang }));
 }
 
-export default function OmanTouristVisaPage() {
-  return <OmanTouristVisaClient />;
+export default async function OmanTouristVisaPage({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang: rawLang } = await params;
+  const lang = (LANGS.includes(rawLang as Lang) ? rawLang : "en") as Lang;
+
+  return <OmanTouristVisaClient relatedReading={<LandingReading route="oman/tourist-visa" lang={lang} />} />;
 }

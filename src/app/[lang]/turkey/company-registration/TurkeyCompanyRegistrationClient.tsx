@@ -512,7 +512,7 @@ const CONTENT: Record<Lang, Content> = {
   },
 };
 
-export default function TurkeyCompanyRegistrationClient() {
+export default function TurkeyCompanyRegistrationClient({ relatedReading }: { relatedReading?: React.ReactNode }) {
   const { lang } = useLanguage();
   const c = CONTENT[lang];
   const homeHref = lang === "en" ? "/" : `/${lang}`;
@@ -659,6 +659,9 @@ export default function TurkeyCompanyRegistrationClient() {
 
         <HowItWorks />
         <SharedFAQ items={c.faq_items} title={c.faq_title} />
+        {/* Articles on this subject — built on the server in page.tsx */}
+        {relatedReading}
+
         <SharedCrossSell items={crossSellItems} title={c.crosssell_title} />
         <SharedLeadForm
           serviceContext="turkey_company_registration"

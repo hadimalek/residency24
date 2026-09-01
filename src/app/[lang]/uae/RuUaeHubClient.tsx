@@ -268,7 +268,7 @@ function FaqItem({ q, a, idx, open, onToggle }: { q: string; a: string; idx: num
   );
 }
 
-export default function RuUaeHubClient({ h1 }: { h1: string }) {
+export default function RuUaeHubClient({ h1, relatedReading }: { h1: string; relatedReading?: React.ReactNode }) {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [form, setForm] = useState({ name: "", phone: "", goal: "", budget: "", family: "", message: "" });
   const [sent, setSent] = useState(false);
@@ -756,6 +756,9 @@ export default function RuUaeHubClient({ h1 }: { h1: string }) {
       </section>
 
       {/* LEAD FORM */}
+      {/* Articles on this subject — built on the server in page.tsx */}
+      {relatedReading}
+
       <section id="consultation-form" className="py-16 md:py-24 bg-navy text-white">
         <div className="max-w-5xl mx-auto px-4">
           <div className="text-center max-w-2xl mx-auto mb-10">

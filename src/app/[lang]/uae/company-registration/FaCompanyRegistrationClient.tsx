@@ -214,7 +214,7 @@ function InlineLink({ href, label }: { href: string; label: string }) {
 
 /* ── page ──────────────────────────────────────────────────────────────── */
 
-export default function FaCompanyRegistrationClient() {
+export default function FaCompanyRegistrationClient({ relatedReading }: { relatedReading?: React.ReactNode }) {
   const lang = "fa" as const;
   const site = "https://residency24.com";
   const pageUrl = `${site}/fa/uae/company-registration`;
@@ -817,6 +817,11 @@ export default function FaCompanyRegistrationClient() {
           items={FA.faq.items.map((f) => ({ question: f.q, answer: f.a }))}
         />
       </div>
+
+      {/* Articles on this subject — built on the server in page.tsx */}
+
+      {relatedReading}
+
 
       <SharedCrossSell items={crossSell} title="خدمات مرتبط" />
 

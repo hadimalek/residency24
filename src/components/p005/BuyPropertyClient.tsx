@@ -93,7 +93,7 @@ function buildSchemas(lang: Lang, bp: any) {
   return [service, faq, itemList, howTo, breadcrumb];
 }
 
-export default function BuyPropertyClient({ h1 }: { h1: string }) {
+export default function BuyPropertyClient({ h1 , relatedReading }: { h1: string , relatedReading?: React.ReactNode }) {
   const { t, lang } = useLanguage();
   const bp = t.bp;
   const s = t.shared;
@@ -189,6 +189,9 @@ export default function BuyPropertyClient({ h1 }: { h1: string }) {
       <SharedFAQ items={faqItems} title={bp.faq_h2} />
 
       {/* S12 — CrossSell */}
+      {/* Articles on this subject — built on the server in page.tsx */}
+      {relatedReading}
+
       <SharedCrossSell items={crossSellItems} title={s.cs_section_title} />
 
       {/* S13 — LeadForm (always last) */}

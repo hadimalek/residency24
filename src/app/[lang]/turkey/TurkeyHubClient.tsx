@@ -859,7 +859,7 @@ const CONTENT: Record<Lang, Content> = {
   },
 };
 
-export default function TurkeyHubClient() {
+export default function TurkeyHubClient({ relatedReading }: { relatedReading?: React.ReactNode }) {
   const { lang, isRTL } = useLanguage();
   const c = CONTENT[lang];
   const Arrow = isRTL ? ChevronLeft : ChevronRight;
@@ -1122,6 +1122,11 @@ export default function TurkeyHubClient() {
         <NationalityHooks />
 
         <SharedFAQ items={c.faq_items} title={c.faq_title} />
+
+        {/* Articles on this subject — built on the server in page.tsx */}
+
+        {relatedReading}
+
 
         <SharedCrossSell items={crossSellItems} title={c.crosssell_title} />
 

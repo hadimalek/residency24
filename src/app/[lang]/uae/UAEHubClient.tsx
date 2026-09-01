@@ -23,7 +23,7 @@ import { Trophy, Building2, Building, Globe, Leaf } from "lucide-react";
 import type { CrossSellItem } from "@/components/shared/SharedCrossSell";
 import { localizedPath, BREADCRUMB_HOME, BREADCRUMB_UAE } from "@/lib/locale-path";
 
-export default function UAEHubClient({ h1 }: { h1: string }) {
+export default function UAEHubClient({ h1 , relatedReading }: { h1: string , relatedReading?: React.ReactNode }) {
   const { t, lang } = useLanguage();
   const s = t.shared;
 
@@ -76,6 +76,9 @@ export default function UAEHubClient({ h1 }: { h1: string }) {
         <UAEFAQAccordion />
 
         {/* S12 — CrossSell */}
+        {/* Articles on this subject — built on the server in page.tsx */}
+        {relatedReading}
+
         <SharedCrossSell items={crossSellItems} title={s.cs_section_title} />
 
         {/* S13 — LeadForm (always last) */}
