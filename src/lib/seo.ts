@@ -182,50 +182,6 @@ export const BLOG_SEO: Record<Lang, {
   },
 };
 
-export function getAboutOrganizationSchema() {
-  return {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "@id": "https://residency24.com/#organization",
-    "name": "Residency24",
-    "url": "https://residency24.com",
-    "logo": "https://residency24.com/logo512.png",
-    "foundingDate": "2018",
-    "numberOfEmployees": {
-      "@type": "QuantitativeValue",
-      "value": 15,
-    },
-    "areaServed": ["AE", "OM", "TR", "IR"],
-    "location": [
-      {
-        "@type": "Place",
-        "name": "Residency24 Dubai",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "Al Khail Heights Apartment Building, RB 03A, No. 218",
-          "addressLocality": "Dubai",
-          "addressCountry": "AE",
-        },
-        "telephone": "+971562009131",
-      },
-      {
-        "@type": "Place",
-        "name": "رزیدنسی۲۴ مشهد",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "نبش فرهاد ۱۴",
-          "addressLocality": "مشهد",
-          "addressCountry": "IR",
-        },
-      },
-    ],
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "contactType": "customer service",
-      "availableLanguage": ["Persian", "English", "Arabic", "Russian"],
-    },
-  };
-}
 
 export function getAboutBreadcrumbSchema(lang: Lang) {
   return {
@@ -249,13 +205,35 @@ export function getWebsiteSchema(lang: Lang) {
   };
 }
 
+/**
+ * The single Organization node for the whole site, emitted once by the root
+ * layout. It carries a stable `@id` so every other schema (LocalBusiness,
+ * Service, Article publisher) can point at the same node instead of describing
+ * the company again.
+ *
+ * There used to be three of these — this one, a richer one on /about, and a
+ * third on /contact — so 52 pages shipped two Organization objects that
+ * disagreed about the company's address and logo, and the /about one pointed at
+ * /logo512.png, which is not an image (that path falls through to the catch-all
+ * route and returns HTML). Merged here, with the logo that actually exists and
+ * the real office addresses.
+ */
 export function getOrganizationSchema() {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": `${BASE_URL}/#organization`,
     name: "Residency24",
     url: `${BASE_URL}/`,
-    logo: { "@type": "ImageObject", url: `${BASE_URL}/assets/residency24logo512.png`, width: 512, height: 512 },
+    logo: {
+      "@type": "ImageObject",
+      url: `${BASE_URL}/assets/residency24logo512.png`,
+      width: 512,
+      height: 512,
+    },
+    foundingDate: "2018",
+    numberOfEmployees: { "@type": "QuantitativeValue", value: 15 },
+    areaServed: ["AE", "OM", "TR", "IR"],
     telephone: "+971562009131",
     email: "info@residency24.com",
     sameAs: [
@@ -263,9 +241,45 @@ export function getOrganizationSchema() {
       "https://t.me/residency24",
       "https://www.linkedin.com/company/residency24",
     ],
-    address: { "@type": "PostalAddress", streetAddress: "Sheikh Zayed Road", addressLocality: "Dubai", addressCountry: "AE" },
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "Al Khail Heights Apartment Building, RB 03A, No. 218",
+      addressLocality: "Dubai",
+      addressCountry: "AE",
+    },
+    location: [
+      {
+        "@type": "Place",
+        name: "Residency24 Dubai",
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: "Al Khail Heights Apartment Building, RB 03A, No. 218",
+          addressLocality: "Dubai",
+          addressCountry: "AE",
+        },
+        telephone: "+971562009131",
+      },
+      {
+        "@type": "Place",
+        name: "رزیدنسی۲۴ مشهد",
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: "نبش فرهاد ۱۴",
+          addressLocality: "مشهد",
+          addressCountry: "IR",
+        },
+      },
+    ],
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "customer service",
+      telephone: "+971562009131",
+      availableLanguage: ["Persian", "English", "Arabic", "Russian"],
+      areaServed: ["AE", "OM", "TR"],
+    },
   };
 }
+
 
 export function getLocalBusinessSchema() {
   return {

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import type { Lang } from "@/translations";
-import { LANGS, LANG_CONFIG, ABOUT_SEO, getAboutPageUrl, getAboutOrganizationSchema, getAboutBreadcrumbSchema } from "@/lib/seo";
+import { LANGS, LANG_CONFIG, ABOUT_SEO, getAboutPageUrl, getAboutBreadcrumbSchema } from "@/lib/seo";
 import AboutPageClient from "./AboutPageClient";
 
 export async function generateStaticParams() {
@@ -50,7 +50,6 @@ export default async function AboutPage({ params }: { params: Promise<{ lang: st
   const lang = (LANGS.includes(rawLang as Lang) ? rawLang : "en") as Lang;
 
   const schemas = [
-    getAboutOrganizationSchema(),
     getAboutBreadcrumbSchema(lang),
   ];
 

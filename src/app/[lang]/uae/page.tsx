@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import type { Lang } from "@/translations";
-import { LANGS, LANG_CONFIG, BREADCRUMB_HOME, getOrganizationSchema } from "@/lib/seo";
+import { LANGS, LANG_CONFIG, BREADCRUMB_HOME } from "@/lib/seo";
 import UAEHubClient from "./UAEHubClient";
 import RuUaeHubClient from "./RuUaeHubClient";
 
@@ -183,7 +183,6 @@ export default async function UAEHubPage({ params }: { params: Promise<{ lang: s
   const h1 = UAE_SEO[lang].h1;
 
   const schemas = [
-    getOrganizationSchema(),
     getFaqSchema(lang),
     getBreadcrumbSchema(lang),
     getServiceSchema(),

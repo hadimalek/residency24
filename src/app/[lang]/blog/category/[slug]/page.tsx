@@ -50,11 +50,32 @@ export async function generateMetadata({
     `${getBlogPageUrl(lang).replace(/\/$/, "")}/category/${slug}` +
     (page > 1 ? `?page=${page}` : "");
 
+  // hreflang, which these pages were missing entirely. Only for the locales
+  // where the category actually has articles — listCategories derives from the
+  // articles, so a slug missing from a locale's list has no page there and
+  // pointing hreflang at it would be a link to a 404. And only on page 1: a
+  // paginated slice has no counterpart in another language.
+  const languages: Record<string, string> = {};
+  if (page === 1 && !q) {
+    const perLocale = await Promise.all(
+      LANGS.map(async (l) => [l, await fetchBlogCategories(l)] as const)
+    );
+    for (const [l, list] of perLocale) {
+      if (list.some((c) => c.slug === decodedSlug)) {
+        languages[LANG_CONFIG[l].hreflang] =
+          `${getBlogPageUrl(l).replace(/\/$/, "")}/category/${slug}`;
+      }
+    }
+  }
+
   return {
     title,
     description,
     ...(q ? { robots: { index: false, follow: true } } : {}),
-    alternates: { canonical: pageUrl },
+    alternates: {
+      canonical: pageUrl,
+      ...(Object.keys(languages).length > 1 ? { languages } : {}),
+    },
     openGraph: {
       type: "website",
       url: pageUrl,

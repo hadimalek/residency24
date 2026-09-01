@@ -92,30 +92,28 @@ function getBreadcrumbSchema(lang: Lang) {
   };
 }
 
+/**
+ * Not a second Organization — the root layout already emits the only one. This
+ * attaches the contact detail to that same node via its @id, which is how
+ * schema.org expects a page to add to an entity it does not own.
+ */
 function getContactSchema() {
   return {
     "@context": "https://schema.org",
-    "@type": "Organization",
-    name: "Residency24",
-    url: BASE_URL,
-    email: "info@residency24.com",
+    "@id": `${BASE_URL}/#organization`,
     contactPoint: [
       {
         "@type": "ContactPoint",
         telephone: "+971-56-200-9131",
         contactType: "customer service",
+        email: "info@residency24.com",
         availableLanguage: ["English", "Persian", "Arabic", "Russian"],
         areaServed: ["AE", "OM", "TR"],
       },
     ],
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: "Al Khail Heights Apartment Building, RB 03A, No. 218",
-      addressLocality: "Dubai",
-      addressCountry: "AE",
-    },
   };
 }
+
 
 export default async function ContactLayout({ children, params }: { children: React.ReactNode; params: Promise<{ lang: string }> }) {
   const { lang: rawLang } = await params;
