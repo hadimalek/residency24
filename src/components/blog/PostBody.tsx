@@ -21,7 +21,7 @@ function sameText(a: string, b: string): boolean {
  * stored HTML so the next import cannot reintroduce it.
  */
 function demoteStrayH1(html: string, title?: string): string {
-  return html.replace(/<h1([^>]*)>([\s\S]*?)<\/h1>/gi, (_m, attrs, inner) => {
+  return html.replace(/<h1([^>]*)>([\s\S]*?)<\/h1>/gi, (_m, attrs, inner) => {
     if (title && sameText(inner, title)) return "";
     return `<h2${attrs}>${inner}</h2>`;
   });
