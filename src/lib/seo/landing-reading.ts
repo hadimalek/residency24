@@ -106,7 +106,7 @@ export async function getLandingReading(
   const { data: posts } = await listPosts({ lang, page: 1, perPage: 500 });
 
   const cats = new Set(t.categories ?? []);
-  const picked: ReadingItem[] = [];
+  const eligible: ReadingItem[] = [];
   for (const p of posts) {
     const slug = String(p.slug ?? "");
     if (!slug) continue;
@@ -114,13 +114,37 @@ export async function getLandingReading(
     const byTopic = t.topic.test(slug);
     const byCategory = p.category ? cats.has(p.category.slug) : false;
     if (!byTopic && !byCategory) continue;
-    picked.push({
+    eligible.push({
       slug,
       title: String(p.title ?? slug),
       excerpt: p.excerpt ? String(p.excerpt) : null,
       category: p.category ? p.category.slug : null,
     });
-    if (picked.length >= limit) break;
   }
-  return picked;
+
+  // Take a different slice of the pool on each route.
+  //
+  // Newest-first meant every landing in a locale surfaced the same handful of
+  // recent articles: 45 landings produced 219 links but reached only 133 of the
+  // 387 articles, while the ones that need the link most are older — the
+  // WordPress-era posts that used to rank and now sit on a single inbound link
+  // from a category hub. Ordering by a hash of route+slug spreads the picks
+  // across the pool instead of stacking them, and being a hash rather than a
+  // shuffle it is stable: the same page links to the same articles on every
+  // build, so nothing churns between deploys.
+  return eligible
+    .map((item) => ({ item, k: hash(`${route}:${item.slug}`) }))
+    .sort((a, b) => a.k - b.k)
+    .slice(0, limit)
+    .map(({ item }) => item);
+}
+
+/** FNV-1a, 32-bit. Stable across builds and processes, unlike Math.random. */
+function hash(s: string): number {
+  let h = 0x811c9dc5;
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 0x01000193) >>> 0;
+  }
+  return h;
 }
