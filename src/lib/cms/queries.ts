@@ -238,6 +238,10 @@ export async function listPosts(opts: ListPostsOpts) {
     }),
   ]);
 
+  // One extra query for the whole page of posts, so each chip can carry the
+  // name in the page's own language instead of the raw slug.
+  const labels = await categoryLabels(lang);
+
   const data = articles.map((a) => {
     const t = a.translations[0];
     return {
@@ -252,7 +256,7 @@ export async function listPosts(opts: ListPostsOpts) {
       published_at: a.publishedAt?.toISOString() ?? null,
       updated_at: a.updatedAt.toISOString(),
       author: authorToBrief(a.author, lang),
-      category: a.category ? { name: a.category, slug: a.category } : null,
+      category: categoryRef(a.category, labels),
       tags: [] as { name: string; slug: string }[],
       featured_image: mediaToCms(a.featuredImage),
       has_translations: false,
@@ -311,6 +315,39 @@ export function isHubCategory(slug: string | null | undefined): slug is string {
 }
 
 /** "work-immigration-guide" → "Work Immigration Guide" */
+/**
+ * Localised display names for category slugs, for one locale.
+ *
+ * `Article.category` stores a slug — "immigration" — and both listPosts and
+ * getPostDetail used to hand that slug straight out as the category *name*, so
+ * every category chip on an article and on the related-post cards read
+ * "immigration" regardless of the page's language, while the category hub two
+ * clicks away said «مهاجرت». BlogCategory has had the translated names all
+ * along; nothing was reading them on the article side.
+ *
+ * Resolved on the server so the localised name is in the HTML — the chip is a
+ * link with visible text, and Google should see it in the page's language.
+ *
+ * prettifySlug is the fallback for a slug with no managed row, which is the
+ * same fallback listCategories uses, so a chip and its hub always agree.
+ */
+export async function categoryLabels(locale: string): Promise<Map<string, string>> {
+  const rows = await prisma.blogCategory.findMany({
+    where: { locale },
+    select: { slug: true, name: true },
+  });
+  return new Map(rows.map((r) => [r.slug, r.name]));
+}
+
+/** One slug -> its localised name, using the map from categoryLabels(). */
+export function categoryRef(
+  slug: string | null | undefined,
+  labels: Map<string, string>
+): { name: string; slug: string } | null {
+  if (!slug) return null;
+  return { name: labels.get(slug) ?? prettifySlug(slug), slug };
+}
+
 export function prettifySlug(slug: string): string {
   return slug
     .split(/[-_]+/)
@@ -412,6 +449,7 @@ export async function getPostDetail(lang: string, slug: string) {
   });
   if (!article) return null;
   const t = article.translations[0];
+  const detailLabels = await categoryLabels(lang);
   if (!t) return null;
 
   const canonical = `${SITE_URL}${postUrl(lang, article.slug)}`;
@@ -434,7 +472,7 @@ export async function getPostDetail(lang: string, slug: string) {
     // Only expose a category the reader can actually follow — PostMeta renders
     // this as a link to /blog/category/<slug>, and a non-hub slug 301s.
     category: isHubCategory(article.category)
-      ? { name: article.category, slug: article.category }
+      ? categoryRef(article.category, detailLabels)
       : null,
     tags: [] as { name: string; slug: string }[],
     featured_image: featured,
