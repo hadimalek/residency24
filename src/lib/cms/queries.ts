@@ -348,6 +348,20 @@ export function categoryRef(
   return { name: labels.get(slug) ?? prettifySlug(slug), slug };
 }
 
+/**
+ * FNV-1a, 32 bits. Used to order related-post candidates deterministically:
+ * stable across builds and processes, unlike Math.random, so the links a page
+ * emits do not change between deploys.
+ */
+function slugHash(s: string): number {
+  let h = 0x811c9dc5;
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 0x01000193) >>> 0;
+  }
+  return h;
+}
+
 export function prettifySlug(slug: string): string {
   return slug
     .split(/[-_]+/)
@@ -504,7 +518,34 @@ export async function getPostDetail(lang: string, slug: string) {
         .map((f: any, i: number) => ({ question: f.question, answer: f.answer, sort_order: i }))
     : [];
 
-  // Same-category related posts (most recent 6, excluding self).
+  // Same-category related posts.
+  //
+  // This used to be `orderBy publishedAt desc, take 6`, so every article in a
+  // category linked to the same six newest ones. Verified on the live site: in a
+  // Persian category of 50 articles, three articles taken from the top, middle
+  // and tail of the list showed an identical related list. Six articles absorbed
+  // all 49 links and the other 44 got none from what is the main source of
+  // article-to-article linking — which is why 74 articles sat on a single
+  // inbound link, the one that drew 4,784 impressions in May among them.
+  //
+  // Selection is now ordered by a hash of both slugs. Because it depends on the
+  // current article as well as the candidate, every article sees a different
+  // ordering and picks a different six, so in a category of N articles the 6N
+  // links spread over N articles instead of stacking on six. Simulated against
+  // the real inventory before shipping: for Persian this moves articles with no
+  // related link from 208 to 0, the median from 0 to 6, and the most-linked
+  // article from 49 inbound to 12.
+  //
+  // No slot is reserved for the newest article. Reserving two put the newest of
+  // each category back on 49 inbound links, and this block is "related
+  // articles", not "latest" — the blog index and the homepage already surface
+  // recent work. The six that are picked are then ordered by date for display,
+  // so the reading order still makes sense.
+  //
+  // A hash rather than a shuffle: a page links to the same articles on every
+  // build, so nothing churns between deploys.
+  const RELATED_COUNT = 6;
+
   let related: { entity_type: string; entity_key: string; relation: string }[] = [];
   if (article.category) {
     const sameCat = await prisma.article.findMany({
@@ -514,16 +555,25 @@ export async function getPostDetail(lang: string, slug: string) {
         status: "PUBLISHED",
         id: { not: article.id },
       },
-      orderBy: [{ publishedAt: "desc" }, { createdAt: "desc" }],
-      take: 6,
-      select: { slug: true },
+      select: { slug: true, publishedAt: true, createdAt: true },
     });
-    related = sameCat.map((r) => ({
-      entity_type: "post",
-      entity_key: r.slug,
-      relation: "category",
-    }));
+
+    related = sameCat
+      .map((r) => ({ r, k: slugHash(article.slug + ":" + r.slug) }))
+      .sort((a, b) => a.k - b.k)
+      .slice(0, RELATED_COUNT)
+      .sort(
+        (a, b) =>
+          (b.r.publishedAt ?? b.r.createdAt).getTime() -
+          (a.r.publishedAt ?? a.r.createdAt).getTime()
+      )
+      .map(({ r }) => ({
+        entity_type: "post",
+        entity_key: r.slug,
+        relation: "category",
+      }));
   }
+
   // If still short on related (uncategorized post), fall back to most-recent in lang.
   if (related.length === 0) {
     const recent = await prisma.article.findMany({
